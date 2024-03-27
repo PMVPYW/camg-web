@@ -6,17 +6,22 @@ import Footer from "@/components/Footer/Footer.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter()
-
+const isLogin=true;
 </script>
 
 <template>
   <!-- Loopple Templates: https://www.loopple.com/templates | Copyright Loopple (https://www.loopple.com) | This copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
-  <Navbar></Navbar>
-  <div class="bg-[#f8f9fe]">
-      <div class="flex flex-row">
-          <Aside></Aside>
-          <router-view></router-view>
-      </div>
-      <Footer></Footer>
+  <div v-if="isLogin">
+    <Navbar></Navbar>
+    <div class="bg-[#f8f9fe]">
+        <div class="flex flex-row">
+            <Aside></Aside>
+            <router-view></router-view>
+        </div>
+        <Footer></Footer>
+    </div>
+  </div>
+  <div v-if="!isLogin">
+    <router-view></router-view>
   </div>
 </template>

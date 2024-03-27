@@ -1,9 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
+//import {useUserStore} from "@/stores/user.js";
 
 //CAMG-WEB
 import HomeView from "@/components/Dashboard/Dashboard.vue";
 import Patrocinios from "@/components/Rallies/Patrocinios/Patrocinios.vue";
 import Login from "@/views/Login.vue";
+import Albuns from "@/components/Albuns/Albuns.vue";
+import Contactos from "@/components/Contactos/Contactos.vue";
+import ConselhosSeguranca from "@/components/Rallies/ConselhosSeguranca/ConselhosSeguranca.vue";
+import Declarecoes from "@/components/Rallies/Declaracoes/Declarecoes.vue";
+import Horarios from "@/components/Rallies/Horarios/Horarios.vue";
+import Provas from "@/components/Rallies/Provas/Provas.vue";
+import ZonasEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonasEspetaculo.vue";
+import Noticias from "@/components/Noticias/Noticias.vue";
+import Historias from "@/components/Historias/Historias.vue";
+import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
 
 let handleFirstTime = true;
 
@@ -25,9 +36,60 @@ const router = createRouter({
             name: "patrocinios",
             component: Patrocinios,
         },
+        {
+            path: "/albuns",
+            name: "albuns",
+            component: Albuns,
+        },
+        {
+            path: "/contactos",
+            name: "contactos",
+            component: Contactos,
+        },
+        {
+            path: "/conselhos_seguranca",
+            name: "conselhos_seguranca",
+            component: ConselhosSeguranca,
+        },
+        {
+            path: "/declaracoes",
+            name: "declaracoes",
+            component: Declarecoes,
+        },
+        {
+            path: "/horarios",
+            name: "horarios",
+            component: Horarios,
+        },
+        {
+            path: "/provas",
+            name: "provas",
+            component: Provas,
+        },
+        {
+            path: "/zonas_espetaculo",
+            name: "zonas_espetaculo",
+            component: ZonasEspetaculo,
+        },
+        {
+            path: "/noticias",
+            name: "noticias",
+            component: Noticias,
+        },
+        {
+            path: "/historias",
+            name: "historias",
+            component: Historias,
+        },
+        {
+            path: "/orgaos_sociais",
+            name: "orgaos_sociais",
+            component: OrgaosSociais,
+        },
     ],
 });
 
+/*
 
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
@@ -36,12 +98,12 @@ router.beforeEach(async (to, from, next) => {
         return next({ name: "login" });
     }
 
- /*   if (to.name === "cards" && !userStore.userIsAdmin) return next({ name: "home" });
+ /!*   if (to.name === "cards" && !userStore.userIsAdmin) return next({ name: "home" });
 
     if (to.name === "sendMoney" && userStore.userIsAdmin) return next({ name: "home" });
 
     if (to.name === "transactions" && userStore.userIsAdmin) return next({ name: "home" });
-*/
+*!/
     next();
 });
 
@@ -52,6 +114,7 @@ router.afterEach((to, from, failure) => {
         }, 100);
     }
 });
+*/
 
 
 export default router;
