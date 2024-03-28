@@ -1,5 +1,32 @@
 <script setup>
 
+
+import {reactive, ref} from "vue";
+import {useRouter } from "vue-router";
+import { useUserStore } from "../stores/user.js";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const credentials = reactive({
+  username: "",
+  password: "",
+});
+
+const errors = ref(null)
+
+
+const login = async () => {
+  let request = await userStore.login(credentials)
+  if (request === true) {
+    console.log("Logged in");
+    router.push("/");
+    return;
+  }
+
+  errors.value = request.response.data.errors
+
+};
 </script>
 <template>
 <body>
@@ -15,9 +42,9 @@
 
         <h1 class="text-3xl font-bold pt-8 lg:pt-0">Login</h1>
         <label for="input-label" class="block text-sm font-medium mt-8 mb-2">Email</label>
-        <input type="email" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="you@site.com">
+        <input v-model="credentials.username" type="email" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="you@site.com">
         <label for="input-label" class="block text-sm font-medium mt-4 mb-2">Password</label>
-        <input type="password" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="********">
+        <input v-model="credentials.password" type="password" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="********">
         <p class="pt-2 text-sm">Está página é apenas e exclusivamente para membros do clube</p>
 
         <p class="pt-6 text-base font-bold flex items-center justify-center lg:justify-start">
@@ -35,7 +62,7 @@
         </p>
 
         <div class="pt-12 pb-8">
-          <button class="bg-[#F3AA06] hover:bg-[#F3CC06] text-white font-bold py-2 px-4 rounded-full">
+          <button type="submit" @click.prevent="login" class="bg-[#F3AA06] hover:bg-[#F3CC06] text-white font-bold py-2 px-4 rounded-full">
             Entrar
           </button>
         </div>
