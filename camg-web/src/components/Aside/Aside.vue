@@ -1,7 +1,6 @@
 <script setup>
-import {useRouter} from "vue-router";
+import { Icon } from '@iconify/vue';
 
-const route= useRouter();
 </script>
 <template>
   <aside class="h-full mr-6 ease-nav-brand z-990 inset-y-0 my-4 ml-4 block min-w-72 -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent text-slate-500" id="sidenav-main">
@@ -12,70 +11,70 @@ const route= useRouter();
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'home'}">
           <router-link :to="{ name: 'home' }" :class="{active: $route.name === 'home', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'home'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'home', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'home', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'home'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <title>Dashboard</title>
-              </svg>
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'home', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'home'}">
+                <Icon icon="mdi-light:home" class="min-w-5 min-h-5 font-bold" :class="{'text-white': $route.name === 'home'}">
+                  <title>Dashboard</title>
+                </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'noticias'}">
           <router-link :to="{ name: 'noticias' }" :class="{active: $route.name === 'noticias', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'noticias'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'noticias', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'noticias', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'noticias'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'noticias', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'noticias'}">
+              <Icon icon="fluent:news-20-regular" class="min-w-5 min-h-5 font-bold" :class="{'text-white': $route.name === 'noticias'}">
                 <title>Noticias</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Noticias</span>
           </router-link>
         </li>
-        <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === ''}">
-          <router-link :to="{ name: '' }" :class="{active: $route.name === '', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === ''}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === '', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === '', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== ''}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'rallies'}">
+          <router-link :to="{ name: 'rallies' }" :class="{active: $route.name === 'rallies', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'rallies'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'rallies', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'rallies'}">
+              <Icon icon="mdi:car-traction-control" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'rallies'}">
                 <title>Rallies</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Rallies</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'albuns'}">
           <router-link :to="{ name: 'albuns' }" :class="{active: $route.name === 'albuns', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'albuns'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'albuns', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'albuns', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'albuns'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'albuns', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'albuns'}">
+              <Icon icon="material-symbols:imagesmode-outline-rounded" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'albuns'}">
                 <title>Albuns</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Albuns</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'historias'}">
           <router-link :to="{ name: 'historias' }" :class="{active: $route.name === 'historias', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'historias'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'historias', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'historias', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'historias'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'historias', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'historias'}">
+              <Icon icon="ic:sharp-history-edu" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'historias'}">
                 <title>História</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">História</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'contactos'}">
           <router-link :to="{ name: 'contactos' }" :class="{active: $route.name === 'contactos', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'contactos'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'contactos', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'contactos', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'contactos'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'contactos', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'contactos'}">
+              <Icon icon="ic:baseline-phone" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'contactos'}">
                 <title>Contactos</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Contactos</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'orgaos_sociais'}">
           <router-link :to="{ name: 'orgaos_sociais' }" :class="{active: $route.name === 'orgaos_sociais', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'orgaos_sociais'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'orgaos_sociais', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'orgaos_sociais', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'orgaos_sociais'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'orgaos_sociais', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'orgaos_sociais'}">
+              <Icon icon="grommet-icons:group" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'orgaos_sociais'}">
                 <title>Orgãos Socias</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Orgãos Socias</span>
           </router-link>
@@ -87,60 +86,60 @@ const route= useRouter();
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'patrocinios'}">
           <router-link :to="{ name: 'patrocinios' }" :class="{active: $route.name === 'patrocinios', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'patrocinios'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'patrocinios', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'patrocinios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'patrocinios'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'patrocinios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'patrocinios'}">
+              <Icon icon="mdi:account-star-outline" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'patrocinios'}">
                 <title>Patrocinios</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Patrocinios</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'horarios'}">
           <router-link :to="{ name: 'horarios' }" :class="{active: $route.name === 'horarios', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'horarios'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'horarios', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'horarios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'horarios'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'horarios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'horarios'}">
+              <Icon icon="ic:round-access-time" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'horarios'}">
                 <title>Horários</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Horários</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
           <router-link :to="{ name: 'conselhos_seguranca' }" :class="{active: $route.name === 'conselhos_seguranca', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'conselhos_seguranca'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'conselhos_seguranca', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'conselhos_seguranca'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'conselhos_seguranca'}">
+              <Icon icon="mdi:security-account" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'conselhos_seguranca'}">
                 <title>Conselhos de Segurança</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Conselhos de Segurança</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'declaracoes'}">
           <router-link :to="{ name: 'declaracoes' }" :class="{active: $route.name === 'declaracoes', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'declaracoes'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'declaracoes', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'declaracoes', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'declaracoes'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'declaracoes', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'declaracoes'}">
+              <Icon icon="mdi:comments-outline" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'declaracoes'}">
                 <title>Declarações</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Declarações</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'zonas_espetaculo'}">
           <router-link :to="{ name: 'zonas_espetaculo' }" :class="{active: $route.name === 'zonas_espetaculo', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'zonas_espetaculo'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'zonas_espetaculo', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'zonas_espetaculo', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'zonas_espetaculo'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'zonas_espetaculo', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'zonas_espetaculo'}">
+              <Icon icon="bxs:binoculars" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'zonas_espetaculo'}">
                 <title>Zonas de Espetáculo</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Zonas de Espetáculo</span>
           </router-link>
         </li>
         <li class="mt-0.5 w-full mb-4" :class="{'drop-shadow-md': $route.name === 'provas'}">
           <router-link :to="{ name: 'provas' }" :class="{active: $route.name === 'provas', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'provas'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="javascript:;">
-            <div :class="{active: $route.name === 'provas', 'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'provas', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'provas'}">
-              <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'provas', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'provas'}">
+              <Icon icon="maki:racetrack" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'provas'}">
                 <title>Provas</title>
-              </svg>
+              </Icon>
             </div>
             <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Provas</span>
           </router-link>

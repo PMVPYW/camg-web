@@ -15,6 +15,7 @@ import ZonasEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonasEspetacul
 import Noticias from "@/components/Noticias/Noticias.vue";
 import Historias from "@/components/Historias/Historias.vue";
 import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
+import Rallies from "@/components/Rallies/Rallies.vue";
 
 let handleFirstTime = true;
 
@@ -85,6 +86,11 @@ const router = createRouter({
             path: "/orgaos_sociais",
             name: "orgaos_sociais",
             component: OrgaosSociais,
+        },
+        {
+            path: "/rallies",
+            name: "rallies",
+            component: Rallies,
         },
     ],
 });
