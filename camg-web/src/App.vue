@@ -5,28 +5,19 @@ import Aside from "@/components/Aside/Aside.vue";
 import Footer from "@/components/Footer/Footer.vue";
 import { useRouter } from "vue-router";
 import {useUserStore} from "@/stores/user.js";
+import {useRallyStore} from "@/stores/rally.js"
 import axios from "axios";
 import {onMounted} from "vue";
 
 const router = useRouter()
 const userStore=useUserStore();
+const rallyStore = useRallyStore();
 
 onMounted(async () => {
   let script = document.createElement("script");
   script.src = "https://cdn.lordicon.com/lordicon.js";
   script.async = true;
   document.body.appendChild(script);
-  try {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      axios.defaults.headers.common.Authorization = "Bearer " + token;
-      userStore.user=true;
-    } else {
-      router.push("/login");
-    }
-  } catch (error) {
-    console.log(error);
-  }
 
   setTimeout(() => {
     HSStaticMethods.autoInit();

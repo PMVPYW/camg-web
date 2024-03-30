@@ -9,7 +9,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const credentials = reactive({
-  email: "",
+  email: "test@example.com",
   password: "",
 });
 
