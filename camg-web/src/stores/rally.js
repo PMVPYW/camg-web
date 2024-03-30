@@ -22,6 +22,20 @@ export const useRallyStore = defineStore("rally", () => {
     }
   }
 
+  async function createRally(data) {
+    try {
+      const response = await axios.post("rally", data, {headers: {
+          'Content-Type': 'multipart/form-data'
+        }});
+      console.log(response.data, "create rally")
+      rallies.value = response.data.data;
+      console.log(rallies, "jd")
+    } catch (error) {
+      clearRallies();
+      throw error;
+    }
+  }
+
 
 
   function clearRallies() {
@@ -31,6 +45,7 @@ export const useRallyStore = defineStore("rally", () => {
 
   return {
     loadRallies,
+    createRally,
     clearRallies,
     rallies
   };

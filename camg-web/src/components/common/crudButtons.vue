@@ -19,7 +19,7 @@
       </button>
     </div>
     <div class="mx-auto w-full items-center">
-      <create_form v-if="creating"></create_form>
+      <create_form @create="(data)=>{props.create_callback(data);creating = false}" v-if="creating"></create_form>
     </div>
   </div>
 </template>
