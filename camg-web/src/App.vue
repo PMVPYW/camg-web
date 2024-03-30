@@ -18,6 +18,7 @@ onMounted(async () => {
   script.src = "https://cdn.lordicon.com/lordicon.js";
   script.async = true;
   document.body.appendChild(script);
+  rallyStore.loadRallies();
 
   setTimeout(() => {
     HSStaticMethods.autoInit();

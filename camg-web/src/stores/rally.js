@@ -15,6 +15,7 @@ export const useRallyStore = defineStore("rally", () => {
     try {
       const response = await axios.get("rally");
       rallies.value = response.data.data;
+      console.log(rallies, "jd")
     } catch (error) {
       clearRallies();
       throw error;
@@ -30,6 +31,7 @@ export const useRallyStore = defineStore("rally", () => {
 
   return {
     loadRallies,
-    clearRallies
+    clearRallies,
+    rallies
   };
 });
