@@ -9,19 +9,9 @@ export const useUserStore = defineStore("user", () => {
   const socket = inject("socket");
 
   const user = ref(null);
-  const vcards = ref(null)
-  const admins = ref(null)
+  const admins = ref(null);
 
 
-  const userName = computed(() => user.value?.name);
-  const userBalance = computed(() => user.value?.balance ?? '0.00');
-  const userMaxDebit = computed(() => user.value?.max_debit);
-  const userContacts = computed(() => user.value?.contacts ?? []);
-  const userId = computed(() => user.value?.id ?? -1);
-  const userIsAdmin = computed(() => user.value?.isAdmin ?? false);
-  const adminVcards = computed(() => vcards.value?.data ?? [])
-  const adminDeletedVcards = computed(() => deletedVcards.value?.data ?? [])
-  const adminsList = computed(() => admins.value?.data ?? [])
 
   const router = useRouter();
 
@@ -58,10 +48,9 @@ export const useUserStore = defineStore("user", () => {
   async function login(credentials) {
     try {
       const response = await axios.post("auth/login", credentials);
-      axios.defaults.headers.common.Authorization = "Bearer " + response.data.token;
-      await loadUser();
+      axios.defaults.headers.common.Authorization = "Bearer " + response.token;
       sessionStorage.setItem("token", response.data.token);
-      console.log("TRUE")
+      user.value=true;
       return true;
     } catch (error) {
       console.log(credentials);
@@ -84,21 +73,24 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  async function restoreToken() {
+    let storedToken = sessionStorage.getItem("token");
+
+    if (storedToken) {
+      axios.defaults.headers.common.Authorization = "Bearer " + storedToken
+      return true
+    }
+
+    clearUser();
+    return false;
+  }
+
 
 
   return {
+    restoreToken,
     user,
-    userId,
-    userName,
-    userMaxDebit,
-    userBalance,
-    userContacts,
-    userIsAdmin,
-    vcards,
-    adminVcards,
-    adminDeletedVcards,
     admins,
-    adminsList,
     loadUser,
     clearUser,
     login,

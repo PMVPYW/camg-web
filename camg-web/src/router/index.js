@@ -16,6 +16,7 @@ import Noticias from "@/components/Noticias/Noticias.vue";
 import Historias from "@/components/Historias/Historias.vue";
 import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
 import Rallies from "@/components/Rallies/Rallies.vue";
+import {useUserStore} from "@/stores/user.js";
 
 let handleFirstTime = true;
 
@@ -95,21 +96,20 @@ const router = createRouter({
     ],
 });
 
-/*
-
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
-
-    if (to.name !== "login" && to.name !== "signup" && !userStore.user) {
+    if (handleFirstTime) {
+        await userStore.restoreToken();
+        handleFirstTime = false;
+    }
+    console.log(userStore.user);
+    if (to.name !== "login" && !userStore.user) {
         return next({ name: "login" });
     }
+    if (to.name === "login" && userStore.user) {
+        return next({ name: "home" });
+    }
 
- /!*   if (to.name === "cards" && !userStore.userIsAdmin) return next({ name: "home" });
-
-    if (to.name === "sendMoney" && userStore.userIsAdmin) return next({ name: "home" });
-
-    if (to.name === "transactions" && userStore.userIsAdmin) return next({ name: "home" });
-*!/
     next();
 });
 
@@ -120,7 +120,5 @@ router.afterEach((to, from, failure) => {
         }, 100);
     }
 });
-*/
-
 
 export default router;

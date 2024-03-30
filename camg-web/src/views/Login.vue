@@ -9,7 +9,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const credentials = reactive({
-  username: "",
+  email: "",
   password: "",
 });
 
@@ -42,10 +42,10 @@ const login = async () => {
 
         <h1 class="text-3xl font-bold pt-8 lg:pt-0">Login</h1>
         <label for="input-label" class="block text-sm font-medium mt-8 mb-2">Email</label>
-        <input v-model="credentials.username" type="email" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="you@site.com">
+        <input v-model="credentials.email" type="email" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="you@site.com">
         <label for="input-label" class="block text-sm font-medium mt-4 mb-2">Password</label>
         <input v-model="credentials.password" type="password" id="input-label" class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="********">
-        <p class="pt-2 text-sm">Está página é apenas e exclusivamente para membros do clube</p>
+        <p class="pt-2 text-sm">Está página é exclusivamente para membros do clube</p>
 
         <p class="pt-6 text-base font-bold flex items-center justify-center lg:justify-start">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-4">
@@ -103,7 +103,7 @@ const login = async () => {
     <!--Img Col-->
     <div class="w-full lg:w-2/5">
       <!-- Big profile image for side bar (desktop) -->
-      <img src="https://source.unsplash.com/MP0IUfwrn0A" class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
+      <img src="https://camg.pt/wp-content/uploads/2021/09/logo.png" class="ml-6 w-52 h-96 border-8 border-gray-100 rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
       <!-- Image from: http://unsplash.com/photos/MP0IUfwrn0A -->
     </div>
   </div>

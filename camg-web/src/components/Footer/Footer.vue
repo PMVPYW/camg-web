@@ -13,7 +13,7 @@
         <div class="w-full max-w-full px-3 mt-0 shrink-0 lg:w-1/2 lg:flex-none">
           <ul class="flex flex-wrap justify-center pl-0 mb-0 list-none lg:justify-end">
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Home</a>
+              <a href="https://camg.pt/" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Home</a>
             </li>
             <li class="nav-item">
               <a href="javascript:;" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Quem Somos</a>
@@ -22,13 +22,13 @@
               <a href="javascript:;" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Provas</a>
             </li>
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Noticias</a>
+              <a href="https://camg.pt/noticias/" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Noticias</a>
             </li>
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Contactos</a>
+              <a href="https://camg.pt/contactos/" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Contactos</a>
             </li>
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Ficha Sócio</a>
+              <a href="https://camg.pt/ficha-socio/" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Ficha Sócio</a>
             </li>
           </ul>
         </div>
