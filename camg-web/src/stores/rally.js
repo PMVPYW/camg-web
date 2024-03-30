@@ -28,10 +28,11 @@ export const useRallyStore = defineStore("rally", () => {
           'Content-Type': 'multipart/form-data'
         }});
       console.log(response.data, "create rally")
-      rallies.value = response.data.data;
+      rallies.value.push(response.data);
       console.log(rallies, "jd")
     } catch (error) {
       clearRallies();
+      loadRallies();
       throw error;
     }
   }

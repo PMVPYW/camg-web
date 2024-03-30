@@ -20,7 +20,7 @@ const login = async () => {
   let request = await userStore.login(credentials)
   if (request === true) {
     console.log("Logged in");
-    router.push("/");
+    await router.push("/");
     return;
   }
 
