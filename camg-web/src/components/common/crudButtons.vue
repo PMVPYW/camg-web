@@ -52,9 +52,9 @@ watch(() => props.obj_to_edit, (new_obj) => {
       </button>
     </div>
     <div class="mx-auto w-full items-center">
-      <create_form @create="(data)=>{console.log('log', data);props.create_callback(data);creating = false}"
+      <create_form @create="(data)=>{togleCreating();props.create_callback(data);creating = false}"
                    v-if="creating"></create_form>
-      <create_form @edit="(data)=>{console.log('log', data);props.edit_callback(data);creating = false}"
+      <create_form @edit="(data)=>{togleEditing();props.edit_callback(data, obj_to_edit_cpy.id);creating = false}"
                    :obj_to_edit="{...obj_to_edit_cpy}" v-if="editing && obj_to_edit_cpy"></create_form>
     </div>
   </div>

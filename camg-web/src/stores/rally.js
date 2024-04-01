@@ -37,6 +37,25 @@ export const useRallyStore = defineStore("rally", () => {
     }
   }
 
+  async function updateRally(data, id) {
+    try {
+      data["_method"] = "PUT";
+      const response = await axios.post("rally/" + id, data, {headers: {
+          'Content-Type': 'multipart/form-data'
+        }});
+      if (response.status == 200)
+      {
+        const index = rallies.value.findIndex(item => item.id === id);
+        rallies.value[index] = response.data.data;
+      }
+
+    } catch (error) {
+      clearRallies();
+      loadRallies();
+      throw error;
+    }
+  }
+
 
 
   function clearRallies() {
@@ -48,6 +67,7 @@ export const useRallyStore = defineStore("rally", () => {
     loadRallies,
     createRally,
     clearRallies,
+    updateRally,
     rallies
   };
 });
