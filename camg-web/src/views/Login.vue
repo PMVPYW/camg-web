@@ -38,7 +38,7 @@ const login = async () => {
 
       <div class="p-4 md:p-12 text-center lg:text-left">
         <!-- Image for mobile view-->
-        <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/MP0IUfwrn0A')"></div>
+        <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center" style="background-image: url('https://camg.pt/wp-content/uploads/2021/09/logo.png')"></div>
 
         <h1 class="text-3xl font-bold pt-8 lg:pt-0">Login</h1>
         <label for="input-label" class="block text-sm font-medium mt-8 mb-2">Email</label>
@@ -103,7 +103,7 @@ const login = async () => {
     <!--Img Col-->
     <div class="w-full lg:w-2/5">
       <!-- Big profile image for side bar (desktop) -->
-      <img src="https://camg.pt/wp-content/uploads/2021/09/logo.png" class="ml-6 w-52 h-96 border-8 border-gray-100 rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
+      <img src="https://camg.pt/wp-content/uploads/2021/09/logo.png" class="ml-6 w-48 h-96 border-8 border-gray-100 rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
       <!-- Image from: http://unsplash.com/photos/MP0IUfwrn0A -->
     </div>
   </div>

@@ -1,5 +1,5 @@
 <script setup>
-import Patrocinios from "@/components/Rallies/Patrocinios/Patrocinios.vue";
+import Patrocinios from "@/components/Rallies/Patrocinios/PatrociniosList.vue";
 import Navbar from "@/components/Navbar/Navbar.vue";
 import Aside from "@/components/Aside/Aside.vue";
 import Footer from "@/components/Footer/Footer.vue";
@@ -8,10 +8,12 @@ import {useUserStore} from "@/stores/user.js";
 import {useRallyStore} from "@/stores/rally.js"
 import axios from "axios";
 import {onMounted} from "vue";
+import {usePatrocinioStore} from "@/stores/patrocinio.js";
 
 const router = useRouter()
 const userStore=useUserStore();
 const rallyStore = useRallyStore();
+const patrocinioStore = usePatrocinioStore();
 
 onMounted(async () => {
   let script = document.createElement("script");
@@ -19,6 +21,7 @@ onMounted(async () => {
   script.async = true;
   document.body.appendChild(script);
   rallyStore.loadRallies();
+  patrocinioStore.loadPatrocinios();
 
   setTimeout(() => {
     HSStaticMethods.autoInit();
