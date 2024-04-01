@@ -9,7 +9,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const credentials = reactive({
-  email: "",
+  email: "test@example.com",
   password: "",
 });
 
@@ -20,7 +20,7 @@ const login = async () => {
   let request = await userStore.login(credentials)
   if (request === true) {
     console.log("Logged in");
-    router.push("/");
+    await router.push("/");
     return;
   }
 
