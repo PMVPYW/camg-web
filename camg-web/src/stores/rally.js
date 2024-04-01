@@ -11,7 +11,10 @@ export const useRallyStore = defineStore("rally", () => {
   const rallies = ref(null);
   const router = useRouter();
 
+  const rallie_selected = rallies.value;
+
   async function loadRallies() {
+    console.log(rallie_selected);
     try {
       const response = await axios.get("rally");
       rallies.value = response.data.data;
@@ -45,6 +48,7 @@ export const useRallyStore = defineStore("rally", () => {
 
 
   return {
+    rallie_selected,
     loadRallies,
     createRally,
     clearRallies,
