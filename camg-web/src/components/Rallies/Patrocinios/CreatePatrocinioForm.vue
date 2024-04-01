@@ -1,15 +1,19 @@
-<script setup>
+<script setup xmlns="http://www.w3.org/1999/html">
 import {ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 
 const props = defineProps(["obj_to_edit"])
 const emit = defineEmits(["create", "edit"])
 
-const nome = ref(props.obj_to_edit?.nome);
-const url = ref(props.obj_to_edit?.url);
-const rally = ref(props.obj_to_edit?.rally);
+const nome = ref(props.obj_to_edit?.entidade_id.nome);
+const url = ref(props.obj_to_edit?.entidade_id.url);
+const rally = ref(props.obj_to_edit?.rally_id[0].nome);
+console.log(rally);
 const photo_url = ref(null);
 const rallyStore=useRallyStore();
+
+const rallie_selectedId = rallyStore.rally_selected.id;
+
 
 
 const emitPatrocinio = ()=>{
@@ -25,6 +29,7 @@ const emitPatrocinio = ()=>{
   }
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
+
 </script>
 
 <template>
@@ -54,10 +59,9 @@ const emitPatrocinio = ()=>{
           </div>
           <div class="mb-4 sm:mb-8">
             <label class="block mb-2 text-base font-medium">Rally</label>
-            <select v-model="rally" id="af-submit-app-category" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option selected></option>
-              <option v-for="rally in rallyStore.rallies" :value="rally.id">{{rally.nome}}</option>
-            </select>
+              <select v-model="rally" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <option v-for="rally in rallyStore.rallies" :key="rally.id" :value="rally.id" :selected="rally.id === rallyStore.rally_selected.id">{{ rally.nome }}</option>
+              </select>
         </div>
       </div>
     </div>

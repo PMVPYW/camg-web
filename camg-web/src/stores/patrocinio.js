@@ -3,6 +3,7 @@ import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
+import {useRallyStore} from "@/stores/rally.js";
 
 export const usePatrocinioStore = defineStore("patrocinios", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -10,10 +11,11 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
     const patrocinios = ref(null);
     const router = useRouter();
+    const rallyStore= useRallyStore();
 
     async function loadPatrocinios() {
         try {
-            const response = await axios.get("entidade");
+            const response = await axios.get("rally/"+rallyStore.rally_selected.id+"/patrocinios");
             patrocinios.value = response.data.data;
             console.log(patrocinios, "patrocinios")
         } catch (error) {
@@ -41,9 +43,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             patrocinios.value.push(response.data);
         } catch (error) {
             clearPatrocinios();
-            loadPatrocinios();
             throw error;
         }
+        loadPatrocinios();
+
     }
     async function editPatrocinio(data) {
         try {

@@ -12,7 +12,8 @@ const patrocinioStore=usePatrocinioStore();
 const rallyStore=useRallyStore();
 const selectedPatrocinio = ref({});
 
-console.log(rallyStore.rallie_selected);
+console.log(rallyStore.rally_selected);
+
 
 </script>
 
