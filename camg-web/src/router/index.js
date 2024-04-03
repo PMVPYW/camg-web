@@ -98,11 +98,11 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const userStore = useUserStore();
-    if (handleFirstTime) {
+    if (handleFirstTime || !userStore.user) {
         await userStore.restoreToken();
         handleFirstTime = false;
     }
-    console.log(userStore.user);
+    console.log(userStore.user, handleFirstTime);
     if (to.name !== "login" && !userStore.user) {
         return next({ name: "login" });
     }
