@@ -9,9 +9,9 @@ const serverBaseUrl = inject("serverBaseUrl");
     <div
         class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border">
       <div class="relative">
-        <a class="block shadow-xl rounded-2xl">
-          <img :src="`${serverBaseUrl}/storage/fotos/${props.rally.photo_url}`" :alt="`${serverBaseUrl}/storage/fotos/${props.rally.photo_url}`"
-               class="w-full shadow-soft-2xl rounded-2xl">
+        <a class="block shadow-xl rounded-2xl bg-[#f8f9fe] h-64">
+          <img v-if="props.rally.photo_url" :src="`${serverBaseUrl}/storage/fotos/${props.rally.photo_url}`" :alt="`${serverBaseUrl}/storage/fotos/${props.rally.photo_url}`"
+               class="w-full h-full shadow-soft-2xl rounded-2xl object-cover">
         </a>
       </div>
       <div class="flex-auto px-1 pt-6">

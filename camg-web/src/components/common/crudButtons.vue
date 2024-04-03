@@ -48,13 +48,13 @@ watch(() => props.obj_to_edit, (new_obj) => {
       </button>
       <button @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-        Editar
+        {{ editing ? 'Cancelar' : 'Editar' }}
       </button>
     </div>
     <div class="mx-auto w-full items-center">
       <create_form @create="(data)=>{togleCreating();props.create_callback(data);creating = false}"
                    v-if="creating"></create_form>
-      <create_form @edit="(data)=>{togleEditing();props.edit_callback(data, obj_to_edit_cpy.id);creating = false}"
+      <create_form @edit="(data)=>{togleEditing();props.edit_callback(data, obj_to_edit_cpy.id);editing = false;}"
                    :obj_to_edit="{...obj_to_edit_cpy}" v-if="editing && obj_to_edit_cpy"></create_form>
     </div>
   </div>
