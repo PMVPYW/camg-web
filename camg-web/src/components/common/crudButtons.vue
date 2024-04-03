@@ -101,10 +101,13 @@ const deleteEntity = () => {
     </div>
     <div class="mx-auto w-full items-center">
       <create_form @create="(data)=>createEntity(data)"
-                   v-if="creating"></create_form>
+                   v-if="creating"
+      :errors="errors"></create_form>
       <create_form @edit="(data)=>editEntity(data)"
                    :obj_to_edit="{...obj_to_edit_cpy}"
-                   v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"></create_form>
+                   v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"
+                   :errors="errors"
+      ></create_form>
     </div>
   </div>
 </template>
