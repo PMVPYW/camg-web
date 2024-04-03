@@ -42,11 +42,11 @@ watch(() => props.obj_to_edit, (new_obj) => {
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ creating ? 'Cancelar' : 'Criar' }}
       </button>
-      <button @click="togleDeleting" type="button"
+      <button @click="()=>{togleDeleting(); props.delete_callback(obj_to_edit_cpy.id)}" type="button" :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         Eliminar
       </button>
-      <button @click="togleEditing" type="button"
+      <button @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         Editar
       </button>

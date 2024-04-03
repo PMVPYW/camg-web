@@ -56,6 +56,20 @@ export const useRallyStore = defineStore("rally", () => {
     }
   }
 
+  async function deleteRally(id) {
+    try {
+      const response = await axios.delete("rally/"+id);
+      if (response.status == 200)
+      {
+        rallies.value = rallies.value.filter((item) => item.id != id);
+      }
+    } catch (error) {
+      clearRallies();
+      loadRallies();
+      throw error;
+    }
+  }
+
 
 
   function clearRallies() {
@@ -67,6 +81,7 @@ export const useRallyStore = defineStore("rally", () => {
     loadRallies,
     createRally,
     clearRallies,
+    deleteRally,
     updateRally,
     rallies
   };
