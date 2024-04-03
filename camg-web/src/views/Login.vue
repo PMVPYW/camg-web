@@ -36,7 +36,7 @@ const login = async () => {
     <div id="profile" class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
 
 
-      <div class="p-4 md:p-12 text-center lg:text-left">
+      <form class="p-4 md:p-12 text-center lg:text-left">
         <!-- Image for mobile view-->
         <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/MP0IUfwrn0A')"></div>
 
@@ -87,7 +87,7 @@ const login = async () => {
             </svg>
           </a>
           <a class="link" href="#" data-tippy-content="@youtube_handle">
-            <svg class="mr-6 h-6 fill-current text-gray-600 hover:text-[#F3CC06]" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <svg class="mr-6 h-6h-6 fill-current text-gray-600 hover:text-[#F3CC06]" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <title>YouTube</title>
               <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
             </svg>
@@ -96,7 +96,7 @@ const login = async () => {
 
         <!-- Use https://simpleicons.org/ to find the svg for your preferred product -->
 
-      </div>
+      </form>
 
     </div>
 

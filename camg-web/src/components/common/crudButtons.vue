@@ -1,17 +1,31 @@
 <script setup>
 import {ref, watch} from "vue";
+import {data} from "autoprefixer";
 
 const props = defineProps(["create_callback", "create_form", "delete_callback", "edit_callback", "obj_to_edit"])
+const emit = defineEmits(["clearSelected"]);
 const creating = ref(false);
 const editing = ref(false)
 const deleting = ref(false)
+const errors = ref({});
 
 const obj_to_edit_cpy = ref(props.obj_to_edit);
+
+watch(() => props.obj_to_edit, (new_obj) => {
+  obj_to_edit_cpy.value = {...new_obj}
+  if (editing.value) {
+    togleEditing();
+    setTimeout(togleEditing, 0);
+  }
+
+})
+
 
 const togleCreating = () => {
   editing.value = false;
   creating.value = !creating.value;
   deleting.value = false
+  //clearSelected();
 }
 const togleEditing = () => {
   editing.value = !editing.value;
@@ -24,15 +38,48 @@ const togleDeleting = () => {
   deleting.value = !deleting.value
 }
 
-watch(() => props.obj_to_edit, (new_obj) => {
-  obj_to_edit_cpy.value = {...new_obj}
-  if (editing.value)
-  {
-    togleEditing();
-    setTimeout(togleEditing, 0);
-  }
+const clearSelected = () => {
+  emit("clearSelected");
+}
 
-})
+const createEntity = (data) => {
+  const result = props.create_callback(data);
+  result.then(response => {
+    if (response === true) {
+      errors.value = {}
+      togleCreating();
+    } else {
+      errors.value = response;
+    }
+  })
+}
+
+const editEntity = (data) => {
+  const result = props.edit_callback(data, obj_to_edit_cpy.value.id);
+  result.then(response => {
+    if (response === true) {
+      errors.value = {}
+      togleEditing();
+      clearSelected();
+    } else {
+      errors.value = response;
+    }
+  })
+}
+
+const deleteEntity = () => {
+  const result = props.delete_callback(obj_to_edit_cpy.value.id);
+  result.then(response => {
+    if (response === true) {
+      errors.value = {}
+      togleDeleting();;
+    } else {
+      errors.value = response;
+    }
+    clearSelected()
+  })
+}
+
 </script>
 
 <template>
@@ -42,7 +89,8 @@ watch(() => props.obj_to_edit, (new_obj) => {
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ creating ? 'Cancelar' : 'Criar' }}
       </button>
-      <button @click="()=>{togleDeleting(); props.delete_callback(obj_to_edit_cpy.id)}" type="button" :disabled="!obj_to_edit_cpy.id"
+      <button @click="deleteEntity" type="button"
+              :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         Eliminar
       </button>
@@ -52,10 +100,11 @@ watch(() => props.obj_to_edit, (new_obj) => {
       </button>
     </div>
     <div class="mx-auto w-full items-center">
-      <create_form @create="(data)=>{togleCreating();props.create_callback(data);creating = false}"
+      <create_form @create="(data)=>createEntity(data)"
                    v-if="creating"></create_form>
-      <create_form @edit="(data)=>{togleEditing();props.edit_callback(data, obj_to_edit_cpy.id);editing = false;}"
-                   :obj_to_edit="{...obj_to_edit_cpy}" v-if="editing && obj_to_edit_cpy"></create_form>
+      <create_form @edit="(data)=>editEntity(data)"
+                   :obj_to_edit="{...obj_to_edit_cpy}"
+                   v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"></create_form>
     </div>
   </div>
 </template>

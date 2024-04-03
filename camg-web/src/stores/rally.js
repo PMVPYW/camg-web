@@ -29,11 +29,13 @@ export const useRallyStore = defineStore("rally", () => {
         }});
       console.log(response.data, "create rally")
       rallies.value.push(response.data);
-      console.log(rallies, "jd")
+      console.log(response, "errorar1")
+      return true;
     } catch (error) {
       clearRallies();
       loadRallies();
-      throw error;
+      console.log(error, "errorar2")
+      return error.response.data.errors;
     }
   }
 
@@ -43,16 +45,15 @@ export const useRallyStore = defineStore("rally", () => {
       const response = await axios.post("rally/" + id, data, {headers: {
           'Content-Type': 'multipart/form-data'
         }});
-      if (response.status == 200)
-      {
+
         const index = rallies.value.findIndex(item => item.id === id);
         rallies.value[index] = response.data.data;
-      }
+        return true;
 
     } catch (error) {
       clearRallies();
       loadRallies();
-      throw error;
+      return error.response.data.errors;
     }
   }
 
