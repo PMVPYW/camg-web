@@ -11,9 +11,16 @@ export const useRallyStore = defineStore("rally", () => {
   const rallies = ref(null);
   const router = useRouter();
 
-  async function loadRallies() {
+  async function loadRallies(filters = null) {
     try {
-      const response = await axios.get("rally");
+      let suffix = "?"
+      if (filters != null)
+      {
+        for (const filter in filters) {
+          suffix += `${filter}=${filters[filter]}&`;
+        }
+      }
+      const response = await axios.get(`rally${suffix}`);
       rallies.value = response.data.data;
       console.log(rallies, "jd")
     } catch (error) {
