@@ -10,12 +10,13 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     const socket = inject("socket");
 
     const patrocinios = ref(null);
+    const entidades = ref(null);
     const router = useRouter();
     const rallyStore= useRallyStore();
 
     async function loadPatrocinios() {
         try {
-            const response = await axios.get("rally/"+rallyStore.rally_selected.id+"/patrocinios");
+            const response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");
             patrocinios.value = response.data.data;
             console.log(patrocinios, "patrocinios")
         } catch (error) {
@@ -24,46 +25,70 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         }
     }
 
-
-    async function createPatrocinio(data) {
+    async function loadEntidades() {
         try {
-            const response = await axios.post("entidade", data, {headers: {
-                    'Content-Type': 'multipart/form-data'
-                }});
-            const data2 = {
-                "entidade_id" : response.data.id,
-                "rally_id" : data.rally_id,
+            const response = await axios.get("entidade");
+            entidades.value = response.data.data;
+            console.log(entidades, "entidade")
+        } catch (error) {
+            throw error;
+        }
+    }
 
-            };
-            const response2 = await axios.post("patrocinio", data2, {headers: {
+    async function associarPatrocinio(data) {
+        console.log(data)
+        try{
+            const response = await axios.post("patrocinio", data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            console.log(response.data, "create entidade")
-            console.log(response2.data, "create associação ao rally")
-            patrocinios.value.push(response.data);
+            console.log(response.data, "create associação ao rally")
+            patrocinios.value.push(response.data)
         } catch (error) {
             clearPatrocinios();
             throw error;
         }
-        loadPatrocinios();
+        await loadPatrocinios();
+        await loadEntidades();
+    }
+
+    async function desassociarPatrocinio() {
+
+    }
+
+
+
+    async function createPatrocinio(data) {
+        console.log(data)
+    try {
+        const response = await axios.post("entidade", data, {headers: {
+                'Content-Type': 'multipart/form-data'
+            }});
+        const data2 = {
+            "entidade_id" : response.data.id,
+            "rally_id" : data.rally_id,
+
+        };
+        const response2 = await axios.post("patrocinio", data2, {headers: {
+                'Content-Type': 'multipart/form-data'
+            }});
+        console.log(response.data, "create entidade")
+        console.log(response2.data, "create associação ao rally")
+        patrocinios.value.push(response2.data)
+        entidades.value.push(response.data);
+
+    } catch (error) {
+        clearPatrocinios();
+        throw error;
+    }
+    await loadPatrocinios();
+    await loadEntidades();
 
     }
     async function editPatrocinio(data) {
         try {
-            const response = await axios.post("entidade", data, {headers: {
+            const response = await axios.put("entidade", data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            const data2 = {
-                "entidade_id" : response.data.id,
-                "rally_id" : data.rally_id,
-
-            };
-            const response2 = await axios.post("patrocinio", data2, {headers: {
-                    'Content-Type': 'multipart/form-data'
-                }});
-            console.log(response.data, "create entidade")
-            console.log(response2.data, "create associação ao rally")
-            patrocinios.value.push(response.data);
         } catch (error) {
             clearPatrocinios();
             loadPatrocinios();
@@ -94,6 +119,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
 
     return {
+        associarPatrocinio,
+        desassociarPatrocinio,
+        loadEntidades,
+        entidades,
         loadPatrocinios,
         createPatrocinio,
         editPatrocinio,

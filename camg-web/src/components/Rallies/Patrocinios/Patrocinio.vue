@@ -3,7 +3,6 @@ import {inject} from "vue";
 
 const props = defineProps(["patrocinio"])
 const serverBaseUrl = inject("serverBaseUrl");
-console.log(props.patrocinio)
 </script>
 <template>
   <div class="min-w-60 max-w-72 m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">

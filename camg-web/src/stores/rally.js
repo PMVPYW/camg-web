@@ -8,15 +8,16 @@ export const useRallyStore = defineStore("rally", () => {
   const serverBaseUrl = inject("serverBaseUrl");
   const socket = inject("socket");
 
-  const rallies = ref(null);
+  const rallies = ref([]);
   const router = useRouter();
 
-  const rally_selected = rallies.value;
+  let rally_selected = ref();
 
   async function loadRallies() {
     try {
       const response = await axios.get("rally");
       rallies.value = response.data.data;
+      rally_selected.value = rallies.value[0].id;
       console.log(rallies, "jd")
     } catch (error) {
       clearRallies();
