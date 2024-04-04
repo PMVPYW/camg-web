@@ -53,7 +53,8 @@ const setSelectedRally = (rally) => {
           v-model="filters.order"
           class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
         <option value="proximity">Por proximidade</option>
-        <option value="date">Por data</option>
+        <option value="date_desc">Por data decrescente</option>
+        <option value="date_asc">Por data crescente</option>
       </select>
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Status</label>
       <select
