@@ -8,9 +8,9 @@ const serverBaseUrl = inject("serverBaseUrl");
   <div class="min-w-60 max-w-72 m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">
     <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border">
       <div class="relative">
-        <a class="block shadow-xl rounded-2xl">
-          <img :src="`${serverBaseUrl}/storage/entidades/${props.patrocinio.entidade_id.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${props.patrocinio.entidade_id.photo_url}`"
-               class="w-full shadow-soft-2xl rounded-2xl">
+        <a class="flex bg-white block w-full h-52 shadow-xl rounded-xl">
+            <img :src="`${serverBaseUrl}/storage/entidades/${props.patrocinio.entidade_id.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${props.patrocinio.entidade_id.photo_url}`"
+                 class="my-auto mx-auto w-44 shadow-soft-2xl">
         </a>
       </div>
       <div class="flex-auto px-1 pt-6">

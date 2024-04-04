@@ -2,7 +2,6 @@
 import {inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
-import router from "@/router/index.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -16,11 +15,8 @@ const photo_url = ref(null);
 const rallyStore=useRallyStore();
 const patrocinioStore= usePatrocinioStore();
 
-const creating = ref(false);
-
-
 const selected = ref(false);
-
+const creating = ref(false);
 
 
 function createPatrocinio() {
@@ -85,23 +81,33 @@ function createPatrocinio() {
         </div>
       </div>
       <div class="flex flex-col ml-10">
-        <h1 class="block mb-1 text-base font-medium">Entidades</h1>
+        <h1 class="block mb-2 text-lg font-medium">Entidades</h1>
         <div class="flex flex-row items-center">
             <div v-for="entidade in patrocinioStore.entidades">
-              <div @click="()=>{nome=entidade.nome; selected=entidade.id}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
+              <div v-if="!creating" @click="()=>{nome=entidade.nome; selected=entidade.id;}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
                   <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
                        class="my-auto mx-auto w-24 shadow-soft-2xl" >
               </div>
+              <div v-if="creating" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
+                <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
+                     class="my-auto mx-auto w-24 shadow-soft-2xl">
+              </div>
             </div>
         </div>
-        <button @click="()=>{creating=!creating}" v-if="!creating" type="button"
-                class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
-          + Criar Entidade
-        </button>
-        <button @click="()=>{creating=!creating}" v-else type="button"
-                class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
-          Cancelar
-        </button>
+        <div class="flex flex-row">
+          <button @click="()=>{creating=!creating; selected=!selected}" v-if="!creating" type="button"
+                  class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
+            + Criar Entidade
+          </button>
+          <button @click="()=>{creating=!creating; selected=!selected}" v-else type="button"
+                  class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
+            Cancelar
+          </button>
+          <button type="button"
+                  class="block mt-4 text-base font-medium text-red-600 mx-auto hover:text-red-800 hover:border-b hover:border-b-black">
+            Remover Entidades
+          </button>
+        </div>
       </div>
     </div>
   </form>

@@ -14,17 +14,47 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     const router = useRouter();
     const rallyStore= useRallyStore();
 
+
+//PATROCINIOS
     async function loadPatrocinios() {
         try {
             const response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");
             patrocinios.value = response.data.data;
             console.log(patrocinios, "patrocinios")
         } catch (error) {
-            clearPatrocinios();
             throw error;
         }
     }
 
+
+    async function associarPatrocinio(data) {
+        console.log(data)
+        try{
+            const response = await axios.post("patrocinio/" ,data);
+            console.log(response.data, "create associação ao rally")
+            patrocinios.value.push(response.data)
+        } catch (error) {
+            throw error;
+        }
+        await loadPatrocinios();
+        await loadEntidades();
+    }
+
+    async function desassociarPatrocinio(data) {
+        console.log(data)
+        try{
+            const response = await axios.delete("patrocinio/"+ data, );
+            console.log(response.data, "Delete associação ao rally")
+        } catch (error) {
+            throw error;
+        }
+        loadPatrocinios();
+        loadEntidades();
+    }
+
+
+
+//ENTIDADES
     async function loadEntidades() {
         try {
             const response = await axios.get("entidade");
@@ -35,29 +65,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         }
     }
 
-    async function associarPatrocinio(data) {
-        console.log(data)
-        try{
-            const response = await axios.post("patrocinio", data, {headers: {
-                    'Content-Type': 'multipart/form-data'
-                }});
-            console.log(response.data, "create associação ao rally")
-            patrocinios.value.push(response.data)
-        } catch (error) {
-            clearPatrocinios();
-            throw error;
-        }
-        await loadPatrocinios();
-        await loadEntidades();
-    }
-
-    async function desassociarPatrocinio() {
-
-    }
-
-
-
-    async function createPatrocinio(data) {
+    async function createEntidade_Patrocinio(data) {
         console.log(data)
     try {
         const response = await axios.post("entidade", data, {headers: {
@@ -77,26 +85,27 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         entidades.value.push(response.data);
 
     } catch (error) {
-        clearPatrocinios();
         throw error;
     }
-    await loadPatrocinios();
-    await loadEntidades();
+    loadPatrocinios();
+    loadEntidades();
 
     }
-    async function editPatrocinio(data) {
+    async function editEntidade(id,data) {
         try {
-            const response = await axios.put("entidade", data, {headers: {
+            data["_method"] = "PUT";
+            const response = await axios.post("entidade/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
+            entidades.value.push(response.data);
         } catch (error) {
-            clearPatrocinios();
-            loadPatrocinios();
             throw error;
         }
+        loadPatrocinios();
+        loadEntidades();
     }
 
-    async function deletePatrocinio(data) {
+    async function deleteEntidade(data) {
         try {
             const response = await axios.delete("entidade", data, {headers: {
                     'Content-Type': 'multipart/form-data'
@@ -104,7 +113,6 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             console.log(response.data, "create associação ao rally")
             patrocinios.value.push(response.data);
         } catch (error) {
-            clearPatrocinios();
             loadPatrocinios();
             throw error;
         }
@@ -119,14 +127,19 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
 
     return {
+        //Associação Patrocinios
         associarPatrocinio,
         desassociarPatrocinio,
+        clearPatrocinios,
+        loadPatrocinios,
+        patrocinios,
+
+
+        //Entidade
+        createEntidade_Patrocinio,
+        editEntidade,
         loadEntidades,
         entidades,
-        loadPatrocinios,
-        createPatrocinio,
-        editPatrocinio,
-        clearPatrocinios,
-        patrocinios
+
     };
 });
