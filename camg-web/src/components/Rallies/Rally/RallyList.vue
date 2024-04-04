@@ -4,15 +4,16 @@ import CrudButtons from "@/components/common/crudButtons.vue";
 import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 import Rally from "@/components/Rallies/Rally/Rally.vue";
 import {useRallyStore} from "@/stores/rally.js";
-import {ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 
 const rallyStore = useRallyStore();
 const selectedRally = ref({});
 
 //filters
-const search = ref('');
+const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'proximity', status: 'all'})
 
-watch(search, (new_value)=>{
+watch(filters, (new_value) => {
+  console.log(new_value)
   alert("#TODO! -- implement search filter!")
 })
 
@@ -35,29 +36,33 @@ const setSelectedRally = (rally) => {
                @clearSelected="selectedRally = {}"></CrudButtons>
   <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
     <div class="m-2 w-11/12 bg-white border-4 mx-auto rounded-lg text-center">
-      <input type="text" placeholder="Pesquisar" v-model.lazy="search"
+      <input type="text" placeholder="Pesquisar" v-model.lazy="filters.search"
              class="w-11/12 lg:w-1/2 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">De</label>
       <input type="date" placeholder="data inicio" required
+             v-model="filters.data_inicio"
              class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Até</label>
       <input type="date" placeholder="data fim" required
+             v-model="filters.data_fim"
              class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
 
       <br>
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Ordenar</label>
       <select
+          v-model="filters.order"
           class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
-        <option selected>Por proximidade</option>
-        <option>Por data</option>
+        <option value="proximity">Por proximidade</option>
+        <option value="date">Por data</option>
       </select>
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Status</label>
       <select
+          v-model="filters.status"
           class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
-        <option selected>Todos</option>
-        <option>Por iniciar</option>
-        <option>A decorrer</option>
-        <option>Terminado</option>
+        <option value="all">Todos</option>
+        <option value="not_started">Por iniciar</option>
+        <option value="on_going">A decorrer</option>
+        <option value="terminated">Terminado</option>
       </select>
     </div>
 
