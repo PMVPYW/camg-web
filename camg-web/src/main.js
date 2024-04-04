@@ -10,7 +10,7 @@ import { createPinia } from "pinia";
 
 const app = createApp(App);
 
-const serverBaseUrl = "http://34.163.104.214";
+const serverBaseUrl = "http://34.163.94.122";
 app.provide("serverBaseUrl", serverBaseUrl);
 // Default Axios configuration
 axios.defaults.baseURL = serverBaseUrl + "/api";

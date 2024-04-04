@@ -13,8 +13,7 @@ const selectedRally = ref({});
 const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'proximity', status: 'all'})
 
 watch(filters, (new_value) => {
-  console.log(new_value)
-  alert("#TODO! -- implement search filter!")
+  rallyStore.loadRallies(filters)
 })
 
 const setSelectedRally = (rally) => {
