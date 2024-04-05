@@ -20,7 +20,8 @@ const creating = ref(false);
 
 
 function createPatrocinio() {
-  if(creating == true){
+  console.log("Entrou na fuction",creating.value)
+  if(creating.value === true){
     const obj_entidade = {
       "nome": nome.value,
       "url": url.value,
@@ -30,7 +31,7 @@ function createPatrocinio() {
       obj_entidade["photo_url"] = photo_url.value
     }
     console.log("Objeto Entidade",obj_entidade)
-    patrocinioStore.createPatrocinio(obj_entidade)
+    patrocinioStore.createEntidade_Patrocinio(obj_entidade)
   }else{
       if(selected.value == false){
         patrocinioStore.loadPatrocinios()
@@ -83,7 +84,7 @@ function createPatrocinio() {
       <div class="flex flex-col ml-10">
         <h1 class="block mb-2 text-lg font-medium">Entidades</h1>
         <div class="flex flex-row items-center">
-            <div v-for="entidade in patrocinioStore.entidades">
+            <div v-for="entidade in patrocinioStore.patrocinosSemAssociacao">
               <div v-if="!creating" @click="()=>{nome=entidade.nome; selected=entidade.id;}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
                   <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
                        class="my-auto mx-auto w-24 shadow-soft-2xl" >
@@ -95,7 +96,7 @@ function createPatrocinio() {
             </div>
         </div>
         <div class="flex flex-row">
-          <button @click="()=>{creating=!creating; selected=!selected}" v-if="!creating" type="button"
+          <button @click="()=>{creating=!creating; selected=!selected; console.log(creating)}" v-if="!creating" type="button"
                   class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
             + Criar Entidade
           </button>
@@ -103,7 +104,7 @@ function createPatrocinio() {
                   class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
             Cancelar
           </button>
-          <button type="button"
+          <button type="button" @click="()=>{patrocinioStore.deleteEntidade()}"
                   class="block mt-4 text-base font-medium text-red-600 mx-auto hover:text-red-800 hover:border-b hover:border-b-black">
             Remover Entidades
           </button>

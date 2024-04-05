@@ -23,6 +23,7 @@ onMounted(async () => {
   await rallyStore.loadRallies();
   await patrocinioStore.loadPatrocinios();
   await patrocinioStore.loadEntidades();
+  await patrocinioStore.loadpatrocinosSemAssociacao();
 
   setTimeout(() => {
     HSStaticMethods.autoInit();
