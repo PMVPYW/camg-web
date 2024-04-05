@@ -5,6 +5,7 @@ import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 import Rally from "@/components/Rallies/Rally/Rally.vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {reactive, ref, watch} from "vue";
+import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
 
 const rallyStore = useRallyStore();
 const selectedRally = ref({});
@@ -31,6 +32,7 @@ const setSelectedRally = (rally) => {
 <template>
   <CrudButtons :create_callback="rallyStore.createRally" :create_form="CreateRallyForm"
                :edit_callback="rallyStore.updateRally" :delete_callback="rallyStore.deleteRally"
+               :delete_form="DeleteRallyForm"
                :obj_to_edit="selectedRally"
                @clearSelected="selectedRally = {}"></CrudButtons>
   <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
