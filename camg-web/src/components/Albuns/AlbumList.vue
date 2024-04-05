@@ -2,26 +2,21 @@
 
 import CrudButtons from "@/components/common/crudButtons.vue";
 import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
-import Rally from "@/components/Rallies/Rally/Rally.vue";
-import {useRallyStore} from "@/stores/rally.js";
-import {reactive, ref, watch} from "vue";
+
+import {ref} from "vue";
 import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
+import {useAlbumStore} from "@/stores/album.js";
+import Album from "@/components/Albuns/Album.vue";
 
-const rallyStore = useRallyStore();
-const selectedRally = ref({});
+const albumStore = useAlbumStore();
+const selectedAlbum = ref({});
 
-//filters
-const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'proximity', status: 'all'})
 
-watch(filters, (new_value) => {
-  rallyStore.loadRallies(filters)
-})
-
-const setSelectedRally = (rally) => {
-  if (selectedRally.value.id != rally.id) {
-    selectedRally.value = rally
+const setSelectedAlbum = (rally) => {
+  if (selectedAlbum.value.id != rally.id) {
+    selectedAlbum.value = rally
   } else {
-    selectedRally.value = {}
+    selectedAlbum.value = {}
   }
 
 }
@@ -30,14 +25,14 @@ const setSelectedRally = (rally) => {
 </script>
 
 <template>
-  <CrudButtons :create_callback="rallyStore.createRally" :create_form="CreateRallyForm"
-               :edit_callback="rallyStore.updateRally" :delete_callback="rallyStore.deleteRally"
+  <CrudButtons :create_callback="albumStore.createAlbum" :create_form="CreateRallyForm"
+               :edit_callback="albumStore.updateAlbum" :delete_callback="albumStore.deleteAlbum"
                :delete_form="DeleteRallyForm"
-               :obj_to_edit="selectedRally"
-               @clearSelected="selectedRally = {}"></CrudButtons>
+               :obj_to_edit="selectedAlbum"
+               @clearSelected="selectedAlbum = {}"></CrudButtons>
   <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
-    <Rally v-for="rally in rallyStore.rallies" :key="rally.id" @click="()=>setSelectedRally(rally)" :rally="rally"
+    <Album v-for="album in albumStore.albuns" :key="album.id" @click="()=>setSelectedAlbum(album)" :album="album"
            class="border-2 rounded-xl"
-           :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedRally.id==rally.id}"></Rally>
+           :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedAlbum.id==album.id}"></Album>
   </div>
 </template>

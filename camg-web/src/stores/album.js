@@ -15,7 +15,7 @@ export const useAlbumStore = defineStore("album", () => {
     try {
       const response = await axios.get(`album`);
       albuns.value = response.data.data;
-      console.log(albuns, "jd")
+      console.log(albuns, "albuns")
     } catch (error) {
       clearAlbuns();
       throw error;
