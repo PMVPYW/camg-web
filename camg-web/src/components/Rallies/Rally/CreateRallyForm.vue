@@ -13,6 +13,10 @@ const errors = ref(props.errors)
 
 watch(() => props.errors, (new_obj) => errors.value = {...new_obj})
 
+watch(external_id, (new_external_id, oldValue) => {
+  external_id.value = new_external_id.replace(/\D/g, '');
+})
+
 
 const emitRally = () => {
   const obj = {
@@ -50,7 +54,7 @@ const emitRally = () => {
     </div>
     <br>
     <div class="mx-auto text-center">
-      <input type="number" name="external_id" placeholder="ID externo" required v-model="external_id"
+      <input type="text" name="external_id" placeholder="ID externo" required v-model="external_id"
              class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-1/12">
       <input type="file" accept="image/png, image/gif, image/jpeg"
              class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-7/12 file:hidden"

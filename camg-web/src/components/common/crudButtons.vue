@@ -2,7 +2,7 @@
 import {ref, watch} from "vue";
 import {data} from "autoprefixer";
 
-const props = defineProps(["create_callback", "create_form", "delete_callback", "edit_callback", "obj_to_edit"])
+const props = defineProps(["create_callback", "create_form", "delete_callback", "edit_callback", "obj_to_edit", "delete_form"])
 const emit = defineEmits(["clearSelected"]);
 const creating = ref(false);
 const editing = ref(false)
@@ -72,7 +72,7 @@ const deleteEntity = () => {
   result.then(response => {
     if (response === true) {
       errors.value = {}
-      togleDeleting();;
+      togleDeleting();
     } else {
       errors.value = response;
     }
@@ -89,10 +89,10 @@ const deleteEntity = () => {
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ creating ? 'Cancelar' : 'Criar' }}
       </button>
-      <button @click="deleteEntity" type="button"
+      <button @click="togleDeleting" type="button"
               :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-        Eliminar
+        {{ deleting ? 'Cancelar' : 'Eliminar' }}
       </button>
       <button @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
               class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
@@ -108,6 +108,11 @@ const deleteEntity = () => {
                    v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"
                    :errors="errors"
       ></create_form>
+      <delete_form @delete="deleteEntity"
+                   @cancel="togleDeleting"
+                   :obj_to_delete="{...obj_to_edit_cpy}"
+                   v-if="deleting && Object.keys(obj_to_edit_cpy).length != 0"
+      ></delete_form>
     </div>
   </div>
 </template>
