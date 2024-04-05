@@ -9,6 +9,8 @@ import {useRallyStore} from "@/stores/rally.js"
 import axios from "axios";
 import {onMounted} from "vue";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import 'flowbite';
+
 
 const router = useRouter()
 const userStore=useUserStore();

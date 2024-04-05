@@ -1,5 +1,5 @@
 <script setup xmlns="http://www.w3.org/1999/html">
-import {inject, ref} from "vue";
+import {computed, inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 
@@ -17,6 +17,8 @@ const patrocinioStore= usePatrocinioStore();
 
 const selected = ref(false);
 const creating = ref(false);
+
+const filteredEntities = ref(patrocinioStore.patrocinosSemAssociacao);
 
 
 function createPatrocinio() {
@@ -46,6 +48,15 @@ function createPatrocinio() {
   }
 }
 
+function searchEntities() {
+  const regex = new RegExp(nome.value, 'i');
+  const patrocinioSemAssociacao = patrocinioStore.patrocinosSemAssociacao;
+  filteredEntities.value = patrocinioSemAssociacao.filter(entity => regex.test(entity.nome));
+  console.log(filteredEntities);
+
+}
+
+
 </script>
 
 <template>
@@ -55,8 +66,8 @@ function createPatrocinio() {
         <div class="flex justify-center w-full">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
             <div>
-              <label class="block mb-2 text-base font-medium ">Nome</label>
-              <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
+              <label class="block mb-2 text-base font-medium">Nome</label>
+              <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
             </div>
             <div v-if="creating">
               <label class="block mb-2 text-base font-medium">Link</label>
@@ -84,7 +95,7 @@ function createPatrocinio() {
       <div class="flex flex-col ml-10">
         <h1 class="block mb-2 text-lg font-medium">Entidades</h1>
         <div class="flex flex-row items-center">
-            <div v-for="entidade in patrocinioStore.patrocinosSemAssociacao">
+            <div v-for="entidade in filteredEntities">
               <div v-if="!creating" @click="()=>{nome=entidade.nome; selected=entidade.id;}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
                   <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
                        class="my-auto mx-auto w-24 shadow-soft-2xl" >
@@ -96,16 +107,16 @@ function createPatrocinio() {
             </div>
         </div>
         <div class="flex flex-row">
-          <button @click="()=>{creating=!creating; selected=!selected; console.log(creating)}" v-if="!creating" type="button"
-                  class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
-            + Criar Entidade
+          <button @click="()=>{creating=!creating; selected=!selected}" v-if="!creating" type="button"
+                  class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+             Criar Entidade
           </button>
           <button @click="()=>{creating=!creating; selected=!selected}" v-else type="button"
-                  class="block mt-4 text-base font-medium text-green-600 mx-auto hover:text-green-800 hover:border-b hover:border-b-black">
-            Cancelar
+                  class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Associar Entidade
           </button>
           <button type="button" @click="()=>{patrocinioStore.deleteEntidade()}"
-                  class="block mt-4 text-base font-medium text-red-600 mx-auto hover:text-red-800 hover:border-b hover:border-b-black">
+                  class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Remover Entidades
           </button>
         </div>
