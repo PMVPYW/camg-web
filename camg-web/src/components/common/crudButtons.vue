@@ -73,10 +73,10 @@ const deleteEntity = () => {
   result.then(response => {
     if (response === true) {
       errors.value = {}
-      togleDeleting();
     } else {
       errors.value = response;
     }
+    togleDeleting();
     clearSelected()
   })
 }
