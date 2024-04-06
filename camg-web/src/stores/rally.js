@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ref, computed, inject } from "vue";
+import { ref, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
@@ -9,9 +9,25 @@ export const useRallyStore = defineStore("rally", () => {
   const socket = inject("socket");
 
   const rallies = ref(null);
+  const rallies_filtered = ref(null);
   const router = useRouter();
 
-  async function loadRallies(filters = null) {
+  async function loadRallies() {
+    try {
+
+      const response = await axios.get(`rally`);
+      rallies.value = response.data.data;
+      if (rallies_filtered.value == null)
+      {
+        rallies_filtered.value = rallies.value
+      }
+    } catch (error) {
+      clearRallies();
+      throw error;
+    }
+  }
+
+  async function loadRalliesWithFilters(filters = null) {
     try {
       let suffix = "?"
       if (filters != null)
@@ -21,8 +37,7 @@ export const useRallyStore = defineStore("rally", () => {
         }
       }
       const response = await axios.get(`rally${suffix}`);
-      rallies.value = response.data.data;
-      console.log(rallies, "jd")
+      rallies_filtered.value = response.data.data;
     } catch (error) {
       clearRallies();
       throw error;
@@ -87,10 +102,12 @@ export const useRallyStore = defineStore("rally", () => {
 
   return {
     loadRallies,
+    loadRalliesWithFilters,
     createRally,
     clearRallies,
     deleteRally,
     updateRally,
-    rallies
+    rallies,
+    rallies_filtered
   };
 });

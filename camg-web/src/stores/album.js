@@ -32,9 +32,10 @@ export const useAlbumStore = defineStore("album", () => {
       console.log(response, "errorar1")
       return true;
     } catch (error) {
-      clearRallies();
+      clearAlbuns();
       loadAlbuns();
       console.log(error, "errorar2")
+      console.log(error.response.data.errors, "asnkxc")
       return error.response.data.errors;
     }
   }
@@ -47,7 +48,9 @@ export const useAlbumStore = defineStore("album", () => {
         }});
 
         const index = albuns.value.findIndex(item => item.id === id);
+        console.log("old", albuns.value[index], "at")
         albuns.value[index] = response.data.data;
+      console.log("new", albuns.value[index], "at")
         return true;
 
     } catch (error) {

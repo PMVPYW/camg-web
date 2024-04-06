@@ -16,8 +16,8 @@ const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
 
 onMounted(async () => {
-  rallyStore.loadRallies();
-  albumStore.loadAlbuns();
+  await rallyStore.loadRallies();
+  await albumStore.loadAlbuns();
 
 });
 </script>

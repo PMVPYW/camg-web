@@ -1,12 +1,12 @@
 <script setup>
 
 import CrudButtons from "@/components/common/crudButtons.vue";
-import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 
 import {ref} from "vue";
 import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
 import {useAlbumStore} from "@/stores/album.js";
 import Album from "@/components/Albuns/Album.vue";
+import CreateAlbumForm from "@/components/Albuns/createAlbumForm.vue";
 
 const albumStore = useAlbumStore();
 const selectedAlbum = ref({});
@@ -25,7 +25,7 @@ const setSelectedAlbum = (rally) => {
 </script>
 
 <template>
-  <CrudButtons :create_callback="albumStore.createAlbum" :create_form="CreateRallyForm"
+  <CrudButtons :create_callback="albumStore.createAlbum" :create_form="CreateAlbumForm"
                :edit_callback="albumStore.updateAlbum" :delete_callback="albumStore.deleteAlbum"
                :delete_form="DeleteRallyForm"
                :obj_to_edit="selectedAlbum"

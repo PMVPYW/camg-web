@@ -50,6 +50,7 @@ const createEntity = (data) => {
       togleCreating();
     } else {
       errors.value = response;
+      console.warn(errors.value, "errors_crud")
     }
   })
 }

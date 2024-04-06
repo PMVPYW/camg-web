@@ -9,9 +9,6 @@ const data_inicio = ref(props.obj_to_edit?.data_inicio);
 const data_fim = ref(props.obj_to_edit?.data_fim);
 const external_id = ref(props.obj_to_edit?.external_entity_id);
 const photo_url = ref(null);
-const errors = ref(props.errors)
-
-watch(() => props.errors, (new_obj) => errors.value = {...new_obj})
 
 watch(external_id, (new_external_id, oldValue) => {
   external_id.value = new_external_id.replace(/\D/g, '');
