@@ -17,6 +17,7 @@ import Historias from "@/components/Historias/Historias.vue";
 import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
 import Rallies from "@/components/Rallies/Rallies.vue";
 import {useUserStore} from "@/stores/user.js";
+import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
 
 let handleFirstTime = true;
 
@@ -42,6 +43,12 @@ const router = createRouter({
             path: "/albuns",
             name: "albuns",
             component: Albuns,
+        },
+        {
+            path: "/albuns/:id/fotos",
+            name: "fotos",
+            component: Fotos,
+            props: route => ({ id: route.params.id})
         },
         {
             path: "/contactos",

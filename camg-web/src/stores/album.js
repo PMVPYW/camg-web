@@ -29,6 +29,16 @@ export const useAlbumStore = defineStore("album", () => {
     }
   }
 
+  async function getFotos(id) {
+    try {
+      const response = await axios.get(`album/${id}/fotos`);
+      console.log(response, "fotos")
+      return response.data.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
   async function createAlbum(data) {
     try {
       const response = await axios.post("album", data, {headers: {
@@ -90,6 +100,7 @@ export const useAlbumStore = defineStore("album", () => {
 
   return {
     loadAlbuns,
+    getFotos,
     createAlbum,
     clearAlbuns,
     deleteAlbum,
