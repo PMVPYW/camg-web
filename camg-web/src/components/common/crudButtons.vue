@@ -50,6 +50,7 @@ const createEntity = (data) => {
       togleCreating();
     } else {
       errors.value = response;
+      console.warn(errors.value, "errors_crud")
     }
   })
 }
@@ -72,10 +73,10 @@ const deleteEntity = () => {
   result.then(response => {
     if (response === true) {
       errors.value = {}
-      togleDeleting();
     } else {
       errors.value = response;
     }
+    togleDeleting();
     clearSelected()
   })
 }
@@ -84,18 +85,18 @@ const deleteEntity = () => {
 
 <template>
   <div class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
-    <div class="flex justify-center mx-auto bg-[#f8f9fe] w-full h-16 ">
+    <div class="flex justify-center mx-auto bg-[#f8f9fe] w-full h-16 text">
       <button @click="togleCreating" type="button"
-              class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              class="md:w-3/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">
         {{ creating ? 'Cancelar' : 'Criar' }}
       </button>
       <button @click="togleDeleting" type="button"
               :disabled="!obj_to_edit_cpy.id"
-              class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ deleting ? 'Cancelar' : 'Eliminar' }}
       </button>
       <button @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
-              class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ editing ? 'Cancelar' : 'Editar' }}
       </button>
     </div>

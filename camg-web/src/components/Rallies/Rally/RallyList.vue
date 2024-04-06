@@ -5,7 +5,7 @@ import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 import Rally from "@/components/Rallies/Rally/Rally.vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {reactive, ref, watch} from "vue";
-import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
+import DeleteRallyForm from "@/components/common/SimpleDeleteForm.vue";
 
 const rallyStore = useRallyStore();
 const selectedRally = ref({});
@@ -14,7 +14,7 @@ const selectedRally = ref({});
 const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'proximity', status: 'all'})
 
 watch(filters, (new_value) => {
-  rallyStore.loadRallies(filters)
+  rallyStore.loadRalliesWithFilters(filters)
 })
 
 const setSelectedRally = (rally) => {
@@ -68,7 +68,7 @@ const setSelectedRally = (rally) => {
       </select>
     </div>
 
-    <Rally v-for="rally in rallyStore.rallies" :key="rally.id" @click="()=>setSelectedRally(rally)" :rally="rally"
+    <Rally v-for="rally in rallyStore.rallies_filtered" :key="rally.id" @click="()=>setSelectedRally(rally)" :rally="rally"
            class="border-2 rounded-xl"
            :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedRally.id==rally.id}"></Rally>
   </div>

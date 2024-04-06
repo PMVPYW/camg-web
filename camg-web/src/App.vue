@@ -6,23 +6,19 @@ import Footer from "@/components/Footer/Footer.vue";
 import { useRouter } from "vue-router";
 import {useUserStore} from "@/stores/user.js";
 import {useRallyStore} from "@/stores/rally.js"
+import {useAlbumStore} from "@/stores/album.js"
 import axios from "axios";
 import {onMounted} from "vue";
 
 const router = useRouter()
 const userStore=useUserStore();
 const rallyStore = useRallyStore();
+const albumStore = useAlbumStore();
 
 onMounted(async () => {
-  let script = document.createElement("script");
-  script.src = "https://cdn.lordicon.com/lordicon.js";
-  script.async = true;
-  document.body.appendChild(script);
-  rallyStore.loadRallies();
+  await rallyStore.loadRallies();
+  await albumStore.loadAlbuns();
 
-  setTimeout(() => {
-    HSStaticMethods.autoInit();
-  }, 100);
 });
 </script>
 

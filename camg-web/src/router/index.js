@@ -114,11 +114,7 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach((to, from, failure) => {
-    if (!failure) {
-        setTimeout(() => {
-            HSStaticMethods.autoInit();
-        }, 100);
-    }
+
 });
 
 export default router;
