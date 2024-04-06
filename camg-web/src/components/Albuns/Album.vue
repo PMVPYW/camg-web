@@ -5,12 +5,10 @@ import {useRallyStore} from "@/stores/rally.js";
 const props = defineProps(["album"])
 const serverBaseUrl = inject("serverBaseUrl");
 const rallyStore = useRallyStore();
-
-const rallyName = ref(props.album.rally_id == null ? 'Nenhum' : rallyStore.rallies.find((item) => item.id === props.album.rally_id).nome);
+const rallyName = ref(props.album.rally_id == null ? 'Nenhum' : rallyStore.rallies.find((item) => item.id == Number(props.album.rally_id)).nome);
 
 watch(() => props.album, (n_album) => {
-  alert("i")
-    rallyName.value = n_album.rally_id ? 'Nenhum' : rallyStore.rallies.find((item) => item.id === props.album.rally_id).nome
+    rallyName.value = n_album.rally_id == null ? 'Nenhum' : rallyStore.rallies.find((item) => item.id == n_album.rally_id).nome
 })
 
 </script>
