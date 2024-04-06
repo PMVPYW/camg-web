@@ -16,7 +16,15 @@ const selectedPatrocinio = ref({});
 
 let associating = ref(false);
 let editing = ref(false);
-const deleting = ref(false);
+
+let order_by = ref(false);
+
+function filter_by(){
+  const data = {
+    "filters": order_by
+  }
+  patrocinioStore.loadEntidades(data);
+}
 
 </script>
 
@@ -24,20 +32,27 @@ const deleting = ref(false);
   <div v-if="rallyStore.rally_selected" class="h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Patrocinios</h1>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
-      <div v-if="editing === false && associating === false" class="flex justify-center mx-auto bg-[#f8f9fe] w-full h-16 ">
-        <button @click="()=>{associating=true; selectedPatrocinio=!selectedPatrocinio;console.log(associating)}" type="button"
-                class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-          Adicionar
-        </button>
-        <button @click="()=>{editing = true;console.log(editing)}" type="button"
-                class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-          Editar
-        </button>
-        <button @click="()=>{patrocinioStore.desassociarPatrocinio(selectedPatrocinio.id)}" type="button"
-                class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-          Eliminar
-        </button>
-      </div>
+        <div v-if="editing === false && associating === false" class="flex mx-auto bg-[#f8f9fe] w-full h-16 ">
+          <button @click="()=>{associating=true; selectedPatrocinio=!selectedPatrocinio;console.log(associating)}" type="button"
+                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Adicionar
+          </button>
+          <button @click="()=>{editing = true;console.log(editing)}" type="button"
+                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Editar
+          </button>
+          <button @click="()=>{patrocinioStore.desassociarPatrocinio(selectedPatrocinio.id)}" type="button"
+                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            Eliminar
+          </button>
+          <div class="flex flex-row items-center ml-14">
+            <label class="block mx-4 text-base font-medium">Ordenar:</label>
+            <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+              <option class="uppercase" value="nome_asc" selected>A-Z</option>
+              <option class="uppercase" value="nome_desc">Z-a</option>
+            </select>
+          </div>
+        </div>
       <!--Create Form-->
       <div v-if="associating === true">
           <button @click="()=>{associating=false}" type="button" class="text-gray-400 font-bold text-lg mb-4 mt-2">
