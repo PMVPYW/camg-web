@@ -11,6 +11,11 @@ const nome = ref(props.obj_to_edit?.nome);
 const rally_id = ref(props.obj_to_edit?.rally_id ? props.obj_to_edit?.rally_id : null);
 const img = ref(null);
 
+const errors = ref(props.errors ?? {})
+
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors;
+})
 
 const emitAlbum = () => {
   const obj = {
@@ -34,7 +39,7 @@ const emitAlbum = () => {
      </select>
     <br>
 
-    <div class="w-full text-red-600 font-bold items-top flex mx-2" v-if="Object.keys(errors ?? {}).length">
+    <div class="w-full text-red-600 font-bold items-top flex mx-2" v-if="Object.keys(errors).length">
       <!--first line of errors-->
       <div class="w-1/2 text-center inline-block">{{ errors.nome }}</div>
       <div class="w-1/12  inline-block"></div>
