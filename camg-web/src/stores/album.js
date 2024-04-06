@@ -11,9 +11,16 @@ export const useAlbumStore = defineStore("album", () => {
   const albuns = ref(null);
   const router = useRouter();
 
-  async function loadAlbuns() {
+  async function loadAlbuns(filters = null) {
     try {
-      const response = await axios.get(`album`);
+      var sufix = "?";
+      if (filters != null)
+      {
+        for (const filter in filters) {
+          sufix += `${filter}=${filters[filter]}&`;
+        }
+      }
+      const response = await axios.get(`album${sufix}`);
       albuns.value = response.data.data;
       console.log(albuns, "albuns")
     } catch (error) {

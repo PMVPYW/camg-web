@@ -2,14 +2,22 @@
 
 import CrudButtons from "@/components/common/crudButtons.vue";
 
-import {ref} from "vue";
+import {reactive, ref, watch} from "vue";
 import DeleteRallyForm from "@/components/common/SimpleDeleteForm.vue";
 import {useAlbumStore} from "@/stores/album.js";
 import Album from "@/components/Albuns/Album.vue";
 import CreateAlbumForm from "@/components/Albuns/createAlbumForm.vue";
+import {useRallyStore} from "@/stores/rally.js";
 
 const albumStore = useAlbumStore();
+const rallyStore = useRallyStore();
 const selectedAlbum = ref({});
+
+const filters = reactive({search: "", rally_id: "todos"})
+
+watch(filters, (n_filters) => {
+  albumStore.loadAlbuns(filters);
+})
 
 
 const setSelectedAlbum = (rally) => {
@@ -25,12 +33,27 @@ const setSelectedAlbum = (rally) => {
 </script>
 
 <template>
+
   <CrudButtons :create_callback="albumStore.createAlbum" :create_form="CreateAlbumForm"
                :edit_callback="albumStore.updateAlbum" :delete_callback="albumStore.deleteAlbum"
                :delete_form="DeleteRallyForm"
                :obj_to_edit="selectedAlbum"
                @clearSelected="selectedAlbum = {}"></CrudButtons>
+
   <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
+    <!--filters-->
+    <div class="mx-auto h-1/4 w-full p-3 mb-6 sm:flex-none">
+      <input type="text" placeholder="Pesquisar" v-model.lazy="filters.search"
+             class="w-11/12 lg:w-1/2 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10">
+      <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Rally</label>
+      <select class="w-11/12 lg:w-5/12 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10"
+              v-model="filters.rally_id">
+        <option value="todos">Todos</option>
+        <option value="nenhum">Sem Rally</option>
+        <option v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}</option>
+      </select>
+    </div>
+    <!--End-Of-filters-->
     <Album v-for="album in albumStore.albuns" :key="album.id" @click="()=>setSelectedAlbum(album)" :album="album"
            class="border-2 rounded-xl"
            :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedAlbum.id==album.id}"></Album>
