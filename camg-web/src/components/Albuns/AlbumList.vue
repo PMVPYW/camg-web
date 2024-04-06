@@ -3,7 +3,7 @@
 import CrudButtons from "@/components/common/crudButtons.vue";
 
 import {ref} from "vue";
-import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
+import DeleteRallyForm from "@/components/common/SimpleDeleteForm.vue";
 import {useAlbumStore} from "@/stores/album.js";
 import Album from "@/components/Albuns/Album.vue";
 import CreateAlbumForm from "@/components/Albuns/createAlbumForm.vue";

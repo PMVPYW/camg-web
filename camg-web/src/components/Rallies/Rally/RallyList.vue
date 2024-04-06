@@ -5,7 +5,7 @@ import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 import Rally from "@/components/Rallies/Rally/Rally.vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {reactive, ref, watch} from "vue";
-import DeleteRallyForm from "@/components/Rallies/Rally/DeleteRallyForm.vue";
+import DeleteRallyForm from "@/components/common/SimpleDeleteForm.vue";
 
 const rallyStore = useRallyStore();
 const selectedRally = ref({});
