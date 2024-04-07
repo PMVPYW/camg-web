@@ -11,12 +11,14 @@ export const useRallyStore = defineStore("rally", () => {
     const rallies = ref(null);
     const rallies_filtered = ref(null);
     const router = useRouter();
+    let rally_selected = ref();
 
     async function loadRallies() {
         try {
 
             const response = await axios.get(`rally`);
             rallies.value = response.data.data;
+            rally_selected.value = rallies.value[0].id;
             if (rallies_filtered.value == null) {
                 rallies_filtered.value = [...rallies.value]
             }
@@ -111,6 +113,7 @@ export const useRallyStore = defineStore("rally", () => {
         deleteRally,
         updateRally,
         rallies,
-        rallies_filtered
+        rallies_filtered,
+        rally_selected,
     };
 });
