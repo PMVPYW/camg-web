@@ -1,7 +1,8 @@
 <script setup>
 import {useRoute} from "vue-router";
 import {useAlbumStore} from "@/stores/album.js";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
+import Modal from "@/components/common/SimpleModal.vue"
 
 const serverBaseUrl = inject("serverBaseUrl")
 const route = useRoute();
@@ -9,6 +10,20 @@ const route = useRoute();
 const albumStore = useAlbumStore();
 const album = ref({});
 const fotos = ref([]);
+const selected = ref({});
+const opened = ref(false);
+
+watch (selected, (n_selected)=>{
+  console.log(Object.keys(n_selected))
+  if (Object.keys(n_selected).length > 0)
+  {
+    opened.value = true;
+  } else {
+    opened.value = false;
+  }
+  console.log(opened)
+})
+
 
 onMounted(async ()=>{
   albumStore.getFotos(route.params.id).then((response) => {
@@ -26,7 +41,10 @@ onMounted(async ()=>{
   <div class="h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Fotos - {{album.nome}} </h1>
     <div class="mx-auto text-center border-4 w-11/12 rounded-lg">
-      <img class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotos" :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`" />
+      <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotos" :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`" />
     </div>
   </div>
+  <Modal class="w-11/12" @click="()=>{opened = false}" :title="selected.description" :opened="opened">
+  <img class="w-3/4 cover p-2 m-2 rounded-lg" :src="`${serverBaseUrl}/storage/fotos/${selected.image_src}`" />
+  </Modal>
 </template>
