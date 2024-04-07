@@ -1,5 +1,5 @@
 <script setup>
-import Patrocinios from "@/components/Rallies/Patrocinios/Patrocinios.vue";
+import Patrocinios from "@/components/Rallies/Patrocinios/PatrociniosList.vue";
 import Navbar from "@/components/Navbar/Navbar.vue";
 import Aside from "@/components/Aside/Aside.vue";
 import Footer from "@/components/Footer/Footer.vue";
@@ -9,14 +9,24 @@ import {useRallyStore} from "@/stores/rally.js"
 import {useAlbumStore} from "@/stores/album.js"
 import axios from "axios";
 import {onMounted} from "vue";
+import {usePatrocinioStore} from "@/stores/patrocinio.js";
+
 
 const router = useRouter()
 const userStore=useUserStore();
 const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
+const patrocinioStore = usePatrocinioStore();
 
 onMounted(async () => {
+  let script = document.createElement("script");
+  script.src = "https://cdn.lordicon.com/lordicon.js";
+  script.async = true;
+  document.body.appendChild(script);
   await rallyStore.loadRallies();
+  await patrocinioStore.loadPatrocinios({});
+  await patrocinioStore.loadEntidades();
+  await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
 
 });

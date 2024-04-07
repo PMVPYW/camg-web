@@ -8,6 +8,7 @@ import { createPinia } from "pinia";
 
 
 
+
 const app = createApp(App);
 
 const serverBaseUrl = "http://34.163.94.122";

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 //CAMG-WEB
 import HomeView from "@/components/Dashboard/Dashboard.vue";
-import Patrocinios from "@/components/Rallies/Patrocinios/Patrocinios.vue";
+import Patrocinios from "@/components/Rallies/Patrocinios/PatrociniosList.vue";
 import Login from "@/views/Login.vue";
 import Albuns from "@/components/Albuns/Albuns.vue";
 import Contactos from "@/components/Contactos/Contactos.vue";
