@@ -36,7 +36,7 @@ function createPatrocinio() {
     patrocinioStore.createEntidade_Patrocinio(obj_entidade)
   }else{
       if(selected.value == false){
-        patrocinioStore.loadPatrocinios()
+        patrocinioStore.loadPatrocinios({})
       }else{
         const obj_patrocinio = {
           "entidade_id": selected.value,

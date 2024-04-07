@@ -17,9 +17,15 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
 
 //PATROCINIOS
-    async function loadPatrocinios() {
+    async function loadPatrocinios({filters = ""}) {
         try {
-            const response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");
+            let response;
+            if(filters){
+                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
+            }else{
+                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");
+            }
+            console.log("Response", response)
             patrocinios.value = response.data.data;
             console.log(patrocinios, "patrocinios")
         } catch (error) {
@@ -45,7 +51,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             console.log(response.data, "create associação ao rally")
             patrocinios.value.push(response.data)
             loadpatrocinosSemAssociacao();
-            loadPatrocinios();
+            loadPatrocinios({});
             loadEntidades();
         } catch (error) {
             throw error;
@@ -58,7 +64,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.delete("patrocinio/"+ data, );
             console.log(response.data, "Delete associação ao rally")
             loadpatrocinosSemAssociacao();
-            loadPatrocinios();
+            loadPatrocinios({});
             loadEntidades();
         } catch (error) {
             throw error;
@@ -68,9 +74,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
 
 //ENTIDADES
-    async function loadEntidades(data) {
+    async function loadEntidades() {
         try {
-            const response = await axios.get("entidade",data);
+            const response = await axios.get("entidade");
             entidades.value = response.data.data;
             console.log(entidades, "entidade")
         } catch (error) {
@@ -97,7 +103,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         patrocinios.value.push(response2.data)
         entidades.value.push(response.data);
         loadpatrocinosSemAssociacao();
-        loadPatrocinios();
+        loadPatrocinios({});
         loadEntidades();
     } catch (error) {
         throw error;
@@ -111,7 +117,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
                 }});
             entidades.value.push(response.data);
             loadpatrocinosSemAssociacao();
-            loadPatrocinios();
+            loadPatrocinios({});
             loadEntidades();
         } catch (error) {
             throw error;
@@ -139,7 +145,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             console.log(response.data, "Delete Entidade sem associação ao rally")
             patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
             loadpatrocinosSemAssociacao();
-            loadPatrocinios();
+            loadPatrocinios({});
             loadEntidades();
         } catch (error) {
             throw error;

@@ -22,7 +22,7 @@ onMounted(async () => {
   script.async = true;
   document.body.appendChild(script);
   await rallyStore.loadRallies();
-  await patrocinioStore.loadPatrocinios();
+  await patrocinioStore.loadPatrocinios({});
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
 

@@ -13,17 +13,17 @@ const patrocinioStore=usePatrocinioStore();
 const rallyStore=useRallyStore();
 const selectedPatrocinio = ref({});
 
-
 let associating = ref(false);
 let editing = ref(false);
 
-let order_by = ref(false);
+let order_by = ref("nome_desc");
+
+patrocinioStore.loadPatrocinios({filters:order_by.value});
+
 
 function filter_by(){
-  const data = {
-    "filters": order_by
-  }
-  patrocinioStore.loadEntidades(data);
+  console.log(order_by)
+  patrocinioStore.loadPatrocinios({filters:order_by.value});
 }
 
 </script>
@@ -48,7 +48,7 @@ function filter_by(){
           <div class="flex flex-row items-center ml-14">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
-              <option class="uppercase" value="nome_asc" selected>A-Z</option>
+              <option class="uppercase" value="nome_asc">A-Z</option>
               <option class="uppercase" value="nome_desc">Z-a</option>
             </select>
           </div>

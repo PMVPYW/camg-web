@@ -19,7 +19,7 @@ const patrocinioStore = usePatrocinioStore()
     <diV v-if="rallyStore.rally_selected">
       <div v-if="$route.name === 'patrocinios' || $route.name === 'conselhos_seguranca' || $route.name === 'horarios' || $route.name === 'provas' || $route.name === 'zonas_espetaculo' || $route.name === 'declaracoes'" class="flex justify-end items-center flex-grow m-3">
         <h1 class="block text-slate-700 text-base font-medium mr-2">Rally:</h1>
-        <select v-model="rallyStore.rally_selected" @click="()=>{patrocinioStore.loadPatrocinios(); patrocinioStore.loadpatrocinosSemAssociacao()}" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+        <select v-model="rallyStore.rally_selected" @change="()=>{patrocinioStore.loadPatrocinios({}); patrocinioStore.loadpatrocinosSemAssociacao()}" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
           <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id" :selected="rally.id===rallyStore.rally_selected">{{rally.nome}}</option>
         </select>
       </div>
