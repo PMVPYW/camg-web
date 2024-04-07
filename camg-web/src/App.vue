@@ -10,6 +10,7 @@ import {useAlbumStore} from "@/stores/album.js"
 import axios from "axios";
 import {onMounted} from "vue";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {useNoticiaStore} from "@/stores/noticia.js";
 
 
 const router = useRouter()
@@ -17,6 +18,7 @@ const userStore=useUserStore();
 const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
 const patrocinioStore = usePatrocinioStore();
+const noticiaStore = useNoticiaStore();
 
 onMounted(async () => {
   let script = document.createElement("script");
@@ -28,6 +30,7 @@ onMounted(async () => {
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
+  await noticiaStore.loadNoticias({});
 
 });
 </script>
