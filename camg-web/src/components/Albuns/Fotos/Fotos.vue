@@ -44,7 +44,7 @@ onMounted(async ()=>{
       <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotos" :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`" />
     </div>
   </div>
-  <Modal class="w-11/12" @click="()=>{opened = false}" :title="selected.description" :opened="opened">
-  <img class="w-3/4 cover p-2 m-2 rounded-lg" :src="`${serverBaseUrl}/storage/fotos/${selected.image_src}`" />
+  <Modal class="w-11/12" @click="()=>{selected = {}}" :opened="opened">
+  <img class="w-3/4 h-5/6 cover rounded-lg" :src="`${serverBaseUrl}/storage/fotos/${selected.image_src}`" />
   </Modal>
 </template>
