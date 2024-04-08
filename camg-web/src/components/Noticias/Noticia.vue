@@ -1,8 +1,11 @@
 <script setup>
 import {inject} from "vue";
+import {useNoticiaStore} from "@/stores/noticia.js";
 
 const props = defineProps(["noticia"])
 const serverBaseUrl = inject("serverBaseUrl");
+const noticiaStore=useNoticiaStore();
+
 </script>
 <template>
   <div class="min-w-60 max-w-72 m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">
@@ -13,7 +16,7 @@ const serverBaseUrl = inject("serverBaseUrl");
                  class="my-auto mx-auto w-44 shadow-soft-2xl">
         </a>
       </div>
-      <h1 class="text-xs mx-1 mt-1 font-bold text-amber-400 flex justify-end">{{props.noticia.data}}</h1>
+      <h1 class="text-xs mx-1 mt-1 text-amber-500 flex justify-end">{{props.noticia.data}}</h1>
       <div class="flex-auto px-1 pt-6">
         <h1 class="relative z-10 mb-2 leading-normal font-bold text-lg text-gray-800">{{props.noticia.titulo}}</h1>
         <h1 class="relative z-10 mb-2 text-sm text-gray-600">{{props.noticia.conteudo}}</h1>

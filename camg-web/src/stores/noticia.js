@@ -27,8 +27,47 @@ export const useNoticiaStore = defineStore("noticias", () => {
         }
     }
 
+    async function createNoticia(data) {
+        console.log(data)
+        try {
+            const response = await axios.post("noticia", data, {headers: {
+                    'Content-Type': 'multipart/form-data'
+                }});
+            console.log(response.data, "create noticia")
+            noticias.value.push(response.data);
+            loadNoticias({});
+        } catch (error) {
+            throw error;
+        }
+    }
+    async function editNoticia(id,data) {
+        try {
+            data["_method"] = "PUT";
+            const response = await axios.post("noticia/"+id, data, {headers: {
+                    'Content-Type': 'multipart/form-data'
+                }});
+            noticias.value.push(response.data);
+            loadNoticias({});
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async function deleteNoticia(id) {
+        try {
+            const response = await axios.delete("noticia/"+id);
+            console.log(response)
+            loadNoticias({});
+        } catch (error) {
+            throw error;
+        }
+    }
+
     return {
         loadNoticias,
-        noticias
+        noticias,
+        createNoticia,
+        editNoticia,
+        deleteNoticia
     };
 });

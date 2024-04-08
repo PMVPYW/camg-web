@@ -6,6 +6,7 @@ import {useNoticiaStore} from "@/stores/noticia.js";
 import {ref} from "vue";
 import CreateRallyForm from "@/components/Rallies/Rally/CreateRallyForm.vue";
 import DeleteRallyForm from "@/components/common/SimpleDeleteForm.vue";
+import CreateNoticiaForm from "@/components/Noticias/CreateNoticiaForm.vue";
 
 const noticiaStore=useNoticiaStore();
 const selectedNoticia = ref({});
@@ -25,13 +26,11 @@ function searchEntities() {
 <template>
   <div class="h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Noticias</h1>
+    <CrudButtons :create_callback="noticiaStore.createNoticia" :create_form="CreateNoticiaForm"
+                 :obj_to_edit="selectedNoticia"
+                 @clearSelected="selectedNoticia = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex mx-auto bg-[#f8f9fe] w-full h-16 ">
-        <!--<CrudButtons :create_callback="rallyStore.createRally" :create_form="CreateRallyForm"
-                     :edit_callback="rallyStore.updateRally" :delete_callback="rallyStore.deleteRally"
-                     :delete_form="DeleteRallyForm"
-                     :obj_to_edit="selectedRally"
-                     @clearSelected="selectedRally = {}"></CrudButtons>-->
         <div class="flex flex-row items-center ml-14">
           <div>
             <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">

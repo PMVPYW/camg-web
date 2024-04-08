@@ -2,6 +2,7 @@
 import {computed, inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {useNoticiaStore} from "@/stores/noticia.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -21,6 +22,8 @@ const rally_id = ref(null);
 const photos_id = ref(null);
 const rallyStore=useRallyStore();
 const patrocinioStore= usePatrocinioStore();
+const noticiaStore=useNoticiaStore();
+
 
 const emitNew = () => {
   const obj = {
@@ -44,25 +47,40 @@ const emitNew = () => {
   <form class="m-2">
     <div class="flex flex-row">
       <div>
-        <div class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
-            <div>
-              <label class="block mb-2 text-base font-medium">Titulo</label>
-              <input type="text" required v-model="titulo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo Noticia">
+        <div class="flex flex-row">
+          <div class="flex flex-col justify-center w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
+              <div>
+                <label class="block mb-2 text-base font-medium">Titulo</label>
+                <input type="text" required v-model="titulo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo Noticia">
+              </div>
+              <div>
+                <label class="block mb-2 text-base font-medium">Data</label>
+                <input type="date" required v-model="data" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Data">
+              </div>
             </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Conteúdo</label>
-              <input type="text" required v-model="conteudo" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Conteúdo">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
+              <div class="col-span-full">
+                <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Conteúdo</label>
+                <div class="mt-2">
+                  <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
-            <div>
-              <label class="block mb-2 text-base font-medium">Titulo da Imagem</label>
-              <input type="text" required v-model="title_img" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo da Imagem">
-            </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Data</label>
-              <input type="date" required v-model="data" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Data">
+          <div class="flex flex-col justify-center w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
+              <div>
+                <label class="block mb-2 text-base font-medium">Titulo da Imagem</label>
+                <input type="text" required v-model="title_img" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo da Imagem">
+              </div>
+              <div>
+                <label class="block mb-2 text-base font-medium">Rally</label>
+                <select class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                  <option></option>
+                  <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{rally.nome}}</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -75,11 +93,8 @@ const emitNew = () => {
           </button>
         </div>
       </div>
-      <div class="flex flex-col ml-10">
-        <h1 class="block mb-2 text-lg font-medium">Escolher Fotos</h1>
-        <div class="flex flex-row items-center">
-
-        </div>
     </div>
   </form>
+  <hr class="mt-5 mb-10">
+
 </template>
