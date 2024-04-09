@@ -73,8 +73,14 @@ export const useRallyStore = defineStore("rally", () => {
                 }
             });
 
-            const index = rallies.value.findIndex(item => item.id === id);
+            var index = rallies.value.findIndex(item => item.id === id);
             rallies.value[index] = response.data.data;
+            index = rallies_filtered.value.findIndex(item => item.id === id);
+            if (index != -1) {
+                rallies_filtered.value[index] = response.data.data;
+            }
+            console.log("daads", response.data.data)
+
             return true;
 
         } catch (error) {
