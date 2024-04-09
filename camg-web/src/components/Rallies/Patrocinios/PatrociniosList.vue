@@ -46,6 +46,9 @@ function filter_by(){
             Eliminar
           </button>
           <div class="flex flex-row items-center ml-14">
+            <div>
+              <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+            </div>
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
               <option class="uppercase" value="nome_asc">A-Z</option>

@@ -11,16 +11,12 @@ export const useNoticiaStore = defineStore("noticias", () => {
     const noticias = ref(null);
     const router = useRouter();
 
-    async function loadNoticias({filters = ""}) {
+    async function loadNoticias() {
         try {
             let response;
-            if(filters){
-                response = await axios.get("noticia?filters="+filters);
-            }else{
-                response = await axios.get("noticia");
-            }
+            response = await axios.get("noticia");
             console.log("Response", response)
-            noticias.value = response.data.data;
+            noticias.value=response.data.data;
             console.log(noticias, "Noticias")
         } catch (error) {
             throw error;
@@ -28,27 +24,31 @@ export const useNoticiaStore = defineStore("noticias", () => {
     }
 
     async function createNoticia(data) {
-        console.log(data)
         try {
-            const response = await axios.post("noticia", data, {headers: {
+            const response = await axios.post("noticia", data, {
+                headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            console.log(response.data, "create noticia")
+            console.log(data, "Dados")
+            console.log(response, "create noticia");
             noticias.value.push(response.data);
-            loadNoticias({});
         } catch (error) {
+            loadNoticias()
             throw error;
         }
     }
-    async function editNoticia(id,data) {
+    async function editNoticia(data, id) {
         try {
             data["_method"] = "PUT";
             const response = await axios.post("noticia/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            noticias.value.push(response.data);
-            loadNoticias({});
+            console.log(data, "Dados")
+            console.log(response, "edit Noticia");
+            const index = noticias.value.findIndex(item => item.id === id);
+            noticias.value[index] = response.data;
         } catch (error) {
+            loadNoticias()
             throw error;
         }
     }
@@ -56,9 +56,10 @@ export const useNoticiaStore = defineStore("noticias", () => {
     async function deleteNoticia(id) {
         try {
             const response = await axios.delete("noticia/"+id);
-            console.log(response)
-            loadNoticias({});
+            noticias.value = noticias.value.filter((item) => item.id != id);
+            console.log(noticias.value.length);
         } catch (error) {
+            loadNoticias()
             throw error;
         }
     }

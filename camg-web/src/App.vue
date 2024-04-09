@@ -30,7 +30,7 @@ onMounted(async () => {
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
-  await noticiaStore.loadNoticias({});
+  await noticiaStore.loadNoticias();
 
 });
 </script>

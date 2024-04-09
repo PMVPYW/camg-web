@@ -3,21 +3,25 @@ import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatroci
 import Noticia from "@/components/Noticias/Noticia.vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
 import {useNoticiaStore} from "@/stores/noticia.js";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import CreateNoticiaForm from "@/components/Noticias/CreateNoticiaForm.vue";
 import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
 
 const noticiaStore=useNoticiaStore();
 const selectedNoticia = ref({});
 
-const filteredEntities = ref(noticiaStore.noticias);
+const filteredNoticias = ref(noticiaStore.noticias);
 const pesquisa = ref(null);
+
+watch(()=>noticiaStore.noticias, (noticias)=>{
+  filteredNoticias.value=noticias;
+});
 
 function searchEntities() {
   const regex = new RegExp(pesquisa.value, 'i');
   const noticias = noticiaStore.noticias;
-  filteredEntities.value = noticias.filter(noticia => regex.test(noticia.nome));
-  console.log(filteredEntities);
+  filteredNoticias.value = noticias.filter(noticia => regex.test(noticia.titulo));
+  console.log(filteredNoticias);
 }
 
 
@@ -45,7 +49,7 @@ function searchEntities() {
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-        <Noticia v-for="noticia in noticiaStore.noticias" :key="noticia.id" @click="()=>{selectedNoticia = noticia}" :noticia="noticia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedNoticia.id==noticia.id}"></Noticia>
+        <Noticia v-for="noticia in filteredNoticias" :key="noticia.id" @click="()=>{selectedNoticia = noticia}" :noticia="noticia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedNoticia.id==noticia.id}"></Noticia>
       </div>
     </div>
   </div>

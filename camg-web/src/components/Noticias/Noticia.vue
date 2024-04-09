@@ -12,8 +12,8 @@ const noticiaStore=useNoticiaStore();
     <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border">
       <div class="relative">
         <a class="flex bg-white block w-full h-52 shadow-xl rounded-xl">
-            <img v-if="!props.noticia.img_noticia" :src="`${serverBaseUrl}/storage/fotos/${props.noticia.img_noticia[0]}`" :alt="`${serverBaseUrl}/storage/fotos/${props.noticia.img_noticia[0]}`"
-                 class="my-auto mx-auto w-44 shadow-soft-2xl">
+            <img :src="`${serverBaseUrl}/storage/fotos/${props.noticia.title_img}`" :alt="`${serverBaseUrl}/storage/fotos/${props.noticia.title_img}`"
+                 class="my-auto mx-auto object-contain  max-h-52 shadow-soft-2xl">
         </a>
       </div>
       <h1 class="text-xs mx-1 mt-1 text-amber-500 flex justify-end font-bold">{{props.noticia.data}}</h1>

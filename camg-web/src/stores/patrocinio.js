@@ -63,9 +63,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         try{
             const response = await axios.delete("patrocinio/"+ data, );
             console.log(response.data, "Delete associação ao rally")
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            await loadpatrocinosSemAssociacao();
+            await loadPatrocinios({});
+            await loadEntidades();
         } catch (error) {
             throw error;
         }
@@ -116,6 +116,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
                     'Content-Type': 'multipart/form-data'
                 }});
             entidades.value.push(response.data);
+            alert(entidades.value.length);
             loadpatrocinosSemAssociacao();
             loadPatrocinios({});
             loadEntidades();

@@ -10,11 +10,10 @@ const serverBaseUrl = inject("serverBaseUrl");
 const props = defineProps(["obj_to_edit"]);
 const emit = defineEmits(["create", "edit"]);
 
-
 const titulo = ref(props.obj_to_edit?.titulo);
 const conteudo = ref(props.obj_to_edit?.conteudo);
-const title_img = ref(props.obj_to_edit?.title_img);
-const data = ref(props.obj_to_edit?.data);
+const title_img = ref(null);
+const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
 
 
@@ -29,9 +28,11 @@ const emitNew = () => {
   const obj = {
     "titulo": titulo.value,
     "conteudo": conteudo.value,
-    "title_img": title_img.value,
     "data": data.value,
   };
+  if (title_img.value != null) {
+    obj["title_img"] = title_img.value
+  }
   if (photos_id.value != null) {
     obj["fotos_id"] = photos_id.value
   }
@@ -46,9 +47,9 @@ const emitNew = () => {
 <template>
   <form class="m-2">
     <div class="flex flex-row">
-      <div>
-        <div class="flex flex-row">
-          <div class="flex flex-col justify-center w-full">
+      <div class="w-full">
+        <div class="lg:flex flex-row">
+          <div class="flex flex-col justify-center w-5/6 mx-auto">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
               <div>
                 <label class="block mb-2 text-base font-medium">Titulo</label>
@@ -67,19 +68,53 @@ const emitNew = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div class="flex flex-col justify-center w-full">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
-              <div>
-                <label class="block mb-2 text-base font-medium">Titulo da Imagem</label>
-                <input type="text" required v-model="title_img" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo da Imagem">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-full my-4">
+              <div class="mb-4 sm:mb-8 w-full">
+                <label class="block mb-2 text-base font-medium">Imagem</label>
+                <input type="file" accept="image/png, image/gif, image/jpeg"
+                       class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+                       @change="$event.target.files[0].size < 1048576 ? title_img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
               </div>
-              <div>
+              <div class="w-5/6">
                 <label class="block mb-2 text-base font-medium">Rally</label>
                 <select class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
                   <option></option>
                   <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{rally.nome}}</option>
                 </select>
+              </div>
+            </div>
+          </div>
+          <div class="sm:block flex flex-col w-full h-80">
+            <div class="flex flex-wrap justify-center items-start max-h-full overflow-y-scroll">
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-2 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-2 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+              </div>
+              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
+                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
               </div>
             </div>
           </div>
