@@ -35,11 +35,6 @@ const previousFoto = () => {
   selected.value = fotoStore.currentFotos[current];
 }
 
-const del_func = () => {
-fotoStore.deleteFoto(selected.value)
-}
-
-
 watch(selected, (n_selected) => {
   console.log(Object.keys(n_selected))
   if (Object.keys(n_selected).length > 0) {
@@ -82,7 +77,7 @@ onMounted(async () => {
     </div>
   </div>
   <Modal @click="()=>{selected = {}}" :opened="opened">
-  <CrudButtons @click.stop :obj_to_edit="selected" @delete="()=>{selected = {}}" :delete_form="SimpleDeleteForm"  :delete_callback="del_func" :create_visible="false"></CrudButtons>
+  <CrudButtons @click.stop :obj_to_edit="selected" @clearSelected="()=>{selected = {}}" :delete_form="SimpleDeleteForm"  :delete_callback="fotoStore.deleteFoto" :create_visible="false"></CrudButtons>
     <div @click.stop="" class="w-full text-center flex justify-center items-center">
       <Icon @click.stop="previousFoto" icon="ooui:previous-ltr"
             class="inline border-4 rounded-full hover:bg-gray-500 hover:bg-gradient-to-tl from-amber-600 to-yellow-400 hover:text-white p-2 w-20 h-20 min-h-5 font-bold text-black mr-4"/>

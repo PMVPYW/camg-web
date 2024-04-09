@@ -24,13 +24,13 @@ export const useFotoStore = defineStore("foto", () => {
     }
   }
 
-  async function deleteFoto(foto)
+  async function deleteFoto(id)
   {
     try{
-      const response = await axios.delete(`foto/${foto}`);
+      const response = await axios.delete(`foto/${id}`);
       currentFotos.value = currentFotos.value.filter((item) => item.id != id);
     } catch (error){
-      
+      throw error;
     }
   }
 
