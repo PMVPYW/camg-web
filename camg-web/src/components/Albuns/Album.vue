@@ -31,7 +31,10 @@ watch(() => props.album, (n_album) => {
             <h5>{{ props.album.nome }}</h5>
           </a>
         </div>
-        <button class="inline-block xl:w-4/12 bg-green-800 hover:bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl text-white font-bold p-4 rounded-xl mr-2 mt-4">Ver Fotos</button>
+        <router-link :to="{name: 'fotos', params: {id: props.album.id, nome: props.album.nome}}"
+            class="inline-block xl:w-4/12 bg-green-800 hover:bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl text-white font-bold p-4 rounded-xl mr-2 mt-4">
+          Ver Fotos
+        </router-link>
       </div>
     </div>
   </div>
