@@ -11,10 +11,10 @@ const props = defineProps(["obj_to_edit"]);
 const emit = defineEmits(["create", "edit"]);
 
 
-const titulo = ref(props.obj_to_edit?.entidade_id.nome);
-const conteudo = ref(props.obj_to_edit?.entidade_id.url);
-const title_img = ref(props.obj_to_edit?.entidade_id.url);
-const data = ref(props.obj_to_edit?.entidade_id.url);
+const titulo = ref(props.obj_to_edit?.titulo);
+const conteudo = ref(props.obj_to_edit?.conteudo);
+const title_img = ref(props.obj_to_edit?.title_img);
+const data = ref(props.obj_to_edit?.data);
 const rally_id = ref(null);
 
 

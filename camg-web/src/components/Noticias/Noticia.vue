@@ -16,7 +16,7 @@ const noticiaStore=useNoticiaStore();
                  class="my-auto mx-auto w-44 shadow-soft-2xl">
         </a>
       </div>
-      <h1 class="text-xs mx-1 mt-1 text-amber-500 flex justify-end">{{props.noticia.data}}</h1>
+      <h1 class="text-xs mx-1 mt-1 text-amber-500 flex justify-end font-bold">{{props.noticia.data}}</h1>
       <div class="flex-auto px-1 pt-6">
         <h1 class="relative z-10 mb-2 leading-normal font-bold text-lg text-gray-800">{{props.noticia.titulo}}</h1>
         <h1 class="relative z-10 mb-2 text-sm text-gray-600">{{props.noticia.conteudo}}</h1>

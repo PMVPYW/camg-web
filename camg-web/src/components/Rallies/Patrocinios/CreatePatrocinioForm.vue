@@ -54,7 +54,6 @@ function searchEntities() {
   const patrocinioSemAssociacao = patrocinioStore.patrocinosSemAssociacao;
   filteredEntities.value = patrocinioSemAssociacao.filter(entity => regex.test(entity.nome));
   console.log(filteredEntities);
-
 }
 
 
