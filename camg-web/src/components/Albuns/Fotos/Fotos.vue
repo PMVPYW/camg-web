@@ -57,13 +57,12 @@ document.onkeydown = (event)=>{
 
 
 onMounted(async () => {
-  fotoStore.getFotos(route.params.id)
   if (!albumStore.albuns) {
     await albumStore.loadAlbuns();
+    await fotoStore.loadFotos();
   }
   album.value = albumStore.albuns.find((album) => album.id == Number(route.params.id));
 })
-
 </script>
 
 <template>
@@ -72,7 +71,7 @@ onMounted(async () => {
     <h1 class="text-2xl font-bold ml-10 mt-10">Fotos - {{ album.nome }} </h1>
     <CrudButtons :update_delete_visible="false"></CrudButtons>
     <div class="mx-auto text-center border-4 w-11/12 min-h-dvh rounded-lg">
-      <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotoStore.currentFotos"
+      <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotoStore.fotos[route.params.id]"
            :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`"/>
     </div>
   </div>
