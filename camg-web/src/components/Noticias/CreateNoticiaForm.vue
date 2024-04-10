@@ -3,6 +3,8 @@ import {computed, inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
+import {useAlbumStore} from "@/stores/album.js";
+import {useFotoStore} from "@/stores/foto.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -22,6 +24,8 @@ const photos_id = ref(null);
 const rallyStore=useRallyStore();
 const patrocinioStore= usePatrocinioStore();
 const noticiaStore=useNoticiaStore();
+const albumStore=useAlbumStore();
+const fotoStore=useFotoStore()
 
 
 const emitNew = () => {
@@ -41,7 +45,7 @@ const emitNew = () => {
   }
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
-
+console.error(Object.keys(fotoStore.fotos))
 </script>
 
 <template>
@@ -85,36 +89,13 @@ const emitNew = () => {
             </div>
           </div>
           <div class="sm:block flex flex-col w-full h-80">
-            <div class="flex flex-wrap justify-center items-start max-h-full overflow-y-scroll">
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-2 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-2 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
-              </div>
-              <div class="flex bg-white w-[30%] min-w-36 max-w-48  h-36 m-1 border border-gray-300 rounded-xl">
-                <div class="my-auto mx-auto min-w-24 shadow-soft-2xl"/>
+
+            <div v-for="album_id in Object.keys(fotoStore.fotos)" class="flex flex-wrap justify-center items-start max-h-full overflow-y-scroll">
+              <div v-for="fotos in fotoStore.fotos[album_id]">
+                <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                  <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`" :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                       class="my-auto mx-auto min-w-24 shadow-soft-2xl" >
+                </div>
               </div>
             </div>
           </div>

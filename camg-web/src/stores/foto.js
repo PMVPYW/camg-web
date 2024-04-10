@@ -3,22 +3,27 @@ import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
+import {useAlbumStore} from "@/stores/album.js";
 
 export const useFotoStore = defineStore("foto", () => {
   const serverBaseUrl = inject("serverBaseUrl");
+  const albumStore = useAlbumStore();
   const socket = inject("socket");
 
 
 
   const router = useRouter();
-  const currentFotos = ref([]);
+  const fotos = ref({});
 
-  async function getFotos(Album_id)
+  async function loadFotos()
   {
     try {
-      const response = await axios.get(`album/${Album_id}/fotos`);
-      currentFotos.value = response.data.data;
-      return response.data.data;
+      albumStore.albuns.forEach(async (item)=>{
+        var response = await axios.get(`album/${item.id}/fotos`);
+        fotos.value[item.id] = response.data.data;
+      })
+
+      return fotos.value;
     } catch (error) {
       return [];
     }
@@ -28,15 +33,15 @@ export const useFotoStore = defineStore("foto", () => {
   {
     try{
       const response = await axios.delete(`foto/${id}`);
-      currentFotos.value = currentFotos.value.filter((item) => item.id != id);
+      fotos.value = fotos.value.filter((item) => item.id != id);
     } catch (error){
       throw error;
     }
   }
 
   return {
-      getFotos,
-      currentFotos,
+      loadFotos,
+      fotos,
       deleteFoto
   };
 });
