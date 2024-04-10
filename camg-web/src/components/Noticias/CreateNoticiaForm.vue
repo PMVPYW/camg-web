@@ -5,6 +5,7 @@ import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
 import {useAlbumStore} from "@/stores/album.js";
 import {useFotoStore} from "@/stores/foto.js";
+import Dashboard from "@/components/Dashboard/Dashboard.vue";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -17,6 +18,8 @@ const conteudo = ref(props.obj_to_edit?.conteudo);
 const title_img = ref(null);
 const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
+const album_selected =  ref(false);
+const fotos_selected = ref([]);
 
 
 
@@ -45,7 +48,6 @@ const emitNew = () => {
   }
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
-console.error(Object.keys(fotoStore.fotos))
 </script>
 
 <template>
@@ -88,13 +90,33 @@ console.error(Object.keys(fotoStore.fotos))
               </div>
             </div>
           </div>
-          <div class="sm:block flex flex-col w-full h-80">
-
-            <div v-for="album_id in Object.keys(fotoStore.fotos)" class="flex flex-wrap justify-center items-start max-h-full overflow-y-scroll">
-              <div v-for="fotos in fotoStore.fotos[album_id]">
-                <div class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+          <div class="sm:block flex flex-col w-full h-full">
+            <div class="flex flex-row items-center m-2 justify-end">
+              <label class="block mb-2 text-base font-medium m-2">Album:</label>
+              <select v-model="album_selected" class="py-3 px-4 block w-1/3 border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <option :selected="album_selected===false" :value="false">Todos</option>
+                <option class="uppercase" v-for="album in albumStore.albuns" :value="album.id">{{album.nome}}</option>
+              </select>
+            </div>
+            <div class="overflow-y-scroll h-96">
+              <div v-if="album_selected===false" v-for="album_id in Object.keys(fotoStore.fotos)" class="flex flex-wrap justify-center items-start">
+                <div class="w-full border-b-2 border-b-amber-400 mx-auto my-1">
+                  <h1 class="text-base my-2 font-bold">{{albumStore.albuns.find((album)=>album.id==album_id).nome}}</h1>
+                </div>
+                <div v-for="fotos in fotoStore.fotos[album_id]" class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
                   <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`" :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
                        class="my-auto mx-auto min-w-24 shadow-soft-2xl" >
+                </div>
+              </div>
+              <div v-else>
+                <div class="flex flex-wrap justify-center items-start">
+                  <div class="w-full border-b-2 border-b-amber-400 mx-auto my-1">
+                    <h1 class="text-base my-2 font-bold">{{albumStore.albuns.find((album)=>album.id==album_selected)?.nome}}</h1>
+                  </div>
+                  <div v-for="fotos in fotoStore.fotos[album_selected]" class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                    <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`" :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                         class="my-auto mx-auto min-w-24 shadow-soft-2xl" >
+                  </div>
                 </div>
               </div>
             </div>
