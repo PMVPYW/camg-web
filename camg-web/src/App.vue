@@ -18,22 +18,18 @@ const router = useRouter()
 const userStore=useUserStore();
 const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
+const fotoStore = useFotoStore();
 const patrocinioStore = usePatrocinioStore();
 const noticiaStore = useNoticiaStore();
-const fotoStore = useFotoStore();
 
 onMounted(async () => {
-  let script = document.createElement("script");
-  script.src = "https://cdn.lordicon.com/lordicon.js";
-  script.async = true;
-  document.body.appendChild(script);
   await rallyStore.loadRallies();
   await patrocinioStore.loadPatrocinios({});
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
-  await noticiaStore.loadNoticias();
   await fotoStore.loadFotos();
+  await noticiaStore.loadNoticias();
 });
 </script>
 
@@ -42,11 +38,11 @@ onMounted(async () => {
   <div v-if="userStore.user">
     <Navbar></Navbar>
     <div class="bg-[#f8f9fe]">
-        <div class="flex flex-row">
-            <Aside></Aside>
-            <router-view></router-view>
-        </div>
-        <Footer></Footer>
+      <div class="flex flex-row">
+        <Aside></Aside>
+        <router-view></router-view>
+      </div>
+      <Footer></Footer>
     </div>
   </div>
   <div v-if="!userStore.user">
