@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ref, inject} from "vue";
 import {defineStore} from "pinia";
-
+import {useToast} from "vue-toastification";
 import {useRouter} from "vue-router";
 
 export const useRallyStore = defineStore("rally", () => {
@@ -11,6 +11,7 @@ export const useRallyStore = defineStore("rally", () => {
     const rallies = ref(null);
     const rallies_filtered = ref(null);
     const router = useRouter();
+    const toast = useToast();
     let rally_selected = ref();
 
     async function loadRallies() {
@@ -57,6 +58,8 @@ export const useRallyStore = defineStore("rally", () => {
             }
             rallies.value.push(response.data);
             console.log(response, "errorar1")
+            socket.emit("create_rally", response.data);
+            toast.success("Rally Criado!")
             return true;
         } catch (error) {
             clearRallies();
@@ -82,7 +85,8 @@ export const useRallyStore = defineStore("rally", () => {
                 rallies_filtered.value[index] = response.data.data;
             }
             console.log("daads", response.data.data)
-
+            socket.emit("update:rally", response.data.data);
+            toast.success("Rally Atualizado!")
             return true;
 
         } catch (error) {
