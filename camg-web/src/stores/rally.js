@@ -14,6 +14,27 @@ export const useRallyStore = defineStore("rally", () => {
     const toast = useToast();
     let rally_selected = ref();
 
+    socket.on("create_rally", (rally) => {
+        rallies.value.push(rally);
+        rallies_filtered.value.push(rally);
+        toast.success("Novo Rally!");
+    })
+
+    socket.on("update_rally", (rally) => {
+        var index = rallies.value.findIndex((item)=>rally.id == item.id);
+        if (index >= 0)
+        {
+            rallies.value[index] = rally;
+        }
+        index = rallies_filtered.value.findIndex((item)=>rally.id == item.id);
+        if (index >= 0)
+        {
+            rallies_filtered.value[index] = rally;
+        }
+        rallies_filtered.value.push(rally);
+        toast.warning("Rally Atualizado!");
+    })
+
     async function loadRallies() {
         try {
 
@@ -85,8 +106,8 @@ export const useRallyStore = defineStore("rally", () => {
                 rallies_filtered.value[index] = response.data.data;
             }
             console.log("daads", response.data.data)
-            socket.emit("update:rally", response.data.data);
-            toast.success("Rally Atualizado!")
+            socket.emit("update_rally", response.data.data);
+            toast.warning("Rally Atualizado!")
             return true;
 
         } catch (error) {
