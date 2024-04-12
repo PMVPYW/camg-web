@@ -18,6 +18,9 @@ let editing = ref(false);
 
 let order_by = ref("nome_desc");
 
+const filteredEntities = ref(patrocinioStore.patrocinios);
+const pesquisa= ref(null)
+
 patrocinioStore.loadPatrocinios({filters:order_by.value});
 
 
@@ -26,31 +29,46 @@ function filter_by(){
   patrocinioStore.loadPatrocinios({filters:order_by.value});
 }
 
+
+function searchEntities() {
+  const regex = new RegExp(pesquisa.value, 'i');
+  const patrocinios = patrocinioStore.patrocinios;
+  filteredEntities.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
+  console.log(filteredEntities);
+}
+
 </script>
 
 <template>
-  <div v-if="rallyStore.rally_selected" class="h-full rounded-xl transition-all duration-200" id="panel">
-    <h1 class="text-2xl font-bold ml-10 mt-10">Patrocinios</h1>
-    <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
-        <div v-if="editing === false && associating === false" class="flex mx-auto bg-[#f8f9fe] w-full h-16 ">
-          <button @click="()=>{associating=true; selectedPatrocinio=!selectedPatrocinio;console.log(associating)}" type="button"
-                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Adicionar
-          </button>
-          <button @click="()=>{editing = true;console.log(editing)}" type="button"
-                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Editar
-          </button>
-          <button @click="()=>{patrocinioStore.desassociarPatrocinio(selectedPatrocinio.id)}" type="button"
-                  class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Eliminar
-          </button>
-          <div class="flex flex-row items-center ml-14">
-            <label class="block mx-4 text-base font-medium">Ordenar:</label>
-            <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
-              <option class="uppercase" value="nome_asc">A-Z</option>
-              <option class="uppercase" value="nome_desc">Z-a</option>
-            </select>
+  <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
+    <h1 class="text-2xl font-bold ml-10 mt-10 w-full">Patrocinios</h1>
+    <div class="w-11/12 my-8 rounded-lg justify-center bg-[#f8f9fe]">
+        <div v-if="editing === false && associating === false" class="flex flex-row bg-[#f8f9fe] w-full h-16 justify-center">
+          <div class="flex flex-row items-center w-2/6">
+            <button @click="()=>{associating=true; selectedPatrocinio=!selectedPatrocinio;console.log(associating)}" type="button"
+                    class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              Adicionar
+            </button>
+            <button @click="()=>{editing = true;console.log(editing)}" type="button"
+                    class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              Editar
+            </button>
+            <button @click="()=>{patrocinioStore.desassociarPatrocinio(selectedPatrocinio.id)}" type="button"
+                    class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              Eliminar
+            </button>
+          </div>
+          <div class="flex flex-row items-center ml-14 w-full">
+            <div class="flex flex-row mx-4 w-2/6">
+              <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+            </div>
+            <div class="flex flex-row items-center">
+              <label class="block mx-4 text-base font-medium">Ordenar:</label>
+              <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+                <option class="uppercase" value="nome_asc">A-Z</option>
+                <option class="uppercase" value="nome_desc">Z-a</option>
+              </select>
+            </div>
           </div>
         </div>
       <!--Create Form-->
@@ -76,7 +94,7 @@ function filter_by(){
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-          <Patrocinio v-for="patrocinio in patrocinioStore.patrocinios" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
+          <Patrocinio v-for="patrocinio in filteredEntities" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
       </div>
     </div>
   </div>

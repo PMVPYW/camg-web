@@ -6,11 +6,13 @@ import {useRouter} from "vue-router";
 import {useAlbumStore} from "@/stores/album.js";
 
 export const useFotoStore = defineStore("foto", () => {
-    const serverBaseUrl = inject("serverBaseUrl");
-    const socket = inject("socket");
+  const serverBaseUrl = inject("serverBaseUrl");
+  const albumStore = useAlbumStore();
+  const socket = inject("socket");
 
-    const albumStore = useAlbumStore();
 
+  const router = useRouter();
+  const fotos = ref({});
 
     const router = useRouter();
     const fotos = ref({});
@@ -68,6 +70,7 @@ export const useFotoStore = defineStore("foto", () => {
             throw error;
         }
     }
+  }
 
     return {
         loadFotos,
