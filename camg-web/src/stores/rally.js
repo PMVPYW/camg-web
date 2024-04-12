@@ -20,18 +20,21 @@ export const useRallyStore = defineStore("rally", () => {
         toast.success("Novo Rally!");
     })
 
+    socket.on("delete_rally", (rally) => {
+        rallies.value = rallies.value.filter((item) => item.id != rally.id);
+        rallies_filtered.value = rallies_filtered.value.filter((item) => item.id != rally.id);
+        toast.error("Rally Eliminado!");
+    })
+
     socket.on("update_rally", (rally) => {
-        var index = rallies.value.findIndex((item)=>rally.id == item.id);
-        if (index >= 0)
-        {
+        var index = rallies.value.findIndex((item) => rally.id == item.id);
+        if (index >= 0) {
             rallies.value[index] = rally;
         }
-        index = rallies_filtered.value.findIndex((item)=>rally.id == item.id);
-        if (index >= 0)
-        {
+        index = rallies_filtered.value.findIndex((item) => rally.id == item.id);
+        if (index >= 0) {
             rallies_filtered.value[index] = rally;
         }
-        rallies_filtered.value.push(rally);
         toast.warning("Rally Atualizado!");
     })
 
@@ -122,7 +125,7 @@ export const useRallyStore = defineStore("rally", () => {
             const response = await axios.delete("rally/" + id);
             rallies.value = rallies.value.filter((item) => item.id != id);
             rallies_filtered.value = rallies_filtered.value.filter((item) => item.id != id);
-
+            socket.emit("delete_rally", response.data.data);
         } catch (error) {
             clearRallies();
             loadRallies();
