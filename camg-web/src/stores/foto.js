@@ -14,6 +14,7 @@ export const useFotoStore = defineStore("foto", () => {
 
     const router = useRouter();
     const fotos = ref({});
+    const currentAlbum = ref(null);
 
     async function loadFotos() {
         try {
@@ -28,10 +29,25 @@ export const useFotoStore = defineStore("foto", () => {
         }
     }
 
+    async function createFoto(data) {
+        console.log("create_catchau", data)
+        try {
+            const response = await axios.post("foto", data, {headers: {
+                    'Content-Type': 'multipart/form-data'
+                }});
+            fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
+            console.log(response, "errorar1")
+            return true;
+        } catch (error) {
+            loadFotos();
+            return error.response.data.errors;
+        }
+    }
+
     async function deleteFoto(id) {
         try {
             const response = await axios.delete(`foto/${id}`);
-            currentFotos.value = currentFotos.value.filter((item) => item.id != id);
+            fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].filter((item) => item.id != id);
         } catch (error) {
             throw error;
         }
@@ -40,6 +56,8 @@ export const useFotoStore = defineStore("foto", () => {
     return {
         loadFotos,
         fotos,
+        currentAlbum,
+        createFoto,
         deleteFoto
     };
 });

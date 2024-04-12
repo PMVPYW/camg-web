@@ -7,6 +7,7 @@ import Modal from "@/components/common/SimpleModal.vue"
 import {Icon} from '@iconify/vue';
 import CrudButtons from "@/components/common/crudButtons.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import CreateFotoForm from "@/components/Albuns/Fotos/createFotoForm.vue";
 
 const serverBaseUrl = inject("serverBaseUrl")
 const route = useRoute();
@@ -18,21 +19,21 @@ const selected = ref({});
 const opened = ref(false);
 
 const nextFoto = () => {
-  var current = fotoStore.currentFotos.findIndex((item) => item.id == selected.value.id);
+  var current = fotoStore.fotos[fotoStore.currentAlbum].findIndex((item) => item.id == selected.value.id);
   current++;
-  if (current >= fotoStore.currentFotos.length) {
+  if (current >= fotoStore.fotos[fotoStore.currentAlbum].length) {
     current = 0;
   }
-  selected.value = fotoStore.currentFotos[current];
+  selected.value = fotoStore.fotos[fotoStore.currentAlbum][current];
 }
 
 const previousFoto = () => {
-  var current = fotoStore.currentFotos.findIndex((item) => item.id == selected.value.id);
+  var current = fotoStore.fotos[fotoStore.currentAlbum].findIndex((item) => item.id == selected.value.id);
   current--;
   if (current < 0) {
-    current = fotoStore.currentFotos.length - 1;
+    current = fotoStore.fotos[fotoStore.currentAlbum].length - 1;
   }
-  selected.value = fotoStore.currentFotos[current];
+  selected.value = fotoStore.fotos[fotoStore.currentAlbum][current];
 }
 
 watch(selected, (n_selected) => {
@@ -61,6 +62,7 @@ onMounted(async () => {
     await albumStore.loadAlbuns();
     await fotoStore.loadFotos();
   }
+  fotoStore.currentAlbum = route.params.id;
   album.value = albumStore.albuns.find((album) => album.id == Number(route.params.id));
 })
 </script>
@@ -69,7 +71,7 @@ onMounted(async () => {
 
   <div class="w-full h-11/12 rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Fotos - {{ album.nome }} </h1>
-    <CrudButtons :update_delete_visible="false"></CrudButtons>
+    <CrudButtons :create_form="CreateFotoForm" :create_callback="fotoStore.createFoto" :update_delete_visible="false"></CrudButtons>
     <div class="mx-auto text-center border-4 w-11/12 min-h-dvh rounded-lg">
       <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotoStore.fotos[route.params.id]"
            :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`"/>
