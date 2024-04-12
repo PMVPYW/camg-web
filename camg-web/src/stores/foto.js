@@ -11,9 +11,6 @@ export const useFotoStore = defineStore("foto", () => {
   const socket = inject("socket");
 
 
-  const router = useRouter();
-  const fotos = ref({});
-
     const router = useRouter();
     const fotos = ref({});
     const currentAlbum = ref(null);
@@ -70,7 +67,6 @@ export const useFotoStore = defineStore("foto", () => {
             throw error;
         }
     }
-  }
 
     return {
         loadFotos,
