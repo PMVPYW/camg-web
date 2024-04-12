@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
-
 import { useRouter } from "vue-router";
 import {useRallyStore} from "@/stores/rally.js";
+import {useToast} from "vue-toastification";
 
 export const usePatrocinioStore = defineStore("patrocinios", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -14,6 +14,34 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     const patrocinosSemAssociacao  = ref(null);
     const router = useRouter();
     const rallyStore= useRallyStore();
+
+    const toast= useToast()
+
+    socket.on("associar_patrocinio", (patrocinio) => {
+        patrocinios.value.push(patrocinio)
+        toast.success("Patrocinio associado ao rally");
+    })
+
+    socket.on("desassociar_patrocinio", (patrocinio) => {
+        patrocinios.value = patrocinios.value.filter((item) => item.id != patrocinio.id);
+        toast.error("Patrocinio desassociado ao rally");
+    })
+
+    socket.on("create_entidade", (entidade ) => {
+        toast.success("Nova Entidade");
+    })
+
+    socket.on("delete_entidade", () => {
+        patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
+        toast.error("Todas as entidades sem associação eliminadas!");
+    })
+
+    socket.on("update_entidade", (entidade) => {
+        const index = entidades.value.findIndex(item => item.id === entidade.id);
+        entidades.value[index] = entidade;
+        toast.warning("Entidade Atualizada!");
+    })
+
 
 
 //PATROCINIOS
@@ -50,22 +78,23 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.post("patrocinio/" ,data);
             console.log(response.data, "create associação ao rally")
             patrocinios.value.push(response.data)
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            socket.emit("associar_patrocinio", response.data);
+            toast.success("Patrocinio Associado!")
+
         } catch (error) {
             throw error;
         }
     }
 
-    async function desassociarPatrocinio(data) {
-        console.log(data)
+    async function desassociarPatrocinio(id) {
+        console.log(id)
         try{
-            const response = await axios.delete("patrocinio/"+ data, );
+            const response = await axios.delete("patrocinio/"+ id );
             console.log(response.data, "Delete associação ao rally")
-            await loadpatrocinosSemAssociacao();
-            await loadPatrocinios({});
-            await loadEntidades();
+            patrocinios.value = patrocinios.value.filter((item) => item.id != id);
+            socket.emit("desassociar_patrocinio", response.data);
+            toast.error("Patrocinio Desassociado!")
+
         } catch (error) {
             throw error;
         }
@@ -115,11 +144,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.post("entidade/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            entidades.value.push(response.data);
-            alert(entidades.value.length);
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            const index = entidades.value.findIndex(item => item.id === id);
+            entidades.value[index] = response.data;
+            socket.emit("update_entidade", response.data);
+            toast.warning("Rally Atualizado!")
         } catch (error) {
             throw error;
         }
@@ -144,10 +172,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
                     'Content-Type': 'application/json'
             }});
             console.log(response.data, "Delete Entidade sem associação ao rally")
-            patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            socket.emit("delete_entidade");
+            toast.error("Entidades removidas!")
+
         } catch (error) {
             throw error;
         }
