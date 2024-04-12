@@ -44,6 +44,22 @@ export const useFotoStore = defineStore("foto", () => {
         }
     }
 
+    async function updateFoto(data, id) {
+        data["_method"] = "PUT";
+        try {
+            const response = await axios.post(`foto/${id}`, data, {headers: {
+                    'Content-Type': 'multipart/form-data'
+                }});
+            console.log(response, "dsa")
+            var index = fotos.value[currentAlbum.value].findIndex(item => item.id === id);
+            fotos.value[currentAlbum.value][index] = response.data.data;
+            return true;
+        } catch (error) {
+            loadFotos();
+            return error.response.data.errors;
+        }
+    }
+
     async function deleteFoto(id) {
         try {
             const response = await axios.delete(`foto/${id}`);
@@ -58,6 +74,7 @@ export const useFotoStore = defineStore("foto", () => {
         fotos,
         currentAlbum,
         createFoto,
+        updateFoto,
         deleteFoto
     };
 });

@@ -78,13 +78,15 @@ onMounted(async () => {
     </div>
   </div>
   <Modal @click="()=>{selected = {}}" :opened="opened">
-  <CrudButtons @click.stop :obj_to_edit="selected" @clearSelected="()=>{selected = {}}" :delete_form="SimpleDeleteForm"  :delete_callback="fotoStore.deleteFoto" :create_visible="false"></CrudButtons>
+    <div>
+  <CrudButtons @click.stop :obj_to_edit="selected" @clearSelected="()=>{selected = {}}" :delete_form="SimpleDeleteForm" :create_form="CreateFotoForm" :edit_callback="fotoStore.updateFoto"  :delete_callback="fotoStore.deleteFoto" :create_visible="false"></CrudButtons>
     <div @click.stop="" class="w-full text-center flex justify-center items-center">
       <Icon @click.stop="previousFoto" icon="ooui:previous-ltr"
             class="inline border-4 rounded-full hover:bg-gray-500 hover:bg-gradient-to-tl from-amber-600 to-yellow-400 hover:text-white p-2 w-20 h-20 min-h-5 font-bold text-black mr-4"/>
       <img class="inline w-3/4 h-5/6 cover rounded-lg" :src="`${serverBaseUrl}/storage/fotos/${selected.image_src}`"/>
       <Icon @click.stop="nextFoto" icon="ooui:next-ltr"
             class="inline border-4 rounded-full hover:bg-gray-500 hover:bg-gradient-to-tl from-amber-600 to-yellow-400 hover:text-white p-2 w-20 h-20 min-h-5 font-bold text-black ml-4"/>
+    </div>
     </div>
   </Modal>
 </template>

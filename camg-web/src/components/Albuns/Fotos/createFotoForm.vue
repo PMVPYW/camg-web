@@ -28,11 +28,13 @@ onMounted(()=>{
 })
 
 const emitFoto = () => {
-  const obj = {
+  var img_src_value = "image_src" + (props.obj_to_edit ? "" : "[]");
+  var obj = {
     "description": description.value,
     "album_id": album_id.value,
-    "image_src[]": image_src.value
   }
+  obj[img_src_value] = image_src.value;
+
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
 </script>
@@ -54,7 +56,7 @@ const emitFoto = () => {
     <br>
       <input multiple type="file" accept="image/png, image/gif, image/jpeg"
              class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-8/12 file:hidden"
-             @change="image_src = $event.target.files">
+             @change="image_src = props.obj_to_edit ?  $event.target.files[0] : $event.target.files">
       <input type="submit"
              @click.prevent="emitFoto"
              class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
