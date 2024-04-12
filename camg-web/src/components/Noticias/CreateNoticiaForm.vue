@@ -15,20 +15,19 @@ const emit = defineEmits(["create", "edit"]);
 
 const titulo = ref(props.obj_to_edit?.titulo);
 const conteudo = ref(props.obj_to_edit?.conteudo);
-const title_img = ref(null);
+const title_img = ref(props.obj_to_edit?.title_img);
 const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
-const album_selected =  ref(false);
+const album_selected = ref(false);
 const fotos_selected = ref([]);
 
 
-
 const photos_id = ref(null);
-const rallyStore=useRallyStore();
-const patrocinioStore= usePatrocinioStore();
-const noticiaStore=useNoticiaStore();
-const albumStore=useAlbumStore();
-const fotoStore=useFotoStore()
+const rallyStore = useRallyStore();
+const patrocinioStore = usePatrocinioStore();
+const noticiaStore = useNoticiaStore();
+const albumStore = useAlbumStore();
+const fotoStore = useFotoStore()
 
 
 const emitNew = () => {
@@ -40,14 +39,20 @@ const emitNew = () => {
   if (title_img.value != null) {
     obj["title_img"] = title_img.value
   }
-  if (photos_id.value != null) {
-    obj["fotos_id"] = photos_id.value
+  if (fotos_selected.length !== 0) {
+    obj["fotos_id"] = fotos_selected.value
   }
   if (rally_id.value != null) {
     obj["rally_id"] = rally_id.value
   }
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
+
+function removeElement(foto_id){
+  fotos_selected.value = fotos_selected.value.filter((item) => item !== foto_id);
+}
+
+
 </script>
 
 <template>
@@ -59,18 +64,23 @@ const emitNew = () => {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
               <div>
                 <label class="block mb-2 text-base font-medium">Titulo</label>
-                <input type="text" required v-model="titulo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Titulo Noticia">
+                <input type="text" required v-model="titulo"
+                       class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                       placeholder="Titulo Noticia">
               </div>
               <div>
                 <label class="block mb-2 text-base font-medium">Data</label>
-                <input type="date" required v-model="data" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Data">
+                <input type="date" required v-model="data"
+                       class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                       placeholder="Data">
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
               <div class="col-span-full">
                 <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Conteúdo</label>
                 <div class="mt-2">
-                  <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
+                  <textarea id="about" required v-model="conteudo" rows="3"
+                            class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
                 </div>
               </div>
             </div>
@@ -83,39 +93,55 @@ const emitNew = () => {
               </div>
               <div class="w-5/6">
                 <label class="block mb-2 text-base font-medium">Rally</label>
-                <select class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-                  <option></option>
-                  <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{rally.nome}}</option>
+                <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                  <option :selected="rally_id===null"></option>
+                  <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
+                  </option>
                 </select>
               </div>
             </div>
           </div>
           <div class="sm:block flex flex-col w-full h-full">
-            <div class="flex flex-row items-center m-2 justify-end">
-              <label class="block mb-2 text-base font-medium m-2">Album:</label>
-              <select v-model="album_selected" class="py-3 px-4 block w-1/3 border border-gray-200 bg-gray-100 rounded-lg text-sm">
-                <option :selected="album_selected===false" :value="false">Todos</option>
-                <option class="uppercase" v-for="album in albumStore.albuns" :value="album.id">{{album.nome}}</option>
-              </select>
+            <div class="flex flex-row items-center m-2 justify-between">
+              <h1 v-if="fotos_selected.length"><b>{{fotos_selected.length}}</b> Selecionado{{fotos_selected.length!=1?'s':''}}</h1>
+              <div class="flex flex-row">
+                <label class="block mb-2 text-base font-medium m-2">Album:</label>
+                <select v-model="album_selected"
+                        class="py-3 px-4 block w-1/3 border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                  <option :selected="album_selected===false" :value="false">Todos</option>
+                  <option class="uppercase" v-for="album in albumStore.albuns" :value="album.id">{{ album.nome }}</option>
+                </select>
+              </div>
             </div>
             <div class="overflow-y-scroll h-96">
-              <div v-if="album_selected===false" v-for="album_id in Object.keys(fotoStore.fotos)" class="flex flex-wrap justify-center items-start">
+              <div v-if="album_selected===false" v-for="album_id in Object.keys(fotoStore.fotos)"
+                   class="flex flex-wrap justify-center items-start">
                 <div class="w-full border-b-2 border-b-amber-400 mx-auto my-1">
-                  <h1 class="text-base my-2 font-bold">{{albumStore.albuns.find((album)=>album.id==album_id).nome}}</h1>
+                  <h1 class="text-base my-2 font-bold">
+                    {{ albumStore.albuns.find((album) => album.id == album_id).nome }}</h1>
                 </div>
-                <div v-for="fotos in fotoStore.fotos[album_id]" class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
-                  <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`" :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
-                       class="my-auto mx-auto min-w-24 shadow-soft-2xl" >
+                <div v-for="fotos in fotoStore.fotos[album_id]"
+                     @click="()=>{fotos_selected.includes(fotos.id) ? removeElement(fotos.id) : fotos_selected.push(fotos.id); console.log(fotos_selected)}"
+                     :class="{'border-4 opacity-80': fotos_selected.includes(fotos.id)}"
+                     class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                  <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                       :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                       class="my-auto mx-auto min-w-24 shadow-soft-2xl">
                 </div>
               </div>
               <div v-else>
                 <div class="flex flex-wrap justify-center items-start">
                   <div class="w-full border-b-2 border-b-amber-400 mx-auto my-1">
-                    <h1 class="text-base my-2 font-bold">{{albumStore.albuns.find((album)=>album.id==album_selected)?.nome}}</h1>
+                    <h1 class="text-base my-2 font-bold">
+                      {{ albumStore.albuns.find((album) => album.id == album_selected)?.nome }}</h1>
                   </div>
-                  <div v-for="fotos in fotoStore.fotos[album_selected]" class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
-                    <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`" :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
-                         class="my-auto mx-auto min-w-24 shadow-soft-2xl" >
+                  <div v-for="fotos in fotoStore.fotos[album_selected]"
+                       @click="()=>{fotos_selected.includes(fotos.id) ? removeElement(fotos.id) : fotos_selected.push(fotos.id); console.log(fotos_selected)}"
+                       :class="{'border-4 opacity-80': fotos_selected.includes(fotos.id)}"
+                       class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                    <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                         :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                         class="my-auto mx-auto min-w-24 shadow-soft-2xl">
                   </div>
                 </div>
               </div>
@@ -127,7 +153,7 @@ const emitNew = () => {
           <button type="button"
                   @click.prevent="emitNew"
                   class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            {{!obj_to_edit ? 'Criar' : 'Adicionar'}}
+            {{ !obj_to_edit ? 'Criar' : 'Adicionar' }}
           </button>
         </div>
       </div>

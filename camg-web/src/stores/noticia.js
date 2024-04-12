@@ -55,6 +55,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
 
     async function deleteNoticia(id) {
         try {
+            console.log(id)
             const response = await axios.delete("noticia/"+id);
             noticias.value = noticias.value.filter((item) => item.id != id);
             console.log(noticias.value.length);

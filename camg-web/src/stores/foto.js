@@ -20,7 +20,6 @@ export const useFotoStore = defineStore("foto", () => {
         var response = await axios.get(`album/${item.id}/fotos`);
         fotos.value[item.id] = response.data.data;
       })
-
       return fotos.value;
     } catch (error) {
       return [];

@@ -18,12 +18,23 @@ let editing = ref(false);
 
 let order_by = ref("nome_desc");
 
+const filteredEntities = ref(patrocinioStore.patrocinios);
+const pesquisa= ref(null)
+
 patrocinioStore.loadPatrocinios({filters:order_by.value});
 
 
 function filter_by(){
   console.log(order_by)
   patrocinioStore.loadPatrocinios({filters:order_by.value});
+}
+
+
+function searchEntities() {
+  const regex = new RegExp(pesquisa.value, 'i');
+  const patrocinios = patrocinioStore.patrocinios;
+  filteredEntities.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
+  console.log(filteredEntities);
 }
 
 </script>
@@ -79,7 +90,7 @@ function filter_by(){
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-          <Patrocinio v-for="patrocinio in patrocinioStore.patrocinios" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
+          <Patrocinio v-for="patrocinio in filteredEntities" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
       </div>
     </div>
   </div>
