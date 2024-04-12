@@ -9,15 +9,27 @@ export const useNoticiaStore = defineStore("noticias", () => {
     const socket = inject("socket");
 
     const noticias = ref(null);
+    const noticias_filtered = ref(null);
+
     const router = useRouter();
 
-    async function loadNoticias() {
+    async function loadNoticias({filters=null}) {
         try {
             let response;
-            response = await axios.get("noticia");
+            let suffix = "?"
+            if(filters!=null){
+                for (const filter in filters) {
+                    suffix += `${filter}=${filters[filter]}&`;
+                }
+                response = await axios.get(`noticia${suffix}`);
+                noticias_filtered.value = response.data.data;
+            }else{
+                response = await axios.get(`noticia${suffix}`);
+                noticias.value=response.data.data;
+                noticias_filtered.value = response.data.data;
+                console.log(noticias, "Noticias")
+            }
             console.log("Response", response)
-            noticias.value=response.data.data;
-            console.log(noticias, "Noticias")
         } catch (error) {
             throw error;
         }
@@ -33,7 +45,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(response, "create noticia");
             noticias.value.push(response.data);
         } catch (error) {
-            loadNoticias()
+            loadNoticias({})
             throw error;
         }
     }
@@ -48,7 +60,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
             const index = noticias.value.findIndex(item => item.id === id);
             noticias.value[index] = response.data;
         } catch (error) {
-            loadNoticias()
+            loadNoticias({})
             throw error;
         }
     }
@@ -57,10 +69,10 @@ export const useNoticiaStore = defineStore("noticias", () => {
         try {
             console.log(id)
             const response = await axios.delete("noticia/"+id);
-            noticias.value = noticias.value.filter((item) => item.id != id);
+            noticias.value = noticias.value.filter((item) => item.id !== id);
             console.log(noticias.value.length);
         } catch (error) {
-            loadNoticias()
+            loadNoticias({})
             throw error;
         }
     }
@@ -68,6 +80,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
     return {
         loadNoticias,
         noticias,
+        noticias_filtered,
         createNoticia,
         editNoticia,
         deleteNoticia

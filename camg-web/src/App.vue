@@ -29,7 +29,7 @@ onMounted(async () => {
   await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
   await fotoStore.loadFotos();
-  await noticiaStore.loadNoticias();
+  await noticiaStore.loadNoticias({});
 });
 </script>
 

@@ -19,10 +19,9 @@ const title_img = ref(props.obj_to_edit?.title_img);
 const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
 const album_selected = ref(false);
-const fotos_selected = ref([]);
+const fotos_selected = ref( []);
 
 
-const photos_id = ref(null);
 const rallyStore = useRallyStore();
 const patrocinioStore = usePatrocinioStore();
 const noticiaStore = useNoticiaStore();
