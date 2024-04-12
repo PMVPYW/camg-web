@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ref, inject} from "vue";
 import {defineStore} from "pinia";
-
+import {useToast} from "vue-toastification";
 import {useRouter} from "vue-router";
 
 export const useRallyStore = defineStore("rally", () => {
@@ -11,7 +11,32 @@ export const useRallyStore = defineStore("rally", () => {
     const rallies = ref(null);
     const rallies_filtered = ref(null);
     const router = useRouter();
+    const toast = useToast();
     let rally_selected = ref();
+
+    socket.on("create_rally", (rally) => {
+        rallies.value.push(rally);
+        rallies_filtered.value.push(rally);
+        toast.success("Novo Rally!");
+    })
+
+    socket.on("delete_rally", (rally) => {
+        rallies.value = rallies.value.filter((item) => item.id != rally.id);
+        rallies_filtered.value = rallies_filtered.value.filter((item) => item.id != rally.id);
+        toast.error("Rally Eliminado!");
+    })
+
+    socket.on("update_rally", (rally) => {
+        var index = rallies.value.findIndex((item) => rally.id == item.id);
+        if (index >= 0) {
+            rallies.value[index] = rally;
+        }
+        index = rallies_filtered.value.findIndex((item) => rally.id == item.id);
+        if (index >= 0) {
+            rallies_filtered.value[index] = rally;
+        }
+        toast.warning("Rally Atualizado!");
+    })
 
     async function loadRallies() {
         try {
@@ -57,6 +82,8 @@ export const useRallyStore = defineStore("rally", () => {
             }
             rallies.value.push(response.data);
             console.log(response, "errorar1")
+            socket.emit("create_rally", response.data);
+            toast.success("Rally Criado!")
             return true;
         } catch (error) {
             clearRallies();
@@ -82,7 +109,8 @@ export const useRallyStore = defineStore("rally", () => {
                 rallies_filtered.value[index] = response.data.data;
             }
             console.log("daads", response.data.data)
-
+            socket.emit("update_rally", response.data.data);
+            toast.warning("Rally Atualizado!")
             return true;
 
         } catch (error) {
@@ -97,7 +125,7 @@ export const useRallyStore = defineStore("rally", () => {
             const response = await axios.delete("rally/" + id);
             rallies.value = rallies.value.filter((item) => item.id != id);
             rallies_filtered.value = rallies_filtered.value.filter((item) => item.id != id);
-
+            socket.emit("delete_rally", response.data.data);
         } catch (error) {
             clearRallies();
             loadRallies();
