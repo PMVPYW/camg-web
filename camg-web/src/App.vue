@@ -10,6 +10,7 @@ import {useAlbumStore} from "@/stores/album.js"
 import axios from "axios";
 import {onMounted} from "vue";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {useFotoStore} from "@/stores/foto.js";
 
 
 const router = useRouter()
@@ -17,6 +18,7 @@ const userStore=useUserStore();
 const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
 const patrocinioStore = usePatrocinioStore();
+const fotoStore = useFotoStore();
 
 onMounted(async () => {
   let script = document.createElement("script");
@@ -28,7 +30,7 @@ onMounted(async () => {
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
   await albumStore.loadAlbuns();
-
+  await fotoStore.loadFotos();
 });
 </script>
 
@@ -37,11 +39,11 @@ onMounted(async () => {
   <div v-if="userStore.user">
     <Navbar></Navbar>
     <div class="bg-[#f8f9fe]">
-        <div class="flex flex-row">
-            <Aside></Aside>
-            <router-view></router-view>
-        </div>
-        <Footer></Footer>
+      <div class="flex flex-row">
+        <Aside></Aside>
+        <router-view></router-view>
+      </div>
+      <Footer></Footer>
     </div>
   </div>
   <div v-if="!userStore.user">
