@@ -3,7 +3,7 @@ import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useRallyStore} from "@/stores/rally.js";
 
 import Patrocinio from "@/components/Rallies/Patrocinios/Patrocinio.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
 import EditPatrocinioForm from "@/components/Rallies/Patrocinios/EditPatrocinioForm.vue";
 import {Icon} from "@iconify/vue";
@@ -16,18 +16,11 @@ const selectedPatrocinio = ref({});
 let associating = ref(false);
 let editing = ref(false);
 
-let order_by = ref("nome_desc");
+const order_by = ref("nome_desc");
 
 const filteredEntities = ref(patrocinioStore.patrocinios);
 const pesquisa= ref(null)
 
-patrocinioStore.loadPatrocinios({filters:order_by.value});
-
-
-function filter_by(){
-  console.log(order_by)
-  patrocinioStore.loadPatrocinios({filters:order_by.value});
-}
 
 
 function searchEntities() {
@@ -36,6 +29,19 @@ function searchEntities() {
   filteredEntities.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
   console.log(filteredEntities);
 }
+
+
+//filters
+watch(order_by, (new_value) => {
+  patrocinioStore.loadPatrocinios({filters:order_by.value})
+  filteredEntities.value = patrocinioStore.patrocinios
+})
+
+
+watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
+  filteredEntities.value=patrocinio;
+});
+
 
 </script>
 
@@ -64,9 +70,9 @@ function searchEntities() {
             </div>
             <div class="flex flex-row items-center">
               <label class="block mx-4 text-base font-medium">Ordenar:</label>
-              <select v-model="order_by" @change="filter_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
-                <option class="uppercase" value="nome_asc">A-Z</option>
-                <option class="uppercase" value="nome_desc">Z-a</option>
+              <select v-model="order_by" class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+                <option class="uppercase" value="nome_asc">Z-A</option>
+                <option class="uppercase" value="nome_desc">A-Z</option>
               </select>
             </div>
           </div>

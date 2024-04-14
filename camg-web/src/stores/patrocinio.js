@@ -27,9 +27,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         toast.error("Patrocinio desassociado ao rally");
     })
 
-    socket.on("create_entidade", (entidade ) => {
+   /* socket.on("create_entidade", (entidade ) => {
         toast.success("Nova Entidade");
-    })
+    })*/
 
     socket.on("delete_entidade", () => {
         patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
@@ -45,10 +45,11 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
 
 //PATROCINIOS
-    async function loadPatrocinios({filters = ""}) {
+    async function loadPatrocinios({filters = null}) {
         try {
             let response;
-            if(filters){
+            console.log(filters)
+            if(filters!=null){
                 response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
             }else{
                 response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");

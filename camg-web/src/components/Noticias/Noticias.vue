@@ -13,14 +13,8 @@ const noticiaStore=useNoticiaStore();
 const rallyStore=useRallyStore();
 
 const selectedNoticia = ref({});
-const filteredNoticias = ref(noticiaStore.noticias);
-const pesquisa = ref(null);
 const rally_id = ref('');
 
-
-watch(()=>noticiaStore.noticias, (noticias)=>{
-  filteredNoticias.value=noticias;
-});
 
 //filters
 const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'titulo_asc', rally_id: rally_id})
