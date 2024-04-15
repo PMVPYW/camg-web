@@ -16,9 +16,9 @@ const selectedPatrocinio = ref({});
 let associating = ref(false);
 let editing = ref(false);
 
-const order_by = ref("nome_desc");
+const order_by = ref("nome_asc");
 
-const filteredEntities = ref(patrocinioStore.patrocinios);
+const filteredSponsors = ref(patrocinioStore.patrocinios);
 const pesquisa= ref(null)
 
 
@@ -26,20 +26,20 @@ const pesquisa= ref(null)
 function searchEntities() {
   const regex = new RegExp(pesquisa.value, 'i');
   const patrocinios = patrocinioStore.patrocinios;
-  filteredEntities.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
-  console.log(filteredEntities);
+  filteredSponsors.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
+  console.log(filteredSponsors);
 }
 
 
 //filters
 watch(order_by, (new_value) => {
   patrocinioStore.loadPatrocinios({filters:order_by.value})
-  filteredEntities.value = patrocinioStore.patrocinios
+  filteredSponsors.value = patrocinioStore.patrocinios
 })
 
 
 watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
-  filteredEntities.value=patrocinio;
+  filteredSponsors.value=patrocinioStore.patrocinios;
 });
 
 
@@ -100,7 +100,7 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-          <Patrocinio v-for="patrocinio in filteredEntities" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
+          <Patrocinio v-for="patrocinio in filteredSponsors" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
       </div>
     </div>
   </div>
