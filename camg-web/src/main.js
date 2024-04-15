@@ -40,6 +40,6 @@ app.use(Toast, {
     transition: "Vue-Toastification__bounce",
 });
 
-app.provide("socket", io('localhost:8080'/*serverBaseUrl*/));
+app.provide("socket", io(serverBaseUrl));
 
 app.mount('#app')
