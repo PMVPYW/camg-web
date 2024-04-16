@@ -38,9 +38,12 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         toast.error("Todas as entidades sem associação eliminadas!");
     })
 
-    socket.on("update_entidade", (entidade) => {
+    socket.on("update_entidade", (entidade, patrocinio) => {
         const index = entidades.value.findIndex(item => item.id === entidade.id);
         entidades.value[index] = entidade;
+        const patrocinio_rally = entidade.rallys.find(item => item.rally_id == rallyStore.rally_selected)
+        const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
+        patrocinios.value[index_patrocinio] = patrocinio
         toast.warning("Entidade Atualizada!");
     })
 
@@ -166,7 +169,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
             const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
             console.log(index_patrocinio);
-            patrocinios.value[index_patrocinio] = await loadPatrociniosById(patrocinio_rally.id);
+
+            const patrocinio= await loadPatrociniosById(patrocinio_rally.id)
+            patrocinios.value[index_patrocinio] = patrocinio;
             console.log(patrocinios.value[index_patrocinio])
 
 
@@ -192,7 +197,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
             })*/
 
-            socket.emit("update_entidade", response.data.data, patrocinios.value[index_patrocinio]);
+            socket.emit("update_entidade", response.data.data, patrocinio);
             toast.warning("Entidade Atualizada!")
         } catch (error) {
             throw error;
