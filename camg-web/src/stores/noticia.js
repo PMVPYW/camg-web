@@ -21,6 +21,11 @@ export const useNoticiaStore = defineStore("noticias", () => {
         toast.success("Nova Noticia");
     })
 
+    socket.on("delete_noticia", (noticia) => {
+        noticias.value = noticias.value.filter((item) => item.id != noticia);
+        toast.error("Noticia Eliminada!");
+    })
+
 
     async function loadNoticias({filters=null}) {
         try {
@@ -82,6 +87,8 @@ export const useNoticiaStore = defineStore("noticias", () => {
             const response = await axios.delete("noticia/"+id);
             noticias.value = noticias.value.filter((item) => item.id !== id);
             console.log(noticias.value.length);
+            socket.emit("delete_noticia", id);
+            toast.success("Noticia Eliminada!")
         } catch (error) {
             loadNoticias({})
             throw error;
