@@ -26,6 +26,12 @@ export const useNoticiaStore = defineStore("noticias", () => {
         toast.error("Noticia Eliminada!");
     })
 
+    socket.on("update_noticia", (noticia) => {
+        const index = noticias.value.findIndex(item => item.id === noticia.id);
+        noticias.value[index] = noticia;
+        toast.warning("Noticia Atualizada!");
+    })
+
 
     async function loadNoticias({filters=null}) {
         try {
@@ -75,6 +81,8 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(response, "edit Noticia");
             const index = noticias.value.findIndex(item => item.id === id);
             noticias.value[index] = response.data;
+            socket.emit("update_noticia", response.data);
+            toast.warning("Noticia Atualizada!")
         } catch (error) {
             loadNoticias({})
             throw error;
