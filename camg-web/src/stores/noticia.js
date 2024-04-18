@@ -3,6 +3,7 @@ import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
+import {useToast} from "vue-toastification";
 
 export const useNoticiaStore = defineStore("noticias", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -12,6 +13,14 @@ export const useNoticiaStore = defineStore("noticias", () => {
     const noticias_filtered = ref(null);
 
     const router = useRouter();
+    const toast= useToast();
+
+
+    socket.on("create_noticia", (noticia) => {
+        noticias.value.push(noticia);
+        toast.success("Nova Noticia");
+    })
+
 
     async function loadNoticias({filters=null}) {
         try {
@@ -44,6 +53,8 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(data, "Dados")
             console.log(response, "create noticia");
             noticias.value.push(response.data);
+            socket.emit("create_noticia", response.data);
+            toast.success("Noticia Criada!")
         } catch (error) {
             loadNoticias({})
             throw error;
