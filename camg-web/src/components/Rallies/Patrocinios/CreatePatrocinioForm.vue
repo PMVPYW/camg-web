@@ -1,5 +1,5 @@
 <script setup xmlns="http://www.w3.org/1999/html">
-import {computed, inject, ref} from "vue";
+import {watch, inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 
@@ -19,6 +19,11 @@ const selected = ref(false);
 const creating = ref(false);
 
 const filteredEntities = ref(patrocinioStore.patrocinosSemAssociacao);
+
+watch(()=>props.obj_to_edit, (newObject)=>{
+  nome.value=newObject.nome;
+  url.value=newObject.url;
+});
 
 
 function createPatrocinio() {

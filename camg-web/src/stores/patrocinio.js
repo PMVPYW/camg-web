@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
-
 import { useRouter } from "vue-router";
 import {useRallyStore} from "@/stores/rally.js";
+import {useToast} from "vue-toastification";
 
 export const usePatrocinioStore = defineStore("patrocinios", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -15,15 +15,57 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     const router = useRouter();
     const rallyStore= useRallyStore();
 
+    const toast= useToast()
+
+    socket.on("associar_patrocinio", (patrocinio) => {
+        patrocinios.value.push(patrocinio)
+        toast.success("Patrocinio associado ao rally");
+    })
+
+    socket.on("desassociar_patrocinio", (patrocinio) => {
+        patrocinios.value = patrocinios.value.filter((item) => item.id != patrocinio.id);
+        toast.error("Patrocinio desassociado ao rally");
+    })
+
+    socket.on("create_entidade", (entidade, patrocinio) => {
+        patrocinios.value.push(patrocinio)
+        entidades.value.push(entidade);
+        toast.success("Nova Entidade");
+    })
+
+    socket.on("delete_entidade", () => {
+        patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
+        toast.error("Todas as entidades sem associação eliminadas!");
+    })
+
+    socket.on("update_entidade", (entidade, patrocinio) => {
+        const index = entidades.value.findIndex(item => item.id === entidade.id);
+        entidades.value[index] = entidade;
+        const patrocinio_rally = entidade.rallys.find(item => item.rally_id == rallyStore.rally_selected)
+        const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == entidade.id)
+        patrocinios.value[index_patrocinio] = patrocinio
+        toast.warning("Entidade Atualizada!");
+    })
+
+
 
 //PATROCINIOS
-    async function loadPatrocinios({filters = ""}) {
+
+
+    async function loadPatrociniosById(id) {
+        try {
+            const response = await axios.get("patrocinio/"+id);
+            return response.data.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async function loadPatrocinios({filters = "nome_asc"}) {
         try {
             let response;
+            console.log(filters)
             if(filters){
                 response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
-            }else{
-                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios");
             }
             console.log("Response", response)
             patrocinios.value = response.data.data;
@@ -50,22 +92,23 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.post("patrocinio/" ,data);
             console.log(response.data, "create associação ao rally")
             patrocinios.value.push(response.data)
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            socket.emit("associar_patrocinio", response.data);
+            toast.success("Patrocinio Associado!")
+
         } catch (error) {
             throw error;
         }
     }
 
-    async function desassociarPatrocinio(data) {
-        console.log(data)
+    async function desassociarPatrocinio(id) {
+        console.log(id)
         try{
-            const response = await axios.delete("patrocinio/"+ data, );
+            const response = await axios.delete("patrocinio/"+ id );
             console.log(response.data, "Delete associação ao rally")
-            await loadpatrocinosSemAssociacao();
-            await loadPatrocinios({});
-            await loadEntidades();
+            patrocinios.value = patrocinios.value.filter((item) => item.id != id);
+            socket.emit("desassociar_patrocinio", response.data);
+            toast.error("Patrocinio Desassociado!")
+
         } catch (error) {
             throw error;
         }
@@ -102,9 +145,8 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         console.log(response2.data, "create associação ao rally")
         patrocinios.value.push(response2.data)
         entidades.value.push(response.data);
-        loadpatrocinosSemAssociacao();
-        loadPatrocinios({});
-        loadEntidades();
+        socket.emit("create_entidade", response.data,response2.data);
+        toast.success("Entidade Criada!")
     } catch (error) {
         throw error;
     }
@@ -115,11 +157,48 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.post("entidade/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            entidades.value.push(response.data);
-            alert(entidades.value.length);
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            const index = entidades.value.findIndex(item => item.id == id);
+            entidades.value[index] = response.data.data;
+            const patrocinio_rally = response.data.data.rallys.find(item => item.rally_id == rallyStore.rally_selected)
+            console.log("rally_id", patrocinio_rally)
+
+
+
+            const patrocinio_entidade= response.data.data.rallys.find(item=> item.entidade_id == id)
+            console.log("ENTIDADE", patrocinio_entidade)
+
+            const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
+            console.log(index_patrocinio);
+
+            const patrocinio= await loadPatrociniosById(patrocinio_rally.id)
+            patrocinios.value[index_patrocinio] = patrocinio;
+            console.log(patrocinios.value[index_patrocinio])
+
+
+
+
+            //patrocinios.value[index_patrocinio] = patrocinio;
+            //console.log(patrocinios.value[index_patrocinio])
+
+            /*
+            console.log(response.data.data.rallys);
+
+            response.data.data.rallys.forEach((patrocinio)=>{
+                const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
+                console.log(index_patrocinio);
+                //entidade
+                const entidade_id = {...entidades.value.find(item => item.id == patrocinio.entidade_id)};
+
+                //rally
+                const rally_id = {...rallyStore.rallies.find(item => item.id == patrocinio.rally_id)};
+
+                patrocinios.value[index_patrocinio]["rally_id"] = rally_id;
+                patrocinios.value[index_patrocinio]["entidade_id"] = entidade_id;
+
+            })*/
+
+            socket.emit("update_entidade", response.data.data, patrocinio);
+            toast.warning("Entidade Atualizada!")
         } catch (error) {
             throw error;
         }
@@ -144,10 +223,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
                     'Content-Type': 'application/json'
             }});
             console.log(response.data, "Delete Entidade sem associação ao rally")
-            patrocinosSemAssociacao.value.splice(0, patrocinosSemAssociacao.value.length);
-            loadpatrocinosSemAssociacao();
-            loadPatrocinios({});
-            loadEntidades();
+            socket.emit("delete_entidade");
+            toast.error("Entidades removidas!")
+
         } catch (error) {
             throw error;
         }
