@@ -42,7 +42,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         const index = entidades.value.findIndex(item => item.id === entidade.id);
         entidades.value[index] = entidade;
         const patrocinio_rally = entidade.rallys.find(item => item.rally_id == rallyStore.rally_selected)
-        const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
+        const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == entidade.id)
         patrocinios.value[index_patrocinio] = patrocinio
         toast.warning("Entidade Atualizada!");
     })
