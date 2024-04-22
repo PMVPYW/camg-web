@@ -63,7 +63,7 @@ const emitFoto = () => {
              :value="props.obj_to_edit ? 'Editar' : 'Criar'"/>
     <div class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex">
       <!--second line of errors-->
-      <div class="w-7/12 inline-block">{{ errors.img }}</div>
+      <div class="w-7/12 inline-block">{{ errors.image_src }}</div>
       <div class="w-3/12 inline-block"></div>
 
     </div>

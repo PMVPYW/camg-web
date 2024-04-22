@@ -57,12 +57,20 @@ export const useFotoStore = defineStore("foto", () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            if(!fotos.value[currentAlbum.value])
+            {
+                fotos.value[currentAlbum.value] = [];
+            }
             fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
             socket.emit("create_foto", currentAlbum.value, response.data.data)
             toast.success(response.data.data.length < 2 ? "Foto Carregada" : "Fotos Carregadas!")
+            console.log("error", fotos.value[currentAlbum.value], currentAlbum.value, Object.keys(fotos.value));
             return true;
         } catch (error) {
             await loadFotos();
+            console.error("error!", error)
+            console.log("error!", fotos.value[currentAlbum.value], currentAlbum.value, Object.keys(fotos.value), fotos.value);
+            toast.error("Falha ao carregar a foto!");
             return error.response.data.errors;
         }
     }
