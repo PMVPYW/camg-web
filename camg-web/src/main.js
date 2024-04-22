@@ -20,6 +20,7 @@ app.provide("serverBaseUrl", serverBaseUrl);
 axios.defaults.baseURL = serverBaseUrl + "/api";
 axios.defaults.headers.common["Content-type"] = "application/json";
 axios.defaults.headers.common["Accept"] = "application/json";
+axios.defaults.timeout = 10000;
 
 app.use(router);
 app.use(createPinia());
