@@ -3,6 +3,7 @@ import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
+import {useToast} from "vue-toastification";
 
 export const useNoticiaStore = defineStore("noticias", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -12,6 +13,29 @@ export const useNoticiaStore = defineStore("noticias", () => {
     const noticias_filtered = ref(null);
 
     const router = useRouter();
+    const toast= useToast();
+
+
+    socket.on("create_noticia", (noticia) => {
+        noticias.value.push(noticia);
+        noticias_filtered.value.push(noticia);
+        toast.success("Nova Noticia");
+    })
+
+    socket.on("delete_noticia", (noticia) => {
+        noticias.value = noticias.value.filter((item) => item.id != noticia);
+        noticias_filtered.value = noticias_filtered.value.filter((item) => item.id != noticia)
+        toast.error("Noticia Eliminada!");
+    })
+
+    socket.on("update_noticia", (noticia) => {
+        const index = noticias.value.findIndex(item => item.id === noticia.id);
+        noticias.value[index] = noticia;
+        const index_filter = noticias_filtered.value.findIndex(item => item.id === noticia.id);
+        noticias_filtered.value[index_filter] = noticia;
+        toast.warning("Noticia Atualizada!");
+    })
+
 
     async function loadNoticias({filters=null}) {
         try {
@@ -44,6 +68,9 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(data, "Dados")
             console.log(response, "create noticia");
             noticias.value.push(response.data);
+            noticias_filtered.value.push(response.data);
+            socket.emit("create_noticia", response.data);
+            toast.success("Noticia Criada!")
         } catch (error) {
             loadNoticias({})
             throw error;
@@ -59,6 +86,10 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(response, "edit Noticia");
             const index = noticias.value.findIndex(item => item.id === id);
             noticias.value[index] = response.data;
+            const index_filter = noticias_filtered.value.findIndex(item => item.id === id);
+            noticias_filtered.value[index_filter] = response.data;
+            socket.emit("update_noticia", response.data);
+            toast.warning("Noticia Atualizada!")
         } catch (error) {
             loadNoticias({})
             throw error;
@@ -70,7 +101,10 @@ export const useNoticiaStore = defineStore("noticias", () => {
             console.log(id)
             const response = await axios.delete("noticia/"+id);
             noticias.value = noticias.value.filter((item) => item.id !== id);
+            noticias_filtered.value = noticias_filtered.value.filter((item) => item.id !== id);
             console.log(noticias.value.length);
+            socket.emit("delete_noticia", id);
+            toast.error("Noticia Eliminada!")
         } catch (error) {
             loadNoticias({})
             throw error;
