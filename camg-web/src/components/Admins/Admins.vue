@@ -25,7 +25,7 @@ const serverBaseUrl = inject("serverBaseUrl");
           <td>{{ admin.email }}</td>
           <td class="w-full mx-auto space-x-1">
             <button :disabled="admin.id == userStore.user.id" @click="()=>userStore.blockAdmin(admin.id)" class="disabled:bg-gray-500 text-white font-bold rounded-lg" :class="{'bg-red-600 hover:bg-red-700': admin.blocked, 'bg-green-600 hover:bg-green-700': !admin.blocked, 'w-5/12': !admin.authorized, 'w-11/12': admin.authorized}">{{ admin.blocked ? 'Desbloquear' : 'Bloquear'}}</button>
-            <button v-if="!admin.authorized" class="w-5/12 text-white font-bold rounded-lg bg-yellow-600 hover:bg-red-700">Autorizar</button>
+            <button v-if="!admin.authorized" class="w-11/12 text-white font-bold rounded-lg bg-yellow-600 hover:bg-red-700">Autorizar</button>
           </td>
         </tr>
       </table>
