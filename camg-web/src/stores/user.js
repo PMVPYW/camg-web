@@ -3,6 +3,7 @@ import { ref, computed, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
+import {useToast} from "vue-toastification";
 
 export const useUserStore = defineStore("user", () => {
   const serverBaseUrl = inject("serverBaseUrl");
@@ -11,11 +12,8 @@ export const useUserStore = defineStore("user", () => {
   const user = ref(null);
   const admins = ref(null);
 
-
-
+  const toast = useToast();
   const router = useRouter();
-
-
 
   async function loadUser() {
     try {
@@ -53,7 +51,7 @@ export const useUserStore = defineStore("user", () => {
       return true;
     } catch (error) {
       console.log(credentials);
-
+      toast.warning(error.response.data.message);
       clearUser();
       return error;
     }

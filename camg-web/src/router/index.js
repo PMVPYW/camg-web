@@ -18,6 +18,7 @@ import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
 import Rallies from "@/components/Rallies/Rallies.vue";
 import {useUserStore} from "@/stores/user.js";
 import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
+import Admins from "@/components/Admins/Admins.vue";
 
 let handleFirstTime = true;
 
@@ -100,6 +101,11 @@ const router = createRouter({
             name: "rallies",
             component: Rallies,
         },
+        {
+            path: "/admins",
+            name: "admins",
+            component: Admins
+        }
     ],
 });
 
