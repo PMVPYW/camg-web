@@ -125,7 +125,7 @@ function removeElement(foto_id){
                      class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
                   <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
                        :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
-                       class="my-auto mx-auto min-w-24 shadow-soft-2xl">
+                       class="max-h-32 my-auto mx-auto min-w-24 shadow-soft-2xl">
                 </div>
               </div>
               <div v-else>
