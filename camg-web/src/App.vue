@@ -12,6 +12,7 @@ import {onMounted} from "vue";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
 import {useFotoStore} from "@/stores/foto.js";
+import {useContactoStore} from "@/stores/contacto.js";
 
 
 const router = useRouter()
@@ -21,8 +22,10 @@ const albumStore = useAlbumStore();
 const fotoStore = useFotoStore();
 const patrocinioStore = usePatrocinioStore();
 const noticiaStore = useNoticiaStore();
+const contactoStore = useContactoStore();
 
 onMounted(async () => {
+  await contactoStore.loadContactos({});
   await rallyStore.loadRallies();
   await patrocinioStore.loadPatrocinios({});
   await patrocinioStore.loadEntidades();

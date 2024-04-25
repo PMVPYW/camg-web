@@ -15,7 +15,29 @@ export const useContactoStore = defineStore("contacto", () => {
     const router = useRouter();
     const toast= useToast();
 
+    async function loadContactos({filters=null}) {
+        try {
+            let response;
+            let suffix = "?"
+            if(filters!=null){
+                for (const filter in filters) {
+                    suffix += `${filter}=${filters[filter]}&`;
+                }
+                response = await axios.get(`contacto${suffix}`);
+            }else{
+                response = await axios.get(`contacto${suffix}`);
+            }
+            contactos.value=response.data.data;
+            console.log("CONTACTOS",contactos)
+            console.log("Response", response)
+        } catch (error) {
+            throw error;
+        }
+    }
 
     return {
+        loadContactos,
+        contactos,
+        tipo_contactos
     };
 });
