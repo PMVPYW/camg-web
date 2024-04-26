@@ -35,7 +35,28 @@ export const useContactoStore = defineStore("contacto", () => {
         }
     }
 
+    async function loadTipoContactos({filters=null}) {
+        try {
+            let response;
+            let suffix = "?"
+            if(filters!=null){
+                for (const filter in filters) {
+                    suffix += `${filter}=${filters[filter]}&`;
+                }
+                response = await axios.get(`tipocontacto${suffix}`);
+            }else{
+                response = await axios.get(`tipocontacto${suffix}`);
+            }
+            tipo_contactos.value=response.data.data;
+            console.log("TipoContactos",tipo_contactos)
+            console.log("Response", response)
+        } catch (error) {
+            throw error;
+        }
+    }
+
     return {
+        loadTipoContactos,
         loadContactos,
         contactos,
         tipo_contactos

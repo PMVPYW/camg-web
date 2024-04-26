@@ -5,6 +5,8 @@ import Contacto from "@/components/Contactos/Contacto.vue";
 import {useContactoStore} from "@/stores/contacto.js";
 import CreateContactoForm from "@/components/Contactos/CreateContactoForm.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import { Icon } from '@iconify/vue';
+
 
 //Stores
 const contactoStore=useContactoStore();
@@ -13,7 +15,7 @@ const selectedContacto= ref({});
 
 
 //filters
-const filters = reactive({search: "", order: 'titulo_asc'})
+const filters = reactive({search: "", order: 'titulo_asc', tipoContacto: ''})
 /*
 watch(filters, (new_value) => {
   noticiaStore.loadNoticias({filters: filters})
@@ -42,12 +44,37 @@ watch(filters, (new_value) => {
               <option class="uppercase" value="titulo_desc">Z-a</option>
             </select>
           </div>
+          <div class="flex flex-row items-center">
+            <label class="block mx-4 text-base font-medium">Tipo:</label>
+            <select v-model="filters.tipoContacto" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option v-for="tipoContacto in contactoStore.tipo_contactos" class="uppercase" :value="tipoContacto.id">{{tipoContacto.nome}}</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
-      <div class="flex flex-wrap -mx-3 removable mt-10">
-        <Contacto v-for="contacto in contactoStore.contactos" :key="contacto.id" @click="()=>{contactoStore.loadContactos();selectedContacto = contacto}" :contacto="contacto" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedContacto.id==contacto.id}"></Contacto>
+      <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
+        <div v-for="tipoContacto in contactoStore.tipo_contactos" class="w-9/12">
+          <div class="flex flex-row justify-between items-center mb-6 mx-10">
+            <label class="text-black text-3xl font bold">{{tipoContacto.nome}}</label>
+            <button class="p-2 px-4 bg-red-600 rounded-xl">
+              <Icon class="w-8 h-8 text-white font-bold" icon="game-icons:trash-can" />
+            </button>
+          </div>
+          <div v-for="contacto in contactoStore.contactos" class="flex flex-row justify-center">
+            <Contacto v-if="contacto.tipocontacto_id==tipoContacto.id" :key="contacto.id" @click="()=>{selectedContacto = contacto}" :contacto="contacto" class="border rounded-xl w-10/12" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedContacto.id==contacto.id}"></Contacto>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-row justify-center w-9/12 mx-auto m-10">
+      <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl hover:opacity-50">
+        <div class="flex flex-row justify-center items-center w-full p-14">
+          <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:add-outline" />
+          <a type="button" class="text-gray-800 text-xl font-bold">Adicionar Novo Tipo de Contacto</a>
+        </div>
       </div>
     </div>
   </div>
