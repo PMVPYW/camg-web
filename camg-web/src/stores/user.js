@@ -24,6 +24,14 @@ export const useUserStore = defineStore("user", () => {
         toast.warning("Um novo utilizador precisa de ser aprovado!")
     });
 
+    socket.on("admin_autorizado", (admin) => {
+        const index = admins.value.findIndex((item)=>item.id == admin.id)
+        if (index > -1) {
+            admins.value[index] = admin;
+        }
+        toast.success("Um utilizador foi aprovado!")
+    });
+
     socket.on("admin_eliminado", async (admin_id)=>{
         admins.value = admins.value.filter((admin)=>admin.id != admin_id);
         if (admin_id == user.value.id)
@@ -33,6 +41,27 @@ export const useUserStore = defineStore("user", () => {
             router.push({name: "login"})
         } else {
             toast.warning("Um utilizador foi eliminado!")
+        }
+    });
+
+    socket.on("admin_bloqueado_desbloquado", async (admin)=>{
+        const index = admins.value.findIndex((item)=>item.id == admin.id);
+        if (index > -1)
+        {
+            admins.value[index] = admin;
+        }
+        if (admin.blocked)
+        {
+            if (admin.id == user.value.id)
+            {
+                toast.error("O seu utilizador foi bloqueado!")
+                await logout();
+                router.push({name: "login"})
+            } else {
+                toast.warning("Um utilizador foi bloqueado!")
+            }
+        } else {
+            toast.success("Um utilizador foi desbloqueado!")
         }
     });
 
@@ -76,6 +105,7 @@ export const useUserStore = defineStore("user", () => {
             } else {
                 toast.success("User Desbloqueado!");
             }
+            socket.emit("admin_bloqueado_desbloquado", admins.value[index]);
         } catch (error) {
             toast.warning(error.response.data.message);
         }
@@ -88,6 +118,7 @@ export const useUserStore = defineStore("user", () => {
             if (index > -1) {
                 admins.value[index] = response.data.data;
             }
+            socket.emit("admin_autorizado", response.data.data);
             toast.success("User Autorizado!");
         } catch (error) {
             toast.warning(error.response.data.message);

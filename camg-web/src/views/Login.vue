@@ -80,7 +80,7 @@ const register = async () => {
                class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                placeholder="********">
         <label v-if="!logging" for="photo_url" class="block text-sm font-medium mt-4 mb-2">Fotografia</label>
-        <input type="file" accept="image/png, image/gif, image/jpeg"
+        <input v-if="!logging" type="file" accept="image/png, image/gif, image/jpeg"
                id="photo_url"
                class="h-10 my-2 p-2 font-bold text-center border-2 rounded-lg w-full file:hidden"
                @change="$event.target.files[0].size < 1048576 ? img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
