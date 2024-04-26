@@ -2,11 +2,12 @@
 import {useUserStore} from "@/stores/user.js";
 import {inject, ref} from "vue";
 import CreateAdminForm from "@/components/Admins/CreateAdminForm.vue";
+import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const serverBaseUrl = inject("serverBaseUrl");
 const userStore = useUserStore();
 
-const creating = ref(false);
+const deleting = ref(null);
 </script>
 
 <template>
@@ -80,7 +81,7 @@ const creating = ref(false);
           <button v-if="!admin.authorized"
                   class="w-11/12 text-white font-bold rounded-lg bg-orange-600 hover:bg-orange-700">Autorizar
           </button>
-          <button class="bg-red-600 text-white font-bold rounded-lg w-5/12" @click="userStore.deleteAdmin(admin.id)">
+          <button class="bg-red-600 text-white font-bold rounded-lg w-5/12" @click="()=>{deleting = admin}">
             Eliminar
           </button>
         </td>
@@ -140,6 +141,7 @@ const creating = ref(false);
         </li>
       </ul>
     </nav>
+    <SimpleDeleteForm v-if="deleting" @delete="()=>{userStore.deleteAdmin(deleting.id); deleting=null}" :obj_to_delete="deleting"></SimpleDeleteForm>
 
   </div>
 </template>
