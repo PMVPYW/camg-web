@@ -115,7 +115,6 @@ router.beforeEach(async (to, from, next) => {
         await userStore.restoreToken();
         handleFirstTime = false;
     }
-    console.log(userStore.user, handleFirstTime);
     if (to.name !== "login" && !userStore.user) {
         return next({ name: "login" });
     }

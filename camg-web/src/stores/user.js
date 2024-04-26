@@ -17,6 +17,27 @@ export const useUserStore = defineStore("user", () => {
 
     var first_time = true;
 
+
+    //sockets
+    socket.on("admin_registado", (admin)=>{
+        admins.value.push(admin);
+        toast.warning("Um novo utilizador precisa de ser aprovado!")
+    });
+
+    socket.on("admin_eliminado", async (admin_id)=>{
+        admins.value = admins.value.filter((admin)=>admin.id != admin_id);
+        if (admin_id == user.value.id)
+        {
+            toast.error("O seu utilizador foi eliminado!")
+            await logout();
+            router.push({name: "login"})
+        } else {
+            toast.warning("Um utilizador foi eliminado!")
+        }
+    });
+
+    //funcs
+
     async function loadUser() {
         try {
             const response = await axios.get("user");
@@ -77,6 +98,12 @@ export const useUserStore = defineStore("user", () => {
         try {
             const response = await axios.delete(`admin/${id}`);
             admins.value = admins.value.filter((admin) => admin.id !== id);
+            socket.emit("admin_eliminado", id);
+            if (user.value.id == id)
+            {
+                await logout();
+                router.push({name: "login"})
+            }
             toast.warning("Administrador Eliminado!")
         } catch (error) {
             toast.error(error.response.data.message);
@@ -85,17 +112,6 @@ export const useUserStore = defineStore("user", () => {
 
     function clearUser() {
         user.value = null;
-    }
-
-    async function signup(credentials) {
-        try {
-            const response = await axios.post("register", credentials);
-            socket.emit("newVcard", response.data)
-            return true;
-        } catch (error) {
-            clearUser();
-            return error;
-        }
     }
 
     async function login(credentials) {
@@ -116,6 +132,7 @@ export const useUserStore = defineStore("user", () => {
     async function register(credentials) {
         try {
             const response = await axios.post("auth/register", credentials);
+            socket.emit("admin_registado", response.data.data);
             toast.success("Registado com sucesso. Precisa da Aprovação de um Administrador!");
             return response.data.data;
         } catch (error) {
@@ -128,11 +145,16 @@ export const useUserStore = defineStore("user", () => {
 
     async function logout() {
         try {
-            await axios.post("logout");
-            sessionStorage.removeItem("token");
+            try {
+                await axios.post("auth/logout");
+            } catch (error)
+            {
+
+            }
+
+            await sessionStorage.removeItem("token");
             delete axios.defaults.headers.common.Authorization;
             clearUser();
-
             return true;
         } catch (error) {
             return false;
@@ -163,7 +185,6 @@ export const useUserStore = defineStore("user", () => {
         login,
         register,
         logout,
-        signup,
         blockAdmin,
         authorizeAdmin,
         deleteAdmin

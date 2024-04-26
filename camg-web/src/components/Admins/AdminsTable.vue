@@ -64,7 +64,7 @@ const deleting = ref(null);
       <tbody>
 
       <tr v-for="(admin, index) in userStore.admins" class="border-b hover:bg-neutral-100"
-          :class="{'bg-neutral-50': index % 2 === 1, 'bg-gradient-to-br from-slate-100 to-slate-300': admin.id == userStore.user.id}">
+          :class="{'bg-neutral-50': index % 2 === 1, 'bg-gradient-to-br from-slate-100 to-slate-300': admin.id == userStore.user?.id}">
         <th scope="row" class="px-6 py-4">
           <img class="h-10 w-10 rounded-full my-2"
                :src="admin.photo_url ?  serverBaseUrl + '/storage/fotos/' + admin.photo_url : '../../../src/assets/default_user_foto.jpg'">
@@ -72,7 +72,7 @@ const deleting = ref(null);
         <td class="px-6 py-4">{{ admin.nome }}</td>
         <td class="px-6 py-4">{{ admin.email }}</td>
         <td class="px-6 py-4 space-x-1">
-          <button v-if="admin.authorized" :disabled="admin.id == userStore.user.id" @click="()=>userStore.blockAdmin(admin.id)"
+          <button v-if="admin.authorized" :disabled="admin.id == userStore.user?.id" @click="()=>userStore.blockAdmin(admin.id)"
                   class="disabled:bg-gray-500 text-white font-bold rounded-lg w-5/12"
                   :class="{'bg-yellow-400 hover:bg-yellow-500': admin.blocked, 'bg-green-600 hover:bg-green-700': !admin.blocked}">
             {{ admin.blocked ? 'Desbloquear' : 'Bloquear' }}
