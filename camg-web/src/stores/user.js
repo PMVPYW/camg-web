@@ -100,6 +100,19 @@ export const useUserStore = defineStore("user", () => {
         }
     }
 
+    async function register(credentials) {
+        try {
+            const response = await axios.post("auth/register", credentials);
+            toast.success("Registado com sucesso. Precisa da Aprovação de um Administrador!");
+            return response.data.data;
+        } catch (error) {
+            console.log(credentials);
+            toast.warning(error.response.data.message);
+            clearUser();
+            return error;
+        }
+    }
+
     async function logout() {
         try {
             await axios.post("logout");
@@ -135,6 +148,7 @@ export const useUserStore = defineStore("user", () => {
         loadUser,
         clearUser,
         login,
+        register,
         logout,
         signup,
         blockAdmin,
