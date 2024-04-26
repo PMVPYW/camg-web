@@ -1,7 +1,6 @@
 <script setup>
 import {useUserStore} from "@/stores/user.js";
 import {inject, ref} from "vue";
-import CreateAdminForm from "@/components/Admins/CreateAdminForm.vue";
 import AdminsTable from "@/components/Admins/AdminsTable.vue";
 
 const userStore = useUserStore();

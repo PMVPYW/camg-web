@@ -1,7 +1,6 @@
 <script setup>
 import {useUserStore} from "@/stores/user.js";
 import {inject, ref} from "vue";
-import CreateAdminForm from "@/components/Admins/CreateAdminForm.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const serverBaseUrl = inject("serverBaseUrl");
@@ -73,13 +72,14 @@ const deleting = ref(null);
         <td class="px-6 py-4">{{ admin.nome }}</td>
         <td class="px-6 py-4">{{ admin.email }}</td>
         <td class="px-6 py-4 space-x-1">
-          <button :disabled="admin.id == userStore.user.id" @click="()=>userStore.blockAdmin(admin.id)"
+          <button v-if="admin.authorized" :disabled="admin.id == userStore.user.id" @click="()=>userStore.blockAdmin(admin.id)"
                   class="disabled:bg-gray-500 text-white font-bold rounded-lg w-5/12"
                   :class="{'bg-yellow-400 hover:bg-yellow-500': admin.blocked, 'bg-green-600 hover:bg-green-700': !admin.blocked}">
             {{ admin.blocked ? 'Desbloquear' : 'Bloquear' }}
           </button>
           <button v-if="!admin.authorized"
-                  class="w-11/12 text-white font-bold rounded-lg bg-orange-600 hover:bg-orange-700">Autorizar
+                  @click="()=>userStore.authorizeAdmin(admin.id)"
+                  class="w-5/12 text-white font-bold rounded-lg bg-orange-500 hover:bg-orange-700">Autorizar
           </button>
           <button class="bg-red-600 text-white font-bold rounded-lg w-5/12" @click="()=>{deleting = admin}">
             Eliminar
@@ -141,7 +141,9 @@ const deleting = ref(null);
         </li>
       </ul>
     </nav>
-    <SimpleDeleteForm v-if="deleting" @delete="()=>{userStore.deleteAdmin(deleting.id); deleting=null}" :obj_to_delete="deleting"></SimpleDeleteForm>
-
   </div>
+  <div v-if="deleting" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <SimpleDeleteForm bg="white" v-if="deleting" @cancel="()=>deleting=null" @delete="()=>{userStore.deleteAdmin(deleting.id); deleting=null}" :obj_to_delete="deleting"></SimpleDeleteForm>
+  </div>
+
 </template>

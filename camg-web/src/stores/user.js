@@ -60,6 +60,19 @@ export const useUserStore = defineStore("user", () => {
         }
     }
 
+    async function authorizeAdmin(id) {
+        try {
+            const response = await axios.patch(`admin/${id}/authorize`);
+            const index = admins.value.findIndex((admin) => admin.id === id);
+            if (index > -1) {
+                admins.value[index] = response.data.data;
+            }
+            toast.success("User Autorizado!");
+        } catch (error) {
+            toast.warning(error.response.data.message);
+        }
+    }
+
     async function deleteAdmin(id) {
         try {
             const response = await axios.delete(`admin/${id}`);
@@ -152,6 +165,7 @@ export const useUserStore = defineStore("user", () => {
         logout,
         signup,
         blockAdmin,
+        authorizeAdmin,
         deleteAdmin
     };
 });
