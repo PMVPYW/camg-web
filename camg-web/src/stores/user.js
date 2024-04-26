@@ -60,6 +60,16 @@ export const useUserStore = defineStore("user", () => {
         }
     }
 
+    async function deleteAdmin(id) {
+        try {
+            const response = await axios.delete(`admin/${id}`);
+            admins.value = admins.value.filter((admin) => admin.id !== id);
+            toast.warning("Administrador Eliminado!")
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+    }
+
     function clearUser() {
         user.value = null;
     }
@@ -127,6 +137,7 @@ export const useUserStore = defineStore("user", () => {
         login,
         logout,
         signup,
-        blockAdmin
+        blockAdmin,
+        deleteAdmin
     };
 });
