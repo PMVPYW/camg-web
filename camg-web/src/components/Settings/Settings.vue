@@ -1,29 +1,53 @@
 <script setup>
-import {useUserStore} from "@/stores/user.js";
-import {onMounted, ref} from "vue";
+import { useUserStore } from "@/stores/user.js";
+import { inject, onMounted, ref } from "vue";
+
+const serverBaseUrl = inject("serverBaseUrl");
 
 const userStore = useUserStore();
 const user = ref(userStore.user);
-onMounted(()=>{
+onMounted(() => {
   user.value.password = null;
   user.value.password_confirmation = null;
   user.value.old_password = null;
-
 })
-
 
 async function updateUser() {
   console.log(user.value)
   await userStore.updateUser(user.value);
+  user.value = { ...userStore.user };
+  user.value.password = null;
+  user.value.password_confirmation = null;
+  user.value.old_password = null;
 }
 
+const viewing_foto = ref(null);
+
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  user.value.photo_url = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    viewing_foto.value = reader.result;
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
 </script>
+
 
 <template>
   <div class="mx-auto w-full flex items-center">
     <form class="w-11/12 border-2 rounded-xl mx-auto flex">
       <div class="mx-8 w-2/12 flex items-center">
-        <img class="mx-auto rounded-full" :src="userStore.profile_photo">
+        <input id="foto" @change="handleFileChange/*user.photo_url = $event.target.files[0]*/" type="file" class="hidden">
+        <label for="foto">
+          <img class="mx-auto rounded-full w-48 h-48"
+               :src="viewing_foto ?  viewing_foto : userStore.profile_photo">
+        </label>
       </div>
       <div class="w-full">
         <div class="w-full flex mx-auto justify-center">
@@ -48,12 +72,13 @@ async function updateUser() {
             </div>
             <div v-if="user.password" class="mx-auto p-4 w-1/2">
               <label for="nome" class="block text-sm font-medium mx-2 mt-4 mb-2">Confirmar Nova Password</label>
-              <input  type="password" name="password_conf" placeholder="confirmar password" required v-model="user.password_confirmation"
+              <input type="password" name="password_conf" placeholder="confirmar password" required
+                     v-model="user.password_confirmation"
                      class="h-10 mx-2 mb-2 p-2 font-bold text-center border-2 rounded-lg w-full">
 
             </div>
-            <div v-if="!user.password"  class="mx-auto p-4 w-1/2">
-              <input type="submit" value="Atualizar Perfil"  @click.prevent="updateUser"
+            <div v-if="!user.password" class="mx-auto p-4 w-1/2">
+              <input type="submit" value="Atualizar Perfil" @click.prevent="updateUser"
                      class="h-10 mb-2 p-2 mr-0 bg-green-500 text-white hover:bg-green-600 font-bold text-center border-2 rounded-lg w-full">
             </div>
           </div>

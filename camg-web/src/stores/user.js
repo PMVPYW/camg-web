@@ -26,6 +26,20 @@ export const useUserStore = defineStore("user", () => {
         toast.warning("Um novo utilizador precisa de ser aprovado!")
     });
 
+    socket.on("admin_atualizado", (admin)=>{
+        const index = admins.value.findIndex((item) => item.id == admin.id);
+        if (index > -1) {
+            admins.value[index] = admin;
+        }
+        if (admin.id == user.value.id){
+            user.value = admin;
+            toast.warning("O seu utilizador foi editado!")
+        } else {
+            toast.success("Um utilizador foi editado!")
+        }
+
+    });
+
     socket.on("admin_autorizado", (admin) => {
         const index = admins.value.findIndex((item)=>item.id == admin.id)
         if (index > -1) {
@@ -182,6 +196,10 @@ export const useUserStore = defineStore("user", () => {
     async function updateUser(user_arg) {
         try {
             user_arg['_method'] = 'PUT'
+            if (typeof(user_arg.photo_url) == "string")
+            {
+                user_arg.photo_url = null;
+            }
             const response = await axios.post(`admin/${user.value?.id}`, user_arg, {headers : {
                     'Content-Type': 'multipart/form-data'
                 }});
