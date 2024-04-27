@@ -19,6 +19,7 @@ import Rallies from "@/components/Rallies/Rallies.vue";
 import {useUserStore} from "@/stores/user.js";
 import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
 import Admins from "@/components/Admins/Admins.vue";
+import Settings from "@/components/Settings/Settings.vue";
 
 let handleFirstTime = true;
 
@@ -105,6 +106,11 @@ const router = createRouter({
             path: "/admins",
             name: "admins",
             component: Admins
+        },
+        {
+            path: "/settings",
+            name: "settings",
+            component: Settings
         }
     ],
 });

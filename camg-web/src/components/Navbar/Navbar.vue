@@ -18,7 +18,9 @@ const userStore = useUserStore();
         <span class="ml-1 text-xl font-semibold transition-all duration-200 ease-nav-brand">CAMG-WEB</span>
       </a>
       <span class="w-full flex items-center justify-end">
-    <img class="h-12 w-12 mr-12 rounded-full" :src="userStore.profile_photo">
+        <router-link :to="{name: 'settings'}">
+          <img class="h-12 w-12 mr-12 rounded-full" :src="userStore.profile_photo">
+        </router-link>
 </span>
 
     </div>

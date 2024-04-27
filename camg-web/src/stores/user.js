@@ -179,6 +179,24 @@ export const useUserStore = defineStore("user", () => {
         }
     }
 
+    async function updateUser(user_arg) {
+        try {
+            user_arg['_method'] = 'PUT'
+            const response = await axios.post(`admin/${user.value?.id}`, user_arg, {headers : {
+                    'Content-Type': 'multipart/form-data'
+                }});
+            socket.emit("admin_atualizado", response.data.data);
+            toast.success("Atualizado com sucesso!");
+            user.value = response.data.data;
+            const index = admins.value.findIndex((item)=>item.id == user.value.id);
+            admins.value[index] = response.data.data;
+            return response.data.data;
+        } catch (error) {
+            toast.warning(error.response.data.message);
+            return error;
+        }
+    }
+
     async function logout() {
         try {
             try {
@@ -221,6 +239,7 @@ export const useUserStore = defineStore("user", () => {
         clearUser,
         login,
         register,
+        updateUser,
         logout,
         blockAdmin,
         authorizeAdmin,
