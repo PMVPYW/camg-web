@@ -55,9 +55,31 @@ export const useContactoStore = defineStore("contacto", () => {
         }
     }
 
+    async function createContacto(){
+
+    }
+    async function editContacto(){
+
+    }
+    async function deleteContacto(){
+
+    }
+
+    async function createTipoContacto(){
+
+    }
+    async function deleteTipoContacto(){
+
+    }
+
     return {
         loadTipoContactos,
         loadContactos,
+        createContacto,
+        deleteContacto,
+        editContacto,
+        createTipoContacto,
+        deleteTipoContacto,
         contactos,
         tipo_contactos
     };
