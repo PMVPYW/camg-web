@@ -14,6 +14,7 @@ const credentials = reactive({
   password_confirmation: "",
   nome: "",
   photo_url: null
+
 });
 
 const errors = ref(null)
@@ -40,8 +41,6 @@ const register = async () => {
   }
   let request = await userStore.register(credentials)
   if (request === true) {
-    console.log("Logged in");
-    await router.push("/");
     return;
   }
   errors.value = request.response.data.errors
@@ -83,7 +82,7 @@ const register = async () => {
         <input v-if="!logging" type="file" accept="image/png, image/gif, image/jpeg"
                id="photo_url"
                class="h-10 my-2 p-2 font-bold text-center border-2 rounded-lg w-full file:hidden"
-               @change="$event.target.files[0].size < 1048576 ? img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+               @change="credentials.photo_url = $event.target.files[0]">
         <p class="pt-2 text-sm">Está página é exclusivamente para membros do clube</p>
 
         <p class="pt-6 text-base font-bold flex items-center justify-center lg:justify-start">

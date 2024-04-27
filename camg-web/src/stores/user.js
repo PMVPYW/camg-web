@@ -12,6 +12,8 @@ export const useUserStore = defineStore("user", () => {
     const user = ref(null);
     const admins = ref(null);
 
+    const profile_photo = computed(()=>user.value?.photo_url ?  serverBaseUrl + '/storage/fotos/' + user.value?.photo_url : '../../../src/assets/default_user_foto.jpg')
+
     const toast = useToast();
     const router = useRouter();
 
@@ -162,9 +164,12 @@ export const useUserStore = defineStore("user", () => {
 
     async function register(credentials) {
         try {
-            const response = await axios.post("auth/register", credentials);
+            const response = await axios.post("auth/register", credentials, {headers : {
+                'Content-Type': 'multipart/form-data'
+            }});
             socket.emit("admin_registado", response.data.data);
             toast.success("Registado com sucesso. Precisa da Aprovação de um Administrador!");
+            console.log(credentials, response.data.data)
             return response.data.data;
         } catch (error) {
             console.log(credentials);
@@ -209,6 +214,7 @@ export const useUserStore = defineStore("user", () => {
     return {
         restoreToken,
         user,
+        profile_photo,
         admins,
         loadAdmins,
         loadUser,
