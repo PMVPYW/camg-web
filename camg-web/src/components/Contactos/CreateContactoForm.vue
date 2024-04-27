@@ -28,7 +28,6 @@ const emitNew = () => {
     "valor": valor.value,
     "tipocontacto_id": tipocontacto_id.value,
     "tipo_valor": tipo_valor.value,
-
   };
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
@@ -46,7 +45,7 @@ const emitNew = () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Valor</label>
-              <input type="number" required v-model="valor" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Valor">
+              <input type="text" required v-model="valor" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Valor">
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Tipo:</label>
@@ -57,17 +56,17 @@ const emitNew = () => {
             <div>
               <label class="block mb-2 text-base font-medium">Tipo de Contacto:</label>
               <select v-model="tipo_valor" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-                <option class="uppercase" :value="Fax">Fax</option>
-                <option class="uppercase" :value="Email">Email</option>
-                <option class="uppercase" :value="Telefone">Telefone</option>
-                <option class="uppercase" :value="Telemovel">Telemóvel</option>
-                <option class="uppercase" :value="Instagram">Instagram</option>
-                <option class="uppercase" :value="Facebook">Facebook</option>
-                <option class="uppercase" :value="Twitter">Twitter</option>
-                <option class="uppercase" :value="Morada">Morada</option>
-                <option class="uppercase" :value="Coordenadas">Coordenadas</option>
-                <option class="uppercase" :value="PaginaWeb">Página Web</option>
-                <option class="uppercase" :value="WhatsApp">WhatsApp</option>
+                <option class="uppercase" value="Fax">Fax</option>
+                <option class="uppercase" value="Email">Email</option>
+                <option class="uppercase" value="Telefone">Telefone</option>
+                <option class="uppercase" value="Telemovel">Telemóvel</option>
+                <option class="uppercase" value="Instagram">Instagram</option>
+                <option class="uppercase" value="Facebook">Facebook</option>
+                <option class="uppercase" value="Twitter">Twitter</option>
+                <option class="uppercase" value="Morada">Morada</option>
+                <option class="uppercase" value="Coordenadas">Coordenadas</option>
+                <option class="uppercase" value="PaginaWeb">Página Web</option>
+                <option class="uppercase" value="WhatsApp">WhatsApp</option>
               </select>
             </div>
           </div>

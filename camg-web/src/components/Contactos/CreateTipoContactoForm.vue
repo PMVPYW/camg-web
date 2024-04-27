@@ -1,17 +1,29 @@
 <script setup>
+
+import {useContactoStore} from "@/stores/contacto.js";
+import {ref} from "vue";
+
+const contactoStore=useContactoStore();
+const nome = ref(null);
+
+const createTypeContact = ()=>{
+  const data ={}
+    if(nome.value!=null){
+      data["nome"]=nome.value;
+      contactoStore.createTipoContacto(data);
+    }
+};
 </script>
 <template>
-  <hr class="my-6">
   <form class="m-2">
-    <div class="flex flex-row">
+    <div class="flex flex-row w-full">
       <div class="w-full">
-        <div class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-9/12">
-            <div>
-              <label class="block mb-2 text-base font-medium">Nome</label>
-              <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Tipo">
-            </div>
-        </div>
+        <div class="flex flex-col items-center justify-center w-full">
+          <div class="w-7/12 my-4">
+            <label class="block mb-2 text-base font-medium">Nome</label>
+            <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Tipo">
+          </div>
+          <a @click="createTypeContact" class="md:w-2/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">Criar</a>
         <br>
       </div>
     </div>
