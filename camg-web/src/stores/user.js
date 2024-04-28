@@ -208,10 +208,10 @@ export const useUserStore = defineStore("user", () => {
             user.value = response.data.data;
             const index = admins.value.findIndex((item)=>item.id == user.value.id);
             admins.value[index] = response.data.data;
-            return response.data.data;
+            return true;
         } catch (error) {
             toast.warning(error.response.data.message);
-            return error;
+            return error.response.data.errors;
         }
     }
 
