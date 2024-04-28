@@ -68,7 +68,7 @@ function editType (id){
       <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
         <div v-for="tipoContacto in contactoStore.tipo_contactos" class="w-9/12">
           <div class="flex flex-row items-center mb-6 mx-10">
-            <label class="text-black text-3xl font bold">{{tipoContacto.nome}}</label>
+            <label v-if="editTypeContact===false" class="text-black text-3xl font bold">{{tipoContacto.nome}}</label>
             <input v-if="editTypeContact===true" v-model="nome" type="text" class="py-3 px-4 block w-1/6 border border-gray-200 bg-gray-100 rounded-lg text-lg" :placeholder="tipoContacto.nome">
             <button v-if="editTypeContact===false" @click="contactoStore.deleteTipoContacto(tipoContacto.id)" class="p-2 mx-4 px-4 md:w-1/12 sm:w-full text-center opacity-85 my-2  inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">
               Eliminar
@@ -76,7 +76,7 @@ function editType (id){
             <button v-if="editTypeContact===false" @click="editTypeContact=!editTypeContact" class="p-2 mx-4 px-4 md:w-1/12 sm:w-full justify-center opacity-85 my-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
               Editar
             </button>
-            <button v-if="editTypeContact===true" @click="()=>{editType(tipoContacto.id)}" class="p-2 px-4 mx-4 md:w-1/12 sm:w-full justify-center opacity-85 my-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+            <button v-if="editTypeContact===true" @click="()=>{editType(tipoContacto.id);editTypeContact=!editTypeContact}" class="p-2 px-4 mx-4 md:w-1/12 sm:w-full justify-center opacity-85 my-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
               Editar
             </button>
             <button v-if="editTypeContact===true" @click="()=>{editTypeContact=!editTypeContact}" class="p-2 mx-4 px-4 md:w-1/12 sm:w-full text-center opacity-85 my-2  inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">
