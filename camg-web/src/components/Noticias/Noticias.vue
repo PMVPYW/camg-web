@@ -24,6 +24,7 @@ watch(filters, (new_value) => {
 })
 
 
+
 </script>
 <template>
   <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
