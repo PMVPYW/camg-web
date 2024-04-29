@@ -30,6 +30,7 @@ onMounted(async () => {
   await albumStore.loadAlbuns();
   await fotoStore.loadFotos();
   await noticiaStore.loadNoticias({});
+  await userStore.loadAdmins();
 });
 </script>
 

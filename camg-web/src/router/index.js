@@ -18,6 +18,8 @@ import OrgaosSociais from "@/components/OrgaosSociais/OrgaosSociais.vue";
 import Rallies from "@/components/Rallies/Rallies.vue";
 import {useUserStore} from "@/stores/user.js";
 import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
+import Admins from "@/components/Admins/Admins.vue";
+import Settings from "@/components/Settings/Settings.vue";
 
 let handleFirstTime = true;
 
@@ -100,6 +102,16 @@ const router = createRouter({
             name: "rallies",
             component: Rallies,
         },
+        {
+            path: "/admins",
+            name: "admins",
+            component: Admins
+        },
+        {
+            path: "/settings",
+            name: "settings",
+            component: Settings
+        }
     ],
 });
 
@@ -109,7 +121,6 @@ router.beforeEach(async (to, from, next) => {
         await userStore.restoreToken();
         handleFirstTime = false;
     }
-    console.log(userStore.user, handleFirstTime);
     if (to.name !== "login" && !userStore.user) {
         return next({ name: "login" });
     }

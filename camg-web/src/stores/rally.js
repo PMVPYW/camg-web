@@ -43,7 +43,9 @@ export const useRallyStore = defineStore("rally", () => {
 
             const response = await axios.get(`rally`);
             rallies.value = response.data.data;
-            rally_selected.value = rallies.value[0].id;
+            if (rallies.value.length > 0) {
+                rally_selected.value = rallies.value[0].id;
+            }
             if (rallies_filtered.value == null) {
                 rallies_filtered.value = [...rallies.value]
             }
