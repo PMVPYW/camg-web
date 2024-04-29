@@ -32,15 +32,8 @@ function selected_emit(new_var){
 function searchContact() {
   const regex = new RegExp(pesquisa.value, 'i');
   const contacts = contactoStore.contactos;
-  filteredContacts.value = contacts.filter(contacts => regex.test(contacts.nome)|| regex.test(contacts.valor));
+  filteredContacts.value = contacts.filter(contacts => regex.test(contacts.nome)|| regex.test(contacts.valor)||regex.test(contacts.tipo_valor));
   console.log(filteredContacts);
-}
-
-function searchTypeContacts(){
-  const regex = new RegExp(pesquisa.value, 'i');
-  const contacts = contactoStore.contactos;
-  filteredTypeContacts.value = contacts.filter(contacts => regex.test(contacts.nome)||regex.test(contacts.valor)||regex.test(contacts.tipo_valor));
-  console.log(filteredTypeContacts);
 }
 
 </script>
