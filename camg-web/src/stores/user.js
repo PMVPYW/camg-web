@@ -105,8 +105,8 @@ export const useUserStore = defineStore("user", () => {
                 if (filters.status) {
                     sufix += "status=" + filters.status + "&"
                 }
-                if (filters.sort) {
-                    sufix += 'sort=' + filters.sort + "&"
+                if (filters.order) {
+                    sufix += 'order=' + filters.order + "&"
                 }
                 if (filters.search) {
                     sufix += 'search=' + filters.search

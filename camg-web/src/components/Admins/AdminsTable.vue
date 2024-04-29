@@ -1,6 +1,6 @@
 <script setup>
 import {useUserStore} from "@/stores/user.js";
-import {inject, reactive, ref} from "vue";
+import {inject, reactive, ref, watch} from "vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const serverBaseUrl = inject("serverBaseUrl");
@@ -10,8 +10,12 @@ const deleting = ref(null);
 const filters = reactive({
   page: 1,
   search: null,
-  sort: null,
-  status: null
+  order: "most_recent",
+  status: "all"
+})
+
+watch(filters, ()=>{
+  userStore.loadAdmins(filters);
 })
 
 function applyFilters(int) {
@@ -28,7 +32,7 @@ function applyFilters(int) {
     <!-- Search input -->
     <div class="relative m-[2px] mb-3 mr-5 float-left p-2">
       <label for="inputSearch" class="sr-only">Search </label><br>
-      <input id="inputSearch" type="text" placeholder="Pesquisar..."
+      <input id="inputSearch" type="text" placeholder="Pesquisar..." v-model="filters.search"
              class="block w-64 rounded-lg border py-2 px-4 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
 
     </div>
@@ -37,7 +41,8 @@ function applyFilters(int) {
     <div class="relative m-[2px] mb-3 float-right hidden sm:block p-2">
       <label for="inputFilter" class="inline">Filtrar</label>
       <select id="inputFilter"
-              class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400">
+              class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              v-model="filters.status">
         <option value="all" selected>Todos</option>
         <option value="unblocked">Desbloqueados</option>
         <option value="blocked">Bloqueados</option>
@@ -48,11 +53,12 @@ function applyFilters(int) {
     <div class="relative m-[2px] mb-3 float-right hidden sm:block p-2">
       <label for="inputFilter" class="inline">Ordenar</label>
       <select id="inputFilter"
-              class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400">
-        <option value="1" selected>Mais Recente</option>
-        <option value="2">Mais Antigo</option>
-        <option value="3">Nome Ascendente</option>
-        <option value="4">Nome Descedente</option>
+              class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+              v-model="filters.order">
+        <option value="most_recent" selected>Mais Recente</option>
+        <option value="least_recent">Mais Antigo</option>
+        <option value="nome_asc">Nome Ascendente</option>
+        <option value="nome_desc">Nome Descedente</option>
       </select>
     </div>
 
@@ -85,8 +91,11 @@ function applyFilters(int) {
         <th scope="row" class="px-6 py-4">
           <img v-if="admin.photo_url" class="h-10 w-10 rounded-full my-2"
                :src="serverBaseUrl + '/storage/fotos/' + admin.photo_url">
-          <svg  v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="inline-block mr-12 rounded-full ring-2 bg-white/10 ring-indigo-700/30 text-indigo-700/70 w-10 h-10">
-            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+               class="inline-block mr-12 rounded-full ring-2 bg-white/10 ring-indigo-700/30 text-indigo-700/70 w-10 h-10">
+            <path fill-rule="evenodd"
+                  d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                  clip-rule="evenodd"/>
           </svg>
         </th>
         <td class="px-6 py-4">{{ admin.nome }}</td>
