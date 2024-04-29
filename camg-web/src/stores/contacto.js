@@ -11,6 +11,8 @@ export const useContactoStore = defineStore("contacto", () => {
 
     const contactos = ref(null);
     const tipo_contactos = ref(null);
+    const tipo_contactos_filters = ref(null);
+
 
     const router = useRouter();
     const toast= useToast();
@@ -81,8 +83,9 @@ export const useContactoStore = defineStore("contacto", () => {
                 response = await axios.get(`tipocontacto${suffix}`);
             }else{
                 response = await axios.get(`tipocontacto${suffix}`);
+                tipo_contactos.value=response.data.data;
             }
-            tipo_contactos.value=response.data.data;
+            tipo_contactos_filters.value=response.data.data;
             console.log("TipoContactos",tipo_contactos)
             console.log("Response", response)
         } catch (error) {
@@ -173,6 +176,7 @@ export const useContactoStore = defineStore("contacto", () => {
         deleteTipoContacto,
         editTipoContacto,
         contactos,
-        tipo_contactos
+        tipo_contactos,
+        tipo_contactos_filters
     };
 });

@@ -15,7 +15,8 @@ const contactoStore=useContactoStore();
 const selectedContacto= ref({});
 const createTypeContact= ref(false);
 
-
+const filteredContacts = ref(contactoStore.contactos);
+const pesquisa= ref(null)
 
 //filters
 const filters = reactive({order: 'nome_asc', tipo_contacto_id: ''})
@@ -26,6 +27,20 @@ watch(filters, (new_value) => {
 
 function selected_emit(new_var){
   selectedContacto.value=new_var;
+}
+
+function searchContact() {
+  const regex = new RegExp(pesquisa.value, 'i');
+  const contacts = contactoStore.contactos;
+  filteredContacts.value = contacts.filter(contacts => regex.test(contacts.nome)|| regex.test(contacts.valor));
+  console.log(filteredContacts);
+}
+
+function searchTypeContacts(){
+  const regex = new RegExp(pesquisa.value, 'i');
+  const contacts = contactoStore.contactos;
+  filteredTypeContacts.value = contacts.filter(contacts => regex.test(contacts.nome)||regex.test(contacts.valor)||regex.test(contacts.tipo_valor));
+  console.log(filteredTypeContacts);
 }
 
 </script>
@@ -41,7 +56,7 @@ function selected_emit(new_var){
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row items-center justify-between w-5/6">
           <div class="flex flex-row w-2/6">
-            <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+            <input type="text" required v-model="pesquisa" @input="searchContact" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
           </div>
           <div class="flex flex-row items-center">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
@@ -53,6 +68,7 @@ function selected_emit(new_var){
           <div class="flex flex-row items-center">
             <label class="block mx-4 text-base font-medium">Tipo:</label>
             <select v-model="filters.tipo_contacto_id" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option class="uppercase" value="">----</option>
               <option v-for="tipoContacto in contactoStore.tipo_contactos" class="uppercase" :value="tipoContacto.id">{{tipoContacto.nome}}</option>
             </select>
           </div>
@@ -61,8 +77,8 @@ function selected_emit(new_var){
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
-        <div v-for="tipoContacto in contactoStore.tipo_contactos" class="w-9/12">
-          <TipoContacto :tipoContacto="tipoContacto" @selectedContacto="selected_emit"></TipoContacto>
+        <div v-for="tipoContacto in contactoStore.tipo_contactos_filters" class="w-9/12">
+          <TipoContacto :tipoContacto="tipoContacto" :filteredContacts="filteredContacts" @selectedContacto="selected_emit"></TipoContacto>
           <hr class="my-6">
         </div>
       </div>

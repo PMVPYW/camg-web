@@ -4,7 +4,7 @@ import Contacto from "@/components/Contactos/Contacto.vue";
 import {ref} from "vue";
 import {useContactoStore} from "@/stores/contacto.js";
 
-const props = defineProps(["tipoContacto"]);
+const props = defineProps(["tipoContacto", "filteredContacts"]);
 const emit = defineEmits(["selectedContacto"]);
 const editTypeContact= ref(false);
 const contactoStore=useContactoStore();
@@ -43,7 +43,7 @@ function emit_contact(contacto){
       Cancelar
     </button>
   </div>
-  <div v-for="contacto in contactoStore.contactos" class="flex flex-row justify-center">
+  <div v-for="contacto in filteredContacts" class="flex flex-row justify-center">
     <Contacto v-if="contacto.tipocontacto_id==tipoContacto.id" :key="contacto.id" @click="()=>{selectedContacto=contacto; emit_contact(selectedContacto)}" :contacto="contacto" class="border rounded-xl w-10/12" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedContacto.id==contacto.id}"></Contacto>
   </div>
 </template>
