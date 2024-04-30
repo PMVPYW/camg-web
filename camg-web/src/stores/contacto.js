@@ -32,7 +32,7 @@ export const useContactoStore = defineStore("contacto", () => {
     socket.on("update_contacto", (contacto) => {
         const index = contactos.value.findIndex(item => item.id === contacto.id);
         contactos.value[index] = contacto;
-        toast.warning("Contacto Atualizada!");
+        toast.warning("Contacto Atualizado!");
     })
 
     //TipoContacto
