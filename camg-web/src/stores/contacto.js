@@ -31,24 +31,34 @@ export const useContactoStore = defineStore("contacto", () => {
 
     socket.on("update_contacto", (contacto) => {
         const index = contactos.value.findIndex(item => item.id === contacto.id);
-        contactos.value[index] = contacto;
+        if(index>=0) {
+            contactos.value[index] = contacto;
+        }
         toast.warning("Contacto Atualizado!");
     })
 
     //TipoContacto
     socket.on("create_tipocontacto", (tipocontacto) => {
         tipo_contactos.value.push(tipocontacto);
+        tipo_contactos_filters.value.push(tipocontacto);
         toast.success("Novo Tipo de Contacto");
     })
 
     socket.on("delete_tipocontacto", (tipocontacto) => {
-        tipo_contactos.value = contactos.value.filter((item) => item.id != tipocontacto);
+        tipo_contactos.value = tipo_contactos.value.filter((item) => item.id != tipocontacto);
+        tipo_contactos_filters.value = tipo_contactos_filters.value.filter((item) => item.id != tipocontacto);
         toast.error("Tipo de Contacto Eliminada!");
     })
 
     socket.on("update_tipocontacto", (tipocontacto) => {
-        const index = tipo_contactos.value.findIndex(item => item.id === tipocontacto.id);
-        tipo_contactos.value[index] = tipocontacto;
+        var index = tipo_contactos.value.findIndex(item => item.id === tipocontacto.id);
+        if(index>=0){
+            tipo_contactos.value[index] = tipocontacto;
+        }
+        index = tipo_contactos_filters.value.findIndex(item => item.id === tipocontacto.id);
+        if(index>=0){
+            tipo_contactos_filters.value[index] = tipocontacto;
+        }
         toast.warning("Tipo de Contacto Atualizada!");
     })
 
@@ -96,7 +106,6 @@ export const useContactoStore = defineStore("contacto", () => {
     async function createContacto(data){
         try {
             console.log("DATA",data)
-
             const response = await axios.post("contacto",data);
             contactos.value.push(response.data)
             console.log("RESPONSE",response.data);
@@ -111,9 +120,11 @@ export const useContactoStore = defineStore("contacto", () => {
             console.log("DATA",data)
             const response = await axios.put("contacto/"+id, data);
             const index = contactos.value.findIndex(item => item.id === id);
-            contactos.value[index] = response.data.data;
-            console.log("RESPONSE",response.data.data);
-            socket.emit("update_contacto", response.data.data);
+            if(index>=0) {
+                contactos.value[index] = response.data.data;
+                console.log("RESPONSE", response.data.data);
+                socket.emit("update_contacto", response.data.data);
+            }
             toast.warning("Contacto atualizado com sucesso");
         }catch (error){
             throw error;
@@ -122,7 +133,7 @@ export const useContactoStore = defineStore("contacto", () => {
     async function deleteContacto(id){
         try {
             const response = await axios.delete("contacto/"+id);
-            contactos.value = contactos.value.filter((item) => item.id !== id);
+            contactos.value = contactos.value.filter((item) => item.id != id);
             socket.emit("delete_contacto", id);
             toast.error("Contacto eliminado com sucesso");
         }catch (error){
@@ -134,6 +145,7 @@ export const useContactoStore = defineStore("contacto", () => {
         try {
             const response = await axios.post("tipocontacto",data);
             tipo_contactos.value.push(response.data)
+            tipo_contactos_filters.value.push(response.data)
             console.log("RESPONSE",response.data);
             socket.emit("create_tipocontacto", response.data);
             toast.success("Tipo de Contacto criado com sucesso");
@@ -146,8 +158,14 @@ export const useContactoStore = defineStore("contacto", () => {
         try {
             console.log("DATA",data)
             const response = await axios.put("tipocontacto/"+id, data);
-            const index = tipo_contactos.value.findIndex(item => item.id === id);
-            tipo_contactos.value[index] = response.data.data;
+            var index = tipo_contactos.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                tipo_contactos.value[index] = response.data.data;
+            }
+            index = tipo_contactos_filters.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                tipo_contactos_filters.value[index] = response.data.data;
+            }
             console.log("RESPONSE",response.data.data);
             socket.emit("update_tipocontacto", response.data.data);
             toast.warning("Tipo de Contacto atualizado com sucesso");
@@ -158,7 +176,8 @@ export const useContactoStore = defineStore("contacto", () => {
     async function deleteTipoContacto(id){
         try {
             const response = await axios.delete("tipocontacto/"+id);
-            tipo_contactos.value = tipo_contactos.value.filter((item) => item.id !== id);
+            tipo_contactos.value = tipo_contactos.value.filter((item) => item.id != id);
+            tipo_contactos_filters.value = tipo_contactos_filters.value.filter((item) => item.id != id);
             socket.emit("delete_tipocontacto", id);
             toast.error("Tipo de Contacto eliminado com sucesso");
         }catch (error){

@@ -29,10 +29,14 @@ export const useNoticiaStore = defineStore("noticias", () => {
     })
 
     socket.on("update_noticia", (noticia) => {
-        const index = noticias.value.findIndex(item => item.id === noticia.id);
-        noticias.value[index] = noticia;
-        const index_filter = noticias_filtered.value.findIndex(item => item.id === noticia.id);
-        noticias_filtered.value[index_filter] = noticia;
+        var index = noticias.value.findIndex(item => item.id === noticia.id);
+        if(index>=0) {
+            noticias.value[index] = noticia;
+        }
+        index = noticias_filtered.value.findIndex(item => item.id === noticia.id);
+        if(index>=0) {
+            noticias_filtered.value[index] = noticia;
+        }
         toast.warning("Noticia Atualizada!");
     })
 
@@ -84,10 +88,14 @@ export const useNoticiaStore = defineStore("noticias", () => {
                 }});
             console.log(data, "Dados")
             console.log(response, "edit Noticia");
-            const index = noticias.value.findIndex(item => item.id === id);
-            noticias.value[index] = response.data;
-            const index_filter = noticias_filtered.value.findIndex(item => item.id === id);
-            noticias_filtered.value[index_filter] = response.data;
+            var index = noticias.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                noticias.value[index] = response.data;
+            }
+            index = noticias_filtered.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                noticias_filtered.value[index] = response.data;
+            }
             socket.emit("update_noticia", response.data);
             toast.warning("Noticia Atualizada!")
         } catch (error) {

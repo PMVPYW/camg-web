@@ -39,11 +39,15 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     })
 
     socket.on("update_entidade", (entidade, patrocinio) => {
-        const index = entidades.value.findIndex(item => item.id === entidade.id);
-        entidades.value[index] = entidade;
+        var index = entidades.value.findIndex(item => item.id === entidade.id);
+        if(index>=0) {
+            entidades.value[index] = entidade;
+        }
         const patrocinio_rally = entidade.rallys.find(item => item.rally_id == rallyStore.rally_selected)
-        const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == entidade.id)
-        patrocinios.value[index_patrocinio] = patrocinio
+        index = patrocinios.value.findIndex(item => item.entidade_id.id == entidade.id)
+        if(index>=0) {
+            patrocinios.value[index] = patrocinio
+        }
         toast.warning("Entidade Atualizada!");
     })
 
@@ -160,7 +164,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
                     'Content-Type': 'multipart/form-data'
                 }});
             const index = entidades.value.findIndex(item => item.id == id);
-            entidades.value[index] = response.data.data;
+            if(index>=0) {
+                entidades.value[index] = response.data.data;
+            }
             const patrocinio_rally = response.data.data.rallys.find(item => item.rally_id == rallyStore.rally_selected)
             console.log("rally_id", patrocinio_rally)
 
@@ -173,7 +179,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             console.log(index_patrocinio);
 
             const patrocinio= await loadPatrociniosById(patrocinio_rally.id)
-            patrocinios.value[index_patrocinio] = patrocinio;
+            if(index_patrocinio>=0) {
+                patrocinios.value[index_patrocinio] = patrocinio;
+            }
             console.log(patrocinios.value[index_patrocinio])
 
 
