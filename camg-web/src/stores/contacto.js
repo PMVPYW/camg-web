@@ -95,7 +95,7 @@ export const useContactoStore = defineStore("contacto", () => {
                 response = await axios.get(`tipocontacto${suffix}`);
                 tipo_contactos.value=response.data.data;
             }
-            tipo_contactos_filters.value=response.data.data;
+            tipo_contactos_filters.value=[...response.data.data];
             console.log("TipoContactos",tipo_contactos)
             console.log("Response", response)
         } catch (error) {
@@ -144,8 +144,10 @@ export const useContactoStore = defineStore("contacto", () => {
     async function createTipoContacto(data){
         try {
             const response = await axios.post("tipocontacto",data);
+            if(tipo_contactos_filters.value != null){
+                tipo_contactos_filters.value.push(response.data)
+            }
             tipo_contactos.value.push(response.data)
-            tipo_contactos_filters.value.push(response.data)
             console.log("RESPONSE",response.data);
             socket.emit("create_tipocontacto", response.data);
             toast.success("Tipo de Contacto criado com sucesso");

@@ -21,7 +21,6 @@ function editType (id){
 
 function emit_contact(contacto){
   emit('selectedContacto', contacto);
-  console.log("CATCHAU");
 }
 
 
