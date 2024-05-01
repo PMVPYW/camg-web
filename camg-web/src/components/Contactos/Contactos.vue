@@ -25,16 +25,21 @@ watch(filters, (new_value) => {
   contactoStore.loadTipoContactos({filters: filters})
 })
 
+
 function selected_emit(new_var){
   selectedContacto.value=new_var;
 }
 
 function searchContact() {
   const regex = new RegExp(pesquisa.value, 'i');
-  const contacts = contactoStore.contactos;
+  var contacts = contactoStore.contactos;
   filteredContacts.value = contacts.filter(contacts => regex.test(contacts.nome)|| regex.test(contacts.valor)||regex.test(contacts.tipo_valor));
-  console.log(filteredContacts);
 }
+
+
+watch(()=>contactoStore.contactos, (patrocinio)=>{
+  filteredContacts.value=contactoStore.contactos;
+});
 
 </script>
 <template>
