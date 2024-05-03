@@ -27,10 +27,10 @@ const contactoStore = useContactoStore();
 const provaStore = useProvaStore();
 
 onMounted(async () => {
+  await rallyStore.loadRallies();
   await provaStore.loadProvas({})
   await contactoStore.loadContactos({});
   await contactoStore.loadTipoContactos({});
-  await rallyStore.loadRallies();
   await patrocinioStore.loadPatrocinios({});
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();

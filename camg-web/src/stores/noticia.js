@@ -57,7 +57,6 @@ export const useNoticiaStore = defineStore("noticias", () => {
                 noticias_filtered.value = response.data.data;
                 console.log(noticias, "Noticias")
             }
-            console.log("Response", response)
         } catch (error) {
             throw error;
         }
@@ -86,8 +85,6 @@ export const useNoticiaStore = defineStore("noticias", () => {
             const response = await axios.post("noticia/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            console.log(data, "Dados")
-            console.log(response, "edit Noticia");
             var index = noticias.value.findIndex(item => item.id === id);
             if(index>=0) {
                 noticias.value[index] = response.data;

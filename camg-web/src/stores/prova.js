@@ -32,8 +32,36 @@ export const useProvaStore = defineStore("prova", () => {
                 provas_filtered.value = response.data.data;
                 console.log(provas, "Provas")
             }
-            console.log("Response", response)
         } catch (error) {
+            throw error;
+        }
+    }
+
+    async function editProva(data, id) {
+        try {
+            console.log(data, "Dados")
+            const response = await axios.put("prova/"+id, data);
+            var index = provas.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                provas.value[index] = response.data.data;
+            }
+            index = provas_filtered.value.findIndex(item => item.id === id);
+            if(index>=0) {
+                provas_filtered.value[index] = response.data.data;
+            }
+            console.log("EDITAR",response.data.data )
+            toast.warning("Prova Atualizada!")
+        } catch (error) {
+            loadProvas({})
+            throw error;
+        }
+    }
+
+    async function deleteProva(id) {
+        try {
+
+        } catch (error) {
+            loadProvas({})
             throw error;
         }
     }
@@ -44,5 +72,7 @@ export const useProvaStore = defineStore("prova", () => {
         loadProvas,
         provas,
         provas_filtered,
+        editProva,
+        deleteProva
     };
 });

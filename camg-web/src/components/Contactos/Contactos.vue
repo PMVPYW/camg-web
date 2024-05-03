@@ -37,7 +37,7 @@ function searchContact() {
 }
 
 
-watch(()=>contactoStore.contactos, (patrocinio)=>{
+watch(()=>contactoStore.contactos, (contacto)=>{
   filteredContacts.value=contactoStore.contactos;
 });
 

@@ -14,7 +14,7 @@ const serverBaseUrl = inject("serverBaseUrl");
       <div class=" flex flex-row px-1 items-center justify-between">
         <div class="flex flex-row">
           <h1 class="text-xl text-gray-800 mx-4 font-bold">{{prova.nome}}</h1>
-          <h1 v-if="prova.data_inicio" class="text-xl font-bold text-gray-800">{{ prova.data_inicio }}</h1>
+          <h1 v-if="prova.data_inicio" class="text-xl text-gray-600">{{ prova.data_inicio }}</h1>
         </div>
         <h1 class="text-xl text-gray-600 mx-4">{{ prova.local }}</h1>
         <h1 class="text-xl text-amber-600 mx-4 font-bold">{{ prova.distancia_percurso/1000 }} Km</h1>

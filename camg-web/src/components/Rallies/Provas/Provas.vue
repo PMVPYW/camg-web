@@ -3,10 +3,15 @@ import {ref, watch, reactive} from "vue";
 
 import {useProvaStore} from "@/stores/prova.js";
 import Prova from "@/components/Rallies/Provas/Prova.vue";
+import CrudButtons from "@/components/common/crudButtons.vue";
+import UpdateProvaForm from "@/components/Rallies/Provas/UpdateProvaForm.vue";
+import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import {useRallyStore} from "@/stores/rally.js";
 
 
 //Stores
 const provaStore=useProvaStore();
+const rallyStore=useRallyStore();
 const selectedProva= ref({});
 
 //filters
@@ -16,10 +21,15 @@ watch(filters, (new_value) => {
   provaStore.loadProvas({filters: filters})
 })
 
+
 </script>
 <template>
   <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Provas</h1>
+    <CrudButtons :create_visible="false" :create_form="UpdateProvaForm"
+                 :edit_callback="provaStore.editProva" :obj_to_edit="selectedProva"
+                 :delete_callback="provaStore.deleteProva" :delete_form="SimpleDeleteForm"
+                 @clearSelected="selectedProva = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row items-center justify-between w-5/6">
@@ -47,8 +57,8 @@ watch(filters, (new_value) => {
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
-        <div class="w-9/12">
-          <Prova v-for="prova in provaStore.provas_filtered" :key="prova.id" @click="()=>{selectedProva = prova}" :prova="prova" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedProva.id==prova.id}"></Prova>
+        <div v-for="prova in provaStore.provas_filtered" class="w-9/12">
+          <Prova v-if="prova.rally_id===rallyStore.rally_selected" :key="prova.id" @click="()=>{selectedProva = prova}" :prova="prova" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedProva.id==prova.id}"></Prova>
         </div>
       </div>
     </div>
