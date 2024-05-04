@@ -13,7 +13,11 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  update_delete_visible: {
+  update_visible: {
+    type: Boolean,
+    default: true
+  },
+  delete_visible: {
     type: Boolean,
     default: true
   }
@@ -105,12 +109,12 @@ const deleteEntity = () => {
               class="md:w-3/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">
         {{ creating ? 'Cancelar' : 'Criar' }}
       </button>
-      <button  v-if="props.update_delete_visible" @click="togleDeleting" type="button"
+      <button  v-if="props.delete_visible" @click="togleDeleting" type="button"
               :disabled="!obj_to_edit_cpy.id"
               class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ deleting ? 'Cancelar' : 'Eliminar' }}
       </button>
-      <button v-if="props.update_delete_visible" @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
+      <button v-if="props.update_visible" @click="togleEditing" type="button" :disabled="!obj_to_edit_cpy.id"
               class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
         {{ editing ? 'Cancelar' : 'Editar' }}
       </button>

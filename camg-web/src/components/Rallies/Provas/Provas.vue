@@ -28,15 +28,15 @@ watch(filters, (new_value) => {
     <h1 class="text-2xl font-bold ml-10 mt-10">Provas</h1>
     <CrudButtons :create_visible="false" :create_form="UpdateProvaForm"
                  :edit_callback="provaStore.editProva" :obj_to_edit="selectedProva"
-                 :delete_callback="provaStore.deleteProva" :delete_form="SimpleDeleteForm"
+                 :delete_visible="false"
                  @clearSelected="selectedProva = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
-        <div class="flex flex-row items-center justify-between w-5/6">
-          <div class="flex flex-row w-2/6">
+        <div class="flex flex-wrap items-center justify-between w-5/6">
+          <div class="flex flex-row w-2/6 m-4">
             <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
           </div>
-          <div class="flex flex-row items-center">
+          <div class="flex flex-row items-center m-4">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="filters.order" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
               <option class="uppercase" value="nome_asc">Nome A-Z</option>
@@ -48,7 +48,7 @@ watch(filters, (new_value) => {
               <option class="uppercase" value="proximity">Proximidade</option>
             </select>
           </div>
-          <div class="flex flex-row items-center">
+          <div class="flex flex-row items-center m-4">
             <label class="block ml-4 text-base font-medium w-9/12">A partir de:</label>
             <input v-model="filters.data_inicio" type="date" class="py-3 px-8 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm ">
           </div>
