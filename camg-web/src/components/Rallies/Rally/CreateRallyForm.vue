@@ -37,13 +37,13 @@ const emitRally = () => {
 <template>
   <form class="m-2">
       <input type="text" name="nome" placeholder="Nome do rally" required v-model="nome"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-1/2">
+             class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Inicio</label>
       <input type="date" name="data_inicio" v-model="data_inicio" placeholder="data inicio" required
-             class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-1/6">
+             class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/6">
     <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Fim</label>
     <input type="date" name="data_fim" v-model="data_fim" placeholder="data fim" required
-           class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-1/6">
+           class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/6">
     <br>
 
     <div class="w-full text-red-600 font-bold items-top flex justify-center" v-if="Object.keys(errors).length">
@@ -57,9 +57,9 @@ const emitRally = () => {
     <br>
     <div class="mx-auto text-center">
       <input type="text" name="external_id" placeholder="ID externo" required v-model="external_id"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-1/12">
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/12">
       <input type="file" accept="image/png, image/gif, image/jpeg"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-7/12 file:hidden"
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-7/12 file:hidden"
              @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
       <input type="submit"
              @click.prevent="emitRally"
@@ -74,4 +74,5 @@ const emitRally = () => {
 
     </div>
   </form>
+  <hr class="mt-5 mb-10">
 </template>

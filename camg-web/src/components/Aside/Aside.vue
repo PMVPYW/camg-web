@@ -96,6 +96,16 @@ let button = ref(false);
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Patrocinios</span>
             </router-link>
           </li>
+          <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'provas'}">
+            <router-link :to="{ name: 'provas' }" :class="{active: $route.name === 'provas', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'provas'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
+              <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'provas', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'provas'}">
+                <Icon icon="maki:racetrack" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'provas'}">
+                  <title>Entidades Especiais</title>
+                </Icon>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Entidades Especiais</span>
+            </router-link>
+          </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'horarios'}">
             <router-link :to="{ name: 'horarios' }" :class="{active: $route.name === 'horarios', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'horarios'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'horarios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'horarios'}">
@@ -149,9 +159,9 @@ let button = ref(false);
           <li class="w-full">
             <h6 class="pl-6 ml-2 my-4 font-bold leading-tight uppercase text-xs opacity-60">Gestão Back Office</h6>
           </li>
-          <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
-            <router-link :to="{ name: 'admins' }" :class="{active: $route.name === 'conselhos_seguranca', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'admins'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
-              <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'admins', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'conselhos_seguranca'}">
+          <li class="mt-0.5 w-full mb-4" :class="{'drop-shadow-md': $route.name === 'admins'}">
+            <router-link :to="{ name: 'admins' }" :class="{active: $route.name === 'admins', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'admins'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
+              <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'admins', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'admins'}">
                 <Icon icon="clarity:administrator-line" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'admins'}">
                   <title>Conselhos de Segurança</title>
                 </Icon>
@@ -270,8 +280,9 @@ let button = ref(false);
               </Icon>
             </router-link>
           </li>
+          <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
           <li class="mx-auto">
-            <h6 class="my-4 font-bold leading-tight uppercase text-xs opacity-60">Back Office</h6>
+            <h6 class="text-center my-4 font-bold leading-tight uppercase text-xs opacity-60">Back Office</h6>
           </li>
           <li class="mt-0.5 mx-auto pt-2 mb-4" :class="{'drop-shadow-md': $route.name === 'admins'}">
             <router-link :to="{ name: 'admins' }" :class="{active: $route.name === 'admins','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'admins', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'admins'}">

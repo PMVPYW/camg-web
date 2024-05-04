@@ -42,8 +42,8 @@ const emitFoto = () => {
 <template>
   <form class="m-2">
       <input type="text" name="nome" placeholder="descrição das fotos" required v-model="description"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-1/2">
-     <select disabled  v-model="album_id" class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-5/12 bg-white">
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
+     <select disabled  v-model="album_id" class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
        <option :selected="true" :value="album.id">{{album.nome}}</option>
      </select>
     <br>
@@ -55,7 +55,7 @@ const emitFoto = () => {
     </div>
     <br>
       <input multiple type="file" accept="image/png, image/gif, image/jpeg"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-8/12 file:hidden"
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
              @change="image_src = props.obj_to_edit ?  $event.target.files[0] : $event.target.files">
       <input type="submit"
              @click.prevent="emitFoto"

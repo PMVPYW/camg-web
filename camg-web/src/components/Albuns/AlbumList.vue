@@ -40,13 +40,13 @@ const setSelectedAlbum = (rally) => {
                :obj_to_edit="selectedAlbum"
                @clearSelected="selectedAlbum = {}"></CrudButtons>
 
-  <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
+  <div class=" w-11/12 my-8 h-full rounded-lg justify-center mx-auto p-4">
     <!--filters-->
     <div class="mx-auto h-1/4 w-full p-3 mb-6 sm:flex-none">
       <input type="text" placeholder="Pesquisar" v-model.lazy="filters.search"
-             class="w-11/12 lg:w-1/2 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10">
+             class="w-11/12 lg:w-1/2 text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Rally</label>
-      <select class="w-11/12 lg:w-5/12 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10"
+      <select class="w-11/12 lg:w-5/12 text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
               v-model="filters.rally_id">
         <option value="todos">Todos</option>
         <option value="nenhum">Sem Rally</option>

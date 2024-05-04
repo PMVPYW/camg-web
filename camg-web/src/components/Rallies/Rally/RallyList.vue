@@ -35,32 +35,30 @@ const setSelectedRally = (rally) => {
                :delete_form="DeleteRallyForm"
                :obj_to_edit="selectedRally"
                @clearSelected="selectedRally = {}"></CrudButtons>
-  <div class="border-4 w-11/12 my-8 h-full rounded-lg justify-center mx-auto bg-[#f8f9fe] p-4">
-    <div class="m-2 w-11/12 bg-white border-4 mx-auto rounded-lg text-center">
+  <div class="w-11/12 my-8 h-full rounded-lg justify-center mx-auto p-4">
+    <div class="m-2 w-11/12 mx-auto rounded-lg text-center">
       <input type="text" placeholder="Pesquisar" v-model.lazy="filters.search"
-             class="w-11/12 lg:w-1/2 bg-[#f8f9fe] m-2 rounded-md text-black  text-center border-2 h-10">
+             class="w-11/12 lg:w-1/2 text-sm my-2 ml-2 p-2 font-bold text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">De</label>
       <input type="date" placeholder="data inicio" required
              v-model="filters.data_inicio"
-             class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
+             class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 font-bold text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10">
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Até</label>
       <input type="date" placeholder="data fim" required
              v-model="filters.data_fim"
-             class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
+             class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 font-bold text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10">
 
       <br>
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Ordenar</label>
-      <select
-          v-model="filters.order"
-          class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
+      <select v-model="filters.order"
+          class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10">
         <option value="proximity">Por proximidade</option>
         <option value="date_desc">Por data decrescente</option>
         <option value="date_asc">Por data crescente</option>
       </select>
       <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12">Status</label>
-      <select
-          v-model="filters.status"
-          class="h-10 my-2 ml-2 p-2 font-bold text-center border-2 rounded-lg w-11/12 lg:w-1/6 bg-[#f8f9fe]">
+      <select v-model="filters.status"
+          class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10">
         <option value="all">Todos</option>
         <option value="not_started">Por iniciar</option>
         <option value="on_going">A decorrer</option>

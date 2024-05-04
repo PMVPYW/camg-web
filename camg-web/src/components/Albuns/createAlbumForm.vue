@@ -32,8 +32,8 @@ const emitAlbum = () => {
 <template>
   <form class="m-2">
       <input type="text" name="nome" placeholder="Nome do album" required v-model="nome"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-1/2">
-     <select v-model="rally_id" class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-5/12 bg-white">
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
+     <select v-model="rally_id" class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
        <option :value="null">Nenhum</option>
        <option v-for="rally in rallyStore.rallies" :value="rally.id">{{rally.nome}}</option>
      </select>
@@ -46,7 +46,7 @@ const emitAlbum = () => {
     </div>
     <br>
       <input type="file" accept="image/png, image/gif, image/jpeg"
-             class="h-10 m-2 p-2 font-bold text-center border-2 rounded-lg w-8/12 file:hidden"
+             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
              @change="$event.target.files[0].size < 1048576 ? img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
       <input type="submit"
              @click.prevent="emitAlbum"
@@ -59,4 +59,5 @@ const emitAlbum = () => {
 
     </div>
   </form>
+  <hr class="mt-5 mb-10">
 </template>
