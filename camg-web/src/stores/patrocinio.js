@@ -67,10 +67,8 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     async function loadPatrocinios({filters = "nome_asc"}) {
         try {
             let response;
-            console.log(filters)
             if(filters && rallyStore.rally_selected){
                 response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
-                console.log("Response", response)
                 patrocinios.value = response.data.data;
                 console.log(patrocinios, "patrocinios")
             }

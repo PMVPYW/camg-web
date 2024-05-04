@@ -76,7 +76,6 @@ export const useContactoStore = defineStore("contacto", () => {
             }
             contactos.value=response.data.data;
             console.log("CONTACTOS",contactos)
-            console.log("Response", response)
         } catch (error) {
             throw error;
         }
@@ -97,7 +96,6 @@ export const useContactoStore = defineStore("contacto", () => {
             }
             tipo_contactos_filters.value=[...response.data.data];
             console.log("TipoContactos",tipo_contactos)
-            console.log("Response", response)
         } catch (error) {
             throw error;
         }
@@ -108,7 +106,6 @@ export const useContactoStore = defineStore("contacto", () => {
             console.log("DATA",data)
             const response = await axios.post("contacto",data);
             contactos.value.push(response.data)
-            console.log("RESPONSE",response.data);
             socket.emit("create_contacto", response.data);
             toast.success("Contacto criado com sucesso");
         }catch (error){
@@ -122,7 +119,6 @@ export const useContactoStore = defineStore("contacto", () => {
             const index = contactos.value.findIndex(item => item.id === id);
             if(index>=0) {
                 contactos.value[index] = response.data.data;
-                console.log("RESPONSE", response.data.data);
                 socket.emit("update_contacto", response.data.data);
             }
             toast.warning("Contacto atualizado com sucesso");
@@ -148,7 +144,6 @@ export const useContactoStore = defineStore("contacto", () => {
                 tipo_contactos_filters.value.push(response.data)
             }
             tipo_contactos.value.push(response.data)
-            console.log("RESPONSE",response.data);
             socket.emit("create_tipocontacto", response.data);
             toast.success("Tipo de Contacto criado com sucesso");
         }catch (error){
@@ -168,7 +163,6 @@ export const useContactoStore = defineStore("contacto", () => {
             if(index>=0) {
                 tipo_contactos_filters.value[index] = response.data.data;
             }
-            console.log("RESPONSE",response.data.data);
             socket.emit("update_tipocontacto", response.data.data);
             toast.warning("Tipo de Contacto atualizado com sucesso");
         }catch (error){

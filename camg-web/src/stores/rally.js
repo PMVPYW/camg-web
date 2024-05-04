@@ -78,6 +78,13 @@ export const useRallyStore = defineStore("rally", () => {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+
+            const data_copyProvas = {
+                "rally_id": response.data.id,
+                "external_entity_id": data['external_entity_id']
+            };
+            const copyProvas = await axios.post("copyProvas", data_copyProvas);
+            console.log(copyProvas.data, "Provas copiadas da anubeSport");
             console.log(response.data, "create rally")
             if (rallies_filtered.value != null) {
                 rallies_filtered.value.push(response.data);
