@@ -20,6 +20,7 @@ import {useUserStore} from "@/stores/user.js";
 import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
 import Admins from "@/components/Admins/Admins.vue";
 import Settings from "@/components/Settings/Settings.vue";
+import PatrociniosOficiais from "@/components/Rallies/PatrociniosOficiais/PatrociniosOficiais.vue";
 
 let handleFirstTime = true;
 
@@ -40,6 +41,11 @@ const router = createRouter({
             path: "/patrocinios",
             name: "patrocinios",
             component: Patrocinios,
+        },
+        {
+            path: "/patrociniosOficiais",
+            name: "patrociniosOficiais",
+            component: PatrociniosOficiais,
         },
         {
             path: "/albuns",
