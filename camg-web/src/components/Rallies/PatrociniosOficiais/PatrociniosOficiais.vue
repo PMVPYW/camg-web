@@ -7,9 +7,10 @@ import {ref, watch} from "vue";
 import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
 import EditPatrocinioForm from "@/components/Rallies/Patrocinios/EditPatrocinioForm.vue";
 import {Icon} from "@iconify/vue";
+import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 
-const patrocinioStore=usePatrocinioStore();
+const patrocinioOficialStore=usePatrocinioOficialStore();
 const rallyStore=useRallyStore();
 const selectedPatrocinio = ref({});
 
@@ -18,14 +19,14 @@ let editing = ref(false);
 
 const order_by = ref("nome_asc");
 
-const filteredSponsors = ref(patrocinioStore.patrocinios);
+const filteredSponsors = ref(patrocinioOficialStore.patrociniosOficiais);
 const pesquisa= ref(null)
 
 
 
 function searchEntities() {
   const regex = new RegExp(pesquisa.value, 'i');
-  const patrocinios = patrocinioStore.patrocinios;
+  const patrocinios = patrocinioOficialStore.patrociniosOficiais;
   filteredSponsors.value = patrocinios.filter(entity => regex.test(entity.entidade_id.nome));
   console.log(filteredSponsors);
 }
@@ -33,13 +34,13 @@ function searchEntities() {
 
 //filters
 watch(order_by, (new_value) => {
-  patrocinioStore.loadPatrocinios({filters:order_by.value})
-  filteredSponsors.value = patrocinioStore.patrocinios
+  patrocinioOficialStore.loadPatrociniosOficiais({filters:order_by.value})
+  filteredSponsors.value = patrocinioOficialStore.patrociniosOficiais
 })
 
 
-watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
-  filteredSponsors.value=patrocinioStore.patrocinios;
+watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinio)=>{
+  filteredSponsors.value=patrocinioOficialStore.patrociniosOficiais;
 });
 
 
@@ -59,7 +60,7 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
                   class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Editar
           </button>
-          <button @click="()=>{patrocinioStore.desassociarPatrocinio(selectedPatrocinio.id)}" type="button"
+          <button @click="()=>{patrocinioOficialStore.desassociarPatrocinioOficial(selectedPatrocinio.id)}" type="button"
                   class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Eliminar
           </button>
@@ -100,7 +101,7 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-        <Patrocinio v-for="patrocinio in filteredSponsors" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></Patrocinio>
+        <PatrociniosOficiais v-for="patrocinio in filteredSponsors" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></PatrociniosOficiais>
       </div>
     </div>
   </div>

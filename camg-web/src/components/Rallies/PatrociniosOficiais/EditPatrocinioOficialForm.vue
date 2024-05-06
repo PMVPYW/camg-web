@@ -2,6 +2,7 @@
 import {inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -13,7 +14,7 @@ const url = ref(props.obj_to_edit?.entidade_id.url);
 
 const photo_url = ref(null);
 const rallyStore=useRallyStore();
-const patrocinioStore= usePatrocinioStore();
+const patrocinioOficialStore= usePatrocinioOficialStore();
 
 const selected = ref(false);
 const creating = ref(false);
@@ -27,7 +28,7 @@ function editEntidade() {
     if (photo_url.value != null) {
       obj_entidade["photo_url"] = photo_url.value
     }
-    patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id,obj_entidade)
+  patrocinioOficialStore.editEntidadeOficial(props.obj_to_edit.entidade_id.id,obj_entidade)
   }
 
 </script>

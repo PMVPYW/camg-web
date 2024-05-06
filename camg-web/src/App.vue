@@ -14,6 +14,7 @@ import {useNoticiaStore} from "@/stores/noticia.js";
 import {useFotoStore} from "@/stores/foto.js";
 import {useContactoStore} from "@/stores/contacto.js";
 import {useProvaStore} from "@/stores/prova.js";
+import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 
 const router = useRouter()
@@ -25,6 +26,7 @@ const patrocinioStore = usePatrocinioStore();
 const noticiaStore = useNoticiaStore();
 const contactoStore = useContactoStore();
 const provaStore = useProvaStore();
+const patrocinioOficial = usePatrocinioOficialStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
@@ -34,6 +36,9 @@ onMounted(async () => {
   await patrocinioStore.loadPatrocinios({});
   await patrocinioStore.loadEntidades();
   await patrocinioStore.loadpatrocinosSemAssociacao();
+  await patrocinioOficial.loadPatrociniosOficiais({});
+  await patrocinioOficial.loadEntidadesOficiais();
+  await patrocinioOficial.loadpatrocinosOficiaisSemAssociacao();
   await albumStore.loadAlbuns();
   await fotoStore.loadFotos();
   await noticiaStore.loadNoticias({});

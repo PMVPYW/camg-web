@@ -10,6 +10,8 @@ const props = defineProps(["obj_to_edit"])
 
 const nome = ref(props.obj_to_edit?.entidade_id.nome);
 const url = ref(props.obj_to_edit?.entidade_id.url);
+const relevancia = ref(props.obj_to_edit?.relevancia);
+
 
 const photo_url = ref(null);
 const rallyStore=useRallyStore();
@@ -33,6 +35,8 @@ function createPatrocinio() {
       "nome": nome.value,
       "url": url.value,
       "rally_id": rallyStore.rally_selected,
+      "entidade_oficial": 0,
+      "relevancia": relevancia.value
     };
     if (photo_url.value != null) {
       obj_entidade["photo_url"] = photo_url.value
@@ -44,8 +48,10 @@ function createPatrocinio() {
         patrocinioStore.loadPatrocinios({})
       }else{
         const obj_patrocinio = {
+          "relevancia": relevancia.value,
           "entidade_id": selected.value,
-          "rally_id": rallyStore.rally_selected
+          "rally_id": rallyStore.rally_selected,
+          "entidade_oficial": 0
         }
         console.log("Objeto Patrocinio",obj_patrocinio)
         patrocinioStore.associarPatrocinio(obj_patrocinio)
@@ -75,8 +81,8 @@ function searchEntities() {
               <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
             </div>
             <div v-if="creating">
-              <label class="block mb-2 text-base font-medium">Link</label>
-              <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
+              <label class="block mb-2 text-base font-medium">Relevância</label>
+              <input type="number" required v-model="relevancia" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Relevância">
             </div>
           </div>
         </div>
@@ -88,6 +94,12 @@ function searchEntities() {
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
                        @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
               </div>
+          </div>
+          <div v-if="creating" class="flex justify-center w-full">
+            <div class="mb-4 sm:mb-8 w-11/12">
+              <label class="block mb-2 text-base font-medium">Link</label>
+              <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
+            </div>
           </div>
         <div class="flex justify-center w-full">
           <button type="button"

@@ -140,7 +140,8 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         const data2 = {
             "entidade_id" : response.data.id,
             "rally_id" : data.rally_id,
-
+            "entidade_oficial": 0,
+            "relevancia": data.relevancia
         };
         const response2 = await axios.post("patrocinio", data2, {headers: {
                 'Content-Type': 'multipart/form-data'
