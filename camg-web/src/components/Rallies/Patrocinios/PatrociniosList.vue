@@ -48,7 +48,7 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
 <template>
   <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10 w-full">Patrocinios</h1>
-    <div class="w-11/12 my-8 rounded-lg justify-center bg-[#f8f9fe]">
+    <div class="flex w-11/12 my-8 rounded-lg justify-center bg-[#f8f9fe]">
         <div v-if="editing === false && associating === false" class="flex flex-row bg-[#f8f9fe] w-full h-16 justify-center">
           <div class="flex flex-row items-center w-2/6">
             <button @click="()=>{associating=true; selectedPatrocinio=!selectedPatrocinio;console.log(associating)}" type="button"

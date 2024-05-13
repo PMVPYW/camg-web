@@ -1,7 +1,6 @@
 <script setup xmlns="http://www.w3.org/1999/html">
 import {watch, inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
-import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
@@ -11,7 +10,7 @@ const props = defineProps(["obj_to_edit"])
 
 const nome = ref(props.obj_to_edit?.entidade_id.nome);
 const url = ref(props.obj_to_edit?.entidade_id.url);
-const relevancia = ref(props.obj_to_edit?.relevancia);
+const relevancia = ref(1);
 
 
 const photo_url = ref(null);
@@ -36,7 +35,8 @@ function createPatrocinio() {
       "nome": nome.value,
       "url": url.value,
       "rally_id": rallyStore.rally_selected,
-      "entidade_oficial": 1
+      "entidade_oficial": 1,
+      "relevancia": relevancia.value
     };
     if (photo_url.value != null) {
       obj_entidade["photo_url"] = photo_url.value
@@ -48,6 +48,7 @@ function createPatrocinio() {
         patrocinioOficialStore.loadPatrociniosOficiais({})
       }else{
         const obj_patrocinio = {
+          "relevancia": relevancia.value,
           "entidade_id": selected.value,
           "rally_id": rallyStore.rally_selected,
           "entidade_oficial": 1
@@ -71,17 +72,26 @@ function searchEntities() {
 
 <template>
   <form class="m-2">
-    <div class="flex flex-row">
-      <div>
+    <div class="flex flex-row justify-center w-full">
+      <div class="w-6/12">
         <div class="flex justify-center w-full">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
-            <div>
+            <div class="mt-2">
               <label class="block mb-2 text-base font-medium">Nome</label>
               <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
             </div>
-            <div v-if="creating">
-              <label class="block mb-2 text-base font-medium">Relevância</label>
-              <input type="number" required v-model="relevancia" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Relevância">
+            <div class="relative mb-6">
+              <div class="flex flex-row justify-between">
+                <div class="flex flex-row">
+                  <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância: </label>
+                  <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-200 p-2 mx-2 rounded-xl">{{relevancia}}</label>
+                </div>
+              </div>
+              <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-0 -bottom-6">1</span>
+              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
+              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
+              <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
             </div>
           </div>
         </div>

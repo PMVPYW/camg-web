@@ -18,7 +18,6 @@ const serverBaseUrl = inject("serverBaseUrl");
 
         <div class="flex items-center justify-between mt-2">
           <a :href="props.patrocinio.entidade_id.url" type="button" class="m-4 px-6 py-2 rounded-lg border border-amber-400 text-amber-400 hover:text-black hover:bg-amber-400 hover:opacity-50 text-center text-sm uppercase align-middle transition-all">Ver</a>
-
         </div>
       </div>
     </div>

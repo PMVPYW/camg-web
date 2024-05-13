@@ -68,7 +68,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
         try {
             let response;
             if(filters && rallyStore.rally_selected){
-                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinioOficial?filters="+filters);
+                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrociniosOficiais?filters="+filters);
                 patrociniosOficiais.value = response.data.data;
                 console.log(patrociniosOficiais, "patrocinios")
             }
@@ -80,7 +80,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
     async function loadpatrocinosOficiaisSemAssociacao() {
         try {
             if(rallyStore.rally_selected){
-                const response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios_s_associacao");
+                const response = await axios.get("rally/"+rallyStore.rally_selected+"/patrociniosOficiais_s_associacao");
                 patrociniosOficiaisSemAssociacao.value = response.data.data;
                 console.log(patrociniosOficiaisSemAssociacao, "Patrocinios Sem Associacão")
             }
@@ -113,6 +113,23 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("desassociar_patrocinio", response.data);
             toast.error("Patrocinio Desassociado!")
 
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async function editPatrocinioOficial(data,id) {
+        console.log("Id",id);
+        console.log("Data",data);
+
+        try{
+            const response = await axios.put("patrocinio/"+ id , data );
+            console.log(response.data, "Atualizar Patrocinio do rally")
+            patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != id);
+            const index_patrocinio = patrociniosOficiais.value.filter((item) => item.id == id)
+            if(index_patrocinio>=0) {
+                patrociniosOficiais.value[index_patrocinio] = response.data;
+            }
         } catch (error) {
             throw error;
         }
@@ -177,7 +194,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             const index_patrocinio = patrociniosOficiais.value.findIndex(item => item.entidade_id.id == id)
             console.log(index_patrocinio);
 
-            const patrocinio= await loadPatrociniosById(patrocinio_rally.id)
+            const patrocinio= await loadPatrociniosOficiaisById(patrocinio_rally.id)
             if(index_patrocinio>=0) {
                 patrociniosOficiais.value[index_patrocinio] = patrocinio;
             }
@@ -250,11 +267,13 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
 
     return {
         //Associação Patrocinios
+        editPatrocinioOficial,
         associarPatrocinioOficial,
         desassociarPatrocinioOficial,
         clearPatrociniosOficiais,
         loadPatrociniosOficiais,
         loadpatrocinosOficiaisSemAssociacao,
+        loadPatrociniosOficiaisById,
         patrociniosOficiais,
         patrociniosOficiaisSemAssociacao,
 

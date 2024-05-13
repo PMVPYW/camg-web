@@ -25,7 +25,7 @@ const show_dropdown = ref(false)
       </div>
       <div class="flex flex-row items-center justify-end">
         <div v-if="rallyStore.rally_selected">
-          <div v-if="$route.name === 'patrocinios' || $route.name === 'conselhos_seguranca' || $route.name === 'horarios' || $route.name === 'provas' || $route.name === 'zonas_espetaculo' || $route.name === 'declaracoes'"
+          <div v-if="$route.name === 'patrocinios' || $route.name === 'conselhos_seguranca' || $route.name === 'horarios' || $route.name === 'provas' || $route.name === 'zonas_espetaculo' || $route.name === 'declaracoes' || $route.name ==='patrociniosOficiais'"
               class="flex justify-end items-center flex-grow m-3 mx-8">
             <h1 class="block text-slate-700 text-base font-medium mr-2">Rally:</h1>
             <select v-model="rallyStore.rally_selected"

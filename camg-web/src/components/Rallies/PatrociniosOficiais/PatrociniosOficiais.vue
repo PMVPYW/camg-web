@@ -1,13 +1,12 @@
 <script setup>
-import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useRallyStore} from "@/stores/rally.js";
 
-import Patrocinio from "@/components/Rallies/Patrocinios/Patrocinio.vue";
 import {ref, watch} from "vue";
-import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
-import EditPatrocinioForm from "@/components/Rallies/Patrocinios/EditPatrocinioForm.vue";
+import PatrocinioOficial from "@/components/Rallies/PatrociniosOficiais/PatrocinioOficial.vue";
 import {Icon} from "@iconify/vue";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
+import CreatePatrocinioOficialForm from "@/components/Rallies/PatrociniosOficiais/CreatePatrocinioOficialForm.vue";
+import EditPatrocinioOficialForm from "@/components/Rallies/PatrociniosOficiais/EditPatrocinioOficialForm.vue";
 
 
 const patrocinioOficialStore=usePatrocinioOficialStore();
@@ -38,17 +37,19 @@ watch(order_by, (new_value) => {
   filteredSponsors.value = patrocinioOficialStore.patrociniosOficiais
 })
 
-
-watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinio)=>{
+watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
   filteredSponsors.value=patrocinioOficialStore.patrociniosOficiais;
 });
+
+
+
 
 
 </script>
 
 <template>
   <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
-    <h1 class="text-2xl font-bold ml-10 mt-10 w-full">Patrocinios</h1>
+    <h1 class="text-2xl font-bold ml-10 mt-10 w-full">Patrocinios Oficiais</h1>
     <div class="w-11/12 my-8 rounded-lg justify-center bg-[#f8f9fe]">
       <div v-if="editing === false && associating === false" class="flex flex-row bg-[#f8f9fe] w-full h-16 justify-center">
         <div class="flex flex-row items-center w-2/6">
@@ -85,7 +86,7 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinio)=>{
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
           </svg>
         </button>
-        <CreatePatrocinioForm></CreatePatrocinioForm>
+        <CreatePatrocinioOficialForm></CreatePatrocinioOficialForm>
         <hr class="mt-5 mb-10">
       </div>
       <!--Edit Form-->
@@ -95,13 +96,13 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinio)=>{
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
           </svg>
         </button>
-        <EditPatrocinioForm :obj_to_edit="selectedPatrocinio"></EditPatrocinioForm>
+        <EditPatrocinioOficialForm :obj_to_edit="selectedPatrocinio"></EditPatrocinioOficialForm>
         <hr class="mt-5 mb-10">
       </div>
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-        <PatrociniosOficiais v-for="patrocinio in filteredSponsors" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></PatrociniosOficiais>
+        <PatrocinioOficial v-for="patrocinio in filteredSponsors" :key="patrocinio.id" @click="()=>{selectedPatrocinio = patrocinio}" :patrocinio="patrocinio" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedPatrocinio.id==patrocinio.id}"></PatrocinioOficial>
       </div>
     </div>
   </div>
