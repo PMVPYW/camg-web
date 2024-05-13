@@ -12,7 +12,7 @@ const photo_url = ref(null);
 const errors = ref(props.errors ?? {})
 
 watch(()=>props.errors, (n_errors)=>{
-  errors.value = n_errors;
+  errors.value = n_errors ?? {};
 })
 
 watch(external_id, (new_external_id, oldValue) => {
