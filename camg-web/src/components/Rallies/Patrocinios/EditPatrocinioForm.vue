@@ -22,21 +22,23 @@ const creating = ref(false);
 
 
 function editEntidade() {
-    const obj_entidade = {
-      "nome": nome.value,
-      "url": url.value,
-    };
+  //Edit Entidade
+  const obj_entidade = {
+    "nome": nome.value,
+    "url": url.value,
+    "relevancia": relevancia.value
+  };
     if (photo_url.value != null) {
       obj_entidade["photo_url"] = photo_url.value
     }
-    if (relevancia.value != null){
-      const obj_patrocinio = {
+    patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id,obj_entidade);
 
-      }
-
-    }
-    patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id,obj_entidade)
-  }
+  //Edit Patrocinio
+  const obj_patrocinio = {
+    "relevancia": relevancia.value,
+  };
+    patrocinioStore.editPatrocinio(obj_patrocinio,props.obj_to_edit.id);
+}
 
 </script>
 

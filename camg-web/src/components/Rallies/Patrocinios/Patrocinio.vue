@@ -15,7 +15,7 @@ const serverBaseUrl = inject("serverBaseUrl");
       </div>
       <div class="flex-auto px-1 pt-6">
         <h1 class="relative z-10 mb-2 leading-normal font-bold text-lg text-gray-800">{{props.patrocinio.entidade_id.nome}}</h1>
-
+        <h1 class="relative z-10 mb-2 leading-normal text-lg text-gray-500">Nivel de Relevância: <b class="text-gray-800">{{props.patrocinio.relevancia}}</b></h1>
         <div class="flex items-center justify-between mt-2">
           <a :href="props.patrocinio.entidade_id.url" type="button" class="m-4 px-6 py-2 rounded-lg border border-amber-400 text-amber-400 hover:text-black hover:bg-amber-400 hover:opacity-50 text-center text-sm uppercase align-middle transition-all">Ver</a>
 

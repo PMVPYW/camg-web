@@ -30,7 +30,6 @@ const patrocinioOficial = usePatrocinioOficialStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
-  await provaStore.loadProvas({})
   await contactoStore.loadContactos({});
   await contactoStore.loadTipoContactos({});
   await patrocinioStore.loadPatrocinios({});
@@ -43,6 +42,8 @@ onMounted(async () => {
   await fotoStore.loadFotos();
   await noticiaStore.loadNoticias({});
   await userStore.loadAdmins();
+  await provaStore.loadProvas({})
+
 });
 </script>
 

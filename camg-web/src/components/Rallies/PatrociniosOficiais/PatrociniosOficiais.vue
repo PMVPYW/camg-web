@@ -57,11 +57,11 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
                   class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Adicionar
           </button>
-          <button @click="()=>{editing = true;console.log(editing)}" type="button"
+          <button @click="()=>{!selectedPatrocinio.id ? editing = false : editing = true}" type="button"
                   class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Editar
           </button>
-          <button @click="()=>{patrocinioOficialStore.desassociarPatrocinioOficial(selectedPatrocinio.id)}" type="button"
+          <button @click="()=>{selectedPatrocinio ? patrocinioOficialStore.desassociarPatrocinioOficial(selectedPatrocinio.id): ''}" type="button"
                   class="opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             Eliminar
           </button>
@@ -80,7 +80,7 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
         </div>
       </div>
       <!--Create Form-->
-      <div v-if="associating === true">
+      <div v-if="associating === true" class="w-full">
         <button @click="()=>{associating=false}" type="button" class="text-gray-400 font-bold text-lg mb-4 mt-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -90,7 +90,7 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
         <hr class="mt-5 mb-10">
       </div>
       <!--Edit Form-->
-      <div v-if="editing === true">
+      <div v-if="editing === true" class="w-full">
         <button @click="()=>{editing=false}" type="button" class="text-gray-400 font-bold text-lg mb-4 mt-2">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />

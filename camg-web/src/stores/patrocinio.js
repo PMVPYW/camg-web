@@ -118,6 +118,19 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         }
     }
 
+    async function editPatrocinio(data,id) {
+        try{
+            const response = await axios.put("patrocinio/"+ id , data );
+            console.log(response.data.data, "Atualizar Patrocinio do rally")
+            const index_patrocinio = patrocinios.value.filter((item) => item.id == id)
+            if(index_patrocinio>=0) {
+                patrocinios.value[index_patrocinio] = response.data.data;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
 
 
 //ENTIDADES
@@ -168,8 +181,6 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             }
             const patrocinio_rally = response.data.data.rallys.find(item => item.rally_id == rallyStore.rally_selected)
             console.log("rally_id", patrocinio_rally)
-
-
 
             const patrocinio_entidade= response.data.data.rallys.find(item=> item.entidade_id == id)
             console.log("ENTIDADE", patrocinio_entidade)
@@ -257,7 +268,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         loadpatrocinosSemAssociacao,
         patrocinios,
         patrocinosSemAssociacao,
-
+        editPatrocinio,
 
         //Entidade
         deleteEntidade,
