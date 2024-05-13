@@ -1,7 +1,7 @@
 <script setup xmlns="http://www.w3.org/1999/html">
 import {inject, ref} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
-import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -15,30 +15,30 @@ const relevancia = ref(props.obj_to_edit?.relevancia);
 
 const photo_url = ref(null);
 const rallyStore=useRallyStore();
-const patrocinioStore= usePatrocinioStore();
+const patrocinioOficialStore= usePatrocinioOficialStore();
 
 const selected = ref(false);
 const creating = ref(false);
 
 
 function editEntidade() {
-  //Edit Entidade
+  //Edit Entidade Oficial
   const obj_entidade = {
-    "nome": nome.value,
-    "url": url.value,
-    "relevancia": relevancia.value
+      "nome": nome.value,
+      "url": url.value,
+      "relevancia": relevancia.value
   };
     if (photo_url.value != null) {
       obj_entidade["photo_url"] = photo_url.value
     }
-    patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id,obj_entidade);
+    patrocinioOficialStore.editEntidadeOficial(props.obj_to_edit.entidade_id.id,obj_entidade);
 
-  //Edit Patrocinio
+  //Edit Patrocinio Oficial
   const obj_patrocinio = {
-    "relevancia": relevancia.value,
+      "relevancia": relevancia.value,
   };
-    patrocinioStore.editPatrocinio(obj_patrocinio,props.obj_to_edit.id);
-}
+    patrocinioOficialStore.editPatrocinioOficial(obj_patrocinio,props.obj_to_edit.id);
+  }
 
 </script>
 
@@ -46,7 +46,7 @@ function editEntidade() {
   <form class="m-2">
     <div class="flex flex-row justify-center w-full">
       <div class="w-6/12">
-        <div class="flex justify-center w-full">
+        <div class="flex flex-wrap justify-center w-full">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 mt-16">
             <div>
               <label class="block mb-2 text-base font-medium ">Nome</label>
@@ -54,7 +54,7 @@ function editEntidade() {
             </div>
             <div class="relative mb-6">
               <div class="flex flex-row">
-                <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância: </label>
+                <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância:</label>
                 <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-200 p-2 mx-2 rounded-xl">{{relevancia}}</label>
               </div>
               <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
@@ -63,6 +63,8 @@ function editEntidade() {
               <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
               <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
             </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6 w-11/12 mt-8">
             <div>
               <label class="block mb-2 text-base font-medium">Link</label>
               <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
