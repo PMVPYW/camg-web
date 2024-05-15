@@ -4,6 +4,7 @@ import {defineStore} from "pinia";
 
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
+import {useRallyStore} from "@/stores/rally.js";
 
 export const useHorarioStore = defineStore("horario", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -11,17 +12,25 @@ export const useHorarioStore = defineStore("horario", () => {
     const toast = useToast();
     const horarios = ref(null);
     const router = useRouter();
+    const rallyStore = useRallyStore();
 
-    const horariosScheduleFormat = computed(()=>{
+
+    const horariosScheduleFormat = computed(() => {
         var result = []
-        if (!horarios.value)
-        {
+        if (!horarios.value) {
             return [];
         }
-        horarios.value.forEach((horario)=>{
-            result.push({title: horario.titulo, description: horario.descricao, time: { start: horario.inicio.toString().slice(0, -3), end: horario.fim.toString().slice(0, -3) }, id: horario.id, color: 'yellow'});
+        horarios.value.filter((item) => rallyStore.rally_selected == item.rally_id).forEach((horario) => {
+            result.push({
+                title: horario.titulo,
+                description: horario.descricao,
+                time: {start: horario.inicio.toString().slice(0, -3), end: horario.fim.toString().slice(0, -3)},
+                id: horario.id,
+                color: 'yellow',
+                isEditable: true
+            });
         })
-        console.log(horarios.value, "2as")
+        console.log(horarios.value, result, "2ase")
         return result
     })
 
@@ -36,6 +45,21 @@ export const useHorarioStore = defineStore("horario", () => {
         }
     }
 
+    async function addHorario(data)
+    {
+        try
+        {
+            data["rally_id"] = rallyStore.rally_selected;
+            const response = await axios.post(`horario`, data);
+            horarios.value.push(response.data.data);
+            console.log(horarios.value, "2assa", response.data.data);
+        } catch (error) {
+            clearHorarios();
+            loadHorarios();
+            throw error;
+        }
+
+    }
 
 
     function clearHorarios() {
@@ -46,6 +70,7 @@ export const useHorarioStore = defineStore("horario", () => {
     return {
         loadHorarios,
         clearHorarios,
+        addHorario,
         horarios,
         horariosScheduleFormat
     };
