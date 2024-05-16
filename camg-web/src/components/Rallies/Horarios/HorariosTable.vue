@@ -10,13 +10,17 @@ import {
 import {createEventModalPlugin} from '@schedule-x/event-modal'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createDragAndDropPlugin} from '@schedule-x/drag-and-drop'
+import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls'
 import '@schedule-x/theme-default/dist/index.css'
 import {ref, watch} from "vue";
 import {useHorarioStore} from "@/stores/horario.js";
 import SimpleModal from "@/components/common/SimpleModal.vue";
+import {useRallyStore} from "@/stores/rally.js";
 
+const rallyStore = useRallyStore();
 const horarioStore = useHorarioStore();
-console.log("icd", horarioStore.horariosScheduleFormat)
+var current_rally_date = rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio.split('-')
+const current_date = ref(new Date(Date.parse(`${current_rally_date[0]}-${current_rally_date[1]}-${current_rally_date[2]}`)));
 const events = ref(horarioStore.horariosScheduleFormat)
 
 const current_creating_time = ref(null);
@@ -27,6 +31,7 @@ const current_id = ref(null);
 const editing = ref(false);
 
 const eventsServicePlugin = createEventsServicePlugin()
+const calendarControls = createCalendarControlsPlugin()
 const calendar = createCalendar({
   views: [viewMonthGrid, viewWeek, viewDay],
   defaultView: viewWeek.name,
@@ -70,8 +75,13 @@ const calendar = createCalendar({
       console.log(e)
     }),
   },
-  plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin()]
+  plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin(), calendarControls]
 })
+
+watch(()=>rallyStore.rally_selected, ()=>{
+  calendarControls.setDate(rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio)
+})
+
 
 watch(() => horarioStore.horariosScheduleFormat, () => {
   events.value = horarioStore.horariosScheduleFormat;
