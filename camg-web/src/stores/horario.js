@@ -24,7 +24,8 @@ export const useHorarioStore = defineStore("horario", () => {
             result.push({
                 title: horario.titulo,
                 description: horario.descricao,
-                time: {start: horario.inicio.toString().slice(0, -3), end: horario.fim.toString().slice(0, -3)},
+                start: horario.inicio.toString().slice(0, -3),
+                end: horario.fim.toString().slice(0, -3),
                 id: horario.id,
                 color: 'yellow',
                 isEditable: true
@@ -45,10 +46,8 @@ export const useHorarioStore = defineStore("horario", () => {
         }
     }
 
-    async function addHorario(data)
-    {
-        try
-        {
+    async function addHorario(data) {
+        try {
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.post(`horario`, data);
             horarios.value.push(response.data.data);
@@ -58,7 +57,24 @@ export const useHorarioStore = defineStore("horario", () => {
             loadHorarios();
             throw error;
         }
+    }
 
+    async function updateHorario(data) {
+        try {
+            data["rally_id"] = rallyStore.rally_selected;
+            const response = await axios.put(`horario/${data.id}`, data);
+            const index = horarios.value.findIndex((item) => item.id == data.id);
+            if (index < 0) {
+                toast.error("Erro ao atualizar horário");
+                return;
+            }
+            horarios.value[index] = response.data.data;
+            console.log(horarios.value, "2assa", response.data.data);
+        } catch (error) {
+            clearHorarios();
+            loadHorarios();
+            throw error;
+        }
     }
 
 
@@ -68,10 +84,6 @@ export const useHorarioStore = defineStore("horario", () => {
 
 
     return {
-        loadHorarios,
-        clearHorarios,
-        addHorario,
-        horarios,
-        horariosScheduleFormat
+        loadHorarios, clearHorarios, addHorario, horarios, horariosScheduleFormat, updateHorario
     };
 });
