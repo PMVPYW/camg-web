@@ -43,7 +43,7 @@ function addHorario() {
   <div class="mt-2 mr-2 max-h-[80%] w-full h-full flex justify-center overflow-y-auto">
     <div class="w-[99%] h-full rounded-xl transition-all duration-200 max-h-full is-light-mode" id="panel">
 
-      <Qalendar @edit-event="(e)=>console.log(e)" :options="{locale: 'pt-EU'}"
+      <Qalendar class="w-11/12 mx-auto my-4" @edit-event="(e)=>console.log(e)" :options="{locale: 'pt-EU'}"
                 :is-loading="horarioStore.horarios == null"
                 @datetime-was-clicked="(e)=>{current_creating_time = e; current_ending_time = new Date(e); current_ending_time.setHours(current_ending_time.getHours()+1); current_ending_time = formatDate(current_ending_time); console.log(current_ending_time, current_creating_time, typeof(current_ending_time) == typeof (current_creating_time))}"
                 :events="horarioStore.horariosScheduleFormat">
