@@ -11,7 +11,7 @@ import {createEventModalPlugin} from '@schedule-x/event-modal'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createDragAndDropPlugin} from '@schedule-x/drag-and-drop'
 import {createCalendarControlsPlugin} from '@schedule-x/calendar-controls'
-import { createResizePlugin } from '@schedule-x/resize'
+import {createResizePlugin} from '@schedule-x/resize'
 import '@schedule-x/theme-default/dist/index.css'
 import {ref, watch} from "vue";
 import {useHorarioStore} from "@/stores/horario.js";
@@ -103,8 +103,7 @@ function formatDate(date = new Date()) {
 
 function addHorario() {
   const form = document.getElementById("form")
-  if (!form.checkValidity())
-  {
+  if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
@@ -122,7 +121,12 @@ function addHorario() {
     horarioStore.addHorario(data);
   }
 
-  current_creating_time.value = null
+  current_creating_time.value = null;
+  titulo.value = null;
+  descricao.value = null
+  current_creating_time.value = null;
+  current_ending_time.value = null;
+  current_id.value = null
 }
 </script>
 <template>
@@ -165,7 +169,7 @@ function addHorario() {
                  class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-green-600 text-white"
                  :value="editing ? 'Atualizar' : 'Criar'">
         </div>
-        <div class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
+        <div v-if="editing" class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
           <input @click.prevent="(e)=>{current_creating_time = null; editing = false; deleting = true;}" type="reset"
                  class="w-10/12 font-bold text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
                  value="Eliminar">
@@ -174,7 +178,9 @@ function addHorario() {
     </SimpleModal>
     <div v-if="deleting"
          class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <SimpleDeleteForm :bg="'white'" :obj_to_delete="{nome:titulo}" @delete="()=>{horarioStore.deleteHorario(current_id); deleting = false}" @cancel="()=>deleting=false"/>
+      <SimpleDeleteForm :bg="'white'" :obj_to_delete="{nome:titulo}"
+                        @delete="()=>{horarioStore.deleteHorario(current_id); deleting = false}"
+                        @cancel="()=>deleting=false"/>
     </div>
 
   </div>
