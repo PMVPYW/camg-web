@@ -11,6 +11,7 @@ import {createEventModalPlugin} from '@schedule-x/event-modal'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createDragAndDropPlugin} from '@schedule-x/drag-and-drop'
 import {createCalendarControlsPlugin} from '@schedule-x/calendar-controls'
+import { createResizePlugin } from '@schedule-x/resize'
 import '@schedule-x/theme-default/dist/index.css'
 import {ref, watch} from "vue";
 import {useHorarioStore} from "@/stores/horario.js";
@@ -77,7 +78,7 @@ const calendar = createCalendar({
       console.log(e)
     }),
   },
-  plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin(), calendarControls]
+  plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin(), calendarControls, createResizePlugin()]
 })
 
 watch(() => rallyStore.rally_selected, () => {
