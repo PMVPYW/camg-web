@@ -46,17 +46,6 @@ watch(selected, (n_selected) => {
   console.log(opened)
 })
 
-document.onkeydown = (event)=>{
-  event = event || window.event;
-  if ("key" in event) {
-    if (event.key == "Escape" || event.key == "Esc" )//esc
-    {
-      selected.value = {};
-    }
-  }
-}
-
-
 onMounted(async () => {
   if (!albumStore.albuns) {
     await albumStore.loadAlbuns();
@@ -77,7 +66,7 @@ onMounted(async () => {
            :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`"/>
     </div>
   </div>
-  <Modal @click="()=>{selected = {}}" :opened="opened">
+  <Modal @close-modal="()=>{selected = {}}" @click="()=>{selected = {}}" :opened="opened">
     <div class="h-screen">
     <CrudButtons @click.stop :obj_to_edit="selected" @clearSelected="()=>{selected = {}}" :delete_form="SimpleDeleteForm" :create_form="CreateFotoForm" :edit_callback="fotoStore.updateFoto"  :delete_callback="fotoStore.deleteFoto" :create_visible="false"></CrudButtons>
     <div @click.stop="" class="w-full text-center justify-center items-center">

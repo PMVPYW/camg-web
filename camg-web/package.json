@@ -9,9 +9,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@schedule-x/calendar": "^1.41.0",
+    "@schedule-x/calendar-controls": "^1.41.1",
+    "@schedule-x/drag-and-drop": "^1.41.1",
+    "@schedule-x/events-service": "^1.41.0",
+    "@schedule-x/resize": "^1.41.2",
+    "@schedule-x/theme-default": "^1.41.0",
+    "@schedule-x/vue": "^1.36.0",
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "pinia": "^2.1.7",
+    "qalendar": "^3.8.1",
     "socket.io-client": "^4.7.5",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
