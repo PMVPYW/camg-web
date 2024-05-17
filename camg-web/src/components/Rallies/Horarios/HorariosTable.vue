@@ -149,7 +149,7 @@ function addHorario() {
 <template>
 
   <div class="mt-2 mr-2 max-h-[80%] w-full h-full flex justify-center overflow-y-auto">
-    <div class="w-[99%] rounded-xl transition-all duration-200 h-dvh max-h-full is-light-mode" id="panel">
+    <div class="w-[99%] rounded-xl transition-all duration-200 h-dvh max-h-full is-light-mode overflow-hidden" id="panel">
       <ScheduleXCalendar class="max-h-dvh w-11/12 h-[98%] mx-auto my-4 rounded-lg border-2" :event-dragable="true" :calendar-app="calendar"/>
     </div>
   </div>
