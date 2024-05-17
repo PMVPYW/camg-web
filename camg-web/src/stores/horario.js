@@ -14,6 +14,23 @@ export const useHorarioStore = defineStore("horario", () => {
     const router = useRouter();
     const rallyStore = useRallyStore();
 
+    socket.on("create_horario", (horario)=>{
+        horarios.value.push(horario);
+        toast.success("Foi adicionado um novo evento no Horário")
+    })
+
+    socket.on("update_horario", (horario)=>{
+        const index = horarios.value.findIndex((item)=>item.id == horario.id);
+        if (index > -1) {
+            horarios.value[index] = horario;
+        }
+        toast.success("Foi atualizado um evento no Horário")
+    })
+
+    socket.on("delete_horario", (horario)=>{
+        horarios.value = horarios.value.filter((item)=>item.id != horario.id);
+        toast.success("Foi removido um evento do Horário")
+    })
 
     const horariosScheduleFormat = computed(() => {
         var result = []
