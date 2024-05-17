@@ -7,7 +7,6 @@ import {
   viewMonthGrid,
   viewMonthAgenda,
 } from '@schedule-x/calendar'
-import {createEventModalPlugin} from '@schedule-x/event-modal'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createDragAndDropPlugin} from '@schedule-x/drag-and-drop'
 import {createCalendarControlsPlugin} from '@schedule-x/calendar-controls'
@@ -93,7 +92,7 @@ const calendar = createCalendar({
       console.log(e)
     }),
   },
-  plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin(), calendarControls, createResizePlugin()]
+  plugins: [eventsServicePlugin, createDragAndDropPlugin(), calendarControls, createResizePlugin()]
 })
 
 watch(() => rallyStore.rally_selected, () => {
@@ -116,6 +115,14 @@ function formatDate(date = new Date()) {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
+const clearVars = () => {
+  titulo.value = null;
+  descricao.value = null
+  current_creating_time.value = null;
+  current_ending_time.value = null;
+  current_id.value = null
+}
+
 function addHorario() {
   const form = document.getElementById("form")
   if (!form.checkValidity()) {
@@ -136,12 +143,7 @@ function addHorario() {
     horarioStore.addHorario(data);
   }
 
-  current_creating_time.value = null;
-  titulo.value = null;
-  descricao.value = null
-  current_creating_time.value = null;
-  current_ending_time.value = null;
-  current_id.value = null
+  clearVars();
 }
 </script>
 <template>
@@ -152,8 +154,9 @@ function addHorario() {
     </div>
   </div>
   <div class="">
-    <SimpleModal :title="'as'" class="z-20 flex flex-wrap h-3/4" :opened="current_creating_time != null">
-      <form id="form" class="w-full h-3/4 border-4">
+    <SimpleModal @close-modal="clearVars" @click="clearVars" :title="'as'" class="z-20 flex flex-wrap h-3/4"
+                 :opened="current_creating_time != null">
+      <form @click.stop="" id="form" class="w-full h-3/4 border-4">
         <div class="w-full">
           <label for="titulo" class="font-bold ml-2 mt-2">Titulo</label><br>
           <input type="text" name="titulo" placeholder="Titulo" required v-model="titulo"

@@ -1,5 +1,15 @@
 <script setup>
 const props = defineProps(["title", "opened"]);
+const emit = defineEmits(["closeModal"]);
+document.onkeydown = (event)=>{
+  event = event || window.event;
+  if ("key" in event) {
+    if (event.key == "Escape" || event.key == "Esc" )//esc
+    {
+      emit('closeModal');
+    }
+  }
+}
 </script>
 
 <template>
