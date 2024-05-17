@@ -17,28 +17,36 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
 
     const toast= useToast()
 
-    socket.on("associar_patrocinio", (patrocinio) => {
+    socket.on("associar_patrocinio_oficial", (patrocinio) => {
         patrociniosOficiais.value.push(patrocinio)
         toast.success("Patrocinio Oficial associado ao rally");
     })
 
-    socket.on("desassociar_patrocinio", (patrocinio) => {
-        patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != patrocinio.id);
+    socket.on("desassociar_patrocinio_oficial", (patrocinio) => {
+        patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != patrocinio);
         toast.error("Patrocinio Oficial desassociado ao rally");
     })
 
-    socket.on("create_entidade", (entidade, patrocinio) => {
+    socket.on("update_patrocinio_oficial", (patrocinio) => {
+        var index = patrociniosOficiais.value.filter((item) => item.id == patrocinio.id)
+        if(index>=0) {
+            patrociniosOficiais.value[index] = patrocinio
+        }
+        toast.error("Patrocinio Atualizado");
+    })
+
+    socket.on("create_entidade_oficial", (entidade, patrocinio) => {
         patrociniosOficiais.value.push(patrocinio)
         entidadesOficiais.value.push(entidade);
         toast.success("Nova Entidade Oficial");
     })
 
-    socket.on("delete_entidade", () => {
+    socket.on("delete_entidade_oficial", () => {
         patrociniosOficiaisSemAssociacao.value.splice(0, patrocinosOficiaisSemAssociacao.value.length);
         toast.error("Todas as entidades oficiais sem associação eliminadas!");
     })
 
-    socket.on("update_entidade", (entidade, patrocinio) => {
+    socket.on("update_entidade_oficial", (entidade, patrocinio) => {
         var index = entidadesOficiais.value.findIndex(item => item.id === entidade.id);
         if(index>=0) {
             entidadesOficiais.value[index] = entidade;
@@ -96,7 +104,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             const response = await axios.post("patrocinio/" ,data);
             console.log(response.data, "create associação ao rally")
             patrociniosOficiais.value.push(response.data)
-            socket.emit("associar_patrocinio", response.data);
+            socket.emit("associar_patrocinio_oficial", response.data);
             toast.success("Patrocinio Oficial Associado!")
 
         } catch (error) {
@@ -108,9 +116,9 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
         console.log(id)
         try{
             const response = await axios.delete("patrocinio/"+ id );
-            console.log(response.data, "Delete associação ao rally")
+            console.log(response.data.data, "Delete associação ao rally")
             patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != id);
-            socket.emit("desassociar_patrocinio", response.data);
+            socket.emit("desassociar_patrocinio_oficial", id);
             toast.error("Patrocinio Oficial Desassociado!")
 
         } catch (error) {
@@ -129,6 +137,9 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             if(index_patrocinio>=0) {
                 patrociniosOficiais.value[index_patrocinio] = response.data.data;
             }
+            socket.emit("update_patrocinio_oficial", response.data.data);
+            toast.warning("Patrocinio Oficial Atualizado!")
+
         } catch (error) {
             throw error;
         }
@@ -166,7 +177,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             console.log(response2.data, "create associação ao rally")
             patrociniosOficiais.value.push(response2.data)
             entidadesOficiais.value.push(response.data);
-            socket.emit("create_entidade", response.data,response2.data);
+            socket.emit("create_entidade_oficial", response.data,response2.data);
             toast.success("Entidade Oficial Criada!")
         } catch (error) {
             throw error;
@@ -174,7 +185,6 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
     }
     async function editEntidadeOficial(entidade_id,data) {
         try {
-            console.error("ENTROU NO EDIT", patrociniosOficiais)
             data["_method"] = "PUT";
             const response = await axios.post("entidade/"+entidade_id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
@@ -221,9 +231,8 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
                 patrocinios.value[index_patrocinio]["entidade_id"] = entidade_id;
 
             })*/
-            console.error("SAIU NO EDIT", patrociniosOficiais)
 
-            socket.emit("update_entidade", response.data.data, patrocinio);
+            socket.emit("update_entidade_oficial", response.data.data, patrocinio);
             toast.warning("Entidade Oficial Atualizada!")
         } catch (error) {
             throw error;
@@ -249,7 +258,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
                     'Content-Type': 'application/json'
                 }});
             console.log(response.data, "Delete Entidade sem associação ao rally")
-            socket.emit("delete_entidade");
+            socket.emit("delete_entidade_oficial");
             toast.error("Entidades Oficiais removidas!")
 
         } catch (error) {

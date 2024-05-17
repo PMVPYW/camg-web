@@ -23,8 +23,16 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     })
 
     socket.on("desassociar_patrocinio", (patrocinio) => {
-        patrocinios.value = patrocinios.value.filter((item) => item.id != patrocinio.id);
+        patrocinios.value = patrocinios.value.filter((item) => item.id != patrocinio);
         toast.error("Patrocinio desassociado ao rally");
+    })
+
+    socket.on("update_patrocinio", (patrocinio) => {
+        var index = patrocinios.value.filter((item) => item.id == patrocinio.id)
+        if(index>=0) {
+            patrocinios.value[index] = patrocinio
+        }
+        toast.error("Patrocinio Atualizado");
     })
 
     socket.on("create_entidade", (entidade, patrocinio) => {
@@ -108,9 +116,9 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         console.log(id)
         try{
             const response = await axios.delete("patrocinio/"+ id );
-            console.log(response.data, "Delete associação ao rally")
+            console.log(response.data.data, "Delete associação ao rally")
             patrocinios.value = patrocinios.value.filter((item) => item.id != id);
-            socket.emit("desassociar_patrocinio", response.data);
+            socket.emit("desassociar_patrocinio", id);
             toast.error("Patrocinio Desassociado!")
 
         } catch (error) {
@@ -126,6 +134,8 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             if(index_patrocinio>=0) {
                 patrocinios.value[index_patrocinio] = response.data.data;
             }
+            socket.emit("update_patrocinio", response.data.data);
+            toast.warning("Patrocinio Atualizado!")
         } catch (error) {
             throw error;
         }
