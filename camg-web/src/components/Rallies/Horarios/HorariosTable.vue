@@ -39,6 +39,21 @@ const calendar = createCalendar({
   views: [viewMonthGrid, viewWeek, viewDay],
   defaultView: viewWeek.name,
   events: events.value,
+  calendars: {
+    prova: {
+      colorName: 'prova',
+      lightColors: {
+        main: '#D69708',
+        container: '#F3C978',
+        onContainer: '#4B2E00',
+      },
+      darkColors: {
+        main: '#D69708',
+        container: '#F3C978',
+        onContainer: '#4B2E00',
+      },
+    }
+  },
   callbacks: {
     onClickDateTime: ((e) => {
       current_creating_time.value = e;
