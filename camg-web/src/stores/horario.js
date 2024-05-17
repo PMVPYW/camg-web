@@ -51,7 +51,8 @@ export const useHorarioStore = defineStore("horario", () => {
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.post(`horario`, data);
             horarios.value.push(response.data.data);
-            console.log(horarios.value, "2assa", response.data.data);
+            toast.success("Horário Criado!")
+            socket.emit("create_horario", response.data.data);
         } catch (error) {
             clearHorarios();
             loadHorarios();
@@ -69,7 +70,21 @@ export const useHorarioStore = defineStore("horario", () => {
                 return;
             }
             horarios.value[index] = response.data.data;
-            console.log(horarios.value, "2assa", response.data.data);
+            toast.warning("Horário Atualizado!")
+            socket.emit("update_horario", response.data.data);
+        } catch (error) {
+            clearHorarios();
+            loadHorarios();
+            throw error;
+        }
+    }
+
+    async function deleteHorario(id) {
+        try {
+            const response = await axios.delete("horario/" + id);
+            horarios.value = horarios.value.filter((item) => item.id != id);
+            toast.error("Horário Eliminado!")
+            socket.emit("delete_horario", response.data.data);
         } catch (error) {
             clearHorarios();
             loadHorarios();
@@ -84,6 +99,6 @@ export const useHorarioStore = defineStore("horario", () => {
 
 
     return {
-        loadHorarios, clearHorarios, addHorario, horarios, horariosScheduleFormat, updateHorario
+        loadHorarios, clearHorarios, addHorario, horarios, horariosScheduleFormat, updateHorario, deleteHorario
     };
 });

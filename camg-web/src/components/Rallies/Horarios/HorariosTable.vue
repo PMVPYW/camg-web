@@ -10,12 +10,13 @@ import {
 import {createEventModalPlugin} from '@schedule-x/event-modal'
 import {createEventsServicePlugin} from '@schedule-x/events-service'
 import {createDragAndDropPlugin} from '@schedule-x/drag-and-drop'
-import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls'
+import {createCalendarControlsPlugin} from '@schedule-x/calendar-controls'
 import '@schedule-x/theme-default/dist/index.css'
 import {ref, watch} from "vue";
 import {useHorarioStore} from "@/stores/horario.js";
 import SimpleModal from "@/components/common/SimpleModal.vue";
 import {useRallyStore} from "@/stores/rally.js";
+import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const rallyStore = useRallyStore();
 const horarioStore = useHorarioStore();
@@ -29,6 +30,7 @@ const titulo = ref("");
 const descricao = ref("");
 const current_id = ref(null);
 const editing = ref(false);
+const deleting = ref(false);
 
 const eventsServicePlugin = createEventsServicePlugin()
 const calendarControls = createCalendarControlsPlugin()
@@ -78,7 +80,7 @@ const calendar = createCalendar({
   plugins: [createEventModalPlugin(), eventsServicePlugin, createDragAndDropPlugin(), calendarControls]
 })
 
-watch(()=>rallyStore.rally_selected, ()=>{
+watch(() => rallyStore.rally_selected, () => {
   calendarControls.setDate(rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio)
 })
 
@@ -99,6 +101,12 @@ function formatDate(date = new Date()) {
 }
 
 function addHorario() {
+  const form = document.getElementById("form")
+  if (!form.checkValidity())
+  {
+    form.reportValidity();
+    return;
+  }
   const data = {
     titulo: titulo.value,
     descricao: descricao.value,
@@ -106,7 +114,7 @@ function addHorario() {
     fim: current_ending_time.value + ":00",
     id: current_id.value
   }
-  if (editing) {
+  if (editing.value) {
     horarioStore.updateHorario(data);
     editing.value = false;
   } else {
@@ -120,13 +128,12 @@ function addHorario() {
 
   <div class="mt-2 mr-2 max-h-[80%] w-full h-full flex justify-center overflow-y-auto">
     <div class="w-[99%] h-full rounded-xl transition-all duration-200 max-h-full is-light-mode" id="panel">
-
-      <ScheduleXCalendar :event-dragable="true" :calendar-app="calendar"/>
+      <ScheduleXCalendar class="max-h-dvh" :event-dragable="true" :calendar-app="calendar"/>
     </div>
   </div>
   <div class="">
     <SimpleModal :title="'as'" class="z-20 flex flex-wrap h-3/4" :opened="current_creating_time != null">
-      <form class="w-full h-3/4 border-4">
+      <form id="form" class="w-full h-3/4 border-4">
         <div class="w-full">
           <label for="titulo" class="font-bold ml-2 mt-2">Titulo</label><br>
           <input type="text" name="titulo" placeholder="Titulo" required v-model="titulo"
@@ -157,8 +164,18 @@ function addHorario() {
                  class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-green-600 text-white"
                  :value="editing ? 'Atualizar' : 'Criar'">
         </div>
+        <div class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
+          <input @click.prevent="(e)=>{current_creating_time = null; editing = false; deleting = true;}" type="reset"
+                 class="w-10/12 font-bold text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
+                 value="Eliminar">
+        </div>
       </form>
     </SimpleModal>
+    <div v-if="deleting"
+         class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <SimpleDeleteForm :bg="'white'" :obj_to_delete="{nome:titulo}" @delete="()=>{horarioStore.deleteHorario(current_id); deleting = false}" @cancel="()=>deleting=false"/>
+    </div>
+
   </div>
 </template>
 <style>
