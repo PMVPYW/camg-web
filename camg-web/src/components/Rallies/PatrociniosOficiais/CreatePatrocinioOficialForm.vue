@@ -6,7 +6,7 @@ import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 const serverBaseUrl = inject("serverBaseUrl");
 
 
-const props = defineProps(["obj_to_edit"])
+const props = defineProps(["obj_to_edit"],["errors"])
 
 const nome = ref(props.obj_to_edit?.entidade_id.nome);
 const url = ref(props.obj_to_edit?.entidade_id.url);
@@ -21,6 +21,13 @@ const selected = ref(false);
 const creating = ref(false);
 
 const filteredEntities = ref(patrocinioOficialStore.patrociniosOficiaisSemAssociacao);
+const errors = ref(props.errors ?? {})
+
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors ?? {};
+  console.log("ERROR:", errors);
+})
+
 
 watch(()=>props.obj_to_edit, (newObject)=>{
   nome.value=newObject.nome;

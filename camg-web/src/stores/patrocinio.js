@@ -108,7 +108,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             toast.success("Patrocinio Associado!")
 
         } catch (error) {
-            throw error;
+            loadPatrocinios({});
+            loadpatrocinosSemAssociacao();
+            loadEntidades();
+            return error.response.data.errors;
         }
     }
 
@@ -137,8 +140,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             socket.emit("update_patrocinio", response.data.data);
             toast.warning("Patrocinio Atualizado!")
         } catch (error) {
-            throw error;
-        }
+            loadPatrocinios({});
+            loadpatrocinosSemAssociacao();
+            loadEntidades();
+            return error.response.data.errors;        }
     }
 
 
@@ -176,8 +181,10 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         socket.emit("create_entidade", response.data,response2.data);
         toast.success("Entidade Criada!")
     } catch (error) {
-        throw error;
-    }
+        loadPatrocinios({});
+        loadpatrocinosSemAssociacao();
+        loadEntidades();
+        return error.response.data.errors;    }
     }
     async function editEntidade(id,data) {
         try {
@@ -230,7 +237,11 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             socket.emit("update_entidade", response.data.data, patrocinio);
             toast.warning("Entidade Atualizada!")
         } catch (error) {
-            throw error;
+            loadPatrocinios({});
+            loadpatrocinosSemAssociacao();
+            loadEntidades();
+            return error.response.data.errors;
+
         }
     }
 

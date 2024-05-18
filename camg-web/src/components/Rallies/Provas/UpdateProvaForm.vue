@@ -1,5 +1,5 @@
 <script setup xmlns="http://www.w3.org/1999/html">
-import {computed, inject, ref} from "vue";
+import {computed, inject, ref, watch} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
@@ -10,7 +10,7 @@ import Dashboard from "@/components/Dashboard/Dashboard.vue";
 const serverBaseUrl = inject("serverBaseUrl");
 
 
-const props = defineProps(["obj_to_edit"]);
+const props = defineProps(["obj_to_edit"],["errors"]);
 const emit = defineEmits(["edit"]);
 
 const local = ref(props.obj_to_edit?.local);
@@ -32,6 +32,14 @@ const emitNew = () => {
   }
   emit('edit', obj);
 }
+
+const errors = ref(props.errors ?? {})
+
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors ?? {};
+  console.log("ERROR:", errors);
+})
+
 
 
 

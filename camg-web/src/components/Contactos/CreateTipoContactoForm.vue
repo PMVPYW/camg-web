@@ -1,10 +1,12 @@
 <script setup>
 
 import {useContactoStore} from "@/stores/contacto.js";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const contactoStore=useContactoStore();
 const nome = ref(null);
+
+
 
 const createTypeContact = ()=>{
   const data ={}

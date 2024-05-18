@@ -108,7 +108,10 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             toast.success("Patrocinio Oficial Associado!")
 
         } catch (error) {
-            throw error;
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
 
@@ -141,7 +144,10 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             toast.warning("Patrocinio Oficial Atualizado!")
 
         } catch (error) {
-            throw error;
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
 
@@ -180,7 +186,10 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("create_entidade_oficial", response.data,response2.data);
             toast.success("Entidade Oficial Criada!")
         } catch (error) {
-            throw error;
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
     async function editEntidadeOficial(entidade_id,data) {
@@ -235,7 +244,10 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("update_entidade_oficial", response.data.data, patrocinio);
             toast.warning("Entidade Oficial Atualizada!")
         } catch (error) {
-            throw error;
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
 

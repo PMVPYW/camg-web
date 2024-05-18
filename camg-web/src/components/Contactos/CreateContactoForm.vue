@@ -1,7 +1,7 @@
 <script setup>
 
 import {useContactoStore} from "@/stores/contacto.js";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
@@ -10,17 +10,18 @@ import {useFotoStore} from "@/stores/foto.js";
 
 const contactoStore=useContactoStore();
 
-const props = defineProps(["obj_to_edit"]);
+const props = defineProps(["obj_to_edit"],["errors"]);
 const emit = defineEmits(["create", "edit"]);
 
 const nome = ref(props.obj_to_edit?.nome);
 const valor = ref(props.obj_to_edit?.valor);
 const tipocontacto_id = ref(props.obj_to_edit?.tipocontacto_id);
 const tipo_valor = ref(props.obj_to_edit?.tipo_valor);
+const errors = ref(props.errors ?? {})
 
-
-
-
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors ?? {};
+})
 
 const emitNew = () => {
   const obj = {
@@ -31,6 +32,7 @@ const emitNew = () => {
   };
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
+
 </script>
 <template>
   <hr class="my-6">
@@ -42,10 +44,12 @@ const emitNew = () => {
             <div>
               <label class="block mb-2 text-base font-medium">Nome</label>
               <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Contacto">
+              <h1 class="text-red-600 text-base font-medium">{{errors.nome}}</h1>
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Valor</label>
               <input type="text" required v-model="valor" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Valor">
+              <h1 class="text-red-600 text-base font-medium">{{errors.valor}}</h1>
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Tipo:</label>
@@ -73,11 +77,10 @@ const emitNew = () => {
         </div>
         <br>
         <div class="flex justify-center w-full mt-8">
-          <button type="button"
-                  @click.prevent="emitNew"
-                  class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-          Criar
-          </button>
+          <input type="submit"
+                 @click.prevent="emitNew"
+                 class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                 :value="props.obj_to_edit ? 'Editar' : 'Criar'"/>
         </div>
       </div>
     </div>

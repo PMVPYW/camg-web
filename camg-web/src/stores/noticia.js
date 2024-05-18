@@ -76,7 +76,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
             toast.success("Noticia Criada!")
         } catch (error) {
             loadNoticias({})
-            throw error;
+            return error.response.data.errors;
         }
     }
     async function editNoticia(data, id) {
@@ -97,7 +97,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
             toast.warning("Noticia Atualizada!")
         } catch (error) {
             loadNoticias({})
-            throw error;
+            return error.response.data.errors;
         }
     }
 
