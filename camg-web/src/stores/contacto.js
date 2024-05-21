@@ -111,7 +111,6 @@ export const useContactoStore = defineStore("contacto", () => {
         }catch (error){
             loadContactos({});
             loadTipoContactos({});
-            console.error(error.response.data.errors);
             return error.response.data.errors;
         }
     }

@@ -28,11 +28,10 @@ const noticiaStore = useNoticiaStore();
 const albumStore = useAlbumStore();
 const fotoStore = useFotoStore();
 
-const errors = ref(props.errors ?? {})
+const errors = ref(props.errors ?? {});
 
 watch(()=>props.errors, (n_errors)=>{
   errors.value = n_errors ?? {};
-  console.log("ERROR:", errors);
 })
 
 

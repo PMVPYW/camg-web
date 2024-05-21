@@ -10,7 +10,7 @@ import {useFotoStore} from "@/stores/foto.js";
 
 const contactoStore=useContactoStore();
 
-const props = defineProps(["obj_to_edit"],["errors"]);
+const props = defineProps(["obj_to_edit","errors"]);
 const emit = defineEmits(["create", "edit"]);
 
 const nome = ref(props.obj_to_edit?.nome);
@@ -56,6 +56,7 @@ const emitNew = () => {
               <select v-model="tipocontacto_id" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
                 <option v-for="tipoContacto in contactoStore.tipo_contactos" class="uppercase" :value="tipoContacto.id">{{tipoContacto.nome}}</option>
               </select>
+              <h1 class="text-red-600 text-base font-medium">{{errors.tipocontacto_id}}</h1>
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Tipo de Contacto:</label>
@@ -72,6 +73,7 @@ const emitNew = () => {
                 <option class="uppercase" value="PaginaWeb">Página Web</option>
                 <option class="uppercase" value="WhatsApp">WhatsApp</option>
               </select>
+              <h1 class="text-red-600 text-base font-medium">{{errors.tipo_valor}}</h1>
             </div>
           </div>
         </div>
