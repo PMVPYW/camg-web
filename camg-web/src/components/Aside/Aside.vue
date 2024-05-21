@@ -5,7 +5,7 @@ let button = ref(false);
 </script>
 <template>
   <div class="flex flex-col">
-    <aside class="sm:flex hidden w-72 h-screen mr-6 ease-nav-brand z-990 inset-y-0 my-4 ml-4 flex-wrap overflow-hidden justify-between rounded-2xl border-0 bg-white p-0 shadow-none transition-transform duration-200 sm:left-1 sm:translate-x-0 sm:bg-transparent text-slate-500">
+    <aside class="sm:flex hidden w-72 h-screen mr-12 ease-nav-brand z-990 inset-y-0 my-4 ml-4 flex-wrap overflow-hidden justify-between rounded-2xl border-0 bg-white p-0 shadow-none transition-transform duration-200 sm:left-1 sm:translate-x-0 sm:bg-transparent text-slate-500">
       <div class="items-center block w-auto max-h-full overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0 h-full">
           <li class="w-full mt-4">

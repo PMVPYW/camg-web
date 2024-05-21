@@ -28,16 +28,10 @@ function editEntidade() {
     "url": url.value,
     "relevancia": relevancia.value
   };
-    if (photo_url.value != null) {
-      obj_entidade["photo_url"] = photo_url.value
-    }
-    patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id,obj_entidade);
-
-  //Edit Patrocinio
-  const obj_patrocinio = {
-    "relevancia": relevancia.value,
-  };
-    patrocinioStore.editPatrocinio(obj_patrocinio,props.obj_to_edit.id);
+  if (photo_url.value != null) {
+    obj_entidade["photo_url"] = photo_url.value
+  }
+  patrocinioStore.editEntidade(props.obj_to_edit.entidade_id.id, props.obj_to_edit.id,obj_entidade);
 }
 
 </script>
