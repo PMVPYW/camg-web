@@ -5,14 +5,19 @@ import {ref, watch} from "vue";
 
 const contactoStore=useContactoStore();
 const nome = ref(null);
+const errors = ref(null);
 
 
 
-const createTypeContact = ()=>{
+const createTypeContact = async ()=>{
   const data ={}
     if(nome.value!=null){
       data["nome"]=nome.value;
-      contactoStore.createTipoContacto(data);
+      const result = await contactoStore.createTipoContacto(data);
+      if (result) {
+        errors.value = result;
+        console.warn(errors.value, "errors_crud")
+      }
     }
 };
 </script>
@@ -24,6 +29,7 @@ const createTypeContact = ()=>{
           <div class="w-7/12 my-4">
             <label class="block mb-2 text-base font-medium">Nome</label>
             <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Tipo">
+            <h1 v-if="errors" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
           </div>
           <a @click="createTypeContact" class="md:w-2/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">Criar</a>
         <br>

@@ -172,6 +172,7 @@ export const useContactoStore = defineStore("contacto", () => {
             socket.emit("update_tipocontacto", response.data.data);
             toast.warning("Tipo de Contacto atualizado com sucesso");
         }catch (error){
+            console.error(error);
             loadContactos({});
             loadTipoContactos({});
             return error.response.data.errors;
