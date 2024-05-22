@@ -75,6 +75,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
             socket.emit("create_noticia", response.data);
             toast.success("Noticia Criada!")
         } catch (error) {
+            console.error(error);
             loadNoticias({})
             return error.response.data.errors;
         }
