@@ -36,43 +36,48 @@ const emitRally = () => {
 
 <template>
   <form class="m-2">
-      <input type="text" name="nome" placeholder="Nome do rally" required v-model="nome"
-             class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
-      <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Inicio</label>
-      <input type="date" name="data_inicio" v-model="data_inicio" placeholder="data inicio" required
-             class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/6">
-    <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Fim</label>
-    <input type="date" name="data_fim" v-model="data_fim" placeholder="data fim" required
-           class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/6">
-    <br>
-
-    <div class="w-full text-red-600 font-bold items-top flex justify-center" v-if="Object.keys(errors).length">
-      <!--first line of errors-->
-      <div class="w-1/2 text-center inline-block">{{ errors.nome }}</div>
-      <div class="w-1/12 inline-block"></div>
-      <div class="w-1/6 text-center inline-block">{{ errors.data_inicio }}</div>
-      <div class="w-1/12  inline-block"></div>
-      <div class="w-1/6 text-center inline-block">{{ errors.data_fim }}</div>
+    <div class="flex flex-row w-full justify-center">
+      <div class="w-1/2 mx-2">
+        <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Nome:</label>
+        <input type="text" name="nome" placeholder="Nome do rally" required v-model="nome"
+                 class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+        <h1 v-if="errors.nome" class="ml-2 text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
+      </div>
+      <div class="w-1/6 mx-2">
+        <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Inicio:</label>
+        <input type="date" name="data_inicio" v-model="data_inicio" placeholder="data inicio" required
+               class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+        <h1 v-if="errors.data_inicio" class="ml-2 text-red-600 text-base font-medium">{{errors.data_inicio[0]}}</h1>
+      </div>
+      <div class="w-1/6 mx-2">
+        <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Data Fim:</label>
+        <input type="date" name="data_fim" v-model="data_fim" placeholder="data fim" required
+               class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+        <h1 v-if="errors.data_fim" class="ml-2 text-red-600 text-base font-medium">{{errors.data_fim[0]}}</h1>
+      </div>
     </div>
     <br>
-    <div class="mx-auto text-center">
-      <input type="text" name="external_id" placeholder="ID externo" required v-model="external_id"
-             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/12">
-      <input type="file" accept="image/png, image/gif, image/jpeg"
-             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-7/12 file:hidden"
-             @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
-      <input type="submit"
-             @click.prevent="emitRally"
-             class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-             :value="props.obj_to_edit ? 'Editar' : 'Criar'"/>
-    </div>
-    <div class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex">
-      <!--second line of errors-->
-      <div class="w-1/12 text-center inline-block">{{ errors.external_entity_id }}</div>
-      <div class="w-7/12 inline-block">{{ errors.photo_url }}</div>
-      <div class="w-3/12 inline-block"></div>
-
-    </div>
+      <div class="flex flex-row justify-center w-full">
+        <div class="w-2/12 mx-2">
+          <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">ID Externo:</label>
+          <input type="text" name="external_id" placeholder="ID externo" required v-model="external_id"
+               class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+          <h1 v-if="errors.external_entity_id" class="ml-2 text-red-600 text-base font-medium">{{errors.external_entity_id[0]}}</h1>
+        </div>
+        <div class="w-6/12 mx-2">
+          <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Imagem:</label>
+          <input type="file" accept="image/png, image/gif, image/jpeg"
+               class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full file:hidden"
+               @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+          <h1 v-if="errors.photo_url" class="ml-2 text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
+        </div>
+        <div class="w-1/6 mx-2">
+          <input type="submit"
+               @click.prevent="emitRally"
+               class="opacity-85 text-center w-full m-2 mt-8 py-2 px-4 gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+               :value="props.obj_to_edit ? 'Editar' : 'Criar'"/>
+        </div>
+      </div>
   </form>
   <hr class="mt-5 mb-10">
 </template>
