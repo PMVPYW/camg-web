@@ -6,7 +6,7 @@ import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 const serverBaseUrl = inject("serverBaseUrl");
 
 
-const props = defineProps(["obj_to_edit"],["errors"])
+const props = defineProps(["obj_to_edit"])
 
 const nome = ref(props.obj_to_edit?.entidade_id.nome);
 const url = ref(props.obj_to_edit?.entidade_id.url);
@@ -21,21 +21,10 @@ const selected = ref(false);
 const creating = ref(false);
 
 const filteredEntities = ref(patrocinioOficialStore.patrociniosOficiaisSemAssociacao);
-const errors = ref(props.errors ?? {})
-
-watch(()=>props.errors, (n_errors)=>{
-  errors.value = n_errors ?? {};
-  console.log("ERROR:", errors);
-})
+const errors = ref({});
 
 
-watch(()=>props.obj_to_edit, (newObject)=>{
-  nome.value=newObject.nome;
-  url.value=newObject.url;
-});
-
-
-function createPatrocinio() {
+const createPatrocinio = async () => {
   console.log("Entrou na fuction",creating.value)
   if(creating.value === true){
     const obj_entidade = {
@@ -49,7 +38,13 @@ function createPatrocinio() {
       obj_entidade["photo_url"] = photo_url.value
     }
     console.log("Objeto Entidade",obj_entidade)
-    patrocinioOficialStore.createEntidade_PatrocinioOficial(obj_entidade)
+    const result = await patrocinioOficialStore.createEntidade_PatrocinioOficial(obj_entidade)
+    if (result) {
+      errors.value = result;
+      console.warn(errors.value, "errors_crud")
+    }else{
+      errors.value={};
+    }
   }else{
       if(selected.value == false){
         patrocinioOficialStore.loadPatrociniosOficiais({})
@@ -61,7 +56,13 @@ function createPatrocinio() {
           "entidade_oficial": 1
         }
         console.log("Objeto Patrocinio",obj_patrocinio)
-        patrocinioOficialStore.associarPatrocinioOficial(obj_patrocinio)
+        const result1 = await patrocinioOficialStore.associarPatrocinioOficial(obj_patrocinio)
+        if (result1) {
+          errors.value = result1;
+          console.warn(errors.value, "errors_crud")
+        }else{
+          errors.value={};
+        }
       }
   }
 }
@@ -86,19 +87,23 @@ function searchEntities() {
             <div class="mt-2">
               <label class="block mb-2 text-base font-medium">Nome</label>
               <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
+              <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
             </div>
-            <div class="relative mb-6">
-              <div class="flex flex-row justify-between">
-                <div class="flex flex-row">
-                  <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância: </label>
-                  <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-200 p-2 mx-2 rounded-xl">{{relevancia}}</label>
+            <div>
+              <div class="relative mb-6">
+                <div class="flex flex-row justify-between">
+                  <div class="flex flex-row">
+                    <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância: </label>
+                    <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-200 p-2 mx-2 rounded-xl">{{relevancia}}</label>
+                  </div>
                 </div>
+                <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-0 -bottom-6">1</span>
+                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
+                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
+                <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
               </div>
-              <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-0 -bottom-6">1</span>
-              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
-              <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
-              <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
+              <h1 v-if="errors.relevancia" class="pt-2 text-red-600 text-base font-medium">{{errors.relevancia[0]}}</h1>
             </div>
           </div>
         </div>
@@ -109,12 +114,15 @@ function searchEntities() {
             <input type="file" accept="image/png, image/gif, image/jpeg"
                    class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
                    @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+            <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
           </div>
         </div>
         <div v-if="creating" class="flex justify-center w-full">
           <div class="mb-4 sm:mb-8 w-11/12">
             <label class="block mb-2 text-base font-medium">Link</label>
-            <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">            </div>
+            <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
+            <h1 v-if="errors.url" class="text-red-600 text-base font-medium">{{errors.url[0]}}</h1>
+          </div>
         </div>
         <div class="flex justify-center w-full">
           <button type="button"

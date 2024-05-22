@@ -157,6 +157,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         socket.emit("create_entidade", response.data,response2.data);
         toast.success("Entidade Criada!")
     } catch (error) {
+        console.error(error)
         loadPatrocinios({});
         loadpatrocinosSemAssociacao();
         loadEntidades();
@@ -192,6 +193,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             socket.emit("update_entidade", response.data.data, response1.data.data);
             toast.warning("Patrocinio Atualizado!")
         } catch (error) {
+            console.error(error)
             loadPatrocinios({});
             loadpatrocinosSemAssociacao();
             loadEntidades();

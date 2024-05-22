@@ -15,7 +15,7 @@ const emit = defineEmits(["create", "edit"]);
 
 const titulo = ref(props.obj_to_edit?.titulo);
 const conteudo = ref(props.obj_to_edit?.conteudo);
-const title_img = ref(props.obj_to_edit?.title_img);
+const title_img = ref(null);
 const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
 const album_selected = ref(false);
@@ -83,7 +83,7 @@ function removeElement(foto_id){
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
               <div class="col-span-full">
-                <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Conteúdo</label>
+                <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
                 <div class="mt-2">
                   <textarea id="about" required v-model="conteudo" rows="3"
                             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
@@ -93,7 +93,7 @@ function removeElement(foto_id){
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-full my-4">
               <div class="mb-4 sm:mb-8 w-full">
-                <label class="block mb-2 text-base font-medium">Imagem</label>
+                <label class="block mb-2 text-base font-medium">Capa Noticia:</label>
                 <input type="file" accept="image/png, image/gif, image/jpeg"
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
                        @change="$event.target.files[0].size < 1048576 ? title_img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">

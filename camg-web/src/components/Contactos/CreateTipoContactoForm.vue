@@ -17,6 +17,8 @@ const createTypeContact = async ()=>{
       if (result) {
         errors.value = result;
         console.warn(errors.value, "errors_crud")
+      }else{
+        errors.value=null;
       }
     }
 };
