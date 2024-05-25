@@ -34,12 +34,12 @@ const editEntidade = async () => {
     obj_entidade["photo_url"] = photo_url.value
   }
   const result = await patrocinioOficialStore.editEntidadeOficial(props.obj_to_edit.entidade_id.id, props.obj_to_edit.id,obj_entidade);
-  if (result) {
-    errors.value = result;
-    console.warn(errors.value, "errors_crud")
-  }else{
-    errors.value={};
-  }
+    if (result) {
+      errors.value = result;
+      console.warn(errors.value, "errors_crud")
+    }else{
+      errors.value={};
+    }
   }
 
 </script>

@@ -234,6 +234,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
     function clearPatrocinios() {
         patrocinios.value = null;
+        entidades.value = null;
     }
 
 

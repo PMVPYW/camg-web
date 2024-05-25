@@ -157,6 +157,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("create_entidade_oficial", response.data,response2.data);
             toast.success("Entidade Oficial Criada!")
         } catch (error) {
+            console.error(error);
             loadpatrocinosOficiaisSemAssociacao();
             loadEntidadesOficiais();
             loadPatrociniosOficiais({})
@@ -192,6 +193,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("update_entidade_oficial", response.data.data, response1.data.data);
             toast.warning("Entidade Oficial Atualizada!")
         } catch (error) {
+            console.error(error);
             loadpatrocinosOficiaisSemAssociacao();
             loadEntidadesOficiais();
             loadPatrociniosOficiais({})
@@ -231,6 +233,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
 
     function clearPatrociniosOficiais() {
         patrociniosOficiais.value = null;
+        entidadesOficiais.value = null;
     }
 
 
