@@ -5,6 +5,7 @@ import {defineStore} from "pinia";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {useRallyStore} from "@/stores/rally.js";
+import {useProvaStore} from "@/stores/prova.js";
 
 export const useHorarioStore = defineStore("horario", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -13,6 +14,7 @@ export const useHorarioStore = defineStore("horario", () => {
     const horarios = ref(null);
     const router = useRouter();
     const rallyStore = useRallyStore();
+    const provaStore = useProvaStore();
 
     socket.on("create_horario", (horario)=>{
         horarios.value.push(horario);
@@ -65,9 +67,18 @@ export const useHorarioStore = defineStore("horario", () => {
 
     async function addHorario(data) {
         try {
+            console.log("DATA",data);
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.post(`horario`, data);
             horarios.value.push(response.data.data);
+            if(data.prova_id){
+                const data2 = {
+                    horario_id: response.data.data.id
+                }
+                provaStore.editProva(data2, data.prova_id)
+                console.log("Prova associada a um contacto")
+                loadHorarios();
+            }
             toast.success("Horário Criado!")
             socket.emit("create_horario", response.data.data);
         } catch (error) {
@@ -87,6 +98,14 @@ export const useHorarioStore = defineStore("horario", () => {
                 return;
             }
             horarios.value[index] = response.data.data;
+            if(data.prova_id){
+                const data2 = {
+                    horario_id: response.data.data.id
+                }
+                provaStore.editProva(data2, data.prova_id)
+                console.log("Prova associada a um contacto")
+                loadHorarios();
+            }
             toast.warning("Horário Atualizado!")
             socket.emit("update_horario", response.data.data);
         } catch (error) {
