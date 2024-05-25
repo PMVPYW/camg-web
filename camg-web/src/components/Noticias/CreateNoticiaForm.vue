@@ -1,5 +1,5 @@
 <script setup xmlns="http://www.w3.org/1999/html">
-import {computed, inject, ref} from "vue";
+import {computed, inject, ref, watch} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {usePatrocinioStore} from "@/stores/patrocinio.js";
 import {useNoticiaStore} from "@/stores/noticia.js";
@@ -10,12 +10,12 @@ import Dashboard from "@/components/Dashboard/Dashboard.vue";
 const serverBaseUrl = inject("serverBaseUrl");
 
 
-const props = defineProps(["obj_to_edit"]);
+const props = defineProps(["obj_to_edit","errors"]);
 const emit = defineEmits(["create", "edit"]);
 
 const titulo = ref(props.obj_to_edit?.titulo);
 const conteudo = ref(props.obj_to_edit?.conteudo);
-const title_img = ref(props.obj_to_edit?.title_img);
+const title_img = ref(null);
 const data = ref(props.obj_to_edit?.data ? props.obj_to_edit?.data : new Date().toISOString().substring(0, 10));
 const rally_id = ref(null);
 const album_selected = ref(false);
@@ -26,7 +26,14 @@ const rallyStore = useRallyStore();
 const patrocinioStore = usePatrocinioStore();
 const noticiaStore = useNoticiaStore();
 const albumStore = useAlbumStore();
-const fotoStore = useFotoStore()
+const fotoStore = useFotoStore();
+
+const errors = ref(props.errors ?? {});
+
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors ?? {};
+})
+
 
 
 const emitNew = () => {
@@ -50,8 +57,6 @@ const emitNew = () => {
 function removeElement(foto_id){
   fotos_selected.value = fotos_selected.value.filter((item) => item !== foto_id);
 }
-
-
 </script>
 
 <template>
@@ -66,29 +71,33 @@ function removeElement(foto_id){
                 <input type="text" required v-model="titulo"
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
                        placeholder="Titulo Noticia">
+                <h1 v-if="errors.titulo" class="text-red-600 text-base font-medium">{{errors.titulo[0]}}</h1>
               </div>
               <div>
                 <label class="block mb-2 text-base font-medium">Data</label>
                 <input type="date" required v-model="data"
                        class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                        placeholder="Data">
+                <h1 v-if="errors.data" class="text-red-600 text-base font-medium">{{errors.data[0]}}</h1>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 my-4">
               <div class="col-span-full">
-                <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Conteúdo</label>
+                <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
                 <div class="mt-2">
                   <textarea id="about" required v-model="conteudo" rows="3"
                             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
                 </div>
+                <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-full my-4">
               <div class="mb-4 sm:mb-8 w-full">
-                <label class="block mb-2 text-base font-medium">Imagem</label>
+                <label class="block mb-2 text-base font-medium">Capa Noticia:</label>
                 <input type="file" accept="image/png, image/gif, image/jpeg"
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
                        @change="$event.target.files[0].size < 1048576 ? title_img = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+                <h1 v-if="errors.title_img" class="text-red-600 text-base font-medium">{{errors.title_img[0]}}</h1>
               </div>
               <div class="w-5/6">
                 <label class="block mb-2 text-base font-medium">Rally</label>
@@ -100,7 +109,7 @@ function removeElement(foto_id){
               </div>
             </div>
           </div>
-          <div class="sm:block flex flex-col w-full h-full">
+          <div v-if="Object.keys(fotoStore.fotos).length>0" class="sm:block flex flex-col w-full h-full">
             <div class="flex flex-row items-center m-2 justify-between">
               <h1 v-if="fotos_selected.length"><b>{{fotos_selected.length}}</b> Selecionado{{fotos_selected.length!=1?'s':''}}</h1>
               <div class="flex flex-row">
@@ -117,7 +126,7 @@ function removeElement(foto_id){
                    class="flex flex-wrap justify-center items-start">
                 <div class="w-full border-b-2 border-b-amber-400 mx-auto my-1">
                   <h1 class="text-base my-2 font-bold">
-                    {{ albumStore.albuns.find((album) => album.id == album_id).nome }}</h1>
+                    {{ albumStore.albuns.find((album) => album.id == album_id.nome) }}</h1>
                 </div>
                 <div v-for="fotos in fotoStore.fotos[album_id]"
                      @click="()=>{fotos_selected.includes(fotos.id) ? removeElement(fotos.id) : fotos_selected.push(fotos.id); console.log(fotos_selected)}"
@@ -134,13 +143,18 @@ function removeElement(foto_id){
                     <h1 class="text-base my-2 font-bold">
                       {{ albumStore.albuns.find((album) => album.id == album_selected)?.nome }}</h1>
                   </div>
-                  <div v-for="fotos in fotoStore.fotos[album_selected]"
-                       @click="()=>{fotos_selected.includes(fotos.id) ? removeElement(fotos.id) : fotos_selected.push(fotos.id); console.log(fotos_selected)}"
-                       :class="{'border-4 opacity-80': fotos_selected.includes(fotos.id)}"
-                       class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
-                    <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
-                         :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
-                         class="my-auto mx-auto min-w-24 shadow-soft-2xl">
+                  <div v-if="fotoStore.fotos[album_selected].length">
+                    <div v-for="fotos in fotoStore.fotos[album_selected]"
+                         @click="()=>{fotos_selected.includes(fotos.id) ? removeElement(fotos.id) : fotos_selected.push(fotos.id); console.log(fotos_selected)}"
+                         :class="{'border-4 opacity-80': fotos_selected.includes(fotos.id)}"
+                         class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl">
+                      <img :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                           :alt="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
+                           class="my-auto mx-auto min-w-24 shadow-soft-2xl">
+                    </div>
+                  </div>
+                  <div v-if="!fotoStore.fotos[album_selected].length">
+                    <h1 class="text-gray-800 text-base font-medium">Album Sem Fotos</h1>
                   </div>
                 </div>
               </div>

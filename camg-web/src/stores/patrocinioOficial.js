@@ -27,13 +27,6 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
         toast.error("Patrocinio Oficial desassociado ao rally");
     })
 
-    socket.on("update_patrocinio_oficial", (patrocinio) => {
-        var index = patrociniosOficiais.value.filter((item) => item.id == patrocinio.id)
-        if(index>=0) {
-            patrociniosOficiais.value[index] = patrocinio
-        }
-        toast.error("Patrocinio Atualizado");
-    })
 
     socket.on("create_entidade_oficial", (entidade, patrocinio) => {
         patrociniosOficiais.value.push(patrocinio)
@@ -51,10 +44,9 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
         if(index>=0) {
             entidadesOficiais.value[index] = entidade;
         }
-        const patrocinio_rally = entidadesOficiais.rallys.find(item => item.rally_id == rallyStore.rally_selected)
-        index = patrociniosOficiais.value.findIndex(item => item.entidade_id.id == entidade.id)
+        index = patrociniosOficiais.value.findIndex(item => item.id === patrocinio.id)
         if(index>=0) {
-            patrociniosOficiais.value[index] = patrocinio
+            patrociniosOficiais.value[index] = patrocinio;
         }
         toast.warning("Entidade Oficial Atualizada!");
     })
@@ -108,7 +100,10 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             toast.success("Patrocinio Oficial Associado!")
 
         } catch (error) {
-            throw error;
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
 
@@ -126,24 +121,6 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
         }
     }
 
-    async function editPatrocinioOficial(data,id) {
-        try{
-            console.log("Id",id);
-            console.log("Data",data);
-
-            const response = await axios.put("patrocinio/"+ id , data );
-            console.log(response.data.data, "Atualizar Patrocinio do rally")
-            const index_patrocinio = patrociniosOficiais.value.filter((item) => item.id == id)
-            if(index_patrocinio>=0) {
-                patrociniosOficiais.value[index_patrocinio] = response.data.data;
-            }
-            socket.emit("update_patrocinio_oficial", response.data.data);
-            toast.warning("Patrocinio Oficial Atualizado!")
-
-        } catch (error) {
-            throw error;
-        }
-    }
 
 
 
@@ -180,11 +157,16 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             socket.emit("create_entidade_oficial", response.data,response2.data);
             toast.success("Entidade Oficial Criada!")
         } catch (error) {
-            throw error;
+            console.error(error);
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
-    async function editEntidadeOficial(entidade_id,data) {
+    async function editEntidadeOficial(entidade_id, patrocinio_id ,data) {
         try {
+            //Update Entidade
             data["_method"] = "PUT";
             const response = await axios.post("entidade/"+entidade_id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
@@ -193,49 +175,29 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             if(index>=0) {
                 entidadesOficiais.value[index] = response.data.data;
             }
-            const patrocinio_rally = response.data.data.rallys.find(item => item.rally_id == rallyStore.rally_selected)
-            console.log("rally_id", patrocinio_rally)
 
+            //Update Patrocinio Oficial
+            const data2 = {
+                "relevancia": data.relevancia
+            };
 
-
-            const patrocinio_entidade= response.data.data.rallys.find(item=> item.entidade_id == entidade_id)
-            console.log("ENTIDADE", patrocinio_entidade)
-
-            const index_patrocinio = patrociniosOficiais.value.findIndex(item => item.entidade_id.id == entidade_id)
-            console.log("index_patrocinio",index_patrocinio);
-
-            const patrocinio= await loadPatrociniosOficiaisById(patrocinio_rally.id)
-
+            const response1 = await axios.put("patrocinio/"+ patrocinio_id , data2 );
+            console.log(response1.data.data, "Atualizar Patrocinio do rally")
+            const index_patrocinio = patrociniosOficiais.value.findIndex(item => item.id == patrocinio_id);
             if(index_patrocinio>=0) {
-                patrociniosOficiais.value[index_patrocinio] = patrocinio;
+                patrociniosOficiais.value[index_patrocinio] = response1.data.data;
             }
+
             console.log(patrociniosOficiais.value[index_patrocinio])
 
-
-            //patrocinios.value[index_patrocinio] = patrocinio;
-            //console.log(patrocinios.value[index_patrocinio])
-
-            /*
-            console.log(response.data.data.rallys);
-
-            response.data.data.rallys.forEach((patrocinio)=>{
-                const index_patrocinio = patrocinios.value.findIndex(item => item.entidade_id.id == id)
-                console.log(index_patrocinio);
-                //entidade
-                const entidade_id = {...entidades.value.find(item => item.id == patrocinio.entidade_id)};
-
-                //rally
-                const rally_id = {...rallyStore.rallies.find(item => item.id == patrocinio.rally_id)};
-
-                patrocinios.value[index_patrocinio]["rally_id"] = rally_id;
-                patrocinios.value[index_patrocinio]["entidade_id"] = entidade_id;
-
-            })*/
-
-            socket.emit("update_entidade_oficial", response.data.data, patrocinio);
+            socket.emit("update_entidade_oficial", response.data.data, response1.data.data);
             toast.warning("Entidade Oficial Atualizada!")
         } catch (error) {
-            throw error;
+            console.error(error);
+            loadpatrocinosOficiaisSemAssociacao();
+            loadEntidadesOficiais();
+            loadPatrociniosOficiais({})
+            return error.response.data.errors;
         }
     }
 
@@ -271,12 +233,12 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
 
     function clearPatrociniosOficiais() {
         patrociniosOficiais.value = null;
+        entidadesOficiais.value = null;
     }
 
 
     return {
         //Associação Patrocinios
-        editPatrocinioOficial,
         associarPatrocinioOficial,
         desassociarPatrocinioOficial,
         clearPatrociniosOficiais,

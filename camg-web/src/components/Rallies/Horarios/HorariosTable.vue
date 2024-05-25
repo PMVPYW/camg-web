@@ -17,11 +17,12 @@ import {useHorarioStore} from "@/stores/horario.js";
 import SimpleModal from "@/components/common/SimpleModal.vue";
 import {useRallyStore} from "@/stores/rally.js";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import {Icon} from "@iconify/vue";
 
 const rallyStore = useRallyStore();
 const horarioStore = useHorarioStore();
-var current_rally_date = rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio.split('-')
-const current_date = ref(new Date(Date.parse(`${current_rally_date[0]}-${current_rally_date[1]}-${current_rally_date[2]}`)));
+//var current_rally_date = rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio.split('-')
+//const current_date = ref(new Date(Date.parse(`${current_rally_date[0]}-${current_rally_date[1]}-${current_rally_date[2]}`)));
 const events = ref(horarioStore.horariosScheduleFormat)
 
 const current_creating_time = ref(null);

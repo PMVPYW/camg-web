@@ -109,7 +109,9 @@ export const useContactoStore = defineStore("contacto", () => {
             socket.emit("create_contacto", response.data);
             toast.success("Contacto criado com sucesso");
         }catch (error){
-            throw error;
+            loadContactos({});
+            loadTipoContactos({});
+            return error.response.data.errors;
         }
     }
     async function editContacto(data,id){
@@ -123,7 +125,9 @@ export const useContactoStore = defineStore("contacto", () => {
             }
             toast.warning("Contacto atualizado com sucesso");
         }catch (error){
-            throw error;
+            loadContactos({});
+            loadTipoContactos({});
+            return error.response.data.errors;
         }
     }
     async function deleteContacto(id){
@@ -147,7 +151,9 @@ export const useContactoStore = defineStore("contacto", () => {
             socket.emit("create_tipocontacto", response.data);
             toast.success("Tipo de Contacto criado com sucesso");
         }catch (error){
-            throw error;
+            loadContactos({});
+            loadTipoContactos({});
+            return error.response.data.errors;
         }
     }
 
@@ -166,7 +172,10 @@ export const useContactoStore = defineStore("contacto", () => {
             socket.emit("update_tipocontacto", response.data.data);
             toast.warning("Tipo de Contacto atualizado com sucesso");
         }catch (error){
-            throw error;
+            console.error(error);
+            loadContactos({});
+            loadTipoContactos({});
+            return error.response.data.errors;
         }
     }
     async function deleteTipoContacto(id){

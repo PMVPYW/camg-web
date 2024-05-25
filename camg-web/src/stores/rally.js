@@ -3,11 +3,15 @@ import {ref, inject} from "vue";
 import {defineStore} from "pinia";
 import {useToast} from "vue-toastification";
 import {useRouter} from "vue-router";
+import {usePatrocinioStore} from "@/stores/patrocinio.js";
+import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 
 export const useRallyStore = defineStore("rally", () => {
     const serverBaseUrl = inject("serverBaseUrl");
     const socket = inject("socket");
 
+    const patrocinioStore = usePatrocinioStore();
+    const patrocinioOficialStore = usePatrocinioOficialStore();
     const rallies = ref(null);
     const rallies_filtered = ref(null);
     const router = useRouter();
@@ -90,6 +94,9 @@ export const useRallyStore = defineStore("rally", () => {
                 rallies_filtered.value.push(response.data);
             }
             rallies.value.push(response.data);
+            if(rallies.value.length<2) {
+                rally_selected.value = rallies.value[0].id;
+            }
             console.log(response, "errorar1")
             socket.emit("create_rally", response.data);
             toast.success("Rally Criado!")
@@ -134,6 +141,12 @@ export const useRallyStore = defineStore("rally", () => {
             const response = await axios.delete("rally/" + id);
             rallies.value = rallies.value.filter((item) => item.id != id);
             rallies_filtered.value = rallies_filtered.value.filter((item) => item.id != id);
+            patrocinioStore.clearPatrocinios();
+            patrocinioOficialStore.clearPatrociniosOficiais();
+            console.log("RALLY SELECTED", rally_selected.value);
+            if(rally_selected.value == id){
+                rally_selected.value=null;
+            }
             socket.emit("delete_rally", response.data.data);
         } catch (error) {
             clearRallies();
@@ -145,6 +158,7 @@ export const useRallyStore = defineStore("rally", () => {
 
     function clearRallies() {
         rallies.value = null;
+        rallies_filtered.value = null;
     }
 
 
