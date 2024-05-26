@@ -31,7 +31,7 @@ const current_creating_time = ref(null);
 const current_ending_time = ref(null);
 const titulo = ref("");
 const descricao = ref("");
-const prova_id = ref(null);
+const prova_id = ref(false);
 const current_id = ref(null);
 const editing = ref(false);
 const deleting = ref(false);
@@ -75,7 +75,7 @@ const calendar = createCalendar({
       current_creating_time.value = e.start
       current_ending_time.value = e.end
       descricao.value = e.description
-      titulo.value = e.title
+      titulo.value = e.title.split('-')[0];
       current_id.value = e.id
       prova_id.value = e.prova?.id
     }),
@@ -83,17 +83,22 @@ const calendar = createCalendar({
       current_creating_time.value = e.start
       current_ending_time.value = e.end
       descricao.value = e.description
-      titulo.value = e.title
+      titulo.value = e.title.split('-')[0];
       current_id.value = e.id
-      prova_id.value = e.prova?.id
+      if (prova_id.value !== false) {
+        prova_id.value = e.prova?.id
+      }
       const data = {
         titulo: titulo.value,
         descricao: descricao.value,
         inicio: current_creating_time.value + ":00",
         fim: current_ending_time.value + ":00",
-        id: current_id.value,
-        prova_id: prova_id.value
+        id: current_id.value
       }
+      if (prova_id.value !== false) {
+        data["prova_id"] = prova_id.value
+      }
+      console.log("UPDATE", data)
       horarioStore.updateHorario(data);
       current_creating_time.value = null;
       console.log(e)
@@ -128,7 +133,7 @@ const clearVars = () => {
   current_creating_time.value = null;
   current_ending_time.value = null;
   current_id.value = null;
-  prova_id.value = null;
+  prova_id.value = false;
 }
 
 function addHorario() {
@@ -144,7 +149,7 @@ function addHorario() {
     fim: current_ending_time.value + ":00",
     id: current_id.value
   }
-  if (prova_id.value != null) {
+  if (prova_id.value !== false) {
     data["prova_id"] = prova_id.value
   }
   if (editing.value) {
