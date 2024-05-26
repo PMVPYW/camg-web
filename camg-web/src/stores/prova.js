@@ -51,6 +51,7 @@ export const useProvaStore = defineStore("prova", () => {
             }
             console.log("EDITAR",response.data.data )
             toast.warning("Prova Atualizada!")
+            return response.data.data;
         } catch (error) {
             loadProvas({})
             return error.response.data.errors;

@@ -5,6 +5,8 @@ import {defineStore} from "pinia";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {useRallyStore} from "@/stores/rally.js";
+import {useProvaStore} from "@/stores/prova.js";
+import {useContactoStore} from "@/stores/contacto.js";
 
 export const useHorarioStore = defineStore("horario", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -13,6 +15,7 @@ export const useHorarioStore = defineStore("horario", () => {
     const horarios = ref(null);
     const router = useRouter();
     const rallyStore = useRallyStore();
+    const provaStore = useProvaStore();
 
     socket.on("create_horario", (horario)=>{
         horarios.value.push(horario);
@@ -39,12 +42,12 @@ export const useHorarioStore = defineStore("horario", () => {
         }
         horarios.value.filter((item) => rallyStore.rally_selected == item.rally_id).forEach((horario) => {
             result.push({
-                title: horario.titulo,
+                title: horario.titulo + (horario.prova ? '-' + horario.prova.nome : ''),
                 description: horario.descricao,
                 start: horario.inicio.toString().slice(0, -3),
                 end: horario.fim.toString().slice(0, -3),
                 id: horario.id,
-                calendarId: horario.tem_prova > 0 ? 'prova' : '',
+                calendarId: horario.prova ? 'prova' : '',
                 isEditable: true
             });
         })
@@ -65,9 +68,23 @@ export const useHorarioStore = defineStore("horario", () => {
 
     async function addHorario(data) {
         try {
+            console.log("ADDDATA",data);
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.post(`horario`, data);
             horarios.value.push(response.data.data);
+            if(data.prova_id){
+                const data2 = {
+                    horario_id: response.data.data.id
+                }
+                const response_provas = await provaStore.editProva(data2, data.prova_id)
+                console.log("Prova associada a um contacto")
+                const index = horarios.value.findIndex((item) => item.id == response.data.data.id);
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
+                horarios.value[index].prova=response_provas;
+            }
             toast.success("Horário Criado!")
             socket.emit("create_horario", response.data.data);
         } catch (error) {
@@ -79,6 +96,7 @@ export const useHorarioStore = defineStore("horario", () => {
 
     async function updateHorario(data) {
         try {
+            console.log("DATA", data);
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.put(`horario/${data.id}`, data);
             const index = horarios.value.findIndex((item) => item.id == data.id);
@@ -87,6 +105,30 @@ export const useHorarioStore = defineStore("horario", () => {
                 return;
             }
             horarios.value[index] = response.data.data;
+            if(data.prova_id) {
+                const data2 = {
+                    horario_id: response.data.data.id
+                }
+                const response_provas = await provaStore.editProva(data2, data.prova_id);
+                console.log("Prova associada a um contacto");
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
+                horarios.value[index].prova=response_provas;
+            }
+            if(data.prova_id === ""){
+                const data2 = {
+                    horario_id:null
+                }
+                provaStore.editProva(data2, response.data.data.prova.id)
+                console.log("Prova não associada a um contacto");
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
+                horarios.value[index].prova=null;
+            }
             toast.warning("Horário Atualizado!")
             socket.emit("update_horario", response.data.data);
         } catch (error) {

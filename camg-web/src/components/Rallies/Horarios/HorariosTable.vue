@@ -18,8 +18,10 @@ import SimpleModal from "@/components/common/SimpleModal.vue";
 import {useRallyStore} from "@/stores/rally.js";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 import {Icon} from "@iconify/vue";
+import {useProvaStore} from "@/stores/prova.js";
 
 const rallyStore = useRallyStore();
+const provaStore = useProvaStore();
 const horarioStore = useHorarioStore();
 //var current_rally_date = rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio.split('-')
 //const current_date = ref(new Date(Date.parse(`${current_rally_date[0]}-${current_rally_date[1]}-${current_rally_date[2]}`)));
@@ -29,6 +31,7 @@ const current_creating_time = ref(null);
 const current_ending_time = ref(null);
 const titulo = ref("");
 const descricao = ref("");
+const prova_id = ref(false);
 const current_id = ref(null);
 const editing = ref(false);
 const deleting = ref(false);
@@ -72,15 +75,19 @@ const calendar = createCalendar({
       current_creating_time.value = e.start
       current_ending_time.value = e.end
       descricao.value = e.description
-      titulo.value = e.title
+      titulo.value = e.title.split('-')[0];
       current_id.value = e.id
+      prova_id.value = e.prova?.id
     }),
     onEventUpdate: ((e) => {
       current_creating_time.value = e.start
       current_ending_time.value = e.end
       descricao.value = e.description
-      titulo.value = e.title
+      titulo.value = e.title.split('-')[0];
       current_id.value = e.id
+      if (prova_id.value !== false) {
+        prova_id.value = e.prova?.id
+      }
       const data = {
         titulo: titulo.value,
         descricao: descricao.value,
@@ -88,6 +95,10 @@ const calendar = createCalendar({
         fim: current_ending_time.value + ":00",
         id: current_id.value
       }
+      if (prova_id.value !== false) {
+        data["prova_id"] = prova_id.value
+      }
+      console.log("UPDATE", data)
       horarioStore.updateHorario(data);
       current_creating_time.value = null;
       console.log(e)
@@ -121,7 +132,8 @@ const clearVars = () => {
   descricao.value = null
   current_creating_time.value = null;
   current_ending_time.value = null;
-  current_id.value = null
+  current_id.value = null;
+  prova_id.value = false;
 }
 
 function addHorario() {
@@ -136,6 +148,9 @@ function addHorario() {
     inicio: current_creating_time.value + ":00",
     fim: current_ending_time.value + ":00",
     id: current_id.value
+  }
+  if (prova_id.value !== false) {
+    data["prova_id"] = prova_id.value
   }
   if (editing.value) {
     horarioStore.updateHorario(data);
@@ -158,10 +173,20 @@ function addHorario() {
     <SimpleModal @close-modal="clearVars" @click="clearVars" :title="'as'" class="z-20 flex flex-wrap h-3/4"
                  :opened="current_creating_time != null">
       <form @click.stop="" id="form" class="w-full h-3/4 border-4">
-        <div class="w-full">
-          <label for="titulo" class="font-bold ml-2 mt-2">Titulo</label><br>
-          <input type="text" name="titulo" placeholder="Titulo" required v-model="titulo"
-                 class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
+        <div class="w-full flex flex-row">
+          <div class="flex flex-col justify-center w-1/2 m-2">
+            <label for="titulo" class="font-bold ml-2 mt-2">Titulo</label><br>
+            <input type="text" name="titulo" placeholder="Titulo" required v-model="titulo"
+                   class="text-sm h-10 p-2 w-full text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+          </div>
+          <div class="flex flex-col justify-center w-1/2">
+            <label for="prova" class="font-bold ml-2 mt-2">Prova</label><br>
+            <select v-model="prova_id" class="font-bold h-10 p-2 w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option :selected="prova_id===null"></option>
+              <option class="uppercase" v-for="prova in provaStore.provas" :disabled="prova.horario" :value="prova.id">{{ prova.nome }}
+              </option>
+            </select>
+          </div>
         </div>
         <div class="w-full flex flex-col items-center justify-center">
           <label for="descricao" class="font-bold ml-2 mt-2">Descrição</label><br>
