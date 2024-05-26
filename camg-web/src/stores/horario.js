@@ -46,7 +46,7 @@ export const useHorarioStore = defineStore("horario", () => {
                 start: horario.inicio.toString().slice(0, -3),
                 end: horario.fim.toString().slice(0, -3),
                 id: horario.id,
-                calendarId: horario.tem_prova > 0 ? 'prova' : '',
+                calendarId: horario.prova ? 'prova' : '',
                 isEditable: true
             });
         })
@@ -67,7 +67,6 @@ export const useHorarioStore = defineStore("horario", () => {
 
     async function addHorario(data) {
         try {
-            console.log("DATA",data);
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.post(`horario`, data);
             horarios.value.push(response.data.data);
@@ -77,7 +76,11 @@ export const useHorarioStore = defineStore("horario", () => {
                 }
                 provaStore.editProva(data2, data.prova_id)
                 console.log("Prova associada a um contacto")
-                loadHorarios();
+                const index = horarios.value.findIndex((item) => item.id == response.data.data.id);
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
             }
             toast.success("Horário Criado!")
             socket.emit("create_horario", response.data.data);
@@ -90,6 +93,7 @@ export const useHorarioStore = defineStore("horario", () => {
 
     async function updateHorario(data) {
         try {
+            console.log("DATA", data);
             data["rally_id"] = rallyStore.rally_selected;
             const response = await axios.put(`horario/${data.id}`, data);
             const index = horarios.value.findIndex((item) => item.id == data.id);
@@ -98,14 +102,30 @@ export const useHorarioStore = defineStore("horario", () => {
                 return;
             }
             horarios.value[index] = response.data.data;
-            if(data.prova_id){
+            console.log(response.data.data);
+            if(data.prova_id) {
                 const data2 = {
                     horario_id: response.data.data.id
                 }
                 provaStore.editProva(data2, data.prova_id)
-                console.log("Prova associada a um contacto")
-                loadHorarios();
+                console.log("Prova associada a um contacto");
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
             }
+            if(!response.data.data.prova){
+                const data2 = {
+                    horario_id:null
+                }
+                provaStore.editProva(data2, data.prova_id)
+                console.log("Prova não associada a um contacto");
+                if (index < 0) {
+                    toast.error("Erro ao atualizar horário");
+                    return;
+                }
+            }
+            console.log("Update Horario",horarios.value);
             toast.warning("Horário Atualizado!")
             socket.emit("update_horario", response.data.data);
         } catch (error) {

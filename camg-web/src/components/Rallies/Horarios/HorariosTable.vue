@@ -77,7 +77,7 @@ const calendar = createCalendar({
       descricao.value = e.description
       titulo.value = e.title
       current_id.value = e.id
-      prova_id.value = e.prova.id
+      prova_id.value = e.prova?.id
     }),
     onEventUpdate: ((e) => {
       current_creating_time.value = e.start
@@ -85,14 +85,14 @@ const calendar = createCalendar({
       descricao.value = e.description
       titulo.value = e.title
       current_id.value = e.id
-      prova_id.value = e.prova.id
+      prova_id.value = e.prova?.id
       const data = {
         titulo: titulo.value,
         descricao: descricao.value,
         inicio: current_creating_time.value + ":00",
         fim: current_ending_time.value + ":00",
         id: current_id.value,
-        prova_id: prova_id
+        prova_id: prova_id.value
       }
       horarioStore.updateHorario(data);
       current_creating_time.value = null;
@@ -178,7 +178,7 @@ function addHorario() {
             <label for="prova" class="font-bold ml-2 mt-2">Prova</label><br>
             <select v-model="prova_id" class="font-bold h-10 p-2 w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
               <option :selected="prova_id===null"></option>
-              <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.nome }}
+              <option class="uppercase" v-for="prova in provaStore.provas" :disabled="prova.horario" :value="prova.id">{{ prova.nome }}
               </option>
             </select>
           </div>
