@@ -16,7 +16,7 @@ import {useContactoStore} from "@/stores/contacto.js";
 import {useProvaStore} from "@/stores/prova.js";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 import {useHorarioStore} from "@/stores/horario.js"
-
+import '../node_modules/mapbox-gl/dist/mapbox-gl.css';
 
 const router = useRouter()
 const userStore=useUserStore();

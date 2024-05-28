@@ -1,13 +1,17 @@
 <script setup>
 import {useRallyStore} from "@/stores/rally.js";
 import {Icon} from "@iconify/vue";
+import ZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonaEspetaculo.vue";
 
 const rallyStore = useRallyStore();
 </script>
 
 <template>
-  <div v-if="rallyStore.rally_selected" class="h-full rounded-xl transition-all duration-200" id="panel">
+  <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Zonas Espetáculo</h1>
+    <div class="m-16">
+      <ZonaEspetaculo></ZonaEspetaculo>
+    </div>
   </div>
   <div v-else class="mx-auto mt-12">
     <div class="flex flex-row items-center bg-gray-100 border border-amber-400 py-2 px-4 rounded-xl">
