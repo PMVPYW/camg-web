@@ -2,13 +2,18 @@
 import {useRallyStore} from "@/stores/rally.js";
 import {Icon} from "@iconify/vue";
 import ZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonaEspetaculo.vue";
+import CrudButtons from "@/components/common/crudButtons.vue";
+import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
+import {ref} from "vue";
 
 const rallyStore = useRallyStore();
+const selectedZonaEspetaculo = ref(null);
 </script>
 
 <template>
   <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Zonas Espetáculo</h1>
+
     <div class="m-16">
       <ZonaEspetaculo></ZonaEspetaculo>
     </div>
