@@ -3,17 +3,22 @@ import {useRallyStore} from "@/stores/rally.js";
 import {Icon} from "@iconify/vue";
 import ZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonaEspetaculo.vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
-import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
 import {ref} from "vue";
+import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
+import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
 
 const rallyStore = useRallyStore();
-const selectedZonaEspetaculo = ref(null);
+const zonaEspetaculoStore = useZonaEspetaculoStore()
+const selectedZonaEspetaculo = ref({});
 </script>
 
 <template>
   <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Zonas Espetáculo</h1>
-
+    <CrudButtons :create_visible="false" :create_form="CreateZonaEspetaculo"
+                 :edit_callback="zonaEspetaculoStore.editZonaEspetaculo" :obj_to_edit="selectedZonaEspetaculo"
+                 :delete_callback="zonaEspetaculoStore.deleteZonaEspetaculo" :delete_form="selectedZonaEspetaculo"
+                 @clearSelected="selectedZonaEspetaculo = {}"></CrudButtons>
     <div class="m-16">
       <ZonaEspetaculo></ZonaEspetaculo>
     </div>

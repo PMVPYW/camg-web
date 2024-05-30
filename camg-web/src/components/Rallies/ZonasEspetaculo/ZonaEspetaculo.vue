@@ -1,24 +1,29 @@
 <script setup>
 import mapboxgl from 'mapbox-gl';
-import { ref, onMounted, onUnmounted } from 'vue';
+import {ref, onMounted, onUnmounted, inject} from 'vue';
 import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
 import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
+import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
 //import '../../../../node_modules/mapbox-gl/dist/mapbox-gl.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA'; // Substitua pelo seu token de acesso
 
 const coordenadas = ref(null);
-const mapContainer = ref(null);
 const creating = ref(false);
+const mapContainer = ref(null);
+
+const zonaEspetaculoStore = useZonaEspetaculoStore();
+
+
 
 let map;
 
-onMounted(()=> {
+onMounted(async ()=> {
     map = new mapboxgl.Map({
       container: mapContainer.value,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [-8.965979482266903, 39.73957766675534],
-      zoom: 11,
+      zoom: 6.5,
     });
 
     map.on('click', (e) => {
@@ -26,11 +31,62 @@ onMounted(()=> {
       coordenadas.value=e.lngLat.toString().split('(')[1].split(')')[0];
       creating.value=true;
     });
-  });
+
+
+
+        for (let i=0; i< zonaEspetaculoStore.zonaEspetaculo.length;i++){
+          console.log(zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas)
+          let coordenadas = JSON.parse(zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas);
+          new mapboxgl.Marker({ color: '#facc15'})
+              .setLngLat(coordenadas)
+              .addTo(map);
+        }
+
+
+
+      });
 onUnmounted(()=> {
     map.remove();
     map = null;
   });
+
+/*
+onMounted(() => {
+  let map = zonaEspetaculoStore.getMapInstance();
+console.log(map)
+  if (!map) {
+    // Cria a instância do mapa se ainda não existir
+    map = new mapboxgl.Map({
+      container: mapContainer.value,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-8.965979482266903, 39.73957766675534],
+      zoom: 6.5,
+    });
+
+    zonaEspetaculoStore.setMapInstance(map);
+
+    // Adiciona os eventos e marcadores ao mapa
+    map.on('click', (e) => {
+      const coords = e.lngLat.toString().split('(')[1].split(')')[0];
+      coordenadas.value = coords;
+      creating.value = true;
+    });
+
+    zonaEspetaculoStore.zonaEspetaculo.forEach(zona => {
+      const coords = JSON.parse(zona.coordenadas);
+      new mapboxgl.Marker({ color: '#facc15' }).setLngLat(coords).addTo(map);
+    });
+  } else {
+    // Redefine o contêiner do mapa
+    const oldContainer = map.getContainer();
+    if (oldContainer != mapContainer.value) {
+      console.log("CAIU")
+      mapContainer.value.appendChild(oldContainer.firstChild);
+      map.resize();
+    }
+  }
+});*/
+
 
 </script>
 <template>
@@ -43,9 +99,10 @@ onUnmounted(()=> {
     <CreateZonaEspetaculo :coordenadas="coordenadas"></CreateZonaEspetaculo>
     <hr class="mt-5 mb-10">
   </div>
-  <div class="flex flex-col h-screen bg-red-100 rounded-2xl">
+  <div class="flex flex-col h-dvh bg-red-100 rounded-2xl">
       <h1 v-if="coordenadas" class="p-4">{{coordenadas}}</h1>
-      <div ref="mapContainer" class="flex-1 shadow-2xl rounded-2xl"></div>
+    <div ref="mapContainer" class="flex-1 shadow-2xl"></div>
   </div>
 </template>
+
 

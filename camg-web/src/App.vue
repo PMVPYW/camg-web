@@ -17,6 +17,7 @@ import {useProvaStore} from "@/stores/prova.js";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 import {useHorarioStore} from "@/stores/horario.js"
 import '../node_modules/mapbox-gl/dist/mapbox-gl.css';
+import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
 
 const router = useRouter()
 const userStore=useUserStore();
@@ -29,6 +30,7 @@ const contactoStore = useContactoStore();
 const provaStore = useProvaStore();
 const patrocinioOficial = usePatrocinioOficialStore();
 const horarioStore = useHorarioStore();
+const zonaEspetaculoStore = useZonaEspetaculoStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
@@ -46,6 +48,7 @@ onMounted(async () => {
   await horarioStore.loadHorarios();
   await userStore.loadAdmins();
   await provaStore.loadProvas({})
+  await zonaEspetaculoStore.loadZonaEspetaculo({})
 
 });
 </script>

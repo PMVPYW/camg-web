@@ -58,14 +58,6 @@ export const useProvaStore = defineStore("prova", () => {
         }
     }
 
-    async function deleteProva(id) {
-        try {
-
-        } catch (error) {
-            loadProvas({})
-            throw error;
-        }
-    }
 
 
 
@@ -74,6 +66,5 @@ export const useProvaStore = defineStore("prova", () => {
         provas,
         provas_filtered,
         editProva,
-        deleteProva
     };
 });
