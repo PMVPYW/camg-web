@@ -1,10 +1,10 @@
 <script setup>
 import mapboxgl from 'mapbox-gl';
-import {ref, onMounted, onUnmounted, inject} from 'vue';
-import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
+import {ref, onMounted, onUnmounted} from 'vue';
 import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
-//import '../../../../node_modules/mapbox-gl/dist/mapbox-gl.css';
+const emit = defineEmits(["selectedZonaEspetaculo"]);
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA'; // Substitua pelo seu token de acesso
 
@@ -19,30 +19,56 @@ const zonaEspetaculoStore = useZonaEspetaculoStore();
 let map;
 
 onMounted(async ()=> {
-    map = new mapboxgl.Map({
-      container: mapContainer.value,
-      style: "mapbox://styles/mapbox/streets-v12",
-      center: [-8.965979482266903, 39.73957766675534],
-      zoom: 6.5,
-    });
-
-
+  map = new mapboxgl.Map({
+    container: mapContainer.value,
+    style: "mapbox://styles/mapbox/streets-v12",
+    center: [-8.965979482266903, 39.73957766675534],
+    zoom: 6.5,
+  });
 
   map.on('load', () => {
-    map.addSource('places', zonaEspetaculoStore.zonaEspetaculo);
-    // Add a layer showing the places.
+    map.addSource('places', {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': zonaEspetaculoStore.zonaEspetaculo.map(zona => ({
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Point',
+            'coordinates': JSON.parse(zona.coordenadas),
+          },
+          'properties': {
+            'ZonaEspetaculo' : zona,
+            'nome': zona.nome,
+            'nivel_afluencia': zona.nivel_afluencia,
+            'facilidade_acesso': zona.facilidade_acesso,
+            'distancia_estacionamento': zona.distancia_estacionamento,
+          }
+        }))
+      }
+    });
+
     map.addLayer({
       'id': 'places',
-      'nome': 'places',
-      'coordenadas' : 'places'
+      'type': 'circle',
+      'source': 'places',
+      'paint': {
+        'circle-color': '#facc15',
+        'circle-radius': 15,
+      }
     });
 
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     map.on('click', 'places', (e) => {
-      // Copy coordinates array.
-      const coordinates = e.features[0].coordenadas.slice();
-      const nome = e.features[0].nome;
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const nome = e.features[0].properties.nome;
+      const nivel_afluencia = e.features[0].properties.nivel_afluencia;
+      const facilidade_acesso = e.features[0].properties.facilidade_acesso;
+      const distancia_estacionamento = e.features[0].properties.distancia_estacionamento;
+
+
+
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -53,8 +79,14 @@ onMounted(async ()=> {
 
       new mapboxgl.Popup()
           .setLngLat(coordinates)
-          .setHTML(nome)
+          .setHTML(nome,nivel_afluencia)
           .addTo(map);
+
+
+      const ZonaEspetaculo = e.features[0].properties.ZonaEspetaculo
+      emit('selectedZonaEspetaculo', ZonaEspetaculo);
+
+      console.log(ZonaEspetaculo);
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
@@ -62,22 +94,28 @@ onMounted(async ()=> {
       map.getCanvas().style.cursor = 'pointer';
     });
 
-    // Change it back to a pointer when it leaves.
+    // Change it back to a default cursor when it leaves.
     map.on('mouseleave', 'places', () => {
       map.getCanvas().style.cursor = '';
     });
+
+    // General map click event for creating new 'zona de espetaculo'
     map.on('click', (e) => {
-      console.log(e.lngLat.toString().split('(')[1].split(')')[0]);
-      coordenadas.value=e.lngLat.toString().split('(')[1].split(')')[0];
-      creating.value=true;
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ['places']
+      });
+
+      if (!features.length) {
+        console.log(e.lngLat.toString().split('(')[1].split(')')[0]);
+        coordenadas.value = e.lngLat.toString().split('(')[1].split(')')[0];
+        creating.value = true;
+      }
     });
 
-
-
-    for (let i=0; i< zonaEspetaculoStore.zonaEspetaculo.length;i++){
-      console.log(zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas)
+    for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo.length; i++) {
+      console.log(zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas);
       let coordenadas = JSON.parse(zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas);
-      new mapboxgl.Marker({ color: '#facc15'})
+      new mapboxgl.Marker({ color: '#facc15' })
           .setLngLat(coordenadas)
           .addTo(map);
     }

@@ -10,6 +10,11 @@ import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZon
 const rallyStore = useRallyStore();
 const zonaEspetaculoStore = useZonaEspetaculoStore()
 const selectedZonaEspetaculo = ref({});
+
+function selected_emit(new_var){
+  //precisa de conversão para Json pois não é um objeto
+  selectedZonaEspetaculo.value=JSON.parse(new_var);
+}
 </script>
 
 <template>
@@ -20,7 +25,7 @@ const selectedZonaEspetaculo = ref({});
                  :delete_callback="zonaEspetaculoStore.deleteZonaEspetaculo" :delete_form="selectedZonaEspetaculo"
                  @clearSelected="selectedZonaEspetaculo = {}"></CrudButtons>
     <div class="m-16">
-      <ZonaEspetaculo></ZonaEspetaculo>
+      <ZonaEspetaculo @selectedZonaEspetaculo="selected_emit"></ZonaEspetaculo>
     </div>
   </div>
   <div v-else class="mx-auto mt-12">
