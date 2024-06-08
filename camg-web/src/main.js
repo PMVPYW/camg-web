@@ -14,7 +14,7 @@ import "vue-toastification/dist/index.css";
 
 const app = createApp(App);
 
-const serverBaseUrl = "http://34.163.218.19";
+const serverBaseUrl = "http://34.155.10.187";
 app.provide("serverBaseUrl", serverBaseUrl);
 // Default Axios configuration
 axios.defaults.baseURL = serverBaseUrl + "/api";
