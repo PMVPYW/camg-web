@@ -14,7 +14,7 @@ import "vue-toastification/dist/index.css";
 
 const app = createApp(App);
 
-const serverBaseUrl = "http://34.155.10.187";
+const serverBaseUrl = "http://34.155.37.245";
 app.provide("serverBaseUrl", serverBaseUrl);
 // Default Axios configuration
 axios.defaults.baseURL = serverBaseUrl + "/api";
@@ -41,6 +41,6 @@ app.use(Toast, {
     transition: "Vue-Toastification__bounce",
 });
 
-app.provide("socket", io(serverBaseUrl));
+app.provide("socket", io(serverBaseUrl + ":8080"));
 
 app.mount('#app')

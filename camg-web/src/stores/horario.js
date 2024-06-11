@@ -47,7 +47,7 @@ export const useHorarioStore = defineStore("horario", () => {
                 start: horario.inicio.toString().slice(0, -3),
                 end: horario.fim.toString().slice(0, -3),
                 id: horario.id,
-                calendarId: horario.prova ? 'prova' : '',
+                calendarId: horario.prova ? 'prova' : 'evento',
                 isEditable: true
             });
         })

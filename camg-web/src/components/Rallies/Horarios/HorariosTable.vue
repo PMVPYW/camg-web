@@ -43,6 +43,19 @@ const calendar = createCalendar({
   defaultView: viewWeek.name,
   events: events.value,
   calendars: {
+    evento: {
+      colorName: 'evento',
+      lightColors: {
+        main: '#D69708',
+        container: '#7a7d7d',
+        onContainer: '#fff',
+      },
+      darkColors: {
+        main: '#D69708',
+        container: '#5F7470',
+        onContainer: '#fff',
+      }
+    },
     prova: {
       colorName: 'prova',
       lightColors: {
