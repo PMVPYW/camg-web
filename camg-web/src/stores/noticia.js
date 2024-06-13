@@ -18,7 +18,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
 
     socket.on("create_noticia", (noticia) => {
         noticias.value.push(noticia);
-        noticias_filtered.value.push(noticia);
+        //noticias_filtered.value.push(noticia);
         toast.success("Nova Noticia");
     })
 

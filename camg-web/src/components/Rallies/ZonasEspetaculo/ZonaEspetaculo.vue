@@ -1,6 +1,6 @@
 <script setup>
 import mapboxgl from 'mapbox-gl';
-import {ref, onMounted, onUnmounted} from 'vue';
+import {ref, onMounted, onUnmounted, watch} from 'vue';
 import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
 const emit = defineEmits(["selectedZonaEspetaculo"]);
@@ -43,6 +43,7 @@ onMounted(async ()=> {
             'nivel_afluencia': zona.nivel_afluencia,
             'facilidade_acesso': zona.facilidade_acesso,
             'distancia_estacionamento': zona.distancia_estacionamento,
+            'nivel_ocupacao': zona.nivel_ocupacao,
           }
         }))
       }
@@ -66,6 +67,7 @@ onMounted(async ()=> {
       const nivel_afluencia = e.features[0].properties.nivel_afluencia;
       const facilidade_acesso = e.features[0].properties.facilidade_acesso;
       const distancia_estacionamento = e.features[0].properties.distancia_estacionamento;
+      const nivel_ocupacao = e.features[0].properties.nivel_ocupacao;
 
 
 
@@ -79,7 +81,12 @@ onMounted(async ()=> {
 
       new mapboxgl.Popup()
           .setLngLat(coordinates)
-          .setHTML(nome,nivel_afluencia)
+          .setHTML(`<strong><b>${nome}</b></strong>
+                    <br><h2 class="my-1">Nível de Afluência: <b>${nivel_afluencia}</b></h2>
+                    <h2 class="my-1">Facilidade de Acesso: <b>${facilidade_acesso}</b></h2>
+                    <h2 class="my-1">Distância Estancionamento: <b>${distancia_estacionamento}Km</b></h2>
+                    <h2 class="my-1">Nível de Ocupação: <b class="bg-green-300 px-3 py-2 rounded-xl ">${nivel_ocupacao}</b></h2>
+                    `)
           .addTo(map);
 
 

@@ -6,11 +6,14 @@ import {ref} from "vue";
 const provaStore = useProvaStore();
 const zonaEspetaculo = useZonaEspetaculoStore()
 const props = defineProps(["coordenadas", "obj_to_edit", "errors"]);
+const emit = defineEmits(["edit"]);
+
 
 const nome = ref(props.obj_to_edit?.nome);
 const nivel_afluencia = ref(props.obj_to_edit?.nivel_afluencia);
 const facilidade_acesso = ref(props.obj_to_edit?.facilidade_acesso);
 const distancia_estacionamento = ref(props.obj_to_edit?.distancia_estacionamento);
+const nivel_ocupacao = ref(props.obj_to_edit?.nivel_ocupacao);
 const coordenada = ref(props.obj_to_edit ? props.obj_to_edit?.coordenadas : props.coordenadas);
 const prova_id = ref(null);
 
@@ -23,6 +26,7 @@ const createZE = async () => {
     "facilidade_acesso": facilidade_acesso.value,
     "distancia_estacionamento": distancia_estacionamento.value,
     "coordenadas": "["+coordenada.value+"]",
+    "nivel_ocupacao": nivel_ocupacao.value,
   };
   if (prova_id.value != null) {
     obj["prova_id"] = prova_id.value
@@ -44,58 +48,77 @@ const createZE = async () => {
 <template>
   <form class="m-2">
     <div class="flex flex-row justify-center w-full">
-      <div class="w-6/12">
+      <div class="w-9/12">
         <div class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
             <div>
               <label class="block mb-2 text-base font-medium">Nome</label>
               <input v-model="nome" type="text" required  class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
               <h1 class="text-red-600 text-base font-medium">nome</h1>
             </div>
             <div>
-              <label class="block mb-2 text-base font-medium">Nivel Afluência</label>
-              <select v-model="nivel_afluencia" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-                <option selected value="facil">Fácil</option>
-                <option value="medio">Médio</option>
-                <option value="dificil">Difícil</option>
-              </select>
-              <h1 class="text-red-600 text-base font-medium">nivel_afluencia</h1>
-            </div>
-          </div>
-        </div>
-        <br>
-        <div class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
-            <div>
-              <label class="block mb-2 text-base font-medium">Facilidade Acesso</label>
-              <select v-model="facilidade_acesso" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-                <option selected value="facil">Fácil</option>
-                <option value="medio">Médio</option>
-                <option value="dificil">Difícil</option>
-              </select>
-              <h1 class="text-red-600 text-base font-medium">facilidade_acesso</h1>
-            </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Distância Estacionamento</label>
-              <input v-model="distancia_estacionamento" type="number" required  class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Distância em metros">
-              <h1 class="text-red-600 text-base font-medium">distancia_estacionamento</h1>
-            </div>
-          </div>
-        </div>
-        <div  class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
-            <div>
-              <label class="block mb-2 text-base font-medium">Coordenadas</label>
-              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
-            </div>
-            <div>
-              <label class="block mx-4 text-base font-medium">Prova:</label>
+              <label class="block mb-2 text-base font-medium">Prova:</label>
               <select v-model="prova_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
                 <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.nome }}
                 </option>
               </select>
               <h1  class="text-red-600 text-base font-medium">errors.prova</h1>
+            </div>
+            <div>
+              <label class="block mb-2 text-base font-medium">Coordenadas</label>
+              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="flex justify-center w-full mb-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
+            <div>
+              <label class="block mb-2 text-base font-medium">Distância Estacionamento</label>
+              <input v-model="distancia_estacionamento" type="number" required  class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Distância em metros">
+              <h1 class="text-red-600 text-base font-medium">distancia_estacionamento</h1>
+            </div>
+            <div>
+              <label class="block mb-2 text-base font-medium">Facilidade Acesso</label>
+              <select v-model="facilidade_acesso" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <option selected>Fácil</option>
+                <option>Médio</option>
+                <option>Difícil</option>
+              </select>
+              <h1 class="text-red-600 text-base font-medium">facilidade_acesso</h1>
+            </div>
+            <div>
+              <label class="block mb-2 text-base font-medium">Coordenadas</label>
+              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
+            </div>
+          </div>
+        </div>
+        <div  class="flex justify-center w-full">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
+            <div>
+              <label class="block mb-2 text-base font-medium">Nivel Afluência</label>
+              <select v-model="nivel_afluencia" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <option selected>Fácil</option>
+                <option>Médio</option>
+                <option>Difícil</option>
+              </select>
+              <!--              <h1 class="text-red-600 text-base font-medium">nivel_afluencia</h1>-->
+            </div>
+            <div>
+              <label class="block mb-2 text-base font-medium">Nivel Ocupação</label>
+              <select v-model="nivel_ocupacao" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <option selected>Livre</option>
+                <option>Intermédio</option>
+                <option>Completo</option>
+              </select>
+              <!--              <h1 class="text-red-600 text-base font-medium">nivel_afluencia</h1>-->
+            </div>
+            <div>
+              <label class="block mb-2 text-base font-medium">Coordenadas</label>
+              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
             </div>
           </div>
         </div>
