@@ -1,5 +1,8 @@
 <script setup>
 import mapboxgl from 'mapbox-gl';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import {ref, onMounted, onUnmounted, watch} from 'vue';
 import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
@@ -16,16 +19,54 @@ const zonaEspetaculoStore = useZonaEspetaculoStore();
 
 
 
-let map;
+//let map;
 
 onMounted(async ()=> {
+  const map = new mapboxgl.Map({
+    container: mapContainer.value,
+    // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+    style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+    center: [-8.965979482266903, 39.73957766675534],
+    zoom: 6.5 // starting zoom
+  });
+
+  const draw = new MapboxDraw({
+    displayControlsDefault: false,
+    // Select which mapbox-gl-draw control buttons to add to the map.
+    controls: {
+      polygon: true,
+      trash: true
+    },
+    // Set mapbox-gl-draw to draw by default.
+    // The user does not have to click the polygon control button first.
+    defaultMode: 'draw_polygon'
+  });
+  map.addControl(draw);
+
+  map.on('draw.create', updateArea);
+  map.on('draw.delete', updateArea);
+  map.on('draw.update', updateArea);
+
+  function updateArea(e) {
+    console.log(e);
+    const data = draw.getAll();
+    const answer = document.getElementById('calculated-area');
+    if (data.features.length <= 0) {
+      answer.innerHTML = '';
+      if (e.type !== 'draw.delete')
+        alert('Click the map to draw a polygon.');
+    }
+    console.log(data);
+  }
+
+});
+  /*
   map = new mapboxgl.Map({
     container: mapContainer.value,
     style: "mapbox://styles/mapbox/streets-v12",
     center: [-8.965979482266903, 39.73957766675534],
     zoom: 6.5,
   });
-
   map.on('load', () => {
     map.addSource('places', {
       'type': 'geojson',
@@ -132,7 +173,7 @@ onMounted(async ()=> {
 onUnmounted(()=> {
     map.remove();
     map = null;
-  });
+  });*/
 
 /*
 onMounted(() => {
@@ -184,8 +225,11 @@ console.log(map)
     <hr class="mt-5 mb-10">
   </div>
   <div class="flex flex-col h-dvh bg-red-100 rounded-2xl">
-      <h1 v-if="coordenadas" class="p-4">{{coordenadas}}</h1>
     <div ref="mapContainer" id="map" class="flex-1 shadow-2xl"></div>
+    <div class="calculation-box">
+      <p>Click the map to draw a polygon.</p>
+      <div id="calculated-area"></div>
+    </div>
   </div>
 </template>
 
