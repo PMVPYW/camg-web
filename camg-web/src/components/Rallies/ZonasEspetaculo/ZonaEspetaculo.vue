@@ -27,15 +27,16 @@ onMounted(async ()=> {
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/satellite-v9', // style URL
     center: [-8.965979482266903, 39.73957766675534],
-    zoom: 6.5 // starting zoom
+    zoom: 9 // starting zoom
   });
 
   const draw = new MapboxDraw({
+    //https://github.com/mapbox/mapbox-gl-draw/blob/main/docs/EXAMPLES.md
     displayControlsDefault: false,
     // Select which mapbox-gl-draw control buttons to add to the map.
     controls: {
       polygon: true,
-      trash: true
+      trash: true,
     },
     // Set mapbox-gl-draw to draw by default.
     // The user does not have to click the polygon control button first.
@@ -48,15 +49,29 @@ onMounted(async ()=> {
   map.on('draw.update', updateArea);
 
   function updateArea(e) {
-    console.log(e);
-    const data = draw.getAll();
-    const answer = document.getElementById('calculated-area');
-    if (data.features.length <= 0) {
-      answer.innerHTML = '';
-      if (e.type !== 'draw.delete')
-        alert('Click the map to draw a polygon.');
+    console.log("e:",e);
+    if(e.type == 'draw.create'){
+      console.log(draw.getAll().features[0].geometry.coordinates[0])
+      let coordenadas;
+      for (let i = 0; i < draw.getAll().features[0].geometry.coordinates[0].length; i++) {
+        console.log(draw.getAll().features[0].geometry.coordinates[0][i]);
+        coordenadas += draw.getAll().features[0].geometry.coordinates[0][i];
+        console.log("coordenadas:",coordenadas);
+        if(i===0) {
+          let entrada = draw.getAll().features[0].geometry.coordinates[0][i];
+          console.log(entrada)
+          new mapboxgl.Marker({color: '#facc15'})
+              .setLngLat(entrada)
+              .addTo(map);
+        }
+      }
+      console.log("draw.create");
+    }else if(e.type == 'draw.delete'){
+      console.log("draw.delete");
+    }else if(e.type == 'draw.update'){
+      console.log("draw.update");
     }
-    console.log(data);
+    const data = draw.getAll();
   }
 
 });
@@ -226,9 +241,8 @@ console.log(map)
   </div>
   <div class="flex flex-col h-dvh bg-red-100 rounded-2xl">
     <div ref="mapContainer" id="map" class="flex-1 shadow-2xl"></div>
-    <div class="calculation-box">
-      <p>Click the map to draw a polygon.</p>
-      <div id="calculated-area"></div>
+    <div class="p-3">
+      <p>Clica no mapa para desenhar um Zona de Espetáculo,<br>o primeiro ponto da sua marcação será a sua Zona de Espetáculo</p>
     </div>
   </div>
 </template>
