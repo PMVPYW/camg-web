@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.4.3",
+    "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
     "@schedule-x/calendar": "^1.41.0",
     "@schedule-x/calendar-controls": "^1.41.1",
     "@schedule-x/drag-and-drop": "^1.41.1",

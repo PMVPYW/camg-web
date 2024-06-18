@@ -44,6 +44,49 @@ onMounted(async ()=> {
   });
   map.addControl(draw);
 
+  map.on('load', () => {
+    const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo.map(zona => ({
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': JSON.parse("[[" + zona.coordenadas + "]]"),
+      },
+      'properties': {
+        'ZonaEspetaculo': zona,
+        'nome': zona.nome,
+        'nivel_afluencia': zona.nivel_afluencia,
+        'facilidade_acesso': zona.facilidade_acesso,
+        'distancia_estacionamento': zona.distancia_estacionamento,
+        'nivel_ocupacao': zona.nivel_ocupacao,
+      }
+    }));
+
+    // Adicionar os polígonos carregados à instância do Mapbox Draw
+    draw.set({
+      type: 'FeatureCollection',
+      features: zonaEspetaculoFeatures
+    });
+
+    // Adicionar a camada ao mapa (opcional, já que o Draw controla a exibição)
+    map.addLayer({
+      'id': 'places',
+      'type': 'fill',
+      'source': {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': zonaEspetaculoFeatures
+        }
+      },
+      'layout': {},
+      'paint': {
+        'fill-color': '#facc15',
+        'fill-opacity': 0.4
+      }
+    });
+  });
+
+
   map.on('draw.create', updateArea);
   map.on('draw.delete', updateArea);
   map.on('draw.update', updateArea);
@@ -51,19 +94,22 @@ onMounted(async ()=> {
   function updateArea(e) {
     console.log("e:",e);
     if(e.type == 'draw.create'){
-      console.log(draw.getAll().features[0].geometry.coordinates[0])
-      let coordenadas;
+      console.log(draw.getAll().features[0].geometry.coordinates[0]);
+      let coordenadas_ze = "["+ draw.getAll().features[0].geometry.coordinates[0][0]+ "]";
       for (let i = 0; i < draw.getAll().features[0].geometry.coordinates[0].length; i++) {
-        console.log(draw.getAll().features[0].geometry.coordinates[0][i]);
-        coordenadas += draw.getAll().features[0].geometry.coordinates[0][i];
-        console.log("coordenadas:",coordenadas);
         if(i===0) {
           let entrada = draw.getAll().features[0].geometry.coordinates[0][i];
           console.log(entrada)
           new mapboxgl.Marker({color: '#facc15'})
               .setLngLat(entrada)
               .addTo(map);
+        }else {
+          console.log(draw.getAll().features[0].geometry.coordinates[0][i]);
+          coordenadas_ze += ",[" + draw.getAll().features[0].geometry.coordinates[0][i] + "]";
+          console.log("coordenadas:", coordenadas_ze);
         }
+        coordenadas.value=coordenadas_ze;
+        creating.value = true;
       }
       console.log("draw.create");
     }else if(e.type == 'draw.delete'){

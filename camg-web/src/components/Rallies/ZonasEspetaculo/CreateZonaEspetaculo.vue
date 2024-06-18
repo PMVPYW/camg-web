@@ -25,7 +25,7 @@ const createZE = async () => {
     "nivel_afluencia": nivel_afluencia.value,
     "facilidade_acesso": facilidade_acesso.value,
     "distancia_estacionamento": distancia_estacionamento.value,
-    "coordenadas": "["+coordenada.value+"]",
+    "coordenadas": coordenada.value,
     "nivel_ocupacao": nivel_ocupacao.value,
   };
   if (prova_id.value != null) {
