@@ -18,14 +18,14 @@ const mapContainer = ref(null);
 const zonaEspetaculoStore = useZonaEspetaculoStore();
 
 
-
-//let map;
+let map;
 
 onMounted(async ()=> {
-  const map = new mapboxgl.Map({
+  map = new mapboxgl.Map({
     container: mapContainer.value,
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+    //    style: "mapbox://styles/mapbox/streets-v12",
     center: [-8.965979482266903, 39.73957766675534],
     zoom: 9 // starting zoom
   });
@@ -36,7 +36,6 @@ onMounted(async ()=> {
     // Select which mapbox-gl-draw control buttons to add to the map.
     controls: {
       polygon: true,
-      trash: true,
     },
     // Set mapbox-gl-draw to draw by default.
     // The user does not have to click the polygon control button first.
@@ -44,22 +43,24 @@ onMounted(async ()=> {
   });
   map.addControl(draw);
 
-  map.on('load', () => {
-    const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo.map(zona => ({
-      'type': 'Feature',
-      'geometry': {
-        'type': 'Polygon',
-        'coordinates': JSON.parse("[[" + zona.coordenadas + "]]"),
-      },
-      'properties': {
-        'ZonaEspetaculo': zona,
-        'nome': zona.nome,
-        'nivel_afluencia': zona.nivel_afluencia,
-        'facilidade_acesso': zona.facilidade_acesso,
-        'distancia_estacionamento': zona.distancia_estacionamento,
-        'nivel_ocupacao': zona.nivel_ocupacao,
-      }
-    }));
+
+
+    map.on('load', () => {
+        const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo.map(zona => ({
+          'type': 'Feature',
+          'geometry': {
+            'type': 'Polygon',
+            'coordinates': JSON.parse("[[" + zona.coordenadas + "]]"),
+          },
+          'properties': {
+            'ZonaEspetaculo': zona,
+            'nome': zona.nome,
+            'nivel_afluencia': zona.nivel_afluencia,
+            'facilidade_acesso': zona.facilidade_acesso,
+            'distancia_estacionamento': zona.distancia_estacionamento,
+            'nivel_ocupacao': zona.nivel_ocupacao,
+          }
+        }));
 
     // Adicionar os polígonos carregados à instância do Mapbox Draw
     draw.set({
@@ -67,59 +68,123 @@ onMounted(async ()=> {
       features: zonaEspetaculoFeatures
     });
 
-    // Adicionar a camada ao mapa (opcional, já que o Draw controla a exibição)
-    map.addLayer({
-      'id': 'places',
-      'type': 'fill',
-      'source': {
+      // Adicionar a fonte ao mapa
+      map.addSource('places', {
         'type': 'geojson',
         'data': {
           'type': 'FeatureCollection',
           'features': zonaEspetaculoFeatures
         }
-      },
-      'layout': {},
-      'paint': {
-        'fill-color': '#facc15',
-        'fill-opacity': 0.4
+      });
+
+      // Adicionar a camada ao mapa
+      map.addLayer({
+        'id': 'places',
+        'type': 'fill',
+        'source': 'places',
+        'layout': {},
+        'paint': {
+          'fill-opacity': 0.0
+        }
+      });
+
+   console.log("Zonas de Espetaculo",zonaEspetaculoStore.zonaEspetaculo)
+      for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo.length; i++) {
+        console.log(JSON.parse("["+zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas+"]")[0]);
+        let entrada = JSON.parse("["+zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas+"]")[0];
+        new mapboxgl.Marker({ color: '#facc15' })
+            .setLngLat(entrada)
+            .addTo(map);
       }
-    });
   });
 
+  // When a click event occurs on a feature in the places layer, open a popup at the
+  // location of the feature, with description HTML from its properties.
+  map.on('click', 'places', (e) => {
+    const coordinates = e.features[0].geometry.coordinates[0][0];
+    const nome = e.features[0].properties.nome;
+    const nivel_afluencia = e.features[0].properties.nivel_afluencia;
+    const facilidade_acesso = e.features[0].properties.facilidade_acesso;
+    const distancia_estacionamento = e.features[0].properties.distancia_estacionamento;
+    const nivel_ocupacao = e.features[0].properties.nivel_ocupacao;
+
+
+    new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<strong><b>${nome}</b></strong>
+                    <br><h2 class="my-1">Nível de Afluência: <b>${nivel_afluencia}</b></h2>
+                    <h2 class="my-1">Facilidade de Acesso: <b>${facilidade_acesso}</b></h2>
+                    <h2 class="my-1">Distância Estancionamento: <b>${distancia_estacionamento}Km</b></h2>
+                    <h2 class="my-1">Nível de Ocupação: <b class="bg-green-300 px-3 py-2 rounded-xl ">${nivel_ocupacao}</b></h2>
+                    `)
+        .addTo(map);
+
+
+    const ZonaEspetaculo = e.features[0].properties.ZonaEspetaculo
+    emit('selectedZonaEspetaculo', ZonaEspetaculo);
+
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on('mouseenter', 'places', () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  // Change it back to a default cursor when it leaves.
+  map.on('mouseleave', 'places', () => {
+    map.getCanvas().style.cursor = '';
+  });
 
   map.on('draw.create', updateArea);
-  map.on('draw.delete', updateArea);
   map.on('draw.update', updateArea);
 
   function updateArea(e) {
     console.log("e:",e);
     if(e.type == 'draw.create'){
-      console.log(draw.getAll().features[0].geometry.coordinates[0]);
-      let coordenadas_ze = "["+ draw.getAll().features[0].geometry.coordinates[0][0]+ "]";
-      for (let i = 0; i < draw.getAll().features[0].geometry.coordinates[0].length; i++) {
+      console.log(e.features[0].geometry.coordinates[0])
+      let coordenadas_ze = "["+ e.features[0].geometry.coordinates[0][0]+ "]";
+      for (let i = 0; i < e.features[0].geometry.coordinates[0].length; i++) {
         if(i===0) {
-          let entrada = draw.getAll().features[0].geometry.coordinates[0][i];
+          let entrada = e.features[0].geometry.coordinates[0][i];
           console.log(entrada)
           new mapboxgl.Marker({color: '#facc15'})
               .setLngLat(entrada)
               .addTo(map);
         }else {
-          console.log(draw.getAll().features[0].geometry.coordinates[0][i]);
-          coordenadas_ze += ",[" + draw.getAll().features[0].geometry.coordinates[0][i] + "]";
+          console.log(e.features[0].geometry.coordinates[0][i]);
+          coordenadas_ze += ",[" + e.features[0].geometry.coordinates[0][i] + "]";
           console.log("coordenadas:", coordenadas_ze);
         }
         coordenadas.value=coordenadas_ze;
         creating.value = true;
       }
       console.log("draw.create");
-    }else if(e.type == 'draw.delete'){
-      console.log("draw.delete");
     }else if(e.type == 'draw.update'){
+      console.log(e.features[0].geometry.coordinates[0])
+      let coordenadas_ze = "["+ e.features[0].geometry.coordinates[0][0]+ "]";
+      for (let i = 0; i < e.features[0].geometry.coordinates[0].length; i++) {
+        if(i===0) {
+          let entrada = e.features[0].geometry.coordinates[0][i];
+          console.log(entrada)
+          new mapboxgl.Marker({color: '#facc15'})
+              .setLngLat(entrada)
+              .addTo(map);
+        }else {
+          console.log(e.features[0].geometry.coordinates[0][i]);
+          coordenadas_ze += ",[" + e.features[0].geometry.coordinates[0][i] + "]";
+          console.log("coordenadas:", coordenadas_ze);
+        }
+        coordenadas.value=coordenadas_ze;
+      }
+      console.log("event", e.features[0].properties.ZonaEspetaculo.id)
+      zonaEspetaculoStore.editZonaEspetaculo({"coordenadas":coordenadas_ze},e.features[0].properties.ZonaEspetaculo.id)
       console.log("draw.update");
     }
-    const data = draw.getAll();
   }
 
+});
+onUnmounted(()=> {
+  map.remove();
 });
   /*
   map = new mapboxgl.Map({
@@ -288,7 +353,7 @@ console.log(map)
   <div class="flex flex-col h-dvh bg-red-100 rounded-2xl">
     <div ref="mapContainer" id="map" class="flex-1 shadow-2xl"></div>
     <div class="p-3">
-      <p>Clica no mapa para desenhar um Zona de Espetáculo,<br>o primeiro ponto da sua marcação será a sua Zona de Espetáculo</p>
+      <p>Clica no mapa para desenhar um Zona de Espetáculo,<br>o primeiro ponto da sua marcação será a entrada da zona</p>
     </div>
   </div>
 </template>

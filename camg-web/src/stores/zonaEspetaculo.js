@@ -28,6 +28,7 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
                 }
                 response = await axios.get("rally/"+rallyStore.rally_selected+`/zonasEspetaculo${suffix}`);
                 zonaEspetaculo_filtered.value = response.data;
+                console.log("Zona Espetaculo LOAD", response.data)
             }else{
                 response = await axios.get("rally/"+rallyStore.rally_selected+`/zonasEspetaculo${suffix}`);
                 zonaEspetaculo.value=response.data;
@@ -47,6 +48,7 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
             zonaEspetaculo.value.push(response.data);
             zonaEspetaculo_filtered.value.push(response.data);
             toast.success("Zona Espetaculo Criada!")
+            console.log("Zona Espetaculo CREATE", zonaEspetaculo.value)
         } catch (error) {
             console.error(error);
             loadZonaEspetaculo({})
@@ -56,8 +58,9 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
 
     async function editZonaEspetaculo(data, id) {
         try {
+            console.log(id, "Id")
             console.log(data, "Dados")
-            const response = await axios.put("prova/"+id, data);
+            const response = await axios.put("zonaEspetaculo/"+id, data);
             var index = zonaEspetaculo.value.findIndex(item => item.id === id);
             if(index>=0) {
                 zonaEspetaculo.value[index] = response.data.data;

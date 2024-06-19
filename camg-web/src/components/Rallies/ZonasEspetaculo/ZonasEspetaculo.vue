@@ -6,12 +6,14 @@ import CrudButtons from "@/components/common/crudButtons.vue";
 import {ref} from "vue";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
 import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
+import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const rallyStore = useRallyStore();
 const zonaEspetaculoStore = useZonaEspetaculoStore()
 const selectedZonaEspetaculo = ref({});
 
 function selected_emit(new_var){
+  console.log(JSON.parse(new_var));
   //precisa de conversão para Json pois não é um objeto
   selectedZonaEspetaculo.value=JSON.parse(new_var);
 }
@@ -22,7 +24,7 @@ function selected_emit(new_var){
     <h1 class="text-2xl font-bold ml-10 mt-10">Zonas Espetáculo</h1>
     <CrudButtons :create_visible="false" :create_form="CreateZonaEspetaculo"
                  :edit_callback="zonaEspetaculoStore.editZonaEspetaculo" :obj_to_edit="selectedZonaEspetaculo"
-                 :delete_callback="zonaEspetaculoStore.deleteZonaEspetaculo" :delete_form="selectedZonaEspetaculo"
+                 :delete_callback="zonaEspetaculoStore.deleteZonaEspetaculo" :delete_form="SimpleDeleteForm"
                  @clearSelected="selectedZonaEspetaculo = {}"></CrudButtons>
     <div class="m-16">
       <ZonaEspetaculo @selectedZonaEspetaculo="selected_emit"></ZonaEspetaculo>

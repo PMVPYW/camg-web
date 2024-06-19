@@ -4,11 +4,14 @@ import {defineStore} from "pinia";
 
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
+import {useRallyStore} from "@/stores/rally.js";
 
 export const useProvaStore = defineStore("prova", () => {
     const serverBaseUrl = inject("serverBaseUrl");
     const socket = inject("socket");
     const toast = useToast();
+
+    const rallyStore = useRallyStore();
 
 
     const router = useRouter();
@@ -24,13 +27,13 @@ export const useProvaStore = defineStore("prova", () => {
                 for (const filter in filters) {
                     suffix += `${filter}=${filters[filter]}&`;
                 }
-                response = await axios.get(`prova${suffix}`);
+                response = await axios.get("rally/"+rallyStore.rally_selected+`/provas${suffix}`);
                 provas_filtered.value = response.data.data;
             }else{
-                response = await axios.get(`prova${suffix}`);
+                response = await axios.get("rally/"+rallyStore.rally_selected+`/provas${suffix}`);
                 provas.value=response.data.data;
                 provas_filtered.value = response.data.data;
-                console.log(provas, "Provas")
+                console.log(provas.value, "Provas")
             }
         } catch (error) {
             throw error;

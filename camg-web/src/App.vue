@@ -34,6 +34,7 @@ const zonaEspetaculoStore = useZonaEspetaculoStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
+  await zonaEspetaculoStore.loadZonaEspetaculo({})
   await contactoStore.loadContactos({});
   await contactoStore.loadTipoContactos({});
   await patrocinioStore.loadPatrocinios({});
@@ -48,7 +49,6 @@ onMounted(async () => {
   await horarioStore.loadHorarios();
   await userStore.loadAdmins();
   await provaStore.loadProvas({})
-  await zonaEspetaculoStore.loadZonaEspetaculo({})
 
 });
 </script>
