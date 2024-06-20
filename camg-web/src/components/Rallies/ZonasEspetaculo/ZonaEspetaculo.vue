@@ -138,7 +138,7 @@ onMounted(async ()=> {
   map.on('draw.create', updateArea);
   map.on('draw.update', updateArea);
 
-  function updateArea(e) {
+  async function updateArea(e) {
     console.log("e:",e);
     if(e.type == 'draw.create'){
       console.log(e.features[0].geometry.coordinates[0])
@@ -177,7 +177,7 @@ onMounted(async ()=> {
         coordenadas.value=coordenadas_ze;
       }
       console.log("event", e.features[0].properties.ZonaEspetaculo.id)
-      zonaEspetaculoStore.editZonaEspetaculo({"coordenadas":coordenadas_ze},e.features[0].properties.ZonaEspetaculo.id)
+      await zonaEspetaculoStore.editZonaEspetaculo({"coordenadas":coordenadas_ze},e.features[0].properties.ZonaEspetaculo.id)
       console.log("draw.update");
     }
   }

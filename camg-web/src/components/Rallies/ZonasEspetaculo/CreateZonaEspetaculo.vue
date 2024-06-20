@@ -1,7 +1,7 @@
 <script setup>
 import {useProvaStore} from "@/stores/prova.js";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 
 const provaStore = useProvaStore();
 const zonaEspetaculo = useZonaEspetaculoStore()
@@ -17,7 +17,13 @@ const nivel_ocupacao = ref(props.obj_to_edit?.nivel_ocupacao);
 const coordenada = ref(props.obj_to_edit ? props.obj_to_edit?.coordenadas : props.coordenadas);
 const prova_id = ref(null);
 
-const errors = ref({})
+const errors = ref(props.errors ?? {})
+
+watch(()=>props.errors, (n_errors)=>{
+  errors.value = n_errors ?? {};
+})
+
+console.log("errors", errors)
 
 const createZE = async () => {
   const obj = {
@@ -50,34 +56,29 @@ const createZE = async () => {
     <div class="flex flex-row justify-center w-full">
       <div class="w-9/12">
         <div class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
             <div>
               <label class="block mb-2 text-base font-medium">Nome</label>
               <input v-model="nome" type="text" required  class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
-              <h1 class="text-red-600 text-base font-medium">nome</h1>
+              <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{ errors.nome[0] }}</h1>
             </div>
             <div>
-              <label class="block mb-2 text-base font-medium">Prova:</label>
+              <label class="block mb-2 text-base font-medium">Prova</label>
               <select v-model="prova_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
                 <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.nome }}
                 </option>
               </select>
-              <h1  class="text-red-600 text-base font-medium">errors.prova</h1>
-            </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Coordenadas</label>
-              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
+              <h1 v-if="errors.prova_id" class="text-red-600 text-base font-medium">{{ errors.prova_id[0] }}</h1>
             </div>
           </div>
         </div>
         <br>
         <div class="flex justify-center w-full mb-4">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
             <div>
               <label class="block mb-2 text-base font-medium">Distância Estacionamento</label>
               <input v-model="distancia_estacionamento" type="number" required  class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Distância em metros">
-              <h1 class="text-red-600 text-base font-medium">distancia_estacionamento</h1>
+              <h1 v-if="errors.distancia_estacionamento" class="text-red-600 text-base font-medium">{{ errors.distancia_estacionamento[0] }}</h1>
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Facilidade Acesso</label>
@@ -86,17 +87,12 @@ const createZE = async () => {
                 <option>Médio</option>
                 <option>Difícil</option>
               </select>
-              <h1 class="text-red-600 text-base font-medium">facilidade_acesso</h1>
-            </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Coordenadas</label>
-              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
+              <h1 v-if="errors.facilidade_acesso" class="text-red-600 text-base font-medium">{{ errors.facilidade_acesso[0] }}</h1>
             </div>
           </div>
         </div>
         <div  class="flex justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-11/12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12">
             <div>
               <label class="block mb-2 text-base font-medium">Nivel Afluência</label>
               <select v-model="nivel_afluencia" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
@@ -104,7 +100,7 @@ const createZE = async () => {
                 <option>Médio</option>
                 <option>Difícil</option>
               </select>
-              <!--              <h1 class="text-red-600 text-base font-medium">nivel_afluencia</h1>-->
+              <h1 v-if="errors.nivel_afluencia" class="text-red-600 text-base font-medium">{{ errors.nivel_afluencia[0] }}</h1>
             </div>
             <div>
               <label class="block mb-2 text-base font-medium">Nivel Ocupação</label>
@@ -113,14 +109,16 @@ const createZE = async () => {
                 <option>Intermédio</option>
                 <option>Completo</option>
               </select>
-              <!--              <h1 class="text-red-600 text-base font-medium">nivel_afluencia</h1>-->
-            </div>
-            <div>
-              <label class="block mb-2 text-base font-medium">Coordenadas</label>
-              <input type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
-              <h1  class="text-red-600 text-base font-medium">errors.coordenadas</h1>
+              <h1 v-if="errors.nivel_ocupacao" class="text-red-600 text-base font-medium">{{ errors.nivel_ocupacao[0] }}</h1>
             </div>
           </div>
+        </div>
+        <div  class="flex justify-center w-full my-4">
+            <div class="w-11/12">
+              <label class="block mb-2 text-base font-medium">Coordenadas</label>
+              <textarea type="text" v-model="coordenada" required  class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"></textarea>
+              <h1 v-if="errors.coordenadas" class="text-red-600 text-base font-medium">{{ errors.coordenadas[0] }}</h1>
+            </div>
         </div>
         <div class="flex justify-center w-full">
           <button type="button"
