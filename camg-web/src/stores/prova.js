@@ -33,7 +33,7 @@ export const useProvaStore = defineStore("prova", () => {
                 response = await axios.get("rally/"+rallyStore.rally_selected+`/provas${suffix}`);
                 provas.value=response.data.data;
                 provas_filtered.value = response.data.data;
-                console.log(provas.value, "Provas")
+                console.log(provas, "Provas")
             }
         } catch (error) {
             throw error;
