@@ -47,7 +47,7 @@ onMounted(async () => {
     await fotoStore.loadFotos();
     await noticiaStore.loadNoticias({});
     await horarioStore.loadHorarios();
-    if (userstore.user != null) {
+    if (userStore.user != null) {
         await userStore.loadAdmins();
     }
 
