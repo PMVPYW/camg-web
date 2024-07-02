@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import { data } from "autoprefixer";
 
 const props = defineProps({
@@ -40,6 +40,32 @@ watch(
         }
     },
 );
+
+const handleKeyDown = (event) => {
+    let pressed_keys = "";
+    const current =
+        Object.keys(obj_to_edit_cpy.value).length > 0 ? true : false;
+    if (event.shiftKey && event.altKey) {
+        if (event.key.toLowerCase() == "n") {
+            togleCreating();
+        } else if (current) {
+            if (event.key.toLowerCase() == "e") {
+                togleEditing();
+            }
+            if (event.key.toLowerCase() == "d" || event.key == "Delete") {
+                togleDeleting();
+            }
+        }
+    }
+};
+
+onMounted(() => {
+    window.addEventListener("keydown", handleKeyDown);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("keydown", handleKeyDown);
+});
 
 const togleCreating = () => {
     editing.value = false;
