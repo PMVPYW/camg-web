@@ -7,12 +7,14 @@ import router from "@/router/index.js";
 import {ref} from "vue";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 import {useZonaEspetaculoStore} from "@/stores/zonaEspetaculo.js";
+import {useProvaStore} from "@/stores/prova.js";
 
 const rallyStore = useRallyStore();
 const patrocinioStore = usePatrocinioStore();
 const patrocinioOficialStore = usePatrocinioOficialStore();
 const zonaEspetaculo = useZonaEspetaculoStore();
 const userStore = useUserStore();
+const provaStore = useProvaStore();
 
 const show_dropdown = ref(false)
 
@@ -33,7 +35,7 @@ const show_dropdown = ref(false)
               class="flex justify-end items-center flex-grow m-3 mx-8">
             <h1 class="block text-slate-700 text-base font-medium mr-2">Rally:</h1>
             <select v-model="rallyStore.rally_selected"
-                    @change="()=>{zonaEspetaculo.loadZonaEspetaculo({});patrocinioStore.loadPatrocinios({}); patrocinioStore.loadpatrocinosSemAssociacao(); patrocinioOficialStore.loadPatrociniosOficiais({}); patrocinioOficialStore.loadpatrocinosOficiaisSemAssociacao({})}"
+                    @change="()=>{provaStore.loadProvas({});zonaEspetaculo.loadZonaEspetaculo({});patrocinioStore.loadPatrocinios({}); patrocinioStore.loadpatrocinosSemAssociacao(); patrocinioOficialStore.loadPatrociniosOficiais({}); patrocinioOficialStore.loadpatrocinosOficiaisSemAssociacao({})}"
                     class="uppercase font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
               <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id"
                       :selected="rally.id===rallyStore.rally_selected">{{ rally.nome }}

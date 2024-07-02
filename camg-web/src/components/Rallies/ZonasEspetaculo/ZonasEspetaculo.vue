@@ -22,7 +22,7 @@ function selected_emit(new_var){
 <template>
   <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Zonas Espetáculo</h1>
-    <CrudButtons :create_visible="false" :create_form="CreateZonaEspetaculo"
+    <CrudButtons :create_form="CreateZonaEspetaculo"
                  :edit_callback="zonaEspetaculoStore.editZonaEspetaculo" :obj_to_edit="selectedZonaEspetaculo"
                  :delete_callback="zonaEspetaculoStore.deleteZonaEspetaculo" :delete_form="SimpleDeleteForm"
                  @clearSelected="selectedZonaEspetaculo = {}"></CrudButtons>
