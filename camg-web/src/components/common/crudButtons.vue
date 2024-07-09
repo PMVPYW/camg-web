@@ -4,10 +4,12 @@ import { data } from "autoprefixer";
 
 const props = defineProps({
     create_callback: Function,
+    change_create_state: Boolean,
     create_form: Object,
     delete_callback: Function,
     edit_callback: Function,
     obj_to_edit: Object,
+    obj_to_create: Object,
     delete_form: Object,
     create_visible: {
         type: Boolean,
@@ -22,13 +24,24 @@ const props = defineProps({
         default: true,
     },
 });
-const emit = defineEmits(["clearSelected"]);
+const emit = defineEmits(["clearSelected", "create_canceled"]);
 const creating = ref(false);
 const editing = ref(false);
 const deleting = ref(false);
 const errors = ref({});
 
 const obj_to_edit_cpy = ref(props.obj_to_edit);
+const obj_to_create_cpy = ref(props.obj_to_create);
+
+watch(
+    //whenever toogleCreating changes to true
+    () => props.change_create_state,
+    (newState) => {
+        if (newState === true) {
+            togleCreating();
+        }
+    },
+);
 
 watch(
     () => props.obj_to_edit,
@@ -41,6 +54,16 @@ watch(
     },
 );
 
+watch(
+    () => props.obj_to_create,
+    (new_obj) => {
+        obj_to_create_cpy.value = { ...new_obj };
+        if (editing.value) {
+            togleEditing();
+            setTimeout(togleEditing, 0);
+        }
+    },
+);
 const handleKeyDown = (event) => {
     let pressed_keys = "";
     const current =
@@ -71,6 +94,10 @@ const togleCreating = () => {
     editing.value = false;
     creating.value = !creating.value;
     deleting.value = false;
+    if (!creating.value) {
+        //acabou de cancelar
+        emit("create_canceled");
+    }
     //clearSelected();
 };
 const togleEditing = () => {
@@ -91,12 +118,13 @@ const clearSelected = () => {
 const createEntity = (data) => {
     const result = props.create_callback(data);
     result.then((response) => {
+        console.error("repsonse,", response);
         if (response === true) {
             errors.value = {};
             togleCreating();
         } else {
             errors.value = response;
-            console.warn(errors.value, "errors_crud");
+            console.warn(errors.value, "errors_crud_value!=true");
         }
     });
 };
@@ -162,6 +190,7 @@ const deleteEntity = () => {
             <Transition>
                 <create_form
                     @create="(data) => createEntity(data)"
+                    :obj_to_edit="{ ...obj_to_create_cpy }"
                     v-if="creating"
                     :errors="errors"
                 ></create_form>
@@ -172,6 +201,7 @@ const deleteEntity = () => {
                     :obj_to_edit="{ ...obj_to_edit_cpy }"
                     v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"
                     :errors="errors"
+                    :editing="true"
                 ></create_form>
             </Transition>
             <Transition>

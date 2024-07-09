@@ -2,7 +2,7 @@
 import { ref, watch } from "vue";
 import { useRallyStore } from "@/stores/rally.js";
 
-const props = defineProps(["obj_to_edit", "errors"]);
+const props = defineProps(["obj_to_edit", "errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
 
 const rallyStore = useRallyStore();
@@ -30,7 +30,7 @@ const emitAlbum = () => {
     if (img.value != null) {
         obj["img"] = img.value;
     }
-    emit(props.obj_to_edit ? "edit" : "create", obj);
+    emit(props.obj_to_edit && props.editing === true ? "edit" : "create", obj);
 };
 </script>
 
@@ -81,7 +81,9 @@ const emitAlbum = () => {
             type="submit"
             @click.prevent="emitAlbum"
             class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-            :value="props.obj_to_edit ? 'Editar' : 'Criar'"
+            :value="
+                props.obj_to_edit && props.editing === true ? 'Editar' : 'Criar'
+            "
         />
         <div
             class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex"

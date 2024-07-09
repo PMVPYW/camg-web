@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 
-const props = defineProps(["obj_to_edit", "errors"]);
+const props = defineProps(["obj_to_edit", "errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
 
 const nome = ref(props.obj_to_edit?.nome);
@@ -32,7 +32,7 @@ const emitRally = () => {
     if (photo_url.value != null) {
         obj["photo_url"] = photo_url.value;
     }
-    emit(props.obj_to_edit ? "edit" : "create", obj);
+    emit(props.obj_to_edit && props.editing === true ? "edit" : "create", obj);
 };
 </script>
 
@@ -152,7 +152,11 @@ const emitRally = () => {
                     type="submit"
                     @click.prevent="emitRally"
                     class="opacity-85 text-center w-full m-2 mt-8 py-2 px-4 gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    :value="props.obj_to_edit ? 'Editar' : 'Criar'"
+                    :value="
+                        props.obj_to_edit && props.editing === true
+                            ? 'Editar'
+                            : 'Criar'
+                    "
                 />
             </div>
         </div>

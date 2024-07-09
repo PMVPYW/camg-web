@@ -5,7 +5,7 @@ import { Icon } from "@iconify/vue";
 
 const contactoStore = useContactoStore();
 
-const props = defineProps(["obj_to_edit", "errors"]);
+const props = defineProps(["obj_to_edit", "errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
 
 const nome = ref(props.obj_to_edit?.nome);
@@ -28,7 +28,7 @@ const emitNew = () => {
         tipocontacto_id: tipocontacto_id.value,
         tipo_valor: tipo_valor.value,
     };
-    emit(props.obj_to_edit ? "edit" : "create", obj);
+    emit(props.obj_to_edit && props.editing ? "edit" : "create", obj);
 };
 </script>
 <template>
@@ -155,7 +155,11 @@ const emitNew = () => {
                         type="submit"
                         @click.prevent="emitNew"
                         class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                        :value="props.obj_to_edit ? 'Editar' : 'Criar'"
+                        :value="
+                            props.obj_to_edit && props.editing == true
+                                ? 'Editar'
+                                : 'Criar'
+                        "
                     />
                 </div>
             </div>
