@@ -1,8 +1,27 @@
  <script setup>
+ import { useStatsStore } from "@/stores/stats";
+import Card from "./Card.vue"
+ import ToogleSwitch from "./toogleSwitchStatistic.vue"
+
+ const statsStore = useStatsStore();
+ console.log(statsStore.duracao_media_rally_anual, "compiuted assa")
   </script>
 
   <template>
-    <div class="h-full rounded-xl transition-all duration-200" id="panel">
+    <div class="rounded-xl transition-all duration-200 block w-full" id="panel">
       <h1 class="text-2xl font-bold ml-10 mt-10">Dashboard</h1>
+      <div class="w-11/12 flex place-content-around flex-wrap">
+        <Card titulo="Duração Média de um Rally">
+          <ToogleSwitch opcao1="Total" opcao2="Anual" :stat1="statsStore.duracao_media_rally_total" :chart-categories="statsStore.anosRallies" :series="statsStore.duracao_media_rally_anual" unidade_medida="Dias"/>
+        </Card>  
+
+        <Card titulo="Média de provas por rally">
+          <ToogleSwitch opcao1="Total" opcao2="Anual" unidade_medida="Provas"/>
+        </Card> 
+        
+        <Card titulo="Média de participantes por rally">
+          <ToogleSwitch opcao1="Total" opcao2="Anual" unidade_medida="Participantes"/>
+        </Card> 
+      </div>
     </div>
   </template>
