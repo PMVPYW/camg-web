@@ -63,12 +63,12 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
 
   async function editZonaEspetaculo(data, id) {
     try {
-      console.log(id, "Id");
-      console.log(data, "Dados");
       const response = await axios.put("zonaEspetaculo/" + id, data);
       var index = zonaEspetaculo.value.findIndex((item) => item.id === id);
+      console.log("EDITAR", index);
       if (index >= 0) {
         zonaEspetaculo.value[index] = response.data.data;
+        console.log("EDITAR", zonaEspetaculo.value[index]);
       }
       index = zonaEspetaculo_filtered.value.findIndex((item) => item.id === id);
       if (index >= 0) {

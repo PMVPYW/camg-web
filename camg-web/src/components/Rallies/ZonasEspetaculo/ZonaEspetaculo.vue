@@ -20,11 +20,6 @@ const zonaEspetaculoStore = useZonaEspetaculoStore();
 const user_lat = ref(0);
 const user_long = ref(0);
 
-/*navigator.geolocation.getCurrentPosition((location) => {
-    user_lat.value = location.coords.latitude;
-    user_long.value = location.coords.longitude;
-});*/
-
 let map;
 
 onMounted(async () => {
@@ -167,22 +162,27 @@ onMounted(async () => {
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     map.on("click", "places", (e) => {
+        const ze = zonaEspetaculoStore.zonaEspetaculo.find(
+            (item) =>
+                item.id ==
+                JSON.parse(e.features[0].properties.ZonaEspetaculo).id,
+        );
+        console.log(ze, "ze");
         const coordinates = e.features[0].geometry.coordinates[0][0];
-        const nome = e.features[0].properties.nome;
-        const nivel_afluencia = e.features[0].properties.nivel_afluencia;
-        const facilidade_acesso = e.features[0].properties.facilidade_acesso;
-        const distancia_estacionamento =
-            e.features[0].properties.distancia_estacionamento;
-        const nivel_ocupacao = e.features[0].properties.nivel_ocupacao;
+        const nome = ze.nome;
+        const nivel_afluencia = ze.nivel_afluencia;
+        const facilidade_acesso = ze.facilidade_acesso;
+        const distancia_estacionamento = ze.distancia_estacionamento;
+        const nivel_ocupacao = ze.nivel_ocupacao;
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(
                 `<strong><b>${nome}</b></strong>
-                    <br><h2 class="my-1">Nível de Afluência: <b>${nivel_afluencia}</b></h2>
-                    <h2 class="my-1">Facilidade de Acesso: <b>${facilidade_acesso}</b></h2>
+                    <br><h2 class="my-1">Nível de Afluência: <b class="px-3 py-2 rounded-xl ${nivel_afluencia == "Baixo" ? "bg-green-300" : nivel_afluencia == "Médio" ? "bg-amber-300" : "bg-red-300"}">${nivel_afluencia}</b></h2>
+                    <h2 class="my-1">Facilidade de Acesso: <b class="px-3 py-2 rounded-xl ${facilidade_acesso == "Fácil" ? "bg-green-300" : facilidade_acesso == "Médio" ? "bg-amber-300" : "bg-red-300"}">${facilidade_acesso}</b></h2>
                     <h2 class="my-1">Distância Estancionamento: <b>${distancia_estacionamento}Km</b></h2>
-                    <h2 class="my-1">Nível de Ocupação: <b class="bg-green-300 px-3 py-2 rounded-xl ">${nivel_ocupacao}</b></h2>
+                    <h2 class="my-1">Nível de Ocupação: <b  class="px-3 py-2 rounded-xl ${nivel_ocupacao == "Livre" ? "bg-green-300" : nivel_ocupacao == "Intermédio" ? "bg-amber-300" : "bg-red-300"}">${nivel_ocupacao}</b></h2>
                     `,
             )
             .addTo(map);
@@ -267,6 +267,7 @@ onMounted(async () => {
         () => {
             drawMap();
         },
+        { deep: true },
     );
 });
 onUnmounted(() => {

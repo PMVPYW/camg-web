@@ -18,7 +18,8 @@ const nivel_ocupacao = ref(props.obj_to_edit?.nivel_ocupacao);
 const coordenada = ref(
     props.obj_to_edit ? props.obj_to_edit?.coordenadas : props.coordenadas,
 );
-const prova_id = ref(null);
+const prova_id = ref(props.obj_to_edit?.prova?.id ?? null);
+const info = ref(props.obj_to_edit?.info ?? null);
 
 const errors = ref(props.errors ?? {});
 
@@ -39,6 +40,7 @@ const createZE = async () => {
         distancia_estacionamento: distancia_estacionamento.value,
         coordenadas: coordenada.value,
         nivel_ocupacao: nivel_ocupacao.value,
+        info: info.value,
     };
     if (prova_id.value != null) {
         obj["prova_id"] = prova_id.value;
@@ -153,9 +155,9 @@ const createZE = async () => {
                                 v-model="nivel_afluencia"
                                 class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
                             >
-                                <option selected>Fácil</option>
+                                <option selected>Baixo</option>
                                 <option>Médio</option>
-                                <option>Difícil</option>
+                                <option>Alto</option>
                             </select>
                             <h1
                                 v-if="errors.nivel_afluencia"
@@ -201,6 +203,25 @@ const createZE = async () => {
                             class="text-red-600 text-base font-medium"
                         >
                             {{ errors.coordenadas[0] }}
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex justify-center w-full my-4">
+                    <div class="w-11/12">
+                        <label class="block mb-2 text-base font-medium"
+                            >Informação Adicional</label
+                        >
+                        <textarea
+                            type="text"
+                            v-model="info"
+                            required
+                            class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                        ></textarea>
+                        <h1
+                            v-if="errors.info"
+                            class="text-red-600 text-base font-medium"
+                        >
+                            {{ errors.info[0] }}
                         </h1>
                     </div>
                 </div>
