@@ -91,10 +91,36 @@ socket.emit("participants");
         rallyStore.rallies_sorted_date_asc.forEach(e => {
             arr.push(participants.value[e.external_entity_id] ? participants.value[e.external_entity_id].value.data.length : 0)
         })
-        console.log("parts", arr)
-
         return arr;
     });
 
-    return {duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, participantes_por_rally};
+    const top_nacionalidades_rally = computed(()=>{
+        const keys = Object.keys(participants.value);
+        const freqMap = {};
+        const sortedObj = {};
+        keys.forEach(e => {
+            participants.value[e].value.data.forEach(participant => {
+                if (freqMap[participant.pilot_nat] != undefined)
+                {
+                    freqMap[participant.pilot_nat] = freqMap[participant.pilot_nat] + 1;
+                } else {
+                    freqMap[participant.pilot_nat] = 1;
+                }
+                if (freqMap[participant.copilot_nat] != undefined)
+                {
+                    freqMap[participant.copilot_nat] = freqMap[participant.copilot_nat] + 1;
+                } else {
+                    freqMap[participant.copilot_nat] = 1;
+                }
+            });
+            const entries = Object.entries(freqMap);
+            entries.sort((a, b) => freqMap[a] - freqMap[b]);
+            entries.forEach(entry => {
+                sortedObj[entry[0]] = entry[1];
+            });
+        })
+        return sortedObj;
+    });
+
+    return {duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, participantes_por_rally, top_nacionalidades_rally};
 });

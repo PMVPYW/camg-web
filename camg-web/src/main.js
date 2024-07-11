@@ -12,6 +12,7 @@ import mapboxgl from "mapbox-gl";
 import VueApexCharts from "vue3-apexcharts";
 
 
+
 mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA'; // Substitua pelo seu token de acesso
 
 
