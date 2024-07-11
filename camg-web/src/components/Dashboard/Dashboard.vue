@@ -19,8 +19,8 @@ import Card from "./Card.vue"
           <ToogleSwitch opcao1="Total" opcao2="Anual" :stat1="statsStore.provas_rally_total" :chart-categories="statsStore.anosRallies" :series="statsStore.provas_rally_anual" unidade_medida="Provas"/>
         </Card> 
         
-        <Card titulo="Média de participantes por rally">
-          <ToogleSwitch opcao1="Total" opcao2="Anual" unidade_medida="Participantes"/>
+        <Card titulo="Quantidade de participantes por rally">
+          <ToogleSwitch opcao1="Média" opcao2="Rally" :stat1="statsStore.média_participants_rally" :chart-categories="statsStore.nome_rallies_ordenados_data" :series="statsStore.participantes_por_rally" unidade_medida="Participantes"/>
         </Card> 
       </div>
     </div>
