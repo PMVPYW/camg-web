@@ -4,7 +4,7 @@ import Card from "./Card.vue"
  import ToogleSwitch from "./toogleSwitchStatistic.vue"
 
  const statsStore = useStatsStore();
- console.log(statsStore.duracao_media_rally_anual, "compiuted assa")
+ console.log(statsStore.provas_rally_total, "compiuted assa")
   </script>
 
   <template>
@@ -16,7 +16,7 @@ import Card from "./Card.vue"
         </Card>  
 
         <Card titulo="Média de provas por rally">
-          <ToogleSwitch opcao1="Total" opcao2="Anual" unidade_medida="Provas"/>
+          <ToogleSwitch opcao1="Total" opcao2="Anual" :stat1="statsStore.provas_rally_total" :chart-categories="statsStore.anosRallies" :series="statsStore.provas_rally_anual" unidade_medida="Provas"/>
         </Card> 
         
         <Card titulo="Média de participantes por rally">
