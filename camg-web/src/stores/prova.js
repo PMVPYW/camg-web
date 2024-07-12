@@ -43,7 +43,11 @@ export const useProvaStore = defineStore("prova", () => {
     async function editProva(data, id) {
         try {
             console.log(data, "Dados")
-            const response = await axios.put("prova/"+id, data);
+            const response = await axios.post("prova/"+id, data, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
             var index = provas.value.findIndex(item => item.id === id);
             if(index>=0) {
                 provas.value[index] = response.data.data;

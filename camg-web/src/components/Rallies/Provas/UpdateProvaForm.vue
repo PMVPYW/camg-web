@@ -6,6 +6,7 @@ import {useNoticiaStore} from "@/stores/noticia.js";
 import {useAlbumStore} from "@/stores/album.js";
 import {useFotoStore} from "@/stores/foto.js";
 import Dashboard from "@/components/Dashboard/Dashboard.vue";
+import {useToast} from "vue-toastification";
 
 const serverBaseUrl = inject("serverBaseUrl");
 
@@ -14,7 +15,8 @@ const props = defineProps(["obj_to_edit"],["errors"]);
 const emit = defineEmits(["edit"]);
 
 const local = ref(props.obj_to_edit?.local);
-const nome = ref(props.obj_to_edit?.nome);
+const kml = ref(props.obj_to_edit?.kml_src);
+const toast = useToast();
 
 
 
@@ -22,7 +24,8 @@ const nome = ref(props.obj_to_edit?.nome);
 const emitNew = () => {
   const obj = {
     "local": local.value,
-    "nome": nome.value,
+    "kml_src": kml.value,
+    "_method":"put"
   };
   emit('edit', obj);
 }
@@ -47,10 +50,12 @@ watch(()=>props.errors, (n_errors)=>{
           <div class="flex flex-col justify-center w-5/6 mx-auto">
             <div class="flex flex-wrap justify-center">
               <div class="w-1/3 m-4">
-                <label class="block mb-2 text-base font-medium">Nome</label>
-                <input type="text" required v-model="nome"
-                       class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
-                       placeholder="Nome Prova">
+                <label class="block mb-2 text-base font-medium">KML da prova</label>
+                <input
+                    type="file"
+                    accept=".kml"
+                    class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+                    @change="$event.target.files[0].size < 1048576 ? (kml =$event.target.files[0]): (() => {toast.error('kml is too big!',);$event.target.value = null;})()"/>
               </div>
               <div class="w-1/3 m-4">
                 <label class="block mb-2 text-base font-medium">Local</label>
