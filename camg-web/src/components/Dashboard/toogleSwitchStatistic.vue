@@ -12,7 +12,7 @@ const selected = ref(0);
 const chartOptions = {
   chart: {
     id: 'basic-bar'
-  },
+    },
   xaxis: {
     categories: props.chartCategories
   },
@@ -20,7 +20,6 @@ const chartOptions = {
     enabled: false, // Disable data labels
   }, 
   fill: {
-    
     colors: ["#facc15"]
   },
   stroke: {
@@ -47,7 +46,8 @@ const series = [{
           <span class="max-w-[99%] break-words flex flex-wrap items-center justify-center"><h1 class="inline text-3xl font-bold mr-2"><AnimatedNumber :target="props.stat1"/></h1>{{ props.unidade_medida }}</span>
         </div>
         <div v-else class="w-full h-full flex items-center">
-            <apexchart type="area" height="100%" :options="chartOptions" :series="series"></apexchart>
+            <apexchart type="area" width="100%" height="100%" class="w-full h-full"
+            style="width: 100%; height: 100%;" :options="chartOptions" :series="series"></apexchart>
         </div>
     </div>
 </template>

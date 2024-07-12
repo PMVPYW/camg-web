@@ -18,14 +18,14 @@ function getFlagEmoji(countryCode) {
 
 for (const [key, value] of Object.entries(statsStore.top_nacionalidades_rally)) {
     categories.push(key);
-    data.push(value)
+    data.push({x: key + " " + getFlagEmoji(getCOuntryIso2(key)), y: value})
 }
 
 const chartOptions = {
     labels: categories,
     chart: {
         width: 380,
-        type: 'donut',
+        type: 'treemap',
     },
     plotOptions: {
         pie: {
@@ -55,14 +55,34 @@ const chartOptions = {
                 position: 'bottom'
             }
         }
-    }]
+    }],
+    plotOptions: {
+              treemap: {
+                enableShades: true,
+                shadeIntensity: 0.5,
+                reverseNegativeShade: true,
+                colorScale: {
+                  ranges: [
+                    {
+                      from: -6,
+                      to: 0,
+                      color: '#CD363A'
+                    },
+                    {
+                      from: 0.001,
+                      to: 6,
+                      color: '#52B12C'
+                    }
+                  ]
+                }
+              }
+            }
 };
-const series = data
-  
+const series = [{data: data}]
 </script>
 <template>
     <div class="w-1/2 h-72 border-2 rounded-lg">
-        <apexchart type="donut" height="100%" :options="chartOptions" :series="series"></apexchart>
+        <apexchart type="treemap" height="100%" :options="chartOptions" :series="series"></apexchart>
     </div>
 </template>
 <style scoped>

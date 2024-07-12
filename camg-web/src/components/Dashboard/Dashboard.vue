@@ -23,6 +23,8 @@ const statsStore = useStatsStore();
           <ToogleSwitch opcao1="Média" opcao2="Rally" :stat1="statsStore.média_participants_rally" :chart-categories="statsStore.nome_rallies_ordenados_data" :series="statsStore.participantes_por_rally" unidade_medida="Participantes"/>
         </Card> 
         <TopNationalites/>
+          
+          
       </div>
     </div>
   </template>
