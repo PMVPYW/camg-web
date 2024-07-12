@@ -4,7 +4,7 @@ import Card from "./Card.vue"
 import ToogleSwitch from "./toogleSwitchStatistic.vue"
 import TopNationalites from "./TopNationalities.vue"
 const statsStore = useStatsStore();
- console.log(statsStore.top_nacionalidades_rally, Object.keys(statsStore.top_nacionalidades_rally), "compiuted assa")
+ console.log(statsStore.distancia_rallies_sort_desc, "compiuted assa")
   </script>
 
   <template>
@@ -24,6 +24,15 @@ const statsStore = useStatsStore();
         </Card> 
         <TopNationalites/>
           
+        <Card titulo="Distância minima de rally">
+          <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_minima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_asc" :series="statsStore.distancia_rallies_sort_asc" unidade_medida="Km"/>
+        </Card> 
+        <Card titulo="Distância média de rally">
+          <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_media_rally_total" :chart-categories="statsStore.nome_rallies" :series="statsStore.distancia_rallies" unidade_medida="Km"/>
+        </Card> 
+        <Card titulo="Distância máxima de rally">
+          <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_maxima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_desc" :series="statsStore.distancia_rallies_sort_desc" unidade_medida="Km"/>
+        </Card> 
           
       </div>
     </div>

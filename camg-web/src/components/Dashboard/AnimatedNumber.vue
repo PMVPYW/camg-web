@@ -24,7 +24,7 @@ const animateValue = (start = 0, duration = 200) => {
 };
 
 watch(()=>props.target, ()=>{
-  animateValue(current_value.value, 500);
+  animateValue(current_value.value, 50);
 })
 
 

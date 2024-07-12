@@ -81,8 +81,8 @@ const chartOptions = {
 const series = [{data: data}]
 </script>
 <template>
-    <div class="w-1/2 h-72 border-2 rounded-lg">
-        <apexchart type="treemap" height="100%" :options="chartOptions" :series="series"></apexchart>
+    <div class="w-1/2 my-2 h-56 border-2 pl-8 pb-4 rounded-lg">
+        <apexchart type="treemap" width="100%" height="100%" :options="chartOptions" :series="series"></apexchart>
     </div>
 </template>
 <style scoped>
