@@ -8,6 +8,8 @@ export const useStatsStore = defineStore("stats", () => {
     const socket = inject("socket");
     const rallyStore = useRallyStore();
     const provasStore = useProvaStore();
+    const clients_in_app = ref(0);
+    const clients_in_app_history = ref([]);
     provasStore.loadProvas({});
 //participants data and update
 socket.emit("stats");
@@ -16,6 +18,11 @@ socket.on("participants", (parts)=>{
     participants.value = parts.value;
     console.log(parts.value, "parts");
 })
+
+socket.on("clients", (clients) => {
+    clients_in_app.value = clients;
+    clients_in_app_history.value.push(clients)
+});
 socket.emit("participants");
 //stats
     const duracao_media_rally_total = computed(()=>{
@@ -237,5 +244,5 @@ socket.emit("participants");
         return max / 1000;
     });
 
-    return {duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
+    return {clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
 });

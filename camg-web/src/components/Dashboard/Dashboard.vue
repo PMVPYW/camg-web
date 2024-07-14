@@ -24,6 +24,10 @@ const statsStore = useStatsStore();
         </Card> 
         <TopNationalites/>
           
+        <Card titulo="Utilixadores na Aplicação">
+          <ToogleSwitch opcao1="Tempo Real" opcao2="Histórico" :stat1="statsStore.clients_in_app" :chart-categories="null" :series="statsStore.clients_in_app_history" unidade_medida="Clientes"/>
+        </Card>
+       
         <Card titulo="Distância minima de rally">
           <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_minima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_asc" :series="statsStore.distancia_rallies_sort_asc" unidade_medida="Km"/>
         </Card> 
