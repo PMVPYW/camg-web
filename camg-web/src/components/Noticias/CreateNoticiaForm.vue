@@ -23,8 +23,6 @@ const fotos_selected = ref( []);
 
 
 const rallyStore = useRallyStore();
-const patrocinioStore = usePatrocinioStore();
-const noticiaStore = useNoticiaStore();
 const albumStore = useAlbumStore();
 const fotoStore = useFotoStore();
 

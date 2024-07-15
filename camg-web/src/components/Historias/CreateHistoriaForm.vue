@@ -1,13 +1,47 @@
 <script setup>
 import {Icon} from "@iconify/vue";
-import {ref} from "vue";
+import {inject, ref, watch} from "vue";
+import {useToast} from "vue-toastification";
 
-const criar_capitulo = ref(false);
-const criar_etapa = ref(false);
+const props = defineProps(["obj_to_edit","errors"]);
+const emit = defineEmits(["create", "edit"]);
+const toast = useToast();
+const serverBaseUrl = inject("serverBaseUrl");
+
+
+const titulo = ref(props.obj_to_edit?.titulo);
+const subtitulo = ref(props.obj_to_edit?.subtitulo);
+const conteudo = ref(props.obj_to_edit?.conteudo);
+const photo_url = ref(props.obj_to_edit?.photo_url);
+
 const numero_etapas = ref(0);
 const numero_capitulos = ref(0);
 const etapas = ref([]);
-const capitulos = ref([]);
+const capitulos = ref(props.obj_to_edit?.capitulo);
+
+console.log("props.obj_to_edit?.capitulos", props.obj_to_edit?.capitulo)
+
+capitulos.value.forEach((capitulo) => {
+  console.log(capitulo.etapas);
+  capitulo.etapas.forEach((etapa) => {
+    etapas.value.push(etapa);
+  });
+  console.log("Etapas",etapas )
+})
+
+watch(() => props.obj_to_edit, (newValue) => {
+  if (newValue) {
+    titulo.value = newValue.titulo;
+    subtitulo.value = newValue.subtitulo;
+    conteudo.value = newValue.conteudo;
+    photo_url.value = newValue.photo_url;
+    capitulos.value = newValue.capitulos;
+    etapas.value = newValue.etapas;
+  }
+});
+
+
+console.log("obj_recebido", props.obj_to_edit)
 
 function validated_etapa(capitulo_id){
   let e = etapas.value.filter((item) => item.capitulo_id == capitulo_id);
@@ -80,6 +114,23 @@ function remover_capitulo(id){
 
 }
 
+const emitNew = () => {
+  const obj = {
+    "titulo": titulo.value,
+    "conteudo": conteudo.value,
+    "data": data.value,
+  };
+  if (title_img.value != null) {
+    obj["title_img"] = title_img.value
+  }
+  if (fotos_selected.length !== 0) {
+    obj["fotos_id"] = fotos_selected.value
+  }
+  if (rally_id.value != null) {
+    obj["rally_id"] = rally_id.value
+  }
+  emit(props.obj_to_edit ? 'edit' : "create", obj);
+}
 
 </script>
 <template>
@@ -92,14 +143,14 @@ function remover_capitulo(id){
               <div class="w-2/5">
                 <div class="w-full">
                   <label class="block mb-2 text-base font-medium">Titulo</label>
-                  <input type="text" required
+                  <input type="text" required v-model="titulo"
                          class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
                          placeholder="Titulo">
                   <h1 class="text-red-600 text-base font-medium">error</h1>
                 </div>
                 <div class="w-full my-2">
                   <label class="block mb-2 text-base font-medium">Subtitulo</label>
-                  <input type="text" required
+                  <input type="text" required v-model="subtitulo"
                          class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                          placeholder="Subtitulo">
                   <h1 class="text-red-600 text-base font-medium">error</h1>
@@ -107,13 +158,16 @@ function remover_capitulo(id){
                 <div class="w-full mt-2">
                   <label class="block mb-2 text-base font-medium">Imagem</label>
                   <input type="file" accept="image/png, image/gif, image/jpeg"
-                         class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden">
+                         class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+                         @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
                   <h1 class="text-red-600 text-base font-medium">errors</h1>
                 </div>
               </div>
               <div class="w-1/2 bg-gray-200 p-4 rounded-xl">
                 <div class="flex h-full w-full">
-                  <Icon class="flex text-2xl text-gray-500 min-w-20 min-h-20 mx-auto my-auto" icon="f7:photo" />
+                  <Icon v-if="!photo_url" class="flex text-2xl text-gray-500 min-w-20 min-h-20 mx-auto my-auto" icon="f7:photo" />
+                  <img v-else :src="`${serverBaseUrl}/storage/fotos/${photo_url}`" :alt="`${serverBaseUrl}/storage/fotos/${photo_url}`"
+                       class="my-auto mx-auto object-contain max-h-72 shadow-soft-2xl">
                 </div>
               </div>
             </div>
@@ -121,7 +175,7 @@ function remover_capitulo(id){
               <div class="col-span-full">
                 <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
                 <div class="mt-2">
-                  <textarea id="about" required rows="3"
+                  <textarea id="about" required rows="3" v-model="conteudo"
                             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
                 </div>
                 <h1 class="text-red-600 text-base font-medium">errors</h1>
@@ -195,8 +249,10 @@ function remover_capitulo(id){
         <br>
         <div class="flex justify-center w-full">
           <button type="button"
+                  @click.prevent="emitNew"
+
                   class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            Criar
+            {{ !obj_to_edit ? 'Criar' : 'Editar' }}
           </button>
         </div>
       </div>

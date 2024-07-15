@@ -16,6 +16,7 @@ import {useContactoStore} from "@/stores/contacto.js";
 import {useProvaStore} from "@/stores/prova.js";
 import {usePatrocinioOficialStore} from "@/stores/patrocinioOficial.js";
 import {useHorarioStore} from "@/stores/horario.js"
+import {useHistoriaStore} from "@/stores/historia.js";
 
 
 const router = useRouter()
@@ -29,6 +30,7 @@ const contactoStore = useContactoStore();
 const provaStore = useProvaStore();
 const patrocinioOficial = usePatrocinioOficialStore();
 const horarioStore = useHorarioStore();
+const historiaStore = useHistoriaStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
@@ -45,7 +47,8 @@ onMounted(async () => {
   await noticiaStore.loadNoticias({});
   await horarioStore.loadHorarios();
   await userStore.loadAdmins();
-  await provaStore.loadProvas({})
+  await provaStore.loadProvas({});
+  await historiaStore.loadHistorias({});
 
 });
 </script>

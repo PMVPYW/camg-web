@@ -5,7 +5,9 @@ import CreateHistoriaForm from "@/components/Historias/CreateHistoriaForm.vue";
 import DeleteHistoriaForm from "@/components/Historias/DeleteHistoriaForm.vue";
 import {ref} from "vue";
 import Historia from "@/components/Historias/Historia.vue";
+import {useHistoriaStore} from "@/stores/historia.js";
 
+const historiaStore = useHistoriaStore();
 const selectedHistoria = ref(false);
 </script>
 <template>
@@ -43,7 +45,7 @@ const selectedHistoria = ref(false);
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10">
-        <Historia class="border-2 rounded-xl w-full"></Historia>
+        <Historia v-for="historia in historiaStore.historias_filtered" :key="historia.id" @click="()=>{selectedHistoria = historia}" :historia="historia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedHistoria.id==historia.id}"></Historia>
       </div>
     </div>
   </div>
