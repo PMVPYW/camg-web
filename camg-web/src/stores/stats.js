@@ -3,14 +3,17 @@ import {ref, computed, inject} from "vue";
 import {defineStore} from "pinia";
 import { useRallyStore } from "./rally";
 import { useProvaStore } from "./prova";
+import { usePatrocinioStore } from "./patrocinio";
 
 export const useStatsStore = defineStore("stats", () => {
     const socket = inject("socket");
     const rallyStore = useRallyStore();
     const provasStore = useProvaStore();
+    const patrocinioStore = usePatrocinioStore();
     const clients_in_app = ref(0);
     const clients_in_app_history = ref([]);
     provasStore.loadProvas({});
+    patrocinioStore.loadPatrocinios({});
 //participants data and update
 socket.emit("stats");
 const participants = ref({});
@@ -244,5 +247,19 @@ socket.emit("participants");
         return max / 1000;
     });
 
-    return {clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
+    const topPatrocinios = computed(()=>{
+        const mapObj = {}
+        patrocinioStore.patrocinios_complete.forEach((patrocinio) => {
+            if (mapObj[patrocinio.entidade_id.nome] == undefined)
+            {
+                mapObj[patrocinio.entidade_id.nome] = 1;
+            } else {
+                mapObj[patrocinio.entidade_id.nome]++;
+            }
+        })
+        console.log("mapobj", mapObj)
+        return mapObj;
+    })
+
+    return {topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
 });

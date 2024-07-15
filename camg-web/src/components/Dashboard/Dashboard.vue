@@ -3,8 +3,9 @@
 import Card from "./Card.vue"
 import ToogleSwitch from "./toogleSwitchStatistic.vue"
 import TopNationalites from "./TopNationalities.vue"
+import TopPatrocinos from "./TopPatrocinios.vue"
 const statsStore = useStatsStore();
- console.log(statsStore.distancia_rallies_sort_desc, "compiuted assa")
+ console.log(statsStore.TopPatrocinos, "compiuted assa2")
   </script>
 
   <template>
@@ -23,6 +24,7 @@ const statsStore = useStatsStore();
           <ToogleSwitch opcao1="Média" opcao2="Rally" :stat1="statsStore.média_participants_rally" :chart-categories="statsStore.nome_rallies_ordenados_data" :series="statsStore.participantes_por_rally" unidade_medida="Participantes"/>
         </Card> 
         <TopNationalites/>
+        <TopPatrocinos/>
           
         <Card titulo="Utilixadores na Aplicação">
           <ToogleSwitch opcao1="Tempo Real" opcao2="Histórico" :stat1="statsStore.clients_in_app" :chart-categories="null" :series="statsStore.clients_in_app_history" unidade_medida="Clientes"/>

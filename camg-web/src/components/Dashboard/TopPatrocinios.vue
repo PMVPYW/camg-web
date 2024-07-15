@@ -7,25 +7,15 @@ const statsStore = useStatsStore();
 
 const categories = [];
 const data = [];
-
-
-function getFlagEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split('')
-    .map(char =>  127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
 var sum = 0;
-for (const [key, value] of Object.entries(statsStore.top_nacionalidades_rally)) {
+for (const [key, value] of Object.entries(statsStore.topPatrocinios)) {
     categories.push(key);
-    data.push({x: key + " " + getFlagEmoji(getCOuntryIso2(key)), y: value})
+    data.push({x: key, y: value})
     sum+= value;
 }
 
 const half = sum/2;
 const percentage_75 = sum * 0.75;
-
 const chartOptions = {
     labels: categories,
     chart: {
@@ -44,11 +34,11 @@ const chartOptions = {
     legend: {
 
         formatter: function(val, opts) {
-      return getFlagEmoji(getCOuntryIso2(val)) + " " + val + " - " + data[opts.seriesIndex];
+      return val + " - " + data[opts.seriesIndex];
     },
     },
     title: {
-        text: 'Distribuição da nacionalidade dos participantes de todosos rallyes',
+        text: 'Entidades que patrocinam mais rallies',
     },
     responsive: [{
         breakpoint: 480,
@@ -62,7 +52,7 @@ const chartOptions = {
         }
     }],
     plotOptions: {
-              treemap: {
+      treemap: {
                 enableShades: true,
                 shadeIntensity: 0.5,
                 reverseNegativeShade: true,
@@ -91,7 +81,7 @@ const chartOptions = {
 const series = [{data: data}]
 </script>
 <template>
-    <div class="min-w-[40%] w-[45%] mx-1 grow my-2 h-56 border-2 pl-8 pb-4 rounded-lg">
+    <div class="min-w-[43%] w-[45%] mx-1 grow my-2 h-56 border-2 pl-8 pb-4 rounded-lg">
         <apexchart type="treemap" width="100%" height="100%" :options="chartOptions" :series="series"></apexchart>
     </div>
 </template>
