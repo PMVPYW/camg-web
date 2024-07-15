@@ -5,7 +5,7 @@ import {ref} from "vue";
 const criar_capitulo = ref(false);
 const criar_etapa = ref(false);
 const numero_etapas = ref(0);
-const associar_capitulo = ref(false);
+const numero_capitulos = ref(0);
 
 
 </script>
@@ -54,7 +54,7 @@ const associar_capitulo = ref(false);
                 <h1 class="text-red-600 text-base font-medium">errors</h1>
               </div>
             </div>
-            <div v-if="!criar_capitulo" @click="criar_capitulo=!criar_capitulo" class="flex flex-row justify-center w-9/12 mx-auto m-5">
+            <div @click="()=>{numero_capitulos==0 ? criar_capitulo=!criar_capitulo : '' ; numero_capitulos++}" class="flex flex-row justify-center w-9/12 mx-auto m-5">
               <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl hover:opacity-50">
                 <div class="flex flex-row justify-center items-center w-full p-14">
                   <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:add-outline" />
@@ -63,59 +63,55 @@ const associar_capitulo = ref(false);
               </div>
             </div>
             <hr v-if="criar_capitulo" class="my-6">
-            <div v-if="criar_capitulo" class="flex flex-row w-7/12">
-              <div class="flex flex-row w-full">
-                <div class="w-full">
-                  <label class="block mb-2 text-base font-medium">Titulo do capítulo</label>
-                  <input type="text" required
-                         class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
-                         placeholder="Titulo">
-                  <h1 class="text-red-600 text-base font-medium">error</h1>
+            <div v-for="numero_capitulo in numero_capitulos">
+              <div v-if="criar_capitulo" class="flex flex-row w-7/12">
+                <div class="flex flex-row w-full">
+                  <div class="w-full">
+                    <label class="block mb-2 text-base font-medium">Titulo do capítulo</label>
+                    <input type="text" required
+                           class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                           placeholder="Titulo">
+                    <h1 class="text-red-600 text-base font-medium">error</h1>
+                  </div>
+                  <Icon @click="()=>{numero_capitulos==1 ? criar_capitulo=!criar_capitulo : '' ; numero_capitulos!==0 ? numero_capitulos-- : numero_capitulos }" class="text-2xl text-gray-800 mx-2 mt-10 w-9 h-9" icon="ph:trash" />
                 </div>
               </div>
-            </div>
-            <div class="w-11/12 mx-auto">
-              <div v-for="numero_etapa in numero_etapas">
-                <div v-if="criar_etapa && criar_capitulo" class="flex flex-row w-11/12 mb-4 justify-between">
-                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full my-4">
-                    <div>
-                      <label class="block mb-2 text-base font-medium">Nome</label>
-                      <input type="text" required
-                             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
-                             placeholder="Nome">
-                      <h1 class="text-red-600 text-base font-medium">error</h1>
+              <div class="w-11/12 mx-auto">
+                <div v-for="numero_etapa in numero_etapas">
+                  <div v-if="criar_etapa && criar_capitulo" class="flex flex-row w-11/12 mb-4 justify-between">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full my-4">
+                      <div>
+                        <label class="block mb-2 text-base font-medium">Nome</label>
+                        <input type="text" required
+                               class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                               placeholder="Nome">
+                        <h1 class="text-red-600 text-base font-medium">error</h1>
+                      </div>
+                      <div>
+                        <label class="block mb-2 text-base font-medium">Ano do Inicio</label>
+                        <input type="number" required min="1960"
+                               class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                               placeholder="Ano - YYYY">
+                        <h1 class="text-red-600 text-base font-medium">errors</h1>
+                      </div>
+                      <div>
+                        <label class="block mb-2 text-base font-medium">Ano do Fim</label>
+                        <input type="number" required min="1960"
+                               class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                               placeholder="Ano - YYYY">
+                        <h1 class="text-red-600 text-base font-medium">errors</h1>
+                      </div>
                     </div>
-                    <div>
-                      <label class="block mb-2 text-base font-medium">Ano do Inicio</label>
-                      <input type="number" required min="1960"
-                             class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                             placeholder="Ano - YYYY">
-                      <h1 class="text-red-600 text-base font-medium">errors</h1>
-                    </div>
-                    <div>
-                      <label class="block mb-2 text-base font-medium">Ano do Fim</label>
-                      <input type="number" required min="1960"
-                             class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                             placeholder="Ano - YYYY">
-                      <h1 class="text-red-600 text-base font-medium">errors</h1>
-                    </div>
+                    <Icon @click="()=>{numero_etapas==1 ? criar_etapa=!criar_etapa : '' ; numero_etapas!==0 ? numero_etapas-- : numero_etapas }" class="text-2xl text-gray-800 mx-2 mt-14 w-9 h-9" icon="ph:trash" />
                   </div>
                 </div>
-              </div>
-              <div class="flex flex-row w-11/12">
-                <div v-if="criar_capitulo" @click="()=>{numero_etapas==0 ? criar_etapa=!criar_etapa : '' ; numero_etapas++}" class="flex flex-row justify-center w-9/12 mx-auto m-5 px-3">
-                  <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl hover:opacity-50">
-                    <div class="flex flex-row justify-center items-center w-full p-14">
-                      <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:add-outline" />
-                      <a type="button" class="text-gray-800 text-xl font-bold">Criar etapa no capítulo</a>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="criar_capitulo" @click="()=>{numero_etapas==1 ? criar_etapa=!criar_etapa : '' ; numero_etapas!==0 ? numero_etapas-- : numero_etapas }" class="flex flex-row justify-center w-9/12 mx-auto m-5 px-3">
-                  <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl hover:opacity-50">
-                    <div class="flex flex-row justify-center items-center w-full p-14">
-                      <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:minus-outline" />
-                      <a type="button" class="text-gray-800 text-xl font-bold">Remover etapa no capítulo</a>
+                <div class="flex flex-row">
+                  <div v-if="criar_capitulo" @click="()=>{numero_etapas==0 ? criar_etapa=!criar_etapa : '' ; numero_etapas++}" class="flex flex-row justify-center w-9/12 mx-auto m-5 px-3">
+                    <div class="flex hover:opacity-50 py-4 px-5 bg-gray-200 rounded-2xl">
+                      <div class="flex flex-row justify-center items-center">
+                        <Icon class="text-2xl text-gray-800 mx-2 w-8 h-8" icon="ri:menu-add-line" />
+                        <a type="button" class="text-gray-800 text-xl font-bold">Adicionar etapa no capítulo</a>
+                      </div>
                     </div>
                   </div>
                 </div>
