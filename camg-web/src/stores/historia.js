@@ -32,60 +32,39 @@ export const useHistoriaStore = defineStore("historia", () => {
 
     async function createHistoria(data) {
         try {
-            console.log("DATA", data)
+            console.log("DATA", data);
             const data_historia = {
                 "titulo" : data.titulo,
                 "conteudo" : data.conteudo,
                 "subtitulo": data.subtitulo,
-                "photo_url": data.photo_url
+                "photo_url": data.photo_url,
+                "capitulos": [],
+                "etapas" : []
             };
-            const response_historia = await axios.post("historia", data_historia, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }});
-
-            console.log("response_historia", response_historia.data.id);
-
-
             if(data.capitulos) {
                 for (const capitulo of data.capitulos) {
-
-                    console.log("CAPITULO", capitulo);
-                    console.log("response_historia.data.i", response_historia.data.i);
-
                     const data_capitulo = {
-                        "historia_id": response_historia.data.id,
-                        "titulo": capitulo.titulo
+                        "capitulo_id": capitulo.id,
+                        "titulo": capitulo.titulo,
                     };
-                    const response_capitulo = await axios.post("capitulo", data_capitulo);
-
-                    console.log("response_capitulo", response_capitulo);
-
+                    data_historia["capitulos"].push(data_capitulo)
                     if(data.etapas) {
                         for (const etapa of data.etapas) {
-
-                            console.log("ETAPA", etapa);
-
                             if (etapa.capitulo_id === capitulo.id) {
                                 const data_etapa = {
-                                    "capitulo_id": response_capitulo.data.id,
+                                    "capitulo_id": etapa.capitulo_id,
                                     "nome": etapa.nome,
                                     "ano_inicio": etapa.ano_inicio,
                                     "ano_fim": etapa.ano_fim
                                 };
-
-                                console.log(data_etapa);
-
-                                const response_etapa = await axios.post("etapa", data_etapa);
-
-                                console.log("response_etapa", response_etapa);
-
+                                data_historia["etapas"].push(data_etapa)
                             }
                         }
                     }
                 }
             }
-            loadHistorias({})
+            const response_historia = await axios.post("historiaCompleta", data_historia, {headers: {'Content-Type': 'multipart/form-data'}});
+            console.log(response_historia);
             toast.success("História Criada!")
         } catch (error) {
             console.error(error);
@@ -95,18 +74,45 @@ export const useHistoriaStore = defineStore("historia", () => {
     }
     async function editHistoria(data, id) {
         try {
-            data["_method"] = "PUT";
-            const response = await axios.post("historia/"+id, data, {headers: {
-                    'Content-Type': 'multipart/form-data'
-                }});
-            var index = historias.value.findIndex(item => item.id === id);
-            if(index>=0) {
-                historias.value[index] = response.data;
+            console.log("DATA", data);
+            const data_historia = {
+                "titulo" : data.titulo,
+                "conteudo" : data.conteudo,
+                "subtitulo": data.subtitulo,
+                "photo_url": data.photo_url,
+                "capitulos": [],
+                "etapas" : []
+            };
+            if(data.capitulos) {
+                for (const capitulo of data.capitulos) {
+                    const data_capitulo = {
+                        "id" : capitulo.id,
+                        "capitulo_id": capitulo.etapas ? capitulo.etapas[0].capitulo_id : null,
+                        "titulo": capitulo.titulo,
+                    };
+                    data_historia["capitulos"].push(data_capitulo)
+                    if(data.etapas) {
+                        for (const etapa of data.etapas) {
+                            if (etapa.capitulo_id === capitulo.id) {
+                                const data_etapa = {
+                                    "id": etapa.id,
+                                    "capitulo_id": etapa.capitulo_id,
+                                    "nome": etapa.nome,
+                                    "ano_inicio": etapa.ano_inicio,
+                                    "ano_fim": etapa.ano_fim
+                                };
+                                data_historia["etapas"].push(data_etapa)
+                            }
+                        }
+                    }
+                }
             }
-            index = historias_filtered.value.findIndex(item => item.id === id);
-            if(index>=0) {
-                historias_filtered.value[index] = response.data;
-            }
+            data_historia["_method"] = "PUT";
+
+            console.log(data_historia)
+
+            //const response = await axios.post("historiaCompleta/"+id, data, {headers: {'Content-Type': 'multipart/form-data'}});
+
             toast.warning("História Atualizada!")
         } catch (error) {
             loadHistorias({})

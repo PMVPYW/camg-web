@@ -8,7 +8,6 @@ const emit = defineEmits(["create", "edit"]);
 const toast = useToast();
 const serverBaseUrl = inject("serverBaseUrl");
 
-
 const titulo = ref(props.obj_to_edit?.titulo);
 const subtitulo = ref(props.obj_to_edit?.subtitulo);
 const conteudo = ref(props.obj_to_edit?.conteudo);

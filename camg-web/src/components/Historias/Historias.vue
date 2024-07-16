@@ -1,15 +1,21 @@
 <script setup>
-import Noticia from "@/components/Noticias/Noticia.vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
 import CreateHistoriaForm from "@/components/Historias/CreateHistoriaForm.vue";
-import DeleteHistoriaForm from "@/components/Historias/DeleteHistoriaForm.vue";
-import {ref} from "vue";
+import {reactive, ref, watch} from "vue";
 import Historia from "@/components/Historias/Historia.vue";
 import {useHistoriaStore} from "@/stores/historia.js";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
 
 const historiaStore = useHistoriaStore();
 const selectedHistoria = ref(false);
+
+//filters
+const filters = reactive({search: "", order: 'titulo_asc'})
+
+watch(filters, (new_value) => {
+  historiaStore.loadHistorias({filters: filters})
+});
+
 </script>
 <template>
   <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
@@ -22,13 +28,15 @@ const selectedHistoria = ref(false);
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
           <div class="flex flex-row w-2/6 w-min-16 my-1">
-            <input type="text" required class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+            <input type="text" v-model="filters.search" required class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
           </div>
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
-            <select class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option class="uppercase" value="titulo_asc">A-Z</option>
-              <option class="uppercase" value="titulo_desc">Z-a</option>
+            <select v-model="filters.order" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option class="uppercase" value="titulo_asc">Titulo de A-Z</option>
+              <option class="uppercase" value="titulo_desc">Titulo de Z-a</option>
+              <option class="uppercase" value="subtitulo_asc">Subtitulo de A-Z</option>
+              <option class="uppercase" value="subtitulo_desc">Subtitulo de Z-a</option>
             </select>
           </div>
         </div>
