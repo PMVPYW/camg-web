@@ -16,6 +16,7 @@ export const useStatsStore = defineStore("stats", () => {
     const clients_in_app_history = ref([]);
     provasStore.loadProvas({});
     patrocinioStore.loadPatrocinios({});
+    horarioStore.loadHorarios();
 //participants data and update
 socket.emit("stats");
 const participants = ref({});
