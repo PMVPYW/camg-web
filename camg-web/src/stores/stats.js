@@ -4,12 +4,14 @@ import {defineStore} from "pinia";
 import { useRallyStore } from "./rally";
 import { useProvaStore } from "./prova";
 import { usePatrocinioStore } from "./patrocinio";
+import { useHorarioStore } from "./horario";
 
 export const useStatsStore = defineStore("stats", () => {
     const socket = inject("socket");
     const rallyStore = useRallyStore();
     const provasStore = useProvaStore();
     const patrocinioStore = usePatrocinioStore();
+    const horarioStore = useHorarioStore();
     const clients_in_app = ref(0);
     const clients_in_app_history = ref([]);
     provasStore.loadProvas({});
@@ -261,5 +263,27 @@ socket.emit("participants");
         return mapObj;
     })
 
-    return {topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
+
+    var ultimo_evento = computed(()=>{
+        const list = horarioStore.horarios.filter((item) => new Date(item.fim) < Date.now()).sort((a, b) => new Date(b.fim) - new Date(a.fim))
+        return list[0] ?? null; //por ao contrario
+    })
+
+    var proximo_evento = computed(()=>{
+        const list = horarioStore.horarios.filter((item) => new Date(item.inicio) > Date.now()).sort((a, b) => new Date(a.inicio) - new Date(b.inicio))
+        return list[0] ?? null;
+    })
+
+    const renew_events = ()=>{
+        ultimo_evento = computed(()=>{
+            const list = horarioStore.horarios.filter((item) => new Date(item.fim) < Date.now()).sort((a, b) => new Date(b.fim) - new Date(a.fim))
+            return list[0] ?? null; //por ao contrario
+        })
+        proximo_evento = computed(()=>{
+            const list = horarioStore.horarios.filter((item) => new Date(item.inicio) > Date.now()).sort((a, b) => new Date(a.inicio) - new Date(b.inicio))
+            return list[0] ?? null;
+        })
+    }
+
+    return {ultimo_evento, proximo_evento, renew_events, topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
 });

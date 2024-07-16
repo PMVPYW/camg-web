@@ -1,11 +1,20 @@
- <script setup>
- import { useStatsStore } from "@/stores/stats";
+<script setup>
+import { ref } from "vue";
+import { useStatsStore } from "@/stores/stats";
 import Card from "./Card.vue"
 import ToogleSwitch from "./toogleSwitchStatistic.vue"
+import ToogleSwitchEvent from "./toogleSwitchEvent.vue"
 import TopNationalites from "./TopNationalities.vue"
 import TopPatrocinos from "./TopPatrocinios.vue"
 const statsStore = useStatsStore();
- console.log(statsStore.TopPatrocinos, "compiuted assa2")
+const prox = ref(statsStore.proximo_evento);
+const prev = ref(statsStore.ultimo_evento);
+
+function renew(){
+  statsStore.renew_events();
+  prox.value = statsStore.proximo_evento;
+  prev.value = statsStore.ultimo_evento;
+}
   </script>
 
   <template>
@@ -38,6 +47,10 @@ const statsStore = useStatsStore();
         </Card> 
         <Card titulo="Distância máxima de rally">
           <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_maxima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_desc" :series="statsStore.distancia_rallies_sort_desc" unidade_medida="Km"/>
+        </Card> 
+
+        <Card titulo="Eventos">
+          <ToogleSwitchEvent @renew="renew" opcao1="Próximo" opcao2="Ultimo" :ev1="prox" :ev2="prev"/>
         </Card> 
           
       </div>
