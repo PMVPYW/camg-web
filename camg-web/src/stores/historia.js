@@ -32,14 +32,60 @@ export const useHistoriaStore = defineStore("historia", () => {
 
     async function createHistoria(data) {
         try {
-            const response = await axios.post("historia", data, {
+            console.log("DATA", data)
+            const data_historia = {
+                "titulo" : data.titulo,
+                "conteudo" : data.conteudo,
+                "subtitulo": data.subtitulo,
+                "photo_url": data.photo_url
+            };
+            const response_historia = await axios.post("historia", data_historia, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            console.log(data, "Dados")
-            console.log(response, "create historia");
-            historias.value.push(response.data);
-            historias_filtered.value.push(response.data);
+
+            console.log("response_historia", response_historia.data.id);
+
+
+            if(data.capitulos) {
+                for (const capitulo of data.capitulos) {
+
+                    console.log("CAPITULO", capitulo);
+                    console.log("response_historia.data.i", response_historia.data.i);
+
+                    const data_capitulo = {
+                        "historia_id": response_historia.data.id,
+                        "titulo": capitulo.titulo
+                    };
+                    const response_capitulo = await axios.post("capitulo", data_capitulo);
+
+                    console.log("response_capitulo", response_capitulo);
+
+                    if(data.etapas) {
+                        for (const etapa of data.etapas) {
+
+                            console.log("ETAPA", etapa);
+
+                            if (etapa.capitulo_id === capitulo.id) {
+                                const data_etapa = {
+                                    "capitulo_id": response_capitulo.data.id,
+                                    "nome": etapa.nome,
+                                    "ano_inicio": etapa.ano_inicio,
+                                    "ano_fim": etapa.ano_fim
+                                };
+
+                                console.log(data_etapa);
+
+                                const response_etapa = await axios.post("etapa", data_etapa);
+
+                                console.log("response_etapa", response_etapa);
+
+                            }
+                        }
+                    }
+                }
+            }
+            loadHistorias({})
             toast.success("História Criada!")
         } catch (error) {
             console.error(error);

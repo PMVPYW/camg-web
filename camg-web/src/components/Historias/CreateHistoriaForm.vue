@@ -17,18 +17,18 @@ const photo_url = ref(props.obj_to_edit?.photo_url);
 const numero_etapas = ref(0);
 const numero_capitulos = ref(0);
 const etapas = ref([]);
-const capitulos = ref(props.obj_to_edit?.capitulo);
+const capitulos = ref(props.obj_to_edit?.capitulo ? props.obj_to_edit?.capitulo : []);
 
-console.log("props.obj_to_edit?.capitulos", props.obj_to_edit?.capitulo)
 
-capitulos.value.forEach((capitulo) => {
-  console.log(capitulo.etapas);
-  capitulo.etapas.forEach((etapa) => {
-    etapas.value.push(etapa);
-  });
-  console.log("Etapas",etapas )
-})
-
+if(props.obj_to_edit?.capitulo) {
+  capitulos.value.forEach((capitulo) => {
+    console.log(capitulo.etapas);
+    capitulo.etapas.forEach((etapa) => {
+      etapas.value.push(etapa);
+    });
+    console.log("Etapas", etapas)
+  })
+}
 watch(() => props.obj_to_edit, (newValue) => {
   if (newValue) {
     titulo.value = newValue.titulo;
@@ -45,9 +45,9 @@ console.log("obj_recebido", props.obj_to_edit)
 
 function validated_etapa(capitulo_id){
   let e = etapas.value.filter((item) => item.capitulo_id == capitulo_id);
-  if (e.length > 0) {
+  if (e && e.length > 0) {
     let t = e[e.length - 1];
-    if (!t.nome || !t.ano_inicio || !t.ano_fim) {
+    if (!t.nome || !t.ano_inicio) {
       return true;
     }else{
       return false;
@@ -79,7 +79,7 @@ function remover_etapa(id){
 
 function validated_capitulo(){
   let e = capitulos.value;
-  if (e.length > 0) {
+  if (e && e.length > 0) {
     let t = e[e.length - 1];
     if (!t.titulo) {
       return true;
@@ -117,18 +117,19 @@ function remover_capitulo(id){
 const emitNew = () => {
   const obj = {
     "titulo": titulo.value,
+    "subtitulo": subtitulo.value,
     "conteudo": conteudo.value,
-    "data": data.value,
   };
-  if (title_img.value != null) {
-    obj["title_img"] = title_img.value
+  if (photo_url.value != null) {
+    obj["photo_url"] = photo_url.value
   }
-  if (fotos_selected.length !== 0) {
-    obj["fotos_id"] = fotos_selected.value
+  if (etapas.value.length !== 0) {
+    obj["etapas"] = etapas.value
   }
-  if (rally_id.value != null) {
-    obj["rally_id"] = rally_id.value
+  if (capitulos.value != null) {
+    obj["capitulos"] = capitulos.value
   }
+  console.log("OBJ", obj);
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
 
@@ -250,7 +251,6 @@ const emitNew = () => {
         <div class="flex justify-center w-full">
           <button type="button"
                   @click.prevent="emitNew"
-
                   class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
             {{ !obj_to_edit ? 'Criar' : 'Editar' }}
           </button>
