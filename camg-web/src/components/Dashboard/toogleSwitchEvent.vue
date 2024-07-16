@@ -23,15 +23,22 @@ function updateTimer() {
       time_left.value = time_left.value = new Date(Date.now()) - event.value
     }
     time_left.value/= 1000;
-    if (time_left.value <= 0)
+    if (time_left.value <= 0 && selected.value == 0)
     {
       emits("renew");
+    } else {
+      if (time_left.value < 0)
+      {
+        formated_result.value = "A decorrer até: " + current.value.fim;
+        return;
+      }
+      let days = Math.floor(time_left.value / (60*60*24));
+      let hours = Math.floor((time_left.value % (24 * 60 * 60)) / (60 * 60));
+      let minutes = Math.floor((time_left.value % (60 * 60)) / 60);
+      let seconds = Math.floor(time_left.value % 60);
+      formated_result.value = `${days}:${hours}:${minutes}:${seconds}`
     }
-    let days = Math.floor(time_left.value / (60*60*24));
-    let hours = Math.floor((time_left.value % (24 * 60 * 60)) / (60 * 60));
-    let minutes = Math.floor((time_left.value % (60 * 60)) / 60);
-    let seconds = Math.floor(time_left.value % 60);
-    formated_result.value = `${days}:${hours}:${minutes}:${seconds}`
+    
 }
 
 function setCurrent(){
