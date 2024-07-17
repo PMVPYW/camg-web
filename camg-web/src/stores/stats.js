@@ -14,6 +14,7 @@ export const useStatsStore = defineStore("stats", () => {
     const horarioStore = useHorarioStore();
     const clients_in_app = ref(0);
     const clients_in_app_history = ref([]);
+    const tempos_rallies = ref(null);
     provasStore.loadProvas({});
     patrocinioStore.loadPatrocinios({});
     horarioStore.loadHorarios();
@@ -26,11 +27,18 @@ socket.on("participants", (parts)=>{
     console.log(parts.value, "parts");
 })
 
+socket.on("classifications", (classi)=>{
+    tempos_rallies.value = classi.value;
+    console.log(classi.value, "class");
+})
+
+
 socket.on("clients", (clients) => {
     clients_in_app.value = clients;
     clients_in_app_history.value.push(clients)
 });
 socket.emit("participants");
+socket.emit("classifications");
 //stats
     const duracao_media_rally_total = computed(()=>{
         console.log(rallyStore.rallies[0], "compiuted")
@@ -280,5 +288,46 @@ socket.emit("participants");
         recompute.value = !recompute.value;
     }
 
-    return {ultimo_evento, proximo_evento, renew_events, topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
+    const melhor_tempo_rally = computed(()=>{
+        if(tempos_rallies.value == null)
+        {
+            return;
+        }
+        const result = [];
+        const rallies = Object.keys(tempos_rallies.value);
+        rallies.forEach((r)=>{
+            const provas = Object.keys(tempos_rallies.value[r].value);
+            var best_time = Infinity;
+            tempos_rallies.value[r].value[provas[provas.length-1]].accumulated.forEach((time)=>{
+                if (time.time < best_time)
+                {
+                    best_time = time.time;
+                }
+            })
+            result.push(best_time)
+        })
+        return result;
+    })
+
+    const pior_tempo_rally = computed(()=>{
+        if(tempos_rallies.value == null)
+        {
+            return;
+        }
+        const result = [];
+        const rallies = Object.keys(tempos_rallies.value);
+        rallies.forEach((r)=>{
+            const provas = Object.keys(tempos_rallies.value[r].value);
+            var worst_time = -Infinity;
+            tempos_rallies.value[r].value[provas[provas.length-1]].accumulated.forEach((time)=>{
+                if (time.time > worst_time)
+                {
+                    worst_time = time.time;
+                }
+            })
+            result.push(worst_time)
+        })
+        return result;
+    })
+    return {pior_tempo_rally, melhor_tempo_rally, ultimo_evento, proximo_evento, renew_events, topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
 });

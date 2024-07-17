@@ -6,6 +6,7 @@ import ToogleSwitch from "./toogleSwitchStatistic.vue"
 import ToogleSwitchEvent from "./toogleSwitchEvent.vue"
 import TopNationalites from "./TopNationalities.vue"
 import TopPatrocinos from "./TopPatrocinios.vue"
+import TimeChart from "./TimeChart.vue"
 const statsStore = useStatsStore();
 const prox = ref(statsStore.proximo_evento);
 const prev = ref(statsStore.ultimo_evento);
@@ -15,12 +16,14 @@ function renew(){
   prox.value = statsStore.proximo_evento;
   prev.value = statsStore.ultimo_evento;
 }
+
+console.log("compiuted", statsStore.melhor_tempo_rally)
   </script>
 
   <template>
-    <div class="rounded-xl transition-all duration-200 block w-full" id="panel">
+    <div class="rounded-xl h-full transition-all duration-200 block w-full" id="panel">
       <h1 class="text-2xl font-bold ml-10 mt-10">Dashboard</h1>
-      <div class="w-11/12 flex place-content-around flex-wrap">
+      <div class="w-11/12 h-full flex place-content-around flex-wrap">
         <Card titulo="Duração Média de um Rally">
           <ToogleSwitch opcao1="Total" opcao2="Anual" :stat1="statsStore.duracao_media_rally_total" :chart-categories="statsStore.anosRallies" :series="statsStore.duracao_media_rally_anual" unidade_medida="Dias"/>
         </Card>  
@@ -35,7 +38,7 @@ function renew(){
         <TopNationalites/>
         <TopPatrocinos/>
           
-        <Card titulo="Utilixadores na Aplicação">
+        <Card titulo="Utilizadores na Aplicação">
           <ToogleSwitch opcao1="Tempo Real" opcao2="Histórico" :stat1="statsStore.clients_in_app" :chart-categories="null" :series="statsStore.clients_in_app_history" unidade_medida="Clientes"/>
         </Card>
        
@@ -52,6 +55,8 @@ function renew(){
         <Card titulo="Eventos">
           <ToogleSwitchEvent @renew="renew" opcao1="Próximo" opcao2="Ultimo" :ev1="prox" :ev2="prev"/>
         </Card> 
+
+        <TimeChart/>
           
       </div>
     </div>
