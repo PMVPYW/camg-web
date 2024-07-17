@@ -5,15 +5,15 @@ const props = defineProps(["historia"])
 const serverBaseUrl = inject("serverBaseUrl");
 </script>
 <template>
-  <div class="min-w-[25%] min-h-[50%] max-h-[50%] m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">
+  <div class="min-w-[25%] max-h-[600px] m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">
     <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border h-full">
       <div class="relative">
-        <a v-if="props.historia.photo_url" class="flex bg-white block w-full h-72	shadow-xl rounded-xl">
+        <a v-if="props.historia.photo_url" class="flex bg-white block w-full h-72	shadow-xl rounded-xl my-4">
           <img :src="`${serverBaseUrl}/storage/fotos/${props.historia.photo_url}`" :alt="`${serverBaseUrl}/storage/fotos/${props.historia.photo_url}`"
-               class="my-auto mx-auto object-contain  max-h-72 shadow-soft-2xl">
+               class="my-auto mx-auto object-contain max-h-72 shadow-soft-2xl">
         </a>
       </div>
-      <div class="overflow-y-auto scroll-smooth">
+      <div class=" h-full overflow-y-auto scroll-smooth">
         <div class="flex-auto px-1 pt-6">
           <h1 class="relative z-10 mb-2 leading-normal font-bold text-xl text-gray-800">{{ props.historia.titulo }}</h1>
           <h1 class="relative z-10 mb-2 text-base font-bold text-gray-600">{{ props.historia.subtitulo }}</h1>

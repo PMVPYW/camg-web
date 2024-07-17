@@ -28,7 +28,7 @@ const editEntidade = async () => {
   const obj_entidade = {
       "nome": nome.value,
       "url": url.value,
-      "relevancia": relevancia.value
+      "relevancia": 10
   };
   if (photo_url.value != null) {
     obj_entidade["photo_url"] = photo_url.value
@@ -49,26 +49,10 @@ const editEntidade = async () => {
     <div class="flex flex-row justify-center w-full">
       <div class="w-6/12">
         <div class="flex flex-wrap justify-center w-full">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-11/12 mt-16">
-            <div>
-              <label class="block mb-2 text-base font-medium ">Nome</label>
-              <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
-              <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
-            </div>
-            <div>
-              <div class="relative mb-6">
-                <div class="flex flex-row">
-                  <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância:</label>
-                  <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-200 p-2 mx-2 rounded-xl">{{relevancia}}</label>
-                </div>
-                <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-0 -bottom-6">1</span>
-                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
-                <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
-                <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
-              </div>
-              <h1 v-if="errors.relevancia" class="text-red-600 text-base font-medium">{{errors.relevancia[0]}}</h1>
-            </div>
+          <div class="w-11/12">
+            <label class="block mb-2 text-base font-medium ">Nome</label>
+            <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
+            <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6 w-11/12 mt-8">
             <div>

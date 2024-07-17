@@ -42,9 +42,9 @@ watch(filters, (new_value) => {
         </div>
       </div>
     </div>
-    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
-      <div class="flex flex-wrap -mx-3 removable mt-10 h-screen overflow-y-auto">
-        <Historia v-for="historia in historiaStore.historias_filtered" :key="historia.id" @click="()=>{selectedHistoria = historia}" :historia="historia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedHistoria.id==historia.id}"></Historia>
+    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500 h-full">
+      <div class="flex flex-wrap -mx-3 removable mt-10 h-full">
+        <Historia v-for="historia in historiaStore.historias_filtered" :key="historia.id" @click="()=>{selectedHistoria = historia}" :historia="historia" class="border-2 rounded-xl w-full h-screen" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedHistoria.id==historia.id}"></Historia>
       </div>
     </div>
   </div>
