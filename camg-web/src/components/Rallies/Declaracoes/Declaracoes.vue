@@ -5,27 +5,28 @@ import {ref, watch, reactive} from "vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
 import CreateDeclaracaoForm from "@/components/Rallies/Declaracoes/CreateDeclaracaoForm.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import {useDeclaracaoStore} from "@/stores/declaracao.js";
+import Declaracao from "@/components/Rallies/Declaracoes/Declaracao.vue";
 
 const selectedDeclaracao = ref({});
 const rally_id = ref('');
 
-
+const declaracaoStore = useDeclaracaoStore();
 //filters
-const filters = reactive({search: "", data_inicio: '', data_fim: '', order: 'titulo_asc'})
+const filters = reactive({search: "", select: 'todos', order: 'nome_asc'})
 
 watch(filters, (new_value) => {
-  noticiaStore.loadNoticias({filters: filters})
+  declaracaoStore.loadDeclaracoes({filters: filters})
 })
 
 const rallyStore =useRallyStore();
 </script>
 
 <template>
-  <div v-if="rallyStore.rally_selected" class="h-full rounded-xl transition-all duration-200" id="panel">
+  <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Declarações</h1>
     <CrudButtons :create_form="CreateDeclaracaoForm"
                  :obj_to_edit="selectedDeclaracao"
-                 :delete_form="SimpleDeleteForm"
                  @clearSelected="selectedDeclaracao = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
@@ -34,20 +35,21 @@ const rallyStore =useRallyStore();
             <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
           </div>
           <div class="flex flex-row items-center my-1">
-            <label class="block mx-4 text-base font-medium">De:</label>
-            <input v-model="filters.data_inicio" type="date" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-          </div>
-          <div class="flex flex-row items-center my-1">
-            <label class="block mx-4 text-base font-medium">Até:</label>
-            <input v-model="filters.data_fim" type="date" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-          </div>
-          <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="filters.order" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option class="uppercase" value="titulo_asc">A-Z</option>
-              <option class="uppercase" value="titulo_desc">Z-a</option>
-              <option class="uppercase" value="date_desc">Data mais recente</option>
-              <option class="uppercase" value="date_asc">Data menos recente</option>
+              <option class="uppercase" value="nome_asc">Nome de A-Z</option>
+              <option class="uppercase" value="nome_desc">Nome de Z-A</option>
+              <option class="uppercase" value="cargo_asc">Cargo de A-Z</option>
+              <option class="uppercase" value="cargo_desc">Cargo de Z-A</option>
+            </select>
+          </div>
+          <div class="flex flex-row items-center my-1">
+            <label class="block mx-4 text-base font-medium">Cargo:</label>
+            <select v-model="filters.select" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option class="uppercase" value="todos">Todos</option>
+              <option class="uppercase" value="presidente">Presidente</option>
+              <option class="uppercase" value="piloto">Piloto</option>
+              <option class="uppercase" value="copiloto">Copiloto</option>
             </select>
           </div>
         </div>
@@ -55,7 +57,7 @@ const rallyStore =useRallyStore();
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10 h-screen overflow-y-auto">
-        <Declarecoes v-for="declaracao in " :key="declaracao.id" @click="()=>{selectedDeclaracao = declaracao}" :declaracao="declaracao" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedDeclaracao.id==declaracao.id}"></Declarecoes>
+        <Declaracao v-for="declaracao in declaracaoStore.declaracoes_filtered" :key="declaracao.id" @click="()=>{selectedDeclaracao = declaracao}" :declaracao="declaracao" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedDeclaracao.id==declaracao.id}"></Declaracao>
       </div>
     </div>
   </div>

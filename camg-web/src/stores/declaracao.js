@@ -1,9 +1,10 @@
 import axios from "axios";
-import { ref, computed, inject } from "vue";
+import { ref, inject } from "vue";
 import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
 import {useToast} from "vue-toastification";
+import {useRallyStore} from "@/stores/rally.js";
 
 export const useDeclaracaoStore = defineStore("declaracao", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -11,6 +12,8 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
 
     const declaracoes = ref(null);
     const declaracoes_filtered = ref(null);
+
+    const rallyStore = useRallyStore();
 
     const router = useRouter();
     const toast= useToast();
@@ -23,13 +26,15 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
                 for (const filter in filters) {
                     suffix += `${filter}=${filters[filter]}&`;
                 }
-                response = await axios.get(`noticia${suffixa}`);
+                response = await axios.get(`rally/`+rallyStore.rally_selected+`/declaracoes${suffix}`);
                 declaracoes_filtered.value = response.data.data;
             }else{
-                response = await axios.get(`noticia${suffix}`);
+                response = await axios.get(`rally/`+rallyStore.rally_selected+`/declaracoes`);
                 declaracoes.value=response.data.data;
                 declaracoes_filtered.value = response.data.data;
                 console.log(declaracoes, "Declarações")
+                console.log(declaracoes_filtered, "Declarações Filters")
+
             }
         } catch (error) {
             throw error;

@@ -8,7 +8,7 @@ import Login from "@/views/Login.vue";
 import Albuns from "@/components/Albuns/Albuns.vue";
 import Contactos from "@/components/Contactos/Contactos.vue";
 import ConselhosSeguranca from "@/components/Rallies/ConselhosSeguranca/ConselhosSeguranca.vue";
-import Declarecoes from "@/components/Rallies/Declaracoes/Declarecoes.vue";
+import Declarecoes from "@/components/Rallies/Declaracoes/Declaracoes.vue";
 import Horarios from "@/components/Rallies/Horarios/Horarios.vue";
 import Provas from "@/components/Rallies/Provas/Provas.vue";
 import ZonasEspetaculo from "@/components/Rallies/ZonasEspetaculo/ZonasEspetaculo.vue";
