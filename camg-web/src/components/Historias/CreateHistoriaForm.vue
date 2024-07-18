@@ -62,7 +62,8 @@ function adicionar_etapa(id, capitulo_id){
     "capitulo_id": capitulo_id,
     "nome": null,
     "ano_inicio": null,
-    "ano_fim": null
+    "ano_fim": null,
+    "edit": props.obj_to_edit ? true : false
   }
   etapas.value.push(data);
   console.log("etapas", etapas.value)
@@ -80,22 +81,23 @@ function validated_capitulo(){
   let e = capitulos.value;
   if (e && e.length > 0) {
     let t = e[e.length - 1];
-    if (!t.titulo) {
-      return true;
-    }else{
-      return false;
-    }
+    return !t.titulo;
   }else{
     return false;
   }
 }
 function adicionar_capitulo(id){
   console.log("id",id);
-  const data = {
-    "id": id,
-    "titulo" : null,
+  try {
+    const data = {
+      "id": id,
+      "titulo": null,
+      "edit": props.obj_to_edit ? true : false
+    }
+    capitulos.value.push(data);
+  }catch (e) {
+    console.log("Error",e);
   }
-  capitulos.value.push(data);
   console.log("capitulos",capitulos.value)
 
 }
@@ -185,11 +187,11 @@ const emitNew = () => {
               <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl">
                 <div class="flex flex-row justify-center items-center w-full p-14">
                   <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:add-outline" />
-                  <a type="button" class="text-gray-800 text-xl font-bold">Criar capítulo na história</a>
+                  <text class="text-gray-800 text-xl font-bold">Criar capítulo na história</text>
                 </div>
               </div>
             </button>
-            <hr v-if="capitulos.length" class="my-6">
+            <hr v-if="capitulos" class="my-6">
             <div v-for="capitulo in capitulos">
               <div class="flex flex-row w-7/12">
                 <div class="flex flex-row w-full">
@@ -205,7 +207,7 @@ const emitNew = () => {
               </div>
               <div class="w-11/12 mx-auto">
                 <div v-for="etapa in etapas">
-                  <div v-if="etapas.length && capitulos.length && etapa.capitulo_id==capitulo.id" class="flex flex-row w-11/12 mb-4 justify-between">
+                  <div v-if="etapas && capitulos && etapa.capitulo_id==capitulo.id" class="flex flex-row w-11/12 mb-4 justify-between">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full my-4">
                       <div>
                         <label class="block mb-2 text-base font-medium">Nome</label>
@@ -223,7 +225,7 @@ const emitNew = () => {
                       </div>
                       <div>
                         <label class="block mb-2 text-base font-medium">Ano do Fim</label>
-                        <input type="number" required min="1960" size="4" v-model="etapa.ano_fim"
+                        <input type="number" min="1960" size="4" v-model="etapa.ano_fim"
                                class="py-3 px-4 block w-full border border-gray-300 bg-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
                                placeholder="Ano - YYYY">
                         <h1 class="text-red-600 text-base font-medium">errors</h1>
@@ -233,11 +235,11 @@ const emitNew = () => {
                   </div>
                 </div>
                 <div class="flex flex-row">
-                  <div v-if="capitulos.length" class="flex flex-row justify-center w-9/12 mx-auto m-5 px-3">
+                  <div v-if="capitulos" class="flex flex-row justify-center w-9/12 mx-auto m-5 px-3">
                     <button :disabled="validated_etapa(capitulo.id)"  class="flex py-4 px-5 bg-gray-200 rounded-2xl disabled:opacity-50  hover:opacity-50" @click="()=>{numero_etapas++; adicionar_etapa(numero_etapas, capitulo.id); }">
                       <div class="flex flex-row justify-center items-center">
                         <Icon class="text-2xl text-gray-800 mx-2 w-8 h-8" icon="ri:menu-add-line" />
-                        <a type="button" class="text-gray-800 text-xl font-bold">Adicionar etapa no capítulo</a>
+                        <text class="text-gray-800 text-xl font-bold">Adicionar etapa no capítulo</text>
                       </div>
                     </button>
                   </div>

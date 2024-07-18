@@ -19,10 +19,10 @@ const serverBaseUrl = inject("serverBaseUrl");
           <h1 class="relative z-10 mb-2 text-base font-bold text-gray-600">{{ props.historia.subtitulo }}</h1>
           <h1 v-if="props.historia.conteudo" class="relative z-10 mb-2 text-sm text-gray-600">{{ props.historia.conteudo }}</h1>
         </div>
-        <div v-if="props.historia.capitulo.length" v-for="capitulo in props.historia.capitulo" class="flex-auto px-1 pt-6">
+        <div v-if="props.historia.capitulo" v-for="capitulo in props.historia.capitulo" class="flex-auto px-1 pt-6">
           <hr class="mb-3">
           <h1 class="relative z-10 mb-2 ml-2 leading-normal font-bold text-base text-gray-800">{{ capitulo.titulo }}</h1>
-          <div v-if="capitulo.etapas.length" v-for="etapas in capitulo.etapas" class="flex flex-row ml-10">
+          <div v-if="capitulo.etapas" v-for="etapas in capitulo.etapas" class="flex flex-row ml-10">
             <div class="flex flex-row min-w-24">
               <h1 class="mb-2 text-base font-bold text-amber-500">{{ etapas.ano_inicio }}</h1>
               <h1 v-if="etapas.ano_fim" class="mb-2 text-base font-bold text-amber-500 ml-1">a {{ etapas.ano_fim }}</h1>

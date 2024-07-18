@@ -85,17 +85,21 @@ export const useHistoriaStore = defineStore("historia", () => {
             };
             if(data.capitulos) {
                 for (const capitulo of data.capitulos) {
+                    console.log(capitulo.edit)
                     const data_capitulo = {
-                        "id" : capitulo.id,
-                        "capitulo_id": capitulo.etapas ? capitulo.etapas[0].capitulo_id : null,
+                        "id" : capitulo.edit ? -1 : capitulo.id,
+                        "capitulo_id": capitulo.etapas ? capitulo.etapas[0].capitulo_id : capitulo.id,
                         "titulo": capitulo.titulo,
                     };
                     data_historia["capitulos"].push(data_capitulo)
                     if(data.etapas) {
                         for (const etapa of data.etapas) {
-                            if (etapa.capitulo_id === capitulo.id) {
+                            if (etapa.capitulo_id === data_capitulo.capitulo_id) {
+                                console.log("Etapa",etapa)
+                                console.log("Etapa_id",etapa.id)
+                                etapa.edit ? console.log("Etapa_validated",etapa.edit) : console.log("n caiu")
                                 const data_etapa = {
-                                    "id": etapa.id,
+                                    "id": etapa.edit ? -1 : etapa.id,
                                     "capitulo_id": etapa.capitulo_id,
                                     "nome": etapa.nome,
                                     "ano_inicio": etapa.ano_inicio,
