@@ -65,7 +65,7 @@ const createZE = async () => {
                                 type="text"
                                 required
                                 class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
-                                placeholder="Nome Patrocinio"
+                                placeholder="Nome Zona de Espetáculo"
                             />
                             <h1
                                 v-if="errors.nome"

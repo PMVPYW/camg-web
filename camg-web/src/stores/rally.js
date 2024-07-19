@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ref, inject } from "vue";
+import { ref, inject, computed } from "vue";
 import { defineStore } from "pinia";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
@@ -14,6 +14,13 @@ export const useRallyStore = defineStore("rally", () => {
   const patrocinioOficialStore = usePatrocinioOficialStore();
   const rallies = ref(null);
   const rallies_filtered = ref(null);
+
+  const rallies_sorted_date_asc = computed(()=>{
+    let arr = [...rallies.value];
+    arr.sort((a, b) => Date.parse(a.data_inicio) - Date.parse(b.data_inicio))
+    return arr
+  })
+
   const router = useRouter();
   const toast = useToast();
   let rally_selected = ref();
@@ -171,5 +178,6 @@ export const useRallyStore = defineStore("rally", () => {
     rallies,
     rallies_filtered,
     rally_selected,
+    rallies_sorted_date_asc
   };
 });

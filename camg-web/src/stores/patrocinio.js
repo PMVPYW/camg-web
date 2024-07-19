@@ -10,6 +10,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     const socket = inject("socket");
 
     const patrocinios = ref(null);
+    const patrocinios_complete = ref([])
     const entidades = ref(null);
     const patrocinosSemAssociacao  = ref(null);
     const router = useRouter();
@@ -19,11 +20,13 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
 
     socket.on("associar_patrocinio", (patrocinio) => {
         patrocinios.value.push(patrocinio)
+        patrocinios_complete.value.push(patrocinio)
         toast.success("Patrocinio associado ao rally");
     })
 
     socket.on("desassociar_patrocinio", (patrocinio) => {
         patrocinios.value = patrocinios.value.filter((item) => item.id != patrocinio);
+        patrocinios_complete.value = patrocinios_complete.value.filter((item) => item.id != patrocinio);
         toast.error("Patrocinio desassociado ao rally");
     })
 
@@ -66,6 +69,12 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
     }
     async function loadPatrocinios({filters = "nome_asc"}) {
         try {
+            if (patrocinios_complete.value.length == 0)
+            {
+                patrocinios_complete.value = (await axios.get("patrocinio")).data.data;
+                console.log(patrocinios_complete.value, "patrocionios_complete")
+            }
+
             let response;
             if(filters && rallyStore.rally_selected){
                 response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
@@ -96,6 +105,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.post("patrocinio/" ,data);
             console.log(response.data, "create associação ao rally")
             patrocinios.value.push(response.data)
+            patrocinios_complete.value.push(response.data)
             socket.emit("associar_patrocinio", response.data);
             toast.success("Patrocinio Associado!")
 
@@ -113,6 +123,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             const response = await axios.delete("patrocinio/"+ id );
             console.log(response.data.data, "Delete associação ao rally")
             patrocinios.value = patrocinios.value.filter((item) => item.id != id);
+            patrocinios_complete.value = patrocinios_complete.value.filter((item) => item.id != id);
             socket.emit("desassociar_patrocinio", id);
             toast.error("Patrocinio Desassociado!")
 
@@ -247,6 +258,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         loadpatrocinosSemAssociacao,
         patrocinios,
         patrocinosSemAssociacao,
+        patrocinios_complete,
 
         //Entidade
         deleteEntidade,
@@ -254,6 +266,6 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
         editEntidade,
         loadEntidades,
         entidades,
-
+        
     };
 });

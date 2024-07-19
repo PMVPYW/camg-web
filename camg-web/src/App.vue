@@ -18,6 +18,7 @@ import { usePatrocinioOficialStore } from "@/stores/patrocinioOficial.js";
 import { useHorarioStore } from "@/stores/horario.js";
 import "../node_modules/mapbox-gl/dist/mapbox-gl.css";
 import { useZonaEspetaculoStore } from "@/stores/zonaEspetaculo.js";
+import { useStatsStore } from "./stores/stats";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -31,6 +32,7 @@ const provaStore = useProvaStore();
 const patrocinioOficial = usePatrocinioOficialStore();
 const horarioStore = useHorarioStore();
 const zonaEspetaculoStore = useZonaEspetaculoStore();
+const statsStore = useStatsStore();//n remover; inicialização de outra store iternamente, sem isto, algumas estatiscas podem não funcionar
 
 onMounted(async () => {
     await rallyStore.loadRallies();
