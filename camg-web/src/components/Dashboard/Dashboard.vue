@@ -35,12 +35,13 @@ console.log("compiuted", statsStore.melhor_tempo_rally)
         <Card titulo="Quantidade de participantes por rally">
           <ToogleSwitch opcao1="Média" opcao2="Rally" :stat1="statsStore.média_participants_rally" :chart-categories="statsStore.nome_rallies_ordenados_data" :series="statsStore.participantes_por_rally" unidade_medida="Participantes"/>
         </Card> 
-        <TopNationalites/>
-        <TopPatrocinos/>
-          
+
         <Card titulo="Utilizadores na Aplicação">
           <ToogleSwitch opcao1="Tempo Real" opcao2="Histórico" :stat1="statsStore.clients_in_app" :chart-categories="null" :series="statsStore.clients_in_app_history" unidade_medida="Clientes"/>
         </Card>
+
+        <TopNationalites/>
+        <TopPatrocinos/>
        
         <Card titulo="Distância minima de rally">
           <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_minima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_asc" :series="statsStore.distancia_rallies_sort_asc" unidade_medida="Km"/>

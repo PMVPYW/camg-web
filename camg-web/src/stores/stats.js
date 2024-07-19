@@ -103,7 +103,7 @@ socket.emit("classifications");
     const nome_rallies_ordenados_data = computed(()=>{
         const arr = [];
         rallyStore.rallies_sorted_date_asc.forEach(e => {
-            arr.push(e.external_entity_id)
+            arr.push(e.nome)
         })
         return arr;
     });
@@ -123,7 +123,7 @@ socket.emit("classifications");
             return sum1 - sum2;
         });
         arr.forEach((item)=>{
-            names.push(item.external_entity_id);
+            names.push(item.nome);
         })
         return names;
         })
@@ -143,7 +143,7 @@ socket.emit("classifications");
         return sum2 - sum1;
         });
         arr.forEach((item)=>{
-            names.push(item.external_entity_id);
+            names.push(item.nome);
         })
         return names;
     })
@@ -151,7 +151,7 @@ socket.emit("classifications");
     const nome_rallies = computed(()=>{
         const arr = [];
         rallyStore.rallies.forEach(e => {
-            arr.push(e.external_entity_id)
+            arr.push(e.nome)
         })
         return arr;
     });
@@ -329,5 +329,14 @@ socket.emit("classifications");
         })
         return result;
     })
-    return {pior_tempo_rally, melhor_tempo_rally, ultimo_evento, proximo_evento, renew_events, topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
+
+    const diff_pior_melhor = computed(()=>{
+        const arr = [];
+        for (var i = 0; i < melhor_tempo_rally.value.length; i++)
+        {
+          arr.push(pior_tempo_rally.value[i] - melhor_tempo_rally.value[i]);
+        } 
+        return arr;
+      });
+    return {diff_pior_melhor, pior_tempo_rally, melhor_tempo_rally, ultimo_evento, proximo_evento, renew_events, topPatrocinios, clients_in_app, clients_in_app_history, duracao_media_rally_total, anosRallies, duracao_media_rally_anual, provas_rally_total, provas_rally_anual, média_participants_rally, nome_rallies_ordenados_data, nome_rallies_ordenados_distancia_asc, nome_rallies_ordenados_distancia_desc, nome_rallies, participantes_por_rally, top_nacionalidades_rally, distancia_minima_rally_total, distancia_media_rally_total, distancia_maxima_rally_total, distancia_rallies, distancia_rallies_sort_asc, distancia_rallies_sort_desc};
 });

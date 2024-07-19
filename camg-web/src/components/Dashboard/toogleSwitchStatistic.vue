@@ -13,8 +13,12 @@ const chartOptions = {
   chart: {
     id: 'basic-bar'
     },
-  xaxis: {
-    categories: props.chartCategories
+    xaxis: {
+    categories: props.chartCategories,
+    labels: {
+      rotate: -45
+    },
+    tickPlacement: 'on'
   },
   dataLabels: {
     enabled: false, // Disable data labels
