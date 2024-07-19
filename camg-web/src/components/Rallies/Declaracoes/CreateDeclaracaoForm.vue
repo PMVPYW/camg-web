@@ -1,9 +1,12 @@
 <script setup>
-import {ref, watch} from "vue";
+import {inject, onMounted, ref, watch} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
+import {useToast} from "vue-toastification";
 
 const props = defineProps(["obj_to_edit","errors"]);
 const emit = defineEmits(["create", "edit"]);
+const serverBaseUrl = inject("serverBaseUrl");
+const toast = useToast;
 
 const rallyStore = useRallyStore();
 
@@ -11,10 +14,12 @@ const nome = ref(props.obj_to_edit?.nome);
 const conteudo = ref(props.obj_to_edit?.conteudo);
 const cargo = ref(props.obj_to_edit?.cargo);
 const entidade_equipa = ref(props.obj_to_edit?.entidade_equipa);
-const photo_url = ref(null);
+const photo_url = ref(props.obj_to_edit?.photo_url ||  null);
 const pontos = ref(props.obj_to_edit?.pontos);
-const isChecked = ref(false);
-
+const isChecked = ref(props.obj_to_edit?.pontos ? true : false);
+const isOutro = ref(props.obj_to_edit?.cargo!=='Piloto'
+                    && props.obj_to_edit?.cargo!=='Copiloto'
+                    && props.obj_to_edit?.cargo!=='Presidente' ? true : false);
 
 
 
@@ -25,20 +30,49 @@ watch(()=>props.errors, (n_errors)=>{
   errors.value = n_errors ?? {};
 })
 
+
 const emitNew = () => {
   const obj = {
     "nome": nome.value,
     "conteudo": conteudo.value,
     "cargo": cargo.value,
-    "entidade_equipa": entidade_equipa.value,
     "rally_id": rallyStore.rally_selected,
-    "pontos": pontos.value
+    "photo_url" : photo_url.value
   };
-  if (photo_url.value != null) {
-    obj["photo_url"] = photo_url.value
+  if (pontos.value != null) {
+    obj["pontos"] = pontos.value
+  }
+  if (entidade_equipa.value != null) {
+    obj["entidade_equipa"] = entidade_equipa.value
   }
   emit(props.obj_to_edit ? 'edit' : "create", obj);
 }
+
+
+//preview image
+function previewPhoto(photo){
+  const file = photo_url;
+  const preview = document.getElementById('file-preview');
+  if (photo){
+    preview.setAttribute('src', photo);
+  }else{
+    if(file) {
+      const fileReader = new FileReader();
+      fileReader.onload = function (event) {
+        preview.setAttribute('src', event.target.result);
+      }
+      fileReader.readAsDataURL(file.value);
+    }
+  }
+}
+
+onMounted(()=>{
+  if(photo_url.value){
+    previewPhoto(`${serverBaseUrl}/storage/declaracoes/${photo_url.value}`);
+  }
+})
+
+
 </script>
 <template>
   <hr class="my-6">
@@ -54,37 +88,36 @@ const emitNew = () => {
                 <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
               </div>
               <div>
-                <label class="block mb-2 text-base font-medium">Imagem</label>
+                <label class="block mb-2 text-base font-medium">Imagem:</label>
                 <input type="file" accept="image/png, image/gif, image/jpeg"
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
-                       @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+                       @change="$event.target.files[0].size < 1048576 ? (()=>{photo_url = $event.target.files[0] ; previewPhoto()})() : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
                 <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
               </div>
               <div>
                 <label class="block mb-2 text-base font-medium">Cargo:</label>
-                <select v-model="cargo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+                <select v-model="cargo" @change="()=>{cargo==='' ? isOutro=true : isOutro= false}" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
                   <option class="uppercase" value="Presidente">Presidente</option>
                   <option class="uppercase" value="Piloto">Piloto</option>
                   <option class="uppercase" value="Copiloto">Copiloto</option>
-                  <option class="uppercase" value="Outro">Outro</option>
+                  <option class="uppercase" value="">Outro</option>
                 </select>
-                <input v-if="cargo === 'Outro'" type="text" v-model="cargo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm my-2" placeholder="Cargo">
-                <h1 v-if="errors.valor" class="text-red-600 text-base font-medium">{{errors.valor[0]}}</h1>
+                <input v-if="isOutro" type="text" v-model="cargo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm my-2" placeholder="Cargo">
+                <h1 v-if="errors.cargo" class="text-red-600 text-base font-medium">{{errors.cargo[0]}}</h1>
               </div>
               <div>
                 <label class="block mb-2 text-base font-medium">Entidade/Equipa:</label>
                 <input type="text" required v-model="entidade_equipa" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Entidade/Equipa">
-                <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
               </div>
             </div>
             <div class="w-[16.5%]">
-              <div class="w-11/12 h-full ml-8 rounded-2xl border-4 border-gray-300">
-
+              <div class="w-11/12 max-h-64 h-full ml-8 rounded-2xl border-4 border-gray-300">
+                <img src="#" id="file-preview" class="w-full h-full object-contain shadow-soft-2xl rounded-xl">
               </div>
             </div>
           </div>
           <div class="w-9/12 mt-6">
-            <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
+            <label for="about" class="block mb-2 text-base font-medium">Conteúdo:</label>
             <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
             <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
           </div>
@@ -92,11 +125,9 @@ const emitNew = () => {
             <div class="flex items-center">
               <label class="block mb-2 text-base font-medium">Atribuir pontuação:</label>
               <input type="checkbox" required v-model="isChecked" class="py-2 px-2 mx-2 font-bold w-6 h-6 bg-gray-100 rounded-lg text-sm">
-              <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
             </div>
             <div v-if="isChecked" class="flex items-center mx-4">
               <input type="number" required v-model="pontos" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Pontuação">
-              <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
             </div>
           </div>
         </div>

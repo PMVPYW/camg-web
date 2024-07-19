@@ -10,7 +10,6 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     const serverBaseUrl = inject("serverBaseUrl");
     const socket = inject("socket");
 
-    const declaracoes = ref(null);
     const declaracoes_filtered = ref(null);
 
     const rallyStore = useRallyStore();
@@ -30,9 +29,7 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
                 declaracoes_filtered.value = response.data.data;
             }else{
                 response = await axios.get(`rally/`+rallyStore.rally_selected+`/declaracoes`);
-                declaracoes.value=response.data.data;
                 declaracoes_filtered.value = response.data.data;
-                console.log(declaracoes, "Declarações")
                 console.log(declaracoes_filtered, "Declarações Filters")
 
             }
@@ -42,16 +39,17 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     }
 
     async function createDeclaracao(data) {
+        console.log("Data",data)
         try {
-            const response = await axios.post("noticia", data, {
+            const response = await axios.post("declaracao", data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
             console.log(data, "Dados")
             console.log(response, "create declaração");
-            declaracoes.value.push(response.data);
             declaracoes_filtered.value.push(response.data);
             toast.success("Declaração Criada!")
+            return true;
         } catch (error) {
             console.error(error);
             loadDeclaracoes({})
@@ -61,18 +59,15 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     async function editDeclaracao(data, id) {
         try {
             data["_method"] = "PUT";
-            const response = await axios.post("noticia/"+id, data, {headers: {
+            const response = await axios.post("declaracao/"+id, data, {headers: {
                     'Content-Type': 'multipart/form-data'
                 }});
-            var index = declaracoes.value.findIndex(item => item.id === id);
+            var index = declaracoes_filtered.value.findIndex(item => item.id === id);
             if(index>=0) {
-                declaracoes.value[index] = response.data;
-            }
-            index = declaracoes_filtered.value.findIndex(item => item.id === id);
-            if(index>=0) {
-                declaracoes_filtered.value[index] = response.data;
+                declaracoes_filtered.value[index] = response.data.data;
             }
             toast.warning("Declaração Atualizada!")
+            return true;
         } catch (error) {
             loadDeclaracoes({})
             return error.response.data.errors;
@@ -80,12 +75,12 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     }
 
     async function deleteDeclaracao(id) {
+        console.log("Id",id)
+
         try {
             console.log(id)
-            const response = await axios.delete("noticia/"+id);
-            declaracoes.value = declaracoes.value.filter((item) => item.id !== id);
+            const response = await axios.delete("declaracao/"+id);
             declaracoes_filtered.value = declaracoes_filtered.value.filter((item) => item.id !== id);
-            console.log(declaracoes.value.length);
             toast.error("Declaração Eliminada!")
         } catch (error) {
             loadDeclaracoes({})
@@ -95,7 +90,6 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
 
     return {
         loadDeclaracoes,
-        declaracoes,
         declaracoes_filtered,
         createDeclaracao,
         editDeclaracao,

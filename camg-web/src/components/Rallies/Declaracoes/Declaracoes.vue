@@ -12,6 +12,8 @@ const selectedDeclaracao = ref({});
 const rally_id = ref('');
 
 const declaracaoStore = useDeclaracaoStore();
+const rallyStore =useRallyStore();
+
 //filters
 const filters = reactive({search: "", select: 'todos', order: 'nome_asc'})
 
@@ -19,15 +21,14 @@ watch(filters, (new_value) => {
   declaracaoStore.loadDeclaracoes({filters: filters})
 })
 
-const rallyStore =useRallyStore();
 </script>
 
 <template>
   <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Declarações</h1>
-    <CrudButtons :create_form="CreateDeclaracaoForm"
-                 :obj_to_edit="selectedDeclaracao"
-                 @clearSelected="selectedDeclaracao = {}"></CrudButtons>
+    <CrudButtons :create_callback="declaracaoStore.createDeclaracao" :create_form="CreateDeclaracaoForm"
+                 :edit_callback="declaracaoStore.editDeclaracao" :obj_to_edit="selectedDeclaracao"
+                 :delete_callback="declaracaoStore.deleteDeclaracao" :delete_form="SimpleDeleteForm" @clearSelected="selectedDeclaracao = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
