@@ -3,24 +3,69 @@ import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import CreateZonaEspetaculo from "@/components/Rallies/ZonasEspetaculo/CreateZonaEspetaculo.vue";
+import {ref, onMounted, onUnmounted, watch, inject} from "vue";
+import axios from "axios";
 import { useZonaEspetaculoStore } from "@/stores/zonaEspetaculo.js";
+import {useProvaStore} from "@/stores/prova.js";
+import { kml } from "@tmcw/togeojson";
+import {Icon} from "@iconify/vue";
+
+
+
 const props = defineProps(["redraw"]);
 const emit = defineEmits(["selectedZonaEspetaculo", "createZonaEspetaculo"]);
+const serverBaseUrl = inject("serverBaseUrl");
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA"; // Substitua pelo seu token de acesso
+
 
 const coordenadas = ref(null);
 const mapContainer = ref(null);
 const markers = ref({});
 const zonaEspetaculoStore = useZonaEspetaculoStore();
+const provaStore = useProvaStore();
+const openButton = ref(false);
+const style_map = ref("satellite-streets-v12");
 
 const user_lat = ref(0);
 const user_long = ref(0);
 
 let map;
+
+const kmlData = ref({});
+const colorData = ref({});
+
+const parseKML = async (prova) => {
+  try {
+    const response = await axios.get(`${serverBaseUrl}/storage/kml_files/${prova.kml_src}`);
+    const kmlContent = response.data;
+    const parsedKml = new DOMParser().parseFromString(kmlContent, 'text/xml');
+    if (parsedKml) {
+      const geojson = kml(parsedKml).features;
+      let cor = Math.floor(Math.random() * 0x7F7F7F).toString(16).padStart(6, '0');
+      console.log("geojson", geojson)
+      geojson.forEach(feature => {
+        feature.properties.color = '#'+cor;
+      });
+      colorData.value[prova.id] = cor;
+      kmlData.value[prova.id] = geojson;
+    } else {
+      console.error('Falha ao analisar o KML');
+    }
+  } catch (error) {
+    console.error(`Erro ao obter o arquivo KML: ${error.message}`);
+  }
+};
+
+/*provaStore.provas.forEach((prova)=>{
+  if(prova.kml_src) {
+    //parseKML(prova);
+    console.log("kmlData", kmlData.value)
+  }
+})*/
+
+
 
 onMounted(async () => {
     map = new mapboxgl.Map({
@@ -59,11 +104,27 @@ onMounted(async () => {
             }),
         );
 
+        const KmlFeatures = [].concat(...provaStore.provas.map(prova => kmlData.value[prova.id] || []));
+
+        provaStore.provas.forEach((prova)=>{
+          const geojson = kmlData.value[prova.id];
+          console.log("Geojson", geojson)
+          if(geojson) {
+            draw.add({
+              type: "FeatureCollection",
+              features: geojson,
+            });
+          }
+        })
+
+
         draw.deleteAll();
         //eliminar todos os markers
         for (let key in markers.value) {
             markers.value[key].remove();
         }
+
+
 
         // Adicionar os polígonos carregados à instância do Mapbox Draw
         draw.set({
@@ -99,6 +160,30 @@ onMounted(async () => {
                 },
             });
         }
+
+      if (!map.getLayer("kml-layer")) {
+        map.addLayer({
+          id: "kml-layer",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: KmlFeatures,
+            },
+          },
+          layout: {},
+          paint: {
+            'line-color': ['get', 'color'],
+            'line-width': 4,
+          },
+        });
+      } else {
+        map.getSource('kml-layer').setData({
+          type: "FeatureCollection",
+          features: KmlFeatures,
+        });
+      }
 
         console.log("Zonas de Espetaculo", zonaEspetaculoStore.zonaEspetaculo);
         for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo.length; i++) {
@@ -275,14 +360,32 @@ onUnmounted(() => {
 });
 </script>
 <template>
-    <div class="flex flex-col h-dvh bg-red-100 rounded-2xl">
-        <div ref="mapContainer" id="map" class="flex-1 shadow-2xl"></div>
-        <div class="p-3">
-            <p>
-                Clica no mapa para desenhar um Zona de Espetáculo,<br />o
-                primeiro ponto da sua marcação será a entrada da zona
-            </p>
-            <h1>{{ user_lat }} ads {{ user_long }}</h1>
+    <div class="flex flex-col h-dvh rounded-2xl">
+      <button @click="openButton=!openButton"
+          type="button"
+          class="md:w-3/12 sm:w-full justify-center opacity-85 mt-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
+            <span v-if="openButton">Cancelar</span>
+            <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
+      </button>
+        <div v-if="openButton" class="p-2 mb-4 flex flex-row w-9/12 bg-gray-500 rounded-b-2xl rounded-r-2xl mx-3">
+          <div @click class="w-1/5 rounded-2xl mx-2">
+            <img class="w-full rounded-2xl" src=@/assets/dark.png alt="Logo">
+          </div>
+          <div class="w-1/5 rounded-2xl mx-2">
+            <img class="w-full rounded-2xl" src='@/assets/light.png' alt="Logo">
+          </div>
+          <div class="w-1/5 rounded-2xl mx-2">
+            <img class="w-full rounded-2xl" src='@/assets/outdoors.png'
+                 alt="Logo">
+          </div>
+          <div class="w-1/5 rounded-2xl mx-2">
+            <img class="w-full rounded-2xl" src='@/assets/satelliteStreets.png' alt="Logo">
+          </div>
+          <div class="w-1/5 rounded-2xl mx-2">
+            <img class="w-full rounded-2xl" src='@/assets/streets.png' alt="Logo">
+          </div>
         </div>
+      <div ref="mapContainer" id="map" class="flex-1 shadow-2xl mt-2"></div>
+
     </div>
 </template>

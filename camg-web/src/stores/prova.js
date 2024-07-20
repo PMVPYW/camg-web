@@ -42,6 +42,7 @@ export const useProvaStore = defineStore("prova", () => {
         }
     }
 
+
     async function editProva(data, id) {
         try {
             console.log(data, "Dados")
