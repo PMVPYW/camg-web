@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import './style.css'
 import router from "@/router/index.js";
@@ -8,7 +8,12 @@ import { io } from "socket.io-client";
 import Toast from "vue-toastification";
 // Import the Toast CSS (or use your own)!
 import "vue-toastification/dist/index.css";
+import mapboxgl from "mapbox-gl";
+import VueApexCharts from "vue3-apexcharts";
 
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA'; // Substitua pelo seu token de acesso
 
 
 
@@ -24,6 +29,7 @@ axios.defaults.timeout = 10000;
 
 app.use(router);
 app.use(createPinia());
+app.use(VueApexCharts);
 
 app.use(Toast, {
     position: "bottom-right",
@@ -40,6 +46,9 @@ app.use(Toast, {
     rtl: false,
     transition: "Vue-Toastification__bounce",
 });
+
+app.provide('map', mapboxgl.Map);
+app.provide('mapboxgl', mapboxgl);
 
 app.provide("socket", io(serverBaseUrl));
 

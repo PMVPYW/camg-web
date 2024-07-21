@@ -28,6 +28,7 @@ const editType = async (id)=>{
 }
 
 function emit_contact(contacto){
+  console.log(contacto);
   emit('selectedContacto', contacto);
 }
 

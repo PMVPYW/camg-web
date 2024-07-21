@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-draw": "^1.4.3",
+    "@mapbox/mapbox-gl-draw-static-mode": "^1.0.1",
     "@schedule-x/calendar": "^1.41.0",
     "@schedule-x/calendar-controls": "^1.41.1",
     "@schedule-x/drag-and-drop": "^1.41.1",
@@ -16,14 +18,20 @@
     "@schedule-x/resize": "^1.41.2",
     "@schedule-x/theme-default": "^1.41.0",
     "@schedule-x/vue": "^1.36.0",
+    "@tmcw/togeojson": "^5.8.1",
+    "apexcharts": "^3.50.0",
     "axios": "^1.6.8",
+    "country-iso-3-to-2": "^1.1.1",
     "flowbite": "^2.3.0",
+    "mapbox-gl": "^3.4.0",
     "pinia": "^2.1.7",
     "qalendar": "^3.8.1",
     "socket.io-client": "^4.7.5",
     "vue": "^3.4.21",
+    "vue-country-flag": "^1.1.1",
     "vue-router": "^4.3.0",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-apexcharts": "^1.5.3"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.1",

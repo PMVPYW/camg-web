@@ -58,8 +58,8 @@ watch(filters, (new_value) => {
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
-        <div v-for="prova in provaStore.provas_filtered" class="w-9/12">
-          <Prova v-if="prova.rally_id===rallyStore.rally_selected" :key="prova.id" @click="()=>{selectedProva = prova}" :prova="prova" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedProva.id==prova.id}"></Prova>
+        <div class="w-9/12">
+          <Prova v-for="prova in provaStore.provas_filtered" :key="prova.id" @click="()=>{selectedProva = prova}" :prova="prova" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedProva.id==prova.id}"></Prova>
         </div>
       </div>
     </div>
