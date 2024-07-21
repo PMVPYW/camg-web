@@ -26,15 +26,13 @@ const markers = ref({});
 const zonaEspetaculoStore = useZonaEspetaculoStore();
 const provaStore = useProvaStore();
 const openButton = ref(false);
-const style_map = ref("satellite-streets-v12");
+const style_map = ref('mapbox://styles/mapbox/satellite-streets-v12');
+let map;
 
 const user_lat = ref(0);
 const user_long = ref(0);
 
-let map;
-
 const kmlData = ref({});
-const colorData = ref({});
 
 const parseKML = async (prova) => {
   try {
@@ -48,7 +46,6 @@ const parseKML = async (prova) => {
       geojson.forEach(feature => {
         feature.properties.color = '#'+cor;
       });
-      colorData.value[prova.id] = cor;
       kmlData.value[prova.id] = geojson;
     } else {
       console.error('Falha ao analisar o KML');
@@ -58,12 +55,19 @@ const parseKML = async (prova) => {
   }
 };
 
-/*provaStore.provas.forEach((prova)=>{
+provaStore.provas.forEach((prova)=>{
   if(prova.kml_src) {
-    //parseKML(prova);
+    parseKML(prova);
     console.log("kmlData", kmlData.value)
   }
-})*/
+})
+
+const changeMapStyle = (style) => {
+  if (map) {
+    map.setStyle(style);
+    style_map.value = style;
+  }
+};
 
 
 
@@ -71,7 +75,7 @@ onMounted(async () => {
     map = new mapboxgl.Map({
         container: mapContainer.value,
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: "mapbox://styles/mapbox/satellite-streets-v12", // style URL
+        style: style_map.value, // style URL
         //    style: "mapbox://styles/mapbox/streets-v12",
         center: [-8.965979482266903, 39.73957766675534],
         zoom: 9, // starting zoom
@@ -110,7 +114,7 @@ onMounted(async () => {
           const geojson = kmlData.value[prova.id];
           console.log("Geojson", geojson)
           if(geojson) {
-            draw.add({
+            draw.set({
               type: "FeatureCollection",
               features: geojson,
             });
@@ -161,6 +165,7 @@ onMounted(async () => {
             });
         }
 
+
       if (!map.getLayer("kml-layer")) {
         map.addLayer({
           id: "kml-layer",
@@ -178,10 +183,18 @@ onMounted(async () => {
             'line-width': 4,
           },
         });
-      } else {
-        map.getSource('kml-layer').setData({
+      } else if (map.getSource("kml-layer")) {
+        map.getSource("kml-layer").setData({
           type: "FeatureCollection",
           features: KmlFeatures,
+        });
+      } else {
+        map.addSource("kml-layer", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: KmlFeatures,
+          },
         });
       }
 
@@ -363,26 +376,26 @@ onUnmounted(() => {
     <div class="flex flex-col h-dvh rounded-2xl">
       <button @click="openButton=!openButton"
           type="button"
-          class="md:w-3/12 sm:w-full justify-center opacity-85 mt-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
+          class="md:w-3/12 sm:w-full justify-center opacity-85 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
             <span v-if="openButton">Cancelar</span>
             <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
       </button>
         <div v-if="openButton" class="p-2 mb-4 flex flex-row w-9/12 bg-gray-500 rounded-b-2xl rounded-r-2xl mx-3">
-          <div @click class="w-1/5 rounded-2xl mx-2">
-            <img class="w-full rounded-2xl" src=@/assets/dark.png alt="Logo">
+          <div @click="changeMapStyle('mapbox://styles/mapbox/dark-v11')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-blue-500' : ''}`">
+            <img class="w-full rounded-xl" src=@/assets/dark.png alt="Logo">
           </div>
-          <div class="w-1/5 rounded-2xl mx-2">
-            <img class="w-full rounded-2xl" src='@/assets/light.png' alt="Logo">
+          <div @click="changeMapStyle('mapbox://styles/mapbox/light-v11')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/light-v11' ? 'border-4 border-blue-500' : ''}`">
+            <img class="w-full rounded-xl" src='@/assets/light.png' alt="Logo">
           </div>
-          <div class="w-1/5 rounded-2xl mx-2">
-            <img class="w-full rounded-2xl" src='@/assets/outdoors.png'
+          <div @click="changeMapStyle('mapbox://styles/mapbox/outdoors-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/outdoors-v12' ? 'border-4 border-blue-500' : ''}`">
+            <img class="w-full rounded-xl" src='@/assets/outdoors.png'
                  alt="Logo">
           </div>
-          <div class="w-1/5 rounded-2xl mx-2">
-            <img class="w-full rounded-2xl" src='@/assets/satelliteStreets.png' alt="Logo">
+          <div @click="changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'border-4 border-blue-500' : ''}`">
+            <img class="w-full rounded-xl" src='@/assets/satelliteStreets.png' alt="Logo">
           </div>
-          <div class="w-1/5 rounded-2xl mx-2">
-            <img class="w-full rounded-2xl" src='@/assets/streets.png' alt="Logo">
+          <div @click="changeMapStyle('mapbox://styles/mapbox/streets-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/streets-v12' ? 'border-4 border-blue-500' : ''}`">
+            <img class="w-full rounded-xl" src='@/assets/streets.png' alt="Logo">
           </div>
         </div>
       <div ref="mapContainer" id="map" class="flex-1 shadow-2xl mt-2"></div>
