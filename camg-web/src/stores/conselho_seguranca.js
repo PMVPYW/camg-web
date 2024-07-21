@@ -5,7 +5,7 @@ import {defineStore} from "pinia";
 import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 
-export const useConcelhoSegurancaStore = defineStore("concelho_seguranca", () => {
+export const useConselhoSegurancaStore = defineStore("conselhoSeguranca", () => {
     const serverBaseUrl = inject("serverBaseUrl");
     const socket = inject("socket");
     const toast = useToast();
@@ -19,9 +19,9 @@ export const useConcelhoSegurancaStore = defineStore("concelho_seguranca", () =>
                     sufix += `${filter}=${filters[filter]}&`;
                 }
             }
-            const response = await axios.get(`album${sufix}`);
-            albuns.value = response.data.data;
-            console.log(albuns, "albuns")
+            const response = await axios.get(`conselhoseguranca${sufix}`);
+            concelhos_seguranca.value = response.data.data;
+            console.log(concelhos_seguranca, "concelhos_seguranca")
         } catch (error) {
             clearAlbuns();
             throw error;
@@ -29,6 +29,6 @@ export const useConcelhoSegurancaStore = defineStore("concelho_seguranca", () =>
     }
 
     return {
-        loadAlbuns
+        loadConcelhosSeguranca
     };
 });

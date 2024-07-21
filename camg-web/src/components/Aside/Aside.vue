@@ -81,6 +81,16 @@ let button = ref(false);
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Orgãos Socias</span>
             </router-link>
           </li>
+          <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
+            <router-link :to="{ name: 'conselhos_seguranca' }" :class="{active: $route.name === 'conselhos_seguranca', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'conselhos_seguranca'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
+              <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'conselhos_seguranca'}">
+                <Icon icon="mdi:security-account" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'conselhos_seguranca'}">
+                  <title>Conselhos de Segurança</title>
+                </Icon>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Conselhos de Segurança</span>
+            </router-link>
+          </li>
           <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
 
           <li class="w-full">
@@ -116,16 +126,7 @@ let button = ref(false);
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Horários</span>
             </router-link>
           </li>
-          <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
-            <router-link :to="{ name: 'conselhos_seguranca' }" :class="{active: $route.name === 'conselhos_seguranca', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'conselhos_seguranca'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
-              <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'conselhos_seguranca'}">
-                <Icon icon="mdi:security-account" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'conselhos_seguranca'}">
-                  <title>Conselhos de Segurança</title>
-                </Icon>
-              </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Conselhos de Segurança</span>
-            </router-link>
-          </li>
+          
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'declaracoes'}">
             <router-link :to="{ name: 'declaracoes' }" :class="{active: $route.name === 'declaracoes', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'declaracoes'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'declaracoes', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'declaracoes'}">
@@ -233,6 +234,13 @@ let button = ref(false);
               </Icon>
             </router-link>
           </li>
+          <li class="mt-0.5 mx-auto pt-2" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
+            <router-link :to="{ name: 'conselhos_seguranca' }" :class="{active: $route.name === 'conselhos_seguranca','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'conselhos_seguranca'}">
+              <Icon icon="mdi:security-account" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'conselhos_seguranca'}">
+                <title>Conselhos de Segurança</title>
+              </Icon>
+            </router-link>
+          </li>
           <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
 
           <li class="mx-auto">
@@ -256,13 +264,6 @@ let button = ref(false);
             <router-link :to="{ name: 'horarios' }" :class="{active: $route.name === 'horarios','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'horarios', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'horarios'}">
               <Icon icon="ic:round-access-time" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'horarios'}">
                 <title>Horários</title>
-              </Icon>
-            </router-link>
-          </li>
-          <li class="mt-0.5 mx-auto pt-2" :class="{'drop-shadow-md': $route.name === 'conselhos_seguranca'}">
-            <router-link :to="{ name: 'conselhos_seguranca' }" :class="{active: $route.name === 'conselhos_seguranca','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'conselhos_seguranca', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'conselhos_seguranca'}">
-              <Icon icon="mdi:security-account" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'conselhos_seguranca'}">
-                <title>Conselhos de Segurança</title>
               </Icon>
             </router-link>
           </li>
