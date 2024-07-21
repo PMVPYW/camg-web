@@ -36,9 +36,11 @@ const statsStore = useStatsStore();//n remover; inicialização de outra store i
 
 onMounted(async () => {
     await rallyStore.loadRallies();
+    await provaStore.loadProvas({});
     await zonaEspetaculoStore.loadZonaEspetaculo({});
     await contactoStore.loadContactos({});
     await contactoStore.loadTipoContactos({});
+    await noticiaStore.loadNoticias({});
     await patrocinioStore.loadPatrocinios({});
     await patrocinioStore.loadEntidades();
     await patrocinioStore.loadpatrocinosSemAssociacao();
@@ -47,9 +49,7 @@ onMounted(async () => {
     await patrocinioOficial.loadpatrocinosOficiaisSemAssociacao();
     await albumStore.loadAlbuns();
     await fotoStore.loadFotos();
-    await noticiaStore.loadNoticias({});
     await horarioStore.loadHorarios();
-    await provaStore.loadProvas({});
 
   if (userStore.user != null) {
         await userStore.loadAdmins();

@@ -25,17 +25,19 @@ export const useProvaStore = defineStore("prova", () => {
             provas_complete.value = (await axios.get("prova")).data.data;
             let response;
             let suffix = "?"
-            if(filters!=null){
+            if(filters!=null && rallyStore.rally_selected){
                 for (const filter in filters) {
                     suffix += `${filter}=${filters[filter]}&`;
                 }
                 response = await axios.get("rally/"+rallyStore.rally_selected+`/provas${suffix}`);
                 provas_filtered.value = response.data.data;
             }else{
-                response = await axios.get("rally/"+rallyStore.rally_selected+`/provas${suffix}`);
-                provas.value=response.data.data;
-                provas_filtered.value = response.data.data;
-                console.log(provas, "Provas")
+                if(rallyStore.rally_selected) {
+                    response = await axios.get("rally/" + rallyStore.rally_selected + `/provas${suffix}`);
+                    provas.value = response.data.data;
+                    provas_filtered.value = response.data.data;
+                    console.log(provas, "Provas")
+                }
             }
         } catch (error) {
             throw error;

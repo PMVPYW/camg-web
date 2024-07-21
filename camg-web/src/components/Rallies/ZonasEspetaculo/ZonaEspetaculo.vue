@@ -36,31 +36,26 @@ const kmlData = ref({});
 
 const parseKML = async (prova) => {
   try {
-    const response = await axios.get(`${serverBaseUrl}/storage/kml_files/${prova.kml_src}`);
-    const kmlContent = response.data;
-    const parsedKml = new DOMParser().parseFromString(kmlContent, 'text/xml');
-    if (parsedKml) {
-      const geojson = kml(parsedKml).features;
-      let cor = Math.floor(Math.random() * 0x7F7F7F).toString(16).padStart(6, '0');
-      console.log("geojson", geojson)
-      geojson.forEach(feature => {
-        feature.properties.color = '#'+cor;
-      });
-      kmlData.value[prova.id] = geojson;
-    } else {
-      console.error('Falha ao analisar o KML');
+    if(prova.kml_src) {
+      const response = await axios.get(`${serverBaseUrl}/storage/kml_files/${prova.kml_src}`);
+      const kmlContent = response.data;
+      const parsedKml = new DOMParser().parseFromString(kmlContent, 'text/xml');
+      if (parsedKml) {
+        const geojson = kml(parsedKml).features;
+        let cor = Math.floor(Math.random() * 0x7F7F7F).toString(16).padStart(6, '0');
+        geojson.forEach(feature => {
+          feature.properties.color = '#'+cor;
+        });
+        kmlData.value[prova.id] = geojson;
+      } else {
+        console.error('Falha ao analisar o KML');
+      }
     }
   } catch (error) {
     console.error(`Erro ao obter o arquivo KML: ${error.message}`);
   }
 };
 
-provaStore.provas.forEach((prova)=>{
-  if(prova.kml_src) {
-    parseKML(prova);
-    console.log("kmlData", kmlData.value)
-  }
-})
 
 const changeMapStyle = (style) => {
   if (map) {
@@ -70,12 +65,11 @@ const changeMapStyle = (style) => {
 };
 
 
-
 onMounted(async () => {
-    map = new mapboxgl.Map({
+  map = new mapboxgl.Map({
         container: mapContainer.value,
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: style_map.value, // style URL
+        style: 'mapbox://styles/mapbox/satellite-streets-v12', // style URL
         //    style: "mapbox://styles/mapbox/streets-v12",
         center: [-8.965979482266903, 39.73957766675534],
         zoom: 9, // starting zoom
@@ -86,6 +80,54 @@ onMounted(async () => {
             .setLngLat([location.coords.longitude, location.coords.latitude])
             .addTo(map);*/
     });
+
+    const drawKml = () => {
+      const KmlFeatures = [].concat(...provaStore.provas.map(prova => kmlData.value[prova.id] || []));
+
+      provaStore.provas.forEach((prova)=>{
+        parseKML(prova);
+        const geojson = kmlData.value[prova.id];
+        if(geojson) {
+          draw.set({
+            type: "FeatureCollection",
+            features: geojson,
+          });
+        }
+      });
+
+      if (!map.getLayer("kml-layer")) {
+        map.addLayer({
+          id: "kml-layer",
+          type: "line",
+          source: {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: KmlFeatures,
+            },
+          },
+          layout: {},
+          paint: {
+            'line-color': ['get', 'color'],
+            'line-width': 4,
+          },
+        });
+      } else if (map.getSource("kml-layer")) {
+        map.getSource("kml-layer").setData({
+          type: "FeatureCollection",
+          features: KmlFeatures,
+        });
+      } else {
+        map.addSource("kml-layer", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: KmlFeatures,
+          },
+        });
+      }
+    }
+
 
     const drawMap = () => {
         const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo.map(
@@ -108,27 +150,11 @@ onMounted(async () => {
             }),
         );
 
-        const KmlFeatures = [].concat(...provaStore.provas.map(prova => kmlData.value[prova.id] || []));
-
-        provaStore.provas.forEach((prova)=>{
-          const geojson = kmlData.value[prova.id];
-          console.log("Geojson", geojson)
-          if(geojson) {
-            draw.set({
-              type: "FeatureCollection",
-              features: geojson,
-            });
-          }
-        })
-
-
         draw.deleteAll();
         //eliminar todos os markers
         for (let key in markers.value) {
             markers.value[key].remove();
         }
-
-
 
         // Adicionar os polígonos carregados à instância do Mapbox Draw
         draw.set({
@@ -165,39 +191,6 @@ onMounted(async () => {
             });
         }
 
-
-      if (!map.getLayer("kml-layer")) {
-        map.addLayer({
-          id: "kml-layer",
-          type: "line",
-          source: {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: KmlFeatures,
-            },
-          },
-          layout: {},
-          paint: {
-            'line-color': ['get', 'color'],
-            'line-width': 4,
-          },
-        });
-      } else if (map.getSource("kml-layer")) {
-        map.getSource("kml-layer").setData({
-          type: "FeatureCollection",
-          features: KmlFeatures,
-        });
-      } else {
-        map.addSource("kml-layer", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: KmlFeatures,
-          },
-        });
-      }
-
         console.log("Zonas de Espetaculo", zonaEspetaculoStore.zonaEspetaculo);
         for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo.length; i++) {
             console.log(
@@ -229,10 +222,22 @@ onMounted(async () => {
         (new_value) => {
             if (new_value === true) {
                 console.error("ueueu");
-                drawMap();
+                map.once('styledata', () => {
+                  drawMap();
+                  drawKml();
+                });
             }
         },
     );
+  watch(
+      () => style_map.value,
+      (new_value) => {
+        map.once('styledata', () => {
+          drawKml();
+          drawMap();
+        });
+      },
+  );
     const location = new mapboxgl.GeolocateControl({
         positionOptions: {
             enableHighAccuracy: true,
@@ -253,6 +258,7 @@ onMounted(async () => {
     map.addControl(location).addControl(draw);
 
     map.on("load", () => {
+        drawKml();
         drawMap();
         location.trigger();
     });
@@ -289,7 +295,8 @@ onMounted(async () => {
         emit("selectedZonaEspetaculo", ZonaEspetaculo);
     });
 
-    // Change the cursor to a pointer when the mouse is over the places layer.
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
     map.on("mouseenter", "places", () => {
         map.getCanvas().style.cursor = "pointer";
     });
@@ -366,6 +373,12 @@ onMounted(async () => {
             drawMap();
         },
         { deep: true },
+    );
+    watch(()=>provaStore.provas,
+        () => {
+          provaStore.provas.map((prova)=>parseKML(prova));
+          drawKml();
+        }
     );
 });
 onUnmounted(() => {
