@@ -77,6 +77,7 @@ const createEntity = (data) => {
 const editEntity = (data) => {
   const result = props.edit_callback(data, obj_to_edit_cpy.value.id);
   result.then(response => {
+    console.error(response)
     if (response === true) {
       errors.value = {}
       togleEditing();
