@@ -20,6 +20,7 @@ import { useHorarioStore } from "@/stores/horario.js";
 import { useZonaEspetaculoStore } from "@/stores/zonaEspetaculo.js";
 import { useStatsStore } from "./stores/stats";
 import {useDeclaracaoStore} from "@/stores/declaracao.js";
+import {useHistoriaStore} from "@/stores/historia.js";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -35,6 +36,7 @@ const horarioStore = useHorarioStore();
 const zonaEspetaculoStore = useZonaEspetaculoStore();
 const statsStore = useStatsStore();//n remover; inicialização de outra store iternamente, sem isto, algumas estatiscas podem não funcionar
 const declaracaoStore = useDeclaracaoStore();
+const historiaStore = useHistoriaStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
@@ -54,6 +56,7 @@ onMounted(async () => {
   await horarioStore.loadHorarios();
   await userStore.loadAdmins();
   await declaracaoStore.loadDeclaracoes({});
+  await historiaStore.loadHistorias({});
 
   if (userStore.user != null) {
         await userStore.loadAdmins();

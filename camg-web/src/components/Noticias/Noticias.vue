@@ -68,7 +68,7 @@ watch(filters, (new_value) => {
       </div>
     </div>
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
-      <div class="flex flex-wrap -mx-3 removable mt-10">
+      <div class="flex flex-wrap -mx-3 removable mt-10 h-screen overflow-y-auto">
         <Noticia v-for="noticia in noticiaStore.noticias_filtered" :key="noticia.id" @click="()=>{selectedNoticia = noticia}" :noticia="noticia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedNoticia.id==noticia.id}"></Noticia>
       </div>
     </div>
