@@ -51,7 +51,7 @@ onMounted(async () => {
   await userStore.loadAdmins();
   await provaStore.loadProvas({})
   await declaracaoStore.loadDeclaracoes({});
-  await conselhoSegurancaStore.loadConcelhosSeguranca();
+  await conselhoSegurancaStore.loadConselhosSeguranca();
 
 });
 </script>
