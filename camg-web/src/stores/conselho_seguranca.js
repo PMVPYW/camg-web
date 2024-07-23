@@ -35,8 +35,8 @@ export const useConselhoSegurancaStore = defineStore("conselhoSeguranca", () => 
                 }
             });
 
-            conselhos_seguranca.value.push(response.data);
-            socket.emit("create_conselho_seguranca", response.data);
+            conselhos_seguranca.value.push(response.data.data);
+            socket.emit("create_conselho_seguranca", response.data.data);
             toast.success("Conselho de Segurança Criado!")
             return true;
         } catch (error) {

@@ -6,11 +6,11 @@ const emit = defineEmits(["create", "edit"])
 
 const serverBaseUrl = inject("serverBaseUrl");
 
-const descricao = ref(props.obj_to_edit.descricao);
-const erro = ref(props.obj_to_edit.erro);
-const viewing_foto = ref(serverBaseUrl + "/storage/fotos/" + props.obj_to_edit.img_conselho);
+const descricao = ref(props.obj_to_edit?.descricao);
+const erro = ref(props.obj_to_edit?.erro);
+const viewing_foto = ref(props.obj_to_edit?.img_conselho ? serverBaseUrl + "/storage/fotos/" + props.obj_to_edit?.img_conselho : null);
 const foto = ref(null);
-const viewing_foto_erro = ref(serverBaseUrl + "/storage/fotos/" + props.obj_to_edit.img_erro);
+const viewing_foto_erro = ref(props.obj_to_edit?.img_erro ? serverBaseUrl + "/storage/fotos/" + props.obj_to_edit?.img_erro : null);
 const foto_erro = ref(null)
 
 const errors = ref({});
@@ -77,7 +77,7 @@ const form = document.getElementById("form")
                         <label for="foto" class="hover:blur-sm w-full h-full rounded-xl">
                             <img v-if="viewing_foto" class="mx-auto rounded-xl h-24 w-full object-contain"
                                 :src="viewing_foto">
-                            <Icon v-if="!viewing_foto" icon="bi:camera" class="w-full h-24 text-dark">
+                            <Icon v-else icon="bi:camera" class="w-full h-24 text-dark">
                             </Icon>
                         </label>
                     </div>
@@ -98,7 +98,7 @@ const form = document.getElementById("form")
                         <label for="foto_erro" class="hover:blur-sm w-full h-full rounded-xl">
                             <img v-if="viewing_foto_erro" class="mx-auto rounded-xl h-24 w-full object-contain"
                                 :src="viewing_foto_erro">
-                            <Icon v-if="!viewing_foto_erro" icon="bi:camera" class="w-full h-24 text-dark">
+                            <Icon v-else icon="bi:camera" class="w-full h-24 text-dark">
                             </Icon>
                         </label>
                     </div>
