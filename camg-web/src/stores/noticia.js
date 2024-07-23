@@ -9,20 +9,17 @@ export const useNoticiaStore = defineStore("noticias", () => {
   const serverBaseUrl = inject("serverBaseUrl");
   const socket = inject("socket");
 
-  const noticias = ref(null);
   const noticias_filtered = ref(null);
 
   const router = useRouter();
   const toast = useToast();
 
   socket.on("create_noticia", (noticia) => {
-    noticias.value.push(noticia);
-    //noticias_filtered.value.push(noticia);
+    noticias_filtered.value.push(noticia);
     toast.success("Nova Noticia");
   });
 
   socket.on("delete_noticia", (noticia) => {
-    noticias.value = noticias.value.filter((item) => item.id != noticia);
     noticias_filtered.value = noticias_filtered.value.filter(
       (item) => item.id != noticia,
     );
@@ -30,11 +27,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
   });
 
   socket.on("update_noticia", (noticia) => {
-    var index = noticias.value.findIndex((item) => item.id === noticia.id);
-    if (index >= 0) {
-      noticias.value[index] = noticia;
-    }
-    index = noticias_filtered.value.findIndex((item) => item.id === noticia.id);
+    var index = noticias_filtered.value.findIndex((item) => item.id === noticia.id);
     if (index >= 0) {
       noticias_filtered.value[index] = noticia;
     }
@@ -52,10 +45,8 @@ export const useNoticiaStore = defineStore("noticias", () => {
         response = await axios.get(`noticia${suffix}`);
         noticias_filtered.value = response.data.data;
       } else {
-        response = await axios.get(`noticia${suffix}`);
-        noticias.value = response.data.data;
+        response = await axios.get(`noticia`);
         noticias_filtered.value = response.data.data;
-        console.log(noticias, "Noticias");
       }
     } catch (error) {
       throw error;
@@ -71,7 +62,6 @@ export const useNoticiaStore = defineStore("noticias", () => {
       });
       console.log(data, "Dados");
       console.log(response, "create noticia");
-      noticias.value.push(response.data);
       noticias_filtered.value.push(response.data);
       socket.emit("create_noticia", response.data);
       toast.success("Noticia Criada!");
@@ -90,11 +80,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      var index = noticias.value.findIndex((item) => item.id === id);
-      if (index >= 0) {
-        noticias.value[index] = response.data;
-      }
-      index = noticias_filtered.value.findIndex((item) => item.id === id);
+      var index = noticias_filtered.value.findIndex((item) => item.id === id);
       if (index >= 0) {
         noticias_filtered.value[index] = response.data;
       }
@@ -111,11 +97,9 @@ export const useNoticiaStore = defineStore("noticias", () => {
     try {
       console.log(id);
       const response = await axios.delete("noticia/" + id);
-      noticias.value = noticias.value.filter((item) => item.id !== id);
       noticias_filtered.value = noticias_filtered.value.filter(
         (item) => item.id !== id,
       );
-      console.log(noticias.value.length);
       socket.emit("delete_noticia", id);
       toast.error("Noticia Eliminada!");
     } catch (error) {
@@ -126,7 +110,6 @@ export const useNoticiaStore = defineStore("noticias", () => {
 
   return {
     loadNoticias,
-    noticias,
     noticias_filtered,
     createNoticia,
     editNoticia,

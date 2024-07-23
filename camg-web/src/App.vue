@@ -54,7 +54,6 @@ onMounted(async () => {
   await fotoStore.loadFotos();
   await noticiaStore.loadNoticias({});
   await horarioStore.loadHorarios();
-  await userStore.loadAdmins();
   await declaracaoStore.loadDeclaracoes({});
   await historiaStore.loadHistorias({});
 

@@ -118,7 +118,6 @@ const clearSelected = () => {
 const createEntity = (data) => {
     const result = props.create_callback(data);
     result.then((response) => {
-        console.error("repsonse,", response);
         if (response === true) {
             errors.value = {};
             togleCreating();
