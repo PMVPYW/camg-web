@@ -8,6 +8,28 @@ export const useHistoriaStore = defineStore("historia", () => {
     const socket = inject("socket");
     const historias_filtered = ref(null);
     const toast = useToast();
+
+
+    socket.on("create_historia", (historia) => {
+        historias_filtered.value.push(historia);
+        toast.success("Nova História");
+    });
+
+    socket.on("delete_historia", (historia) => {
+        historias_filtered.value = historias_filtered.value.filter(
+            (item) => item.id != historia,
+        );
+        toast.error("História Eliminada!");
+    });
+
+    socket.on("update_historia", (historia) => {
+        var index = historias_filtered.value.findIndex((item) => item.id === historia.id);
+        if (index >= 0) {
+            historias_filtered.value[index] = historia;
+        }
+        toast.warning("História Atualizada!");
+    });
+
     async function loadHistorias({filters=null}) {
         try {
             let response;
@@ -69,6 +91,7 @@ export const useHistoriaStore = defineStore("historia", () => {
             }
             const response = await axios.post("historiaCompleta", data_historia, {headers: {'Content-Type': 'multipart/form-data'}});
             historias_filtered.value.push(response.data)
+            socket.emit("create_historia",response.data);
             toast.success("História Criada!")
             return true;
 
@@ -131,6 +154,7 @@ export const useHistoriaStore = defineStore("historia", () => {
             if(index>=0) {
                 historias_filtered.value[index] = response.data;
             }
+            socket.emit("update_historia",response.data);
             toast.warning("História Atualizada!")
             return true;
         } catch (error) {
@@ -145,6 +169,7 @@ export const useHistoriaStore = defineStore("historia", () => {
             console.log(id)
             const response = await axios.delete("historia/"+id);
             historias_filtered.value = historias_filtered.value.filter((item) => item.id !== id);
+            socket.emit("delete_historia",id);
             toast.error("História Eliminada!")
         } catch (error) {
             loadHistorias({})
