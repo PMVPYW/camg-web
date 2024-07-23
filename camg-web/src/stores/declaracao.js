@@ -17,6 +17,26 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     const router = useRouter();
     const toast= useToast();
 
+    socket.on("create_declaracao", (declaracao) => {
+        declaracoes_filtered.value.push(declaracao);
+        toast.success("Nova Declaração");
+    });
+
+    socket.on("delete_declaracao", (declaracao) => {
+        declaracoes_filtered.value = declaracoes_filtered.value.filter(
+            (item) => item.id != declaracao,
+        );
+        toast.error("Declaração Eliminada!");
+    });
+
+    socket.on("update_declaracao", (declaracao) => {
+        var index = declaracoes_filtered.value.findIndex((item) => item.id === declaracao.id);
+        if (index >= 0) {
+            declaracoes_filtered.value[index] = declaracao;
+        }
+        toast.warning("Declaração Atualizada!");
+    });
+
     async function loadDeclaracoes({filters=null}) {
         try {
             let response;
@@ -31,7 +51,6 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
                 response = await axios.get(`rally/`+rallyStore.rally_selected+`/declaracoes`);
                 declaracoes_filtered.value = response.data.data;
                 console.log(declaracoes_filtered, "Declarações Filters")
-
             }
         } catch (error) {
             throw error;
@@ -48,7 +67,8 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
             console.log(data, "Dados")
             console.log(response, "create declaração");
             declaracoes_filtered.value.push(response.data);
-            toast.success("Declaração Criada!")
+            socket.emit("create_declaracao",response.data);
+            toast.success("Declaração Criada!");
             return true;
         } catch (error) {
             console.error(error);
@@ -66,6 +86,7 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
             if(index>=0) {
                 declaracoes_filtered.value[index] = response.data.data;
             }
+            socket.emit("update_declaracao",response.data.data);
             toast.warning("Declaração Atualizada!")
             return true;
         } catch (error) {
@@ -75,12 +96,11 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     }
 
     async function deleteDeclaracao(id) {
-        console.log("Id",id)
-
         try {
             console.log(id)
             const response = await axios.delete("declaracao/"+id);
             declaracoes_filtered.value = declaracoes_filtered.value.filter((item) => item.id !== id);
+            socket.emit("delete_declaracao",id);
             toast.error("Declaração Eliminada!")
         } catch (error) {
             loadDeclaracoes({})
