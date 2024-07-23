@@ -19,6 +19,22 @@ export const useProvaStore = defineStore("prova", () => {
     const provas_complete = ref(null);
     const provas_filtered = ref(null);
 
+    socket.on("update_prova", (prova) => {
+        var index = provas.value.findIndex((item) => item.id === prova.id);
+        if (index >= 0) {
+            provas.value[index] = prova;
+        }
+        index = provas_filtered.value.findIndex(item => item.id === prova.id);
+        if(index>=0) {
+            provas_filtered.value[index] = prova;
+        }
+        index = provas_complete.value.findIndex(item => item.id === prova.id);
+        if(index>=0) {
+            provas_complete.value[index] = prova;
+        }
+        toast.warning("Dados da Prova Atualizados!");
+    });
+
 
     async function loadProvas({filters=null}) {
         try {
@@ -65,7 +81,8 @@ export const useProvaStore = defineStore("prova", () => {
             if(index>=0) {
                 provas_complete.value[index] = response.data.data;
             }
-            console.log("EDITAR",response.data.data )
+            console.log("EDITAR",response.data.data)
+            socket.on("update_prova", response.data.data);
             toast.warning("Prova Atualizada!")
             return response.data.data;
         } catch (error) {
