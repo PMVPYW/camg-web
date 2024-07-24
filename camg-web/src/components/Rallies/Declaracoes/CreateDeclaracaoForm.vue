@@ -38,8 +38,10 @@ const emitNew = () => {
     "conteudo": conteudo.value,
     "cargo": cargo.value,
     "rally_id": rallyStore.rally_selected,
-    "photo_url" : photo_url.value
   };
+  if (photo_url.value != null && photo_url.value!=props.obj_to_edit.photo_url) {
+    obj["photo_url"] = photo_url.value
+  }
   if (pontos.value != null) {
     obj["pontos"] = pontos.value
   }
@@ -113,10 +115,8 @@ onMounted(()=>{
             </div>
             <div class="w-[16.5%]">
               <div class="w-11/12 max-h-64 h-full ml-8 rounded-2xl border-4 border-gray-300">
-                <Icon v-if="!photo_url" class="flex text-2xl text-gray-500 min-w-20 min-h-20 mx-auto my-auto" icon="f7:photo" />
-                <div v-show="photo_url" class="w-full max-h-72 h-full">
-                  <img src="#" id="file-preview" class="w-full h-full my-auto mx-auto object-contain max-h-72 shadow-soft-2xl">
-                </div>
+                <Icon v-if="!photo_url" class="flex text-2xl text-gray-500 min-w-20 min-h-20 h-full mx-auto my-auto" icon="f7:photo" />
+                <img v-show="photo_url" src="#" id="file-preview" class="w-full h-full mx-auto my-auto object-contain max-h-72 shadow-soft-2xl">
               </div>
             </div>
           </div>

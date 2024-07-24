@@ -107,6 +107,8 @@ export const useHistoriaStore = defineStore("historia", () => {
             const data_historia = {
                 "titulo" : data.titulo,
                 "subtitulo": data.subtitulo,
+                "capitulos": [],
+                "etapas":[],
             };
             if (data.photo_url != null) {
                 data_historia["photo_url"] = data.photo_url
@@ -114,8 +116,8 @@ export const useHistoriaStore = defineStore("historia", () => {
             if (data.conteudo != null) {
                 data_historia["conteudo"] = data.conteudo
             }
-            if(data.capitulos) {
-                data_historia["capitulos"] = []
+            if(data.capitulos.length) {
+                console.log("entrou");
                 for (const capitulo of data.capitulos) {
                     console.log(capitulo.edit)
                     const data_capitulo = {
@@ -124,8 +126,7 @@ export const useHistoriaStore = defineStore("historia", () => {
                         "titulo": capitulo.titulo,
                     };
                     data_historia["capitulos"].push(data_capitulo)
-                    if(data.etapas) {
-                        data_historia["etapas"] = []
+                    if(data.etapas.length) {
                         for (const etapa of data.etapas) {
                             if (etapa.capitulo_id === data_capitulo.capitulo_id) {
                                 console.log("Etapa",etapa)
@@ -148,8 +149,8 @@ export const useHistoriaStore = defineStore("historia", () => {
             }
             console.log(data_historia)
             data_historia["_method"] = "PUT";
-
             const response = await axios.post("historiaCompleta/"+id, data_historia, {headers: {'Content-Type': 'multipart/form-data'}});
+            console.log(response.data)
             let index = historias_filtered.value.findIndex(item => item.id === id);
             if(index>=0) {
                 historias_filtered.value[index] = response.data;

@@ -30,9 +30,10 @@ if(props.obj_to_edit?.capitulo) {
     console.log("Etapas", etapas)
   })
 }
+
 watch(()=>props.errors, (n_errors)=>{
   errors.value = n_errors ?? {};
-}, { deep: true })
+})
 
 
 watch(() => props.obj_to_edit, (newValue) => {
@@ -44,7 +45,7 @@ watch(() => props.obj_to_edit, (newValue) => {
     capitulos.value = newValue.capitulos || [];
     etapas.value = newValue.etapas || [];
   }
-}, { deep: true });
+});
 
 
 function validated_etapa(capitulo_id){
@@ -68,7 +69,7 @@ function adicionar_etapa(id, capitulo_id){
     "nome": null,
     "ano_inicio": null,
     "ano_fim": null,
-    "edit": props.obj_to_edit ? true : false
+    "edit": props.obj_to_edit && props.editing === true ? true : false
   }
   etapas.value.push(data);
   console.log("etapas", etapas.value)
@@ -100,7 +101,7 @@ function adicionar_capitulo(id){
     const data = {
       "id": id,
       "titulo": null,
-      "edit": props.obj_to_edit ? true : false
+      "edit": props.obj_to_edit && props.editing === true ? true : false
     }
     capitulos.value.push(data);
   }catch (e) {
@@ -129,7 +130,7 @@ const emitNew = () => {
     "subtitulo": subtitulo.value,
     "conteudo": conteudo.value,
   };
-  if (photo_url.value != null) {
+  if (photo_url.value != null && photo_url.value!=props.obj_to_edit.photo_url) {
     obj["photo_url"] = photo_url.value
   }
   if (etapas.value != null) {
