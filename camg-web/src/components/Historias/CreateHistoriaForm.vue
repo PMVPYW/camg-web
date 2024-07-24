@@ -16,7 +16,7 @@ const photo_url = ref(props.obj_to_edit?.photo_url || null);
 const numero_etapas = ref(0);
 const numero_capitulos = ref(0);
 const etapas = ref([]);
-const capitulos = ref(props.obj_to_edit?.capitulo ? props.obj_to_edit?.capitulo : [1]);
+const capitulos = ref(props.obj_to_edit?.capitulo ? props.obj_to_edit?.capitulo : []);
 
 const errors = ref(props.errors ?? {});
 
@@ -199,7 +199,7 @@ onMounted(()=>{
               <div class="w-1/3 bg-gray-200 p-4 rounded-xl">
                 <div class="flex h-full w-full">
                   <Icon v-if="!photo_url" class="flex text-2xl text-gray-500 min-w-20 min-h-20 mx-auto my-auto" icon="f7:photo" />
-                  <div v-else class="w-full max-h-72 h-full">
+                  <div v-show="photo_url" class="w-full max-h-72 h-full">
                     <img src="#" id="file-preview" class="w-full h-full my-auto mx-auto object-contain max-h-72 shadow-soft-2xl">
                   </div>
                 </div>

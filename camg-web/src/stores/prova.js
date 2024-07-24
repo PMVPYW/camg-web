@@ -82,7 +82,7 @@ export const useProvaStore = defineStore("prova", () => {
                 provas_complete.value[index] = response.data.data;
             }
             console.log("EDITAR",response.data.data)
-            socket.on("update_prova", response.data.data);
+            socket.emit("update_prova", response.data.data);
             toast.warning("Prova Atualizada!")
             return response.data.data;
         } catch (error) {

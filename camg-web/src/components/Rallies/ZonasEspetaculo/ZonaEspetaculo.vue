@@ -81,11 +81,13 @@ onMounted(async () => {
             .addTo(map);*/
     });
 
-    const drawKml = () => {
+  provaStore.provas.map((prova)=>parseKML(prova));
+
+
+  const drawKml = () => {
       const KmlFeatures = [].concat(...provaStore.provas.map(prova => kmlData.value[prova.id] || []));
 
       provaStore.provas.forEach((prova)=>{
-        //parseKML(prova);
         const geojson = kmlData.value[prova.id];
         if(geojson) {
           draw.set({
@@ -376,7 +378,7 @@ onMounted(async () => {
     );
     watch(()=>provaStore.provas,
         () => {
-          //provaStore.provas.map((prova)=>parseKML(prova));
+          provaStore.provas.map((prova)=>parseKML(prova));
           drawKml();
         }
     );
