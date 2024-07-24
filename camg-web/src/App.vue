@@ -20,6 +20,7 @@ import { useHorarioStore } from "@/stores/horario.js";
 import { useZonaEspetaculoStore } from "@/stores/zonaEspetaculo.js";
 import { useStatsStore } from "./stores/stats";
 import {useDeclaracaoStore} from "@/stores/declaracao.js";
+import {useConselhoSegurancaStore} from "@/stores/conselho_seguranca.js";
 import {useHistoriaStore} from "@/stores/historia.js";
 
 const router = useRouter();
@@ -36,6 +37,7 @@ const horarioStore = useHorarioStore();
 const zonaEspetaculoStore = useZonaEspetaculoStore();
 const statsStore = useStatsStore();//n remover; inicialização de outra store iternamente, sem isto, algumas estatiscas podem não funcionar
 const declaracaoStore = useDeclaracaoStore();
+const conselhoSegurancaStore = useConselhoSegurancaStore();
 const historiaStore = useHistoriaStore();
 
 onMounted(async () => {
@@ -55,6 +57,7 @@ onMounted(async () => {
   await noticiaStore.loadNoticias({});
   await horarioStore.loadHorarios();
   await declaracaoStore.loadDeclaracoes({});
+  await conselhoSegurancaStore.loadConselhosSeguranca();
   await historiaStore.loadHistorias({});
 
   if (userStore.user != null) {
