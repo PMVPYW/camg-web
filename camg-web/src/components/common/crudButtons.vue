@@ -191,6 +191,7 @@ const deleteEntity = () => {
                     @create="(data) => createEntity(data)"
                     :obj_to_edit="{ ...obj_to_create_cpy }"
                     v-if="creating"
+                    :editing="editing"
                     :errors="errors"
                 ></create_form>
             </Transition>
@@ -200,7 +201,7 @@ const deleteEntity = () => {
                     :obj_to_edit="{ ...obj_to_edit_cpy }"
                     v-if="editing && Object.keys(obj_to_edit_cpy).length != 0"
                     :errors="errors"
-                    :editing="true"
+                    :editing="editing && Object.keys(obj_to_edit_cpy).length != 0"
                 ></create_form>
             </Transition>
             <Transition>
