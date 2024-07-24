@@ -4,7 +4,7 @@ module.exports = {
     './src/**/*.{vue,js,ts,jsx,tsx}',
     './node_modules/flowbite/**/*.js'
   ],
-  darkMode: 'class', // You can also use 'media' or 'class'
+  darkMode: 'media', // You can also use 'media' or 'class'
   theme: {
     extend: {},
   },
