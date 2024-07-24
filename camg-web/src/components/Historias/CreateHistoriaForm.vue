@@ -3,7 +3,7 @@ import {Icon} from "@iconify/vue";
 import {inject, onMounted, ref, watch} from "vue";
 import {useToast} from "vue-toastification";
 
-const props = defineProps(["obj_to_edit","errors"]);
+const props = defineProps(["obj_to_edit","errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
 const toast = useToast();
 const serverBaseUrl = inject("serverBaseUrl");
@@ -139,7 +139,7 @@ const emitNew = () => {
     obj["capitulos"] = capitulos.value
   }
   console.log("OBJ", obj);
-  emit(props.obj_to_edit ? 'edit' : "create", obj);
+  emit(props.obj_to_edit && props.editing === true ? 'edit' : "create", obj);
 }
 
 function previewPhoto(photo){
@@ -282,10 +282,16 @@ onMounted(()=>{
         </div>
         <br>
         <div class="flex justify-center w-full">
-          <button type="button"
-                  @click.prevent="emitNew"
-                  class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-            {{ !obj_to_edit ? 'Criar' : 'Editar' }}
+          <button
+              type="button"
+              @click="emitNew"
+              class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+          >
+            {{
+              props.obj_to_edit && props.editing === true
+                  ? "Editar"
+                  : "Criar"
+            }}
           </button>
         </div>
       </div>
