@@ -93,9 +93,8 @@ export const useConselhoSegurancaStore = defineStore("conselhoSeguranca", () => 
         try {
             const response = await axios.delete("conselhoseguranca/" + id);
             conselhos_seguranca.value = conselhos_seguranca.value.filter((item) => item.id != id);
-            console.log(response, "conselho_deleted")
             toast.error("Conselho de Segurança Eliminado!");
-            socket.emit("delete_conselho_seguranca", {...response.data.data});
+            socket.emit("delete_conselho_seguranca", response.data.data);
         } catch (error) {
             loadConselhosSeguranca();
             throw error;
