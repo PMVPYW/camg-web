@@ -12,10 +12,29 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   const toast = useToast();
 
   const router = useRouter();
-  const zonaEspetaculo = ref(null);
   const zonaEspetaculo_filtered = ref(null);
   const rallyStore = useRallyStore();
   const map_store = ref(null);
+
+  socket.on("create_zonaEspetaculo", (zona) => {
+    zonaEspetaculo_filtered.value.push(zona);
+    toast.success("Nova de Zona Espetáculo");
+  });
+
+  socket.on("delete_zonaEspetaculo", (zona) => {
+    zonaEspetaculo_filtered.value = zonaEspetaculo_filtered.value.filter(
+        (item) => item.id != zona,
+    );
+    toast.error("Zona Espetáculo Eliminada!");
+  });
+
+  socket.on("update_zonaEspetaculo", (zona) => {
+    var index = zonaEspetaculo_filtered.value.findIndex((item) => item.id === zona.id);
+    if (index >= 0) {
+      zonaEspetaculo_filtered.value[index] = zona;
+    }
+    toast.warning("Zona Espetáculo Atualizada!");
+  });
 
   async function loadZonaEspetaculo({ filters = null }) {
     try {
@@ -33,11 +52,10 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
         return true;
       } else {
         response = await axios.get(
-          "rally/" + rallyStore.rally_selected + `/zonasEspetaculo${suffix}`,
+          "rally/" + rallyStore.rally_selected + `/zonasEspetaculo`,
         );
-        zonaEspetaculo.value = response.data.data;
         zonaEspetaculo_filtered.value = response.data.data;
-        console.log(zonaEspetaculo, "Zona Espetaculo");
+        console.log(response.data.data, "Zona Espetaculo");
       }
     } catch (error) {
       throw error;
@@ -49,10 +67,10 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       const response = await axios.post("zonaEspetaculo", data);
       console.log(data, "Dados");
       console.log(response, "create zonaEspetaculo");
-      zonaEspetaculo.value.push(response.data.data);
       zonaEspetaculo_filtered.value.push(response.data.data);
+      socket.emit("create_zonaEspetaculo",response.data.data);
       toast.success("Zona Espetaculo Criada!");
-      console.log("Zona Espetaculo CREATE", zonaEspetaculo.value);
+      console.log("Zona Espetaculo", zonaEspetaculo_filtered.value);
       return true;
     } catch (error) {
       console.error(error, "erro_grave");
@@ -64,17 +82,12 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   async function editZonaEspetaculo(data, id) {
     try {
       const response = await axios.put("zonaEspetaculo/" + id, data);
-      var index = zonaEspetaculo.value.findIndex((item) => item.id === id);
-      console.log("EDITAR", index);
-      if (index >= 0) {
-        zonaEspetaculo.value[index] = response.data.data;
-        console.log("EDITAR", zonaEspetaculo.value[index]);
-      }
-      index = zonaEspetaculo_filtered.value.findIndex((item) => item.id === id);
+      var index = zonaEspetaculo_filtered.value.findIndex((item) => item.id === id);
       if (index >= 0) {
         zonaEspetaculo_filtered.value[index] = response.data.data;
       }
       console.log("EDITAR", response.data.data);
+      socket.emit("update_zonaEspetaculo",response.data.data);
       toast.warning("Zona Espetaculo Atualizada!");
       return true;
     } catch (error) {
@@ -87,13 +100,10 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
     try {
       console.log(id);
       const response = await axios.delete("zonaEspetaculo/" + id);
-      zonaEspetaculo.value = zonaEspetaculo.value.filter(
-        (item) => item.id !== id,
-      );
       zonaEspetaculo_filtered.value = zonaEspetaculo_filtered.value.filter(
         (item) => item.id !== id,
       );
-      console.log(zonaEspetaculo.value.length);
+      socket.emit("delete_zonaEspetaculo", id);
       toast.error("Zona Espetaculo Eliminada!");
     } catch (error) {
       loadZonaEspetaculo({});
@@ -116,7 +126,6 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
     createZonaEspetaculo,
     editZonaEspetaculo,
     deleteZonaEspetaculo,
-    zonaEspetaculo,
     zonaEspetaculo_filtered,
   };
 });

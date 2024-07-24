@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
-import {ref, onMounted, onUnmounted, watch, inject} from "vue";
+import {ref, onMounted, onUnmounted, watch, inject, reactive} from "vue";
 import axios from "axios";
 import { useZonaEspetaculoStore } from "@/stores/zonaEspetaculo.js";
 import {useProvaStore} from "@/stores/prova.js";
@@ -85,7 +85,7 @@ onMounted(async () => {
       const KmlFeatures = [].concat(...provaStore.provas.map(prova => kmlData.value[prova.id] || []));
 
       provaStore.provas.forEach((prova)=>{
-        parseKML(prova);
+        //parseKML(prova);
         const geojson = kmlData.value[prova.id];
         if(geojson) {
           draw.set({
@@ -130,7 +130,7 @@ onMounted(async () => {
 
 
     const drawMap = () => {
-        const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo.map(
+        const zonaEspetaculoFeatures = zonaEspetaculoStore.zonaEspetaculo_filtered.map(
             (zona) => ({
                 type: "Feature",
                 geometry: {
@@ -191,28 +191,28 @@ onMounted(async () => {
             });
         }
 
-        console.log("Zonas de Espetaculo", zonaEspetaculoStore.zonaEspetaculo);
-        for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo.length; i++) {
+        console.log("Zonas de Espetaculo", zonaEspetaculoStore.zonaEspetaculo_filtered);
+        for (let i = 0; i < zonaEspetaculoStore.zonaEspetaculo_filtered.length; i++) {
             console.log(
                 JSON.parse(
                     "[" +
-                        (zonaEspetaculoStore.zonaEspetaculo[i]
-                            ? zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas
+                        (zonaEspetaculoStore.zonaEspetaculo_filtered[i]
+                            ? zonaEspetaculoStore.zonaEspetaculo_filtered[i]?.coordenadas
                             : "") +
                         "]",
                 )[0],
             );
             let entrada = JSON.parse(
-                "[" + zonaEspetaculoStore.zonaEspetaculo[i]?.coordenadas + "]",
+                "[" + zonaEspetaculoStore.zonaEspetaculo_filtered[i]?.coordenadas + "]",
             )[0];
-            if (markers.value[zonaEspetaculoStore.zonaEspetaculo[i].id]) {
+            if (markers.value[zonaEspetaculoStore.zonaEspetaculo_filtered[i].id]) {
                 markers.value[
-                    zonaEspetaculoStore.zonaEspetaculo[i].id
+                    zonaEspetaculoStore.zonaEspetaculo_filtered[i].id
                 ].remove();
             }
-            markers.value[zonaEspetaculoStore.zonaEspetaculo[i].id] =
+            markers.value[zonaEspetaculoStore.zonaEspetaculo_filtered[i].id] =
                 new mapboxgl.Marker({ color: "#facc15" });
-            markers.value[zonaEspetaculoStore.zonaEspetaculo[i].id]
+            markers.value[zonaEspetaculoStore.zonaEspetaculo_filtered[i].id]
                 .setLngLat(entrada)
                 .addTo(map);
         }
@@ -266,7 +266,7 @@ onMounted(async () => {
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     map.on("click", "places", (e) => {
-        const ze = zonaEspetaculoStore.zonaEspetaculo.find(
+        const ze = zonaEspetaculoStore.zonaEspetaculo_filtered.find(
             (item) =>
                 item.id ==
                 JSON.parse(e.features[0].properties.ZonaEspetaculo).id,
@@ -368,7 +368,7 @@ onMounted(async () => {
         }
     }
     watch(
-        () => zonaEspetaculoStore.zonaEspetaculo,
+        () => zonaEspetaculoStore.zonaEspetaculo_filtered,
         () => {
             drawMap();
         },
@@ -376,7 +376,7 @@ onMounted(async () => {
     );
     watch(()=>provaStore.provas,
         () => {
-          provaStore.provas.map((prova)=>parseKML(prova));
+          //provaStore.provas.map((prova)=>parseKML(prova));
           drawKml();
         }
     );
@@ -384,8 +384,59 @@ onMounted(async () => {
 onUnmounted(() => {
     map.remove();
 });
+
+//filters
+const filters = reactive({search: "", nivel_afluencia: '', facilidade_acesso:'', nivel_ocupacao:'', prova_id: ''})
+
+watch(filters, (new_value) => {
+  zonaEspetaculoStore.loadZonaEspetaculo({filters: filters})
+})
 </script>
 <template>
+    <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
+      <div class="flex bg-[#f8f9fe] justify-center w-full h-fit">
+        <div class="flex flex-row flex-wrap items-center justify-between w-5/6 h-full">
+          <div class="flex flex-row w-2/6 w-min-16 my-1">
+            <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+          </div>
+          <div class="flex flex-row items-center my-1">
+            <label class="block mx-4 text-base font-medium">Nível de Ocupação:</label>
+            <select v-model="filters.nivel_ocupacao" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option :selected="filters.nivel_ocupacao==''" :value="''">---</option>
+              <option class="uppercase">Livre</option>
+              <option class="uppercase">Intermédio</option>
+              <option class="uppercase">Completo</option>
+            </select>
+          </div>
+          <div class="flex flex-row items-center my-1">
+            <label class="block mx-4 text-base font-medium">Facilidade de Acesso:</label>
+            <select v-model="filters.facilidade_acesso" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option :selected="filters.facilidade_acesso==''" :value="''">---</option>
+              <option class="uppercase">Fácil</option>
+              <option class="uppercase">Médio</option>
+              <option class="uppercase">Difícil</option>
+            </select>
+          </div>
+          <div class="flex flex-row items-center my-1">
+            <label class="block mx-4 text-base font-medium">Nível de Afluência:</label>
+            <select v-model="filters.nivel_afluencia" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option :selected="filters.nivel_afluencia==''" :value="''">---</option>
+              <option class="uppercase">Baixo</option>
+              <option class="uppercase">Médio</option>
+              <option class="uppercase">Alto</option>
+            </select>
+          </div>
+          <div class="flex flex-row items-center my-1">
+            <label class="block mx-4 text-base font-medium">Provas:</label>
+            <select v-model="filters.prova_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+              <option :selected="filters.prova_id==''" :value="''">---</option>
+              <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.local }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="flex flex-col h-dvh rounded-2xl">
       <button @click="openButton=!openButton"
           type="button"
@@ -394,20 +445,20 @@ onUnmounted(() => {
             <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
       </button>
         <div v-if="openButton" class="p-2 mb-4 flex flex-row w-9/12 bg-gray-500 rounded-b-2xl rounded-r-2xl mx-3">
-          <div @click="changeMapStyle('mapbox://styles/mapbox/dark-v11')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-blue-500' : ''}`">
+          <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/dark-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src=@/assets/dark.png alt="Logo">
           </div>
-          <div @click="changeMapStyle('mapbox://styles/mapbox/light-v11')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/light-v11' ? 'border-4 border-blue-500' : ''}`">
+          <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/light-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/light-v11' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src='@/assets/light.png' alt="Logo">
           </div>
-          <div @click="changeMapStyle('mapbox://styles/mapbox/outdoors-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/outdoors-v12' ? 'border-4 border-blue-500' : ''}`">
+          <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/outdoors-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/outdoors-v12' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src='@/assets/outdoors.png'
                  alt="Logo">
           </div>
-          <div @click="changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'border-4 border-blue-500' : ''}`">
+          <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src='@/assets/satelliteStreets.png' alt="Logo">
           </div>
-          <div @click="changeMapStyle('mapbox://styles/mapbox/streets-v12')" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/streets-v12' ? 'border-4 border-blue-500' : ''}`">
+          <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/streets-v12' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src='@/assets/streets.png' alt="Logo">
           </div>
         </div>
