@@ -65,6 +65,9 @@ export const useHistoriaStore = defineStore("historia", () => {
             }
             if(data.capitulos) {
                 data_historia["capitulos"] = []
+                if(data.etapas) {
+                    data_historia["etapas"] = []
+                }
                 for (const capitulo of data.capitulos) {
                     const data_capitulo = {
                         "capitulo_id": capitulo.id,
@@ -72,9 +75,8 @@ export const useHistoriaStore = defineStore("historia", () => {
                     };
                     data_historia["capitulos"].push(data_capitulo)
                     if(data.etapas) {
-                        data_historia["etapas"] = []
                         for (const etapa of data.etapas) {
-                            if (etapa.capitulo_id === capitulo.id) {
+                            if (etapa.capitulo_id == capitulo.id) {
                                 const data_etapa = {
                                     "capitulo_id": etapa.capitulo_id,
                                     "nome": etapa.nome,
@@ -89,6 +91,7 @@ export const useHistoriaStore = defineStore("historia", () => {
                     }
                 }
             }
+            console.log("DATAHISTORIA", data_historia)
             const response = await axios.post("historiaCompleta", data_historia, {headers: {'Content-Type': 'multipart/form-data'}});
             historias_filtered.value.push(response.data)
             socket.emit("create_historia",response.data);

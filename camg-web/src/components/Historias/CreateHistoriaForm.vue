@@ -22,13 +22,18 @@ const errors = ref(props.errors ?? {});
 
 
 if(props.obj_to_edit?.capitulo) {
+  let max_capitulos_id=0, max_etapa_id=0
   capitulos.value.forEach((capitulo) => {
+    max_capitulos_id = max_capitulos_id > capitulo.id ? max_capitulos_id : capitulo.id
     console.log(capitulo.etapas);
     capitulo.etapas.forEach((etapa) => {
+      max_etapa_id = max_etapa_id > etapa.id ? max_etapa_id : etapa.id
       etapas.value.push(etapa);
     });
     console.log("Etapas", etapas)
   })
+  numero_etapas.value=max_etapa_id;
+  numero_capitulos.value=max_capitulos_id;
 }
 
 watch(()=>props.errors, (n_errors)=>{
@@ -216,7 +221,7 @@ onMounted(()=>{
                 <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
               </div>
             </div>
-            <button :disabled="validated_capitulo()" @click.prevent="()=>{numero_capitulos++; adicionar_capitulo(numero_capitulos);}" class="flex flex-row justify-center w-9/12 mx-auto m-5 disabled:opacity-50  hover:opacity-50">
+            <button :disabled="validated_capitulo()" @click.prevent="()=>{numero_capitulos++; adicionar_capitulo(numero_capitulos); console.log(capitulos)}" class="flex flex-row justify-center w-9/12 mx-auto m-5 disabled:opacity-50  hover:opacity-50">
               <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl">
                 <div class="flex flex-row justify-center items-center w-full p-14">
                   <Icon class="text-2xl text-gray-800 mx-2" icon="zondicons:add-outline" />

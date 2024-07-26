@@ -87,6 +87,7 @@ export const useProvaStore = defineStore("prova", () => {
             return response.data.data;
         } catch (error) {
             loadProvas({})
+            console.error(error);
             return error.response.data.errors;
         }
     }

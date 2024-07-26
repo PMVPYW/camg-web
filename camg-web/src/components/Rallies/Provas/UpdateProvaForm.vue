@@ -24,9 +24,11 @@ const toast = useToast();
 const emitNew = () => {
   const obj = {
     "local": local.value,
-    "kml_src": kml.value,
     "_method":"put"
   };
+  if (kml.value != null && kml.value!=props.obj_to_edit.kml_src) {
+    obj["kml_src"] = kml.value
+  }
   emit('edit', obj);
 }
 

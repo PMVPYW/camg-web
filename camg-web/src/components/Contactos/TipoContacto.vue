@@ -4,12 +4,11 @@ import Contacto from "@/components/Contactos/Contacto.vue";
 import {ref, watch} from "vue";
 import {useContactoStore} from "@/stores/contacto.js";
 
-const props = defineProps(["tipoContacto", "filteredContacts"]);
+const props = defineProps(["tipoContacto", "filteredContacts", "selectedContacto"]);
 const emit = defineEmits(["selectedContacto"]);
 const editTypeContact= ref(false);
 const contactoStore=useContactoStore();
 const nome = ref(props.tipoContacto.nome);
-const selectedContacto= ref({});
 const errors = ref(null);
 
 
@@ -54,6 +53,6 @@ function emit_contact(contacto){
   </div>
   <h1 v-if="errors" class="mx-10 text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
   <div v-for="contacto in filteredContacts" class="flex flex-row justify-center">
-    <Contacto v-if="contacto.tipocontacto_id==tipoContacto.id" :key="contacto.id" @click="()=>{selectedContacto=contacto; emit_contact(selectedContacto)}" :contacto="contacto" class="border rounded-xl w-10/12" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedContacto.id==contacto.id}"></Contacto>
+    <Contacto v-if="contacto.tipocontacto_id==tipoContacto.id" :key="contacto.id" @click="()=>{emit_contact(contacto)}" :contacto="contacto" class="border rounded-xl w-10/12" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': props.selectedContacto.id==contacto.id}"></Contacto>
   </div>
 </template>

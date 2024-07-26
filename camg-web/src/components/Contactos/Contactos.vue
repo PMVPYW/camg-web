@@ -76,7 +76,7 @@ watch(()=>contactoStore.contactos, (contacto)=>{
     <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
       <div class="flex flex-wrap -mx-3 removable mt-10 justify-center">
         <div v-for="tipoContacto in contactoStore.tipo_contactos_filters" class="w-9/12">
-          <TipoContacto :tipoContacto="tipoContacto" :filteredContacts="filteredContacts" @selectedContacto="selected_emit"></TipoContacto>
+          <TipoContacto :tipoContacto="tipoContacto" :filteredContacts="filteredContacts" @selectedContacto="selected_emit" :selected-contacto="selectedContacto"></TipoContacto>
           <hr class="my-6">
         </div>
       </div>
