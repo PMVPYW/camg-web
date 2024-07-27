@@ -4,10 +4,12 @@ import { defineStore } from "pinia";
 
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import {useNotificacaoStore} from "@/stores/notificacao.js";
 
 export const useNoticiaStore = defineStore("noticias", () => {
   const serverBaseUrl = inject("serverBaseUrl");
   const socket = inject("socket");
+  const notificacaoStore = useNotificacaoStore();
 
   const noticias_filtered = ref(null);
 
@@ -65,6 +67,15 @@ export const useNoticiaStore = defineStore("noticias", () => {
       noticias_filtered.value.push(response.data);
       socket.emit("create_noticia", response.data);
       toast.success("Noticia Criada!");
+
+      console.log("data1",data);
+      data['tipo'] = 'Noticia';
+      console.log("data2",response.data);
+
+
+      //Enviar notificação
+      notificacaoStore.enviar_notificacao(response.data);
+
       return true;
     } catch (error) {
       console.error(error);
