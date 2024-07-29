@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
 import {useToast} from "vue-toastification";
 import {useRallyStore} from "@/stores/rally.js";
+import {useNotificacaoStore} from "@/stores/notificacao.js";
 
 export const useDeclaracaoStore = defineStore("declaracao", () => {
     const serverBaseUrl = inject("serverBaseUrl");
@@ -13,6 +14,7 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     const declaracoes_filtered = ref(null);
 
     const rallyStore = useRallyStore();
+    const notificacaoStore = useNotificacaoStore();
 
     const router = useRouter();
     const toast= useToast();
@@ -69,6 +71,16 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
             declaracoes_filtered.value.push(response.data);
             socket.emit("create_declaracao",response.data);
             toast.success("Declaração Criada!");
+
+            //Enviar notificação
+            let response_data ={
+                "titulo": response.data.nome + ' - ' + response.data.cargo + ' prestou uma declaração',
+                "conteudo": response.data.conteudo,
+            }
+            console.log("response_data",response_data);
+
+            notificacaoStore.enviar_notificacao(response_data);
+
             return true;
         } catch (error) {
             console.error(error);

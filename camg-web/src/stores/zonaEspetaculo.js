@@ -5,6 +5,7 @@ import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import { useRallyStore } from "@/stores/rally.js";
+import {useNotificacaoStore} from "@/stores/notificacao.js";
 
 export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   const serverBaseUrl = inject("serverBaseUrl");
@@ -15,6 +16,7 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   const zonaEspetaculo_filtered = ref(null);
   const rallyStore = useRallyStore();
   const map_store = ref(null);
+  const notificacaoStore = useNotificacaoStore();
 
   socket.on("create_zonaEspetaculo", (zona) => {
     zonaEspetaculo_filtered.value.push(zona);
@@ -71,6 +73,16 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       socket.emit("create_zonaEspetaculo",response.data.data);
       toast.success("Zona Espetaculo Criada!");
       console.log("Zona Espetaculo", zonaEspetaculo_filtered.value);
+
+      //Enviar notificação
+      let response_data ={
+        "titulo": response.data.data.nome,
+        "descricao" : "Foi criada uma nova zona de espetaculo"
+      }
+      console.log("response_data",response_data);
+
+      notificacaoStore.enviar_notificacao(response_data);
+
       return true;
     } catch (error) {
       console.error(error, "erro_grave");
@@ -89,6 +101,16 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       console.log("EDITAR", response.data.data);
       socket.emit("update_zonaEspetaculo",response.data.data);
       toast.warning("Zona Espetaculo Atualizada!");
+
+      //Enviar notificação
+      let response_data ={
+        "titulo": response.data.data.nome,
+        "descricao" : "A " + response.data.data.nome + " foi atualizada"
+      }
+      console.log("response_data",response_data);
+
+      notificacaoStore.enviar_notificacao(response_data);
+
       return true;
     } catch (error) {
       loadZonaEspetaculo({});

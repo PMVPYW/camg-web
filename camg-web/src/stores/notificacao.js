@@ -19,12 +19,17 @@ export const useNotificacaoStore = defineStore("notificacao", () => {
 
     async function enviar_notificacao(data){
         try {
+            console.log(data)
+            console.log(data.titulo)
+            console.log(data.conteudo)
+
             const obj= {
                 "titulo": data.titulo,
-                "descricao": data.conteudo ? data.conteudo : "Foi criada uma nova" + data.tipo,
+                "descricao": data.conteudo ? data.conteudo : data.descricao,
             }
             const response = await axios.get("notificationToken");
             users.value = response.data.data;
+            console.log("obj",obj);
             socket.emit('notify_app_users', obj , users.value);
         } catch (error) {
             throw error;

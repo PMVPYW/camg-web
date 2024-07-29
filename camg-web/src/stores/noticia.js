@@ -68,13 +68,15 @@ export const useNoticiaStore = defineStore("noticias", () => {
       socket.emit("create_noticia", response.data);
       toast.success("Noticia Criada!");
 
-      console.log("data1",data);
-      data['tipo'] = 'Noticia';
-      console.log("data2",response.data);
-
 
       //Enviar notificação
-      notificacaoStore.enviar_notificacao(response.data);
+      let response_data ={
+        "titulo": response.data.titulo,
+        "conteudo": response.data.conteudo,
+      }
+      console.log("response_data",response_data);
+
+      notificacaoStore.enviar_notificacao(response_data);
 
       return true;
     } catch (error) {
