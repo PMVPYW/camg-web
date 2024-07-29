@@ -43,7 +43,7 @@ watch(()=>contactoStore.contactos, (contacto)=>{
 
 </script>
 <template>
-  <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
+  <div class="w-full h-full rounded-xl transition-all duration-200 overflow-x-hidden" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Contactos</h1>
     <CrudButtons
         :create_callback="contactoStore.createContacto" :create_form="CreateContactoForm"

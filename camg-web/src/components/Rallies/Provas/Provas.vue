@@ -25,7 +25,7 @@ watch(filters, (new_value) => {
 
 </script>
 <template>
-  <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200" id="panel">
+  <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200 overflow-x-hidden" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Provas</h1>
     <CrudButtons :create_visible="false" :create_form="UpdateProvaForm"
                  :edit_callback="provaStore.editProva" :obj_to_edit="selectedProva"

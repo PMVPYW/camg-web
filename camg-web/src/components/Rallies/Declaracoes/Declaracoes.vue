@@ -62,9 +62,9 @@ watch(filters, (new_value) => {
         </div>
       </div>
     </div>
-    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
-      <div class="flex flex-wrap -mx-3 removable mt-10 h-screen overflow-y-auto">
-        <Declaracao v-for="declaracao in declaracaoStore.declaracoes_filtered" :key="declaracao.id" @click="()=>{selectedDeclaracao = declaracao}" :declaracao="declaracao" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedDeclaracao.id==declaracao.id}"></Declaracao>
+    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500 h-full overflow-x-hidden">
+      <div class="flex flex-wrap -mx-3 removable mt-10 h-full">
+        <Declaracao v-for="declaracao in declaracaoStore.declaracoes_filtered" :key="declaracao.id" @click="()=>{selectedDeclaracao = declaracao}" :declaracao="declaracao" class="border-2 rounded-xl w-full h-screen" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedDeclaracao.id==declaracao.id}"></Declaracao>
       </div>
     </div>
   </div>

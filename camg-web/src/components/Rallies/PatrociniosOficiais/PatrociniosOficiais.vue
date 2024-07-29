@@ -48,7 +48,7 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
 </script>
 
 <template>
-  <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200" id="panel">
+  <div v-if="rallyStore.rally_selected" class="h-full w-full rounded-xl transition-all duration-200 overflow-x-hidden" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10 w-full">Entidades Oficiais</h1>
     <div class="flex w-11/12 mx-auto mt-16 rounded-lg justify-center bg-[#f8f9fe]">
       <div v-if="editing === false && associating === false" class="flex flex-col bg-[#f8f9fe] w-full h-16 justify-center">

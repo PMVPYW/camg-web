@@ -9,8 +9,8 @@ const declaracaoStore = useDeclaracaoStore();
 
 </script>
 <template>
-  <div class="min-w-[10%] m-3 p-3 mb-6 max-h-[50%] min-h-[50%] lg:w-[23%] sm:flex-none">
-    <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border max-h-full">
+  <div class="min-w-[10%] m-2 p-3 mb-6 max-h-[600px] lg:w-[23%] sm:flex-none">
+    <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border h-full">
       <div class="relative">
         <a class="flex bg-white block w-full h-52 shadow-xl rounded-xl">
           <img :src="`${serverBaseUrl}/storage/declaracoes/${props.declaracao.photo_url}`" :alt="`${serverBaseUrl}/storage/declaracoes/${props.declaracao.photo_url}`"

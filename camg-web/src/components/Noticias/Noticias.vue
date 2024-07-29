@@ -7,6 +7,9 @@ import {ref, watch, reactive} from "vue";
 import CreateNoticiaForm from "@/components/Noticias/CreateNoticiaForm.vue";
 import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
 import {useRallyStore} from "@/stores/rally.js";
+import CreateDeclaracaoForm from "@/components/Rallies/Declaracoes/CreateDeclaracaoForm.vue";
+import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
+import Historia from "@/components/Historias/Historia.vue";
 
 //Stores
 const noticiaStore=useNoticiaStore();
@@ -27,13 +30,13 @@ watch(filters, (new_value) => {
 
 </script>
 <template>
-  <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
+  <div class="w-10/12 h-full rounded-xl transition-all duration-200 mx-auto overflow-x-hidden" id="panel">
     <h1 class="text-2xl font-bold ml-10 mt-10">Noticias</h1>
     <CrudButtons :create_callback="noticiaStore.createNoticia" :create_form="CreateNoticiaForm"
                  :edit_callback="noticiaStore.editNoticia" :obj_to_edit="selectedNoticia"
                  :delete_callback="noticiaStore.deleteNoticia" :delete_form="DeleteNoticiaForm"
                  @clearSelected="selectedNoticia = {}"></CrudButtons>
-    <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
+    <div  class="w-11/12 my-14 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
           <div class="flex flex-row w-2/6 w-min-16 my-1">
@@ -67,9 +70,9 @@ watch(filters, (new_value) => {
         </div>
       </div>
     </div>
-    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500">
-      <div class="flex flex-wrap -mx-3 removable mt-10 h-screen overflow-y-auto">
-        <Noticia v-for="noticia in noticiaStore.noticias_filtered" :key="noticia.id" @click="()=>{selectedNoticia = noticia}" :noticia="noticia" class="border-2 rounded-xl w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedNoticia.id==noticia.id}"></Noticia>
+    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500 h-full">
+      <div class="flex flex-wrap mx-3 mt-10 h-full w-full">
+        <Noticia v-for="noticia in noticiaStore.noticias_filtered" :key="noticia.id" @click="()=>{selectedNoticia = noticia}" :noticia="noticia" class="border-2 rounded-xl h-screen w-full" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedNoticia.id==noticia.id}"></Noticia>
       </div>
     </div>
   </div>

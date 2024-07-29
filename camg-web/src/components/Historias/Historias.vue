@@ -18,7 +18,7 @@ watch(filters, (new_value) => {
 
 </script>
 <template>
-  <div class="w-full h-full rounded-xl transition-all duration-200" id="panel">
+  <div class="w-full h-full rounded-xl transition-all duration-200">
     <h1 class="text-2xl font-bold ml-10 mt-10">História</h1>
     <CrudButtons :create_callback="historiaStore.createHistoria" :create_form="CreateHistoriaForm"
                  :edit_callback="historiaStore.editHistoria" :obj_to_edit="selectedHistoria"
@@ -42,7 +42,7 @@ watch(filters, (new_value) => {
         </div>
       </div>
     </div>
-    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500 h-full">
+    <div class="w-full mx-auto loopple-min-height-78vh text-slate-500 h-full overflow-x-hidden">
       <div class="flex flex-wrap -mx-3 removable mt-10 h-full">
         <Historia v-for="historia in historiaStore.historias_filtered" :key="historia.id" @click="()=>{selectedHistoria = historia}" :historia="historia" class="border-2 rounded-xl w-full h-screen" :class="{'bg-gradient-to-br from-[#F3AA06] to-[#997A2E]': selectedHistoria.id==historia.id}"></Historia>
       </div>

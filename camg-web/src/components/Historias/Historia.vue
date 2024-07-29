@@ -5,7 +5,7 @@ const props = defineProps(["historia"])
 const serverBaseUrl = inject("serverBaseUrl");
 </script>
 <template>
-  <div class="min-w-[25%] max-h-[600px] m-3 p-3 mb-6 lg:w-1/3 sm:flex-none">
+  <div class="min-w-[25%] max-h-[600px] m-2 p-3 mb-6 lg:w-[32%] sm:flex-none">
     <div class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl px-3 py-3 rounded-2xl bg-clip-border h-full">
       <div class="relative">
         <a v-if="props.historia.photo_url" class="flex bg-white block w-full h-72	shadow-xl rounded-xl my-4">
