@@ -2,11 +2,13 @@
 import {Icon} from "@iconify/vue";
 import {inject, onMounted, ref, watch} from "vue";
 import {useToast} from "vue-toastification";
+import {useHistoriaStore} from "@/stores/historia.js";
 
 const props = defineProps(["obj_to_edit","errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
 const toast = useToast();
 const serverBaseUrl = inject("serverBaseUrl");
+const historiaStore = useHistoriaStore();
 
 const titulo = ref(props.obj_to_edit?.titulo);
 const subtitulo = ref(props.obj_to_edit?.subtitulo);
@@ -129,7 +131,7 @@ function remover_capitulo(id){
 
 }
 
-const emitNew = () => {
+const emitNew = async () => {
   const obj = {
     "titulo": titulo.value,
     "subtitulo": subtitulo.value,
@@ -145,7 +147,27 @@ const emitNew = () => {
     obj["capitulos"] = capitulos.value
   }
   console.log("OBJ", obj);
-  emit(props.obj_to_edit && props.editing === true ? 'edit' : "create", obj);
+
+  if(props.obj_to_edit && props.editing === true){
+    console.log(props.obj_to_edit?.id)
+    let response = await historiaStore.editHistoria(obj, props.obj_to_edit.id);
+    console.log("response:",response);
+    if(!response.data) {
+      errors.value = response;
+    }
+    if(response===true){
+      emit("edit", obj);
+    }
+  }else{
+    let response = await historiaStore.createHistoria(obj);
+    console.log("response:",response);
+    if(!response.data) {
+      errors.value = response;
+    }
+    if(response===true){
+      emit("create", obj);
+    }
+  }
 }
 
 function previewPhoto(photo){

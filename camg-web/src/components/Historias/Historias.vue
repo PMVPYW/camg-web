@@ -20,8 +20,8 @@ watch(filters, (new_value) => {
 <template>
   <div class="w-full h-full rounded-xl transition-all duration-200">
     <h1 class="text-2xl font-bold ml-10 mt-10">História</h1>
-    <CrudButtons :create_callback="historiaStore.createHistoria" :create_form="CreateHistoriaForm"
-                 :edit_callback="historiaStore.editHistoria" :obj_to_edit="selectedHistoria"
+    <CrudButtons :create_callback="historiaStore.closeForm" :create_form="CreateHistoriaForm"
+                 :edit_callback="historiaStore.closeForm" :obj_to_edit="selectedHistoria"
                  :delete_callback="historiaStore.deleteHistoria" :delete_form="SimpleDeleteForm"
                  @clearSelected="selectedHistoria = {}"></CrudButtons>
     <div  class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">

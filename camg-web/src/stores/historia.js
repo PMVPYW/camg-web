@@ -180,8 +180,14 @@ export const useHistoriaStore = defineStore("historia", () => {
             throw error;
         }
     }
+
+    async function closeForm(data) {
+        return true;
+    }
+
     return{
         historias_filtered,
+        closeForm,
         loadHistorias,
         createHistoria,
         editHistoria,
