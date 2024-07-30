@@ -63,42 +63,43 @@ const form = document.getElementById("form")
 </script>
 <template>
     <form class="m-2 w-full h-1/2" id="form">
-        <div class="flex flex-row w-full h-full justify-center">
+        <div class="flex flex-row w-full h-full justify-center items-start">
             <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-                <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Descrição:</label>
+                <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Correto:</label>
                 <textarea type="text" name="descricao" placeholder="Descrição do conselho" required v-model="descricao"
-                     class="text-sm h-full my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
+                     class="text-sm h-full mb-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
                 <h1 v-if="errors.descricao" class="ml-2 text-red-600 text-base font-medium">{{errors.descricao[0]}}</h1>
             </div>
-            <div class="flex mx-auto flex-col items-center justify-end w-2/12 h-1/2">
-                <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Imagem</label>
-                    <div class="mx-8 w-full max-h-full flex items-center justify-center rounded-xl border-2 h-full">
+            <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">
+              <label class="h-10 my-1 p-2 font-bold text-center rounded-lg w-auto">Imagem do conselho:</label>
+
+              <div class="w-full max-h-full flex items-center justify-center rounded-xl border-4 border-green-500 h-full">
                         <input name="foto" id="foto" accept="image/png, image/gif, image/jpeg" @change="handleFileChange" type="file" class="hidden">
                         <label for="foto" class="hover:blur-sm w-full h-full rounded-xl">
                             <img v-if="viewing_foto" class="mx-auto rounded-xl h-24 w-full object-contain"
                                 :src="viewing_foto">
-                            <Icon v-else icon="bi:camera" class="w-full h-24 text-dark">
+                            <Icon v-else icon="lucide:check" class="w-full h-24 text-green-600">
                             </Icon>
                         </label>
                     </div>
                     <br v-if="errors.img_conselho"><span class="font-bold text-sm text-red-600" v-if="errors.img_conselho">{{errors?.img_conselho[0]}}</span>
             </div>
         </div>
-        <div class="flex flex-row w-full h-full justify-center">
+        <div class="flex flex-row w-full h-full justify-center items-start my-5">
             <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-                <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Erro:</label>
+                <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Errado:</label>
                 <textarea type="text" name="erro" placeholder="Descrição do erro cometido" required v-model="erro"
-                     class="text-sm h-full my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
+                     class="text-sm h-full mb-2 ml-2 p-2 text-center border border-gray-300 bg-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
                 <h1 v-if="errors.erro" class="ml-2 text-red-600 text-base font-medium">{{errors.erro[0]}}</h1>
             </div>
-            <div class="flex mx-auto flex-col items-center justify-end w-2/12 h-1/2">
-                <label class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-auto">Imagem</label>
-                    <div class="mx-8 w-full max-h-full flex items-center justify-center rounded-xl border-2 h-full">
+            <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">
+              <label class="h-10 my-1 p-2 font-bold text-center rounded-lg w-auto">Imagem do erro:</label>
+              <div class="w-full max-h-full flex items-center justify-center rounded-xl border-4 border-red-500 h-full">
                         <input name="foto_erro" id="foto_erro" accept="image/png, image/gif, image/jpeg" @change="handleFileChangeErro" type="file" class="hidden">
                         <label for="foto_erro" class="hover:blur-sm w-full h-full rounded-xl">
                             <img v-if="viewing_foto_erro" class="mx-auto rounded-xl h-24 w-full object-contain"
                                 :src="viewing_foto_erro">
-                            <Icon v-else icon="bi:camera" class="w-full h-24 text-dark">
+                            <Icon v-else icon="iconamoon:close" class="w-full h-24 text-red-600">
                             </Icon>
                         </label>
                     </div>
