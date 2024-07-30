@@ -156,8 +156,8 @@ const deleteEntity = () => {
 </script>
 
 <template>
-    <div class="w-11/12 my-8 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
-        <div class="flex justify-center mx-auto bg-[#f8f9fe] w-full h-16 text">
+    <div class="w-11/12 my-8 rounded-lg justify-center mx-auto">
+        <div class="flex justify-center mx-auto  w-full h-16 text">
             <button
                 v-if="props.create_visible"
                 @click="togleCreating"

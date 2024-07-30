@@ -60,7 +60,7 @@ const emitAlbum = () => {
             v-if="Object.keys(errors).length"
         >
             <!--first line of errors-->
-            <div class="w-1/2 text-center inline-block">{{ errors.nome }}</div>
+            <div v-if="errors.nome" class="w-1/2 text-center inline-block">{{ errors.nome[0] }}</div>
             <div class="w-1/12 inline-block"></div>
         </div>
         <br />
@@ -89,7 +89,7 @@ const emitAlbum = () => {
             class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex"
         >
             <!--second line of errors-->
-            <div class="w-7/12 inline-block">{{ errors.img }}</div>
+            <div v-if="errors.img" class="w-7/12 inline-block">{{ errors.img[0] }}</div>
             <div class="w-3/12 inline-block"></div>
         </div>
     </form>
