@@ -27,6 +27,7 @@ const fotos_selected = ref([]);
 const rallyStore = useRallyStore();
 const albumStore = useAlbumStore();
 const fotoStore = useFotoStore();
+const noticiaStore = useNoticiaStore();
 
 const errors = ref(props.errors ?? {});
 
@@ -184,6 +185,11 @@ function removeElement(foto_id) {
                   </option>
                 </select>
               </div>
+            </div>
+            <div v-if="!props.editing" class="flex items-center">
+              <input v-model="noticiaStore.noticias_createNotifications" type="checkbox" class="relative w-11 h-6 p-px bg-gray-300 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-amber-300 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-amber-300 checked:border-amber-300 focus:checked:border-amber-300
+                before:inline-block before:size-5 before:bg-white checked:before:bg-amber-100 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 ">
+              <label for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
             </div>
           </div>
           <div

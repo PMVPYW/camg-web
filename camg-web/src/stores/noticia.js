@@ -12,6 +12,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
   const notificacaoStore = useNotificacaoStore();
 
   const noticias_filtered = ref(null);
+  const noticias_createNotifications = ref(false);
 
   const router = useRouter();
   const toast = useToast();
@@ -68,15 +69,16 @@ export const useNoticiaStore = defineStore("noticias", () => {
       socket.emit("create_noticia", response.data);
       toast.success("Noticia Criada!");
 
+      if(noticias_createNotifications.value===true) {
+        //Enviar notificação
+        let response_data = {
+          "titulo": response.data.titulo,
+          "conteudo": response.data.conteudo,
+        }
+        console.log("response_data", response_data);
 
-      //Enviar notificação
-      let response_data ={
-        "titulo": response.data.titulo,
-        "conteudo": response.data.conteudo,
+        notificacaoStore.enviar_notificacao(response_data);
       }
-      console.log("response_data",response_data);
-
-      notificacaoStore.enviar_notificacao(response_data);
 
       return true;
     } catch (error) {
@@ -122,6 +124,7 @@ export const useNoticiaStore = defineStore("noticias", () => {
   }
 
   return {
+    noticias_createNotifications,
     loadNoticias,
     noticias_filtered,
     createNoticia,

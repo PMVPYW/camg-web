@@ -16,6 +16,9 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     const rallyStore = useRallyStore();
     const notificacaoStore = useNotificacaoStore();
 
+    const declaracao_createNotifications = ref(false);
+
+
     const router = useRouter();
     const toast= useToast();
 
@@ -72,14 +75,15 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
             socket.emit("create_declaracao",response.data);
             toast.success("Declaração Criada!");
 
-            //Enviar notificação
-            let response_data ={
-                "titulo": response.data.nome + ' - ' + response.data.cargo + ' prestou uma declaração',
-                "conteudo": response.data.conteudo,
+            if(declaracao_createNotifications.value === true){
+                //Enviar notificação
+                let response_data ={
+                    "titulo": response.data.nome + ' - ' + response.data.cargo + ' prestou uma declaração',
+                    "conteudo": response.data.conteudo,
+                }
+                console.log("response_data",response_data);
+                notificacaoStore.enviar_notificacao(response_data);
             }
-            console.log("response_data",response_data);
-
-            notificacaoStore.enviar_notificacao(response_data);
 
             return true;
         } catch (error) {
@@ -121,6 +125,7 @@ export const useDeclaracaoStore = defineStore("declaracao", () => {
     }
 
     return {
+        declaracao_createNotifications,
         loadDeclaracoes,
         declaracoes_filtered,
         createDeclaracao,

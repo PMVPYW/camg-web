@@ -223,7 +223,6 @@ onMounted(async () => {
         () => props.redraw,
         (new_value) => {
             if (new_value === true) {
-                console.error("ueueu");
                 map.once('styledata', () => {
                   drawMap();
                   drawKml();
@@ -440,12 +439,19 @@ watch(filters, (new_value) => {
       </div>
     </div>
     <div class="flex flex-col h-dvh rounded-2xl">
-      <button @click="openButton=!openButton"
-          type="button"
-          class="md:w-3/12 sm:w-full justify-center opacity-85 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
-            <span v-if="openButton">Cancelar</span>
-            <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
-      </button>
+      <div class="flex items-center">
+        <button @click="openButton=!openButton"
+            type="button"
+            class="md:w-3/12 sm:w-full justify-center opacity-85 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
+              <span v-if="openButton">Cancelar</span>
+              <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
+        </button>
+        <div class="flex items-center justify-center mx-10">
+          <input v-model="zonaEspetaculoStore.zonaEspetaculo_Notifications" type="checkbox" class="relative w-11 h-6 p-px bg-gray-300 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-amber-300 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-amber-300 checked:border-amber-300 focus:checked:border-amber-300
+            before:inline-block before:size-5 before:bg-white checked:before:bg-amber-100 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 ">
+          <label for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
+        </div>
+      </div>
         <div v-if="openButton" class="p-2 mb-4 flex flex-row w-9/12 bg-gray-500 rounded-b-2xl rounded-r-2xl mx-3">
           <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/dark-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-blue-500' : ''}`">
             <img class="w-full rounded-xl" src=@/assets/dark.png alt="Logo">

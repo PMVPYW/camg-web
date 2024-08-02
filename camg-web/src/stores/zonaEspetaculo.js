@@ -18,6 +18,9 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   const map_store = ref(null);
   const notificacaoStore = useNotificacaoStore();
 
+  const zonaEspetaculo_Notifications = ref(false);
+
+
   socket.on("create_zonaEspetaculo", (zona) => {
     zonaEspetaculo_filtered.value.push(zona);
     toast.success("Nova de Zona Espetáculo");
@@ -74,14 +77,16 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       toast.success("Zona Espetaculo Criada!");
       console.log("Zona Espetaculo", zonaEspetaculo_filtered.value);
 
-      //Enviar notificação
-      let response_data ={
-        "titulo": response.data.data.nome,
-        "descricao" : "Foi criada uma nova zona de espetaculo"
-      }
-      console.log("response_data",response_data);
+      if(zonaEspetaculo_Notifications.value === true) {
+        //Enviar notificação(Criar ZE)
+        let response_data = {
+          "titulo": response.data.data.nome,
+          "descricao": "Foi criada uma nova zona de espetaculo"
+        }
+        console.log("response_data", response_data);
 
-      notificacaoStore.enviar_notificacao(response_data);
+        notificacaoStore.enviar_notificacao(response_data);
+      }
 
       return true;
     } catch (error) {
@@ -102,14 +107,16 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       socket.emit("update_zonaEspetaculo",response.data.data);
       toast.warning("Zona Espetaculo Atualizada!");
 
-      //Enviar notificação
-      let response_data ={
-        "titulo": response.data.data.nome,
-        "descricao" : "A " + response.data.data.nome + " foi atualizada"
-      }
-      console.log("response_data",response_data);
+      if(zonaEspetaculo_Notifications.value === true) {
+        //Enviar notificação(editar ZE)
+        let response_data = {
+          "titulo": response.data.data.nome,
+          "descricao": "A " + response.data.data.nome + " foi atualizada"
+        }
+        console.log("response_data", response_data);
 
-      notificacaoStore.enviar_notificacao(response_data);
+        notificacaoStore.enviar_notificacao(response_data);
+      }
 
       return true;
     } catch (error) {
@@ -125,8 +132,21 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
       zonaEspetaculo_filtered.value = zonaEspetaculo_filtered.value.filter(
         (item) => item.id !== id,
       );
+      console.error("RESPONSE", response.data.data)
       socket.emit("delete_zonaEspetaculo", id);
       toast.error("Zona Espetaculo Eliminada!");
+
+      if(zonaEspetaculo_Notifications.value === true) {
+        //Enviar notificação(eliminar ZE)
+        let response_data = {
+          "titulo": response.data.data.nome,
+          "descricao": "A " + response.data.data.nome + " foi eliminada"
+        }
+        console.log("response_data", response_data);
+
+        notificacaoStore.enviar_notificacao(response_data);
+      }
+
     } catch (error) {
       loadZonaEspetaculo({});
       throw error;
@@ -142,6 +162,7 @@ export const useZonaEspetaculoStore = defineStore("zonaEspetaculo", () => {
   }
 
   return {
+    zonaEspetaculo_Notifications,
     loadZonaEspetaculo,
     setMapInstance,
     getMapInstance,

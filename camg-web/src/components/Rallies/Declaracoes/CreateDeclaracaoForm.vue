@@ -3,6 +3,7 @@ import {inject, onMounted, ref, watch} from "vue";
 import {useRallyStore} from "@/stores/rally.js";
 import {useToast} from "vue-toastification";
 import {Icon} from "@iconify/vue";
+import {useDeclaracaoStore} from "@/stores/declaracao.js";
 
 const props = defineProps(["obj_to_edit","errors", "editing"]);
 const emit = defineEmits(["create", "edit"]);
@@ -10,6 +11,7 @@ const serverBaseUrl = inject("serverBaseUrl");
 const toast = useToast;
 
 const rallyStore = useRallyStore();
+const declaracaoStore = useDeclaracaoStore();
 
 const nome = ref(props.obj_to_edit?.nome);
 const conteudo = ref(props.obj_to_edit?.conteudo);
@@ -125,13 +127,20 @@ onMounted(()=>{
             <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
             <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
           </div>
-          <div class="flex flex-row w-9/12 mt-6 items-center justify-start">
-            <div class="flex items-center">
-              <label class="block mb-2 text-base font-medium">Atribuir pontuação:</label>
-              <input type="checkbox" required v-model="isChecked" class="py-2 px-2 mx-2 font-bold w-6 h-6 bg-gray-100 rounded-lg text-sm">
+          <div class="flex flex-row w-9/12 mt-6 items-center justify-between">
+            <div class="flex">
+              <div class="flex items-center">
+                <label class="block mb-2 text-base font-medium">Atribuir pontuação:</label>
+                <input type="checkbox" required v-model="isChecked" class="py-2 px-2 mx-2 font-bold w-6 h-6 bg-gray-100 rounded-lg text-sm">
+              </div>
+              <div v-if="isChecked" class="flex items-center mx-4">
+                <input type="number" required v-model="pontos" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Pontuação">
+              </div>
             </div>
-            <div v-if="isChecked" class="flex items-center mx-4">
-              <input type="number" required v-model="pontos" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Pontuação">
+            <div v-if="!props.editing" class="flex items-center">
+              <input v-model="declaracaoStore.declaracao_createNotifications" type="checkbox" class="relative w-11 h-6 p-px bg-gray-300 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-amber-300 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-amber-300 checked:border-amber-300 focus:checked:border-amber-300
+                before:inline-block before:size-5 before:bg-white checked:before:bg-amber-100 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 ">
+              <label for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
             </div>
           </div>
         </div>
