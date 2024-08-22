@@ -13,7 +13,7 @@ import {createCalendarControlsPlugin} from '@schedule-x/calendar-controls'
 import {createResizePlugin} from '@schedule-x/resize'
 import { createCurrentTimePlugin } from '@schedule-x/current-time'
 import '@schedule-x/theme-default/dist/index.css'
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useHorarioStore} from "@/stores/horario.js";
 import SimpleModal from "@/components/common/SimpleModal.vue";
 import {useRallyStore} from "@/stores/rally.js";
@@ -43,6 +43,7 @@ const calendar = createCalendar({
   views: [viewMonthGrid, viewWeek, viewDay],
   defaultView: viewWeek.name,
   events: events.value,
+  selectedDate: rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio,
   calendars: {
     evento: {
       colorName: 'evento',
