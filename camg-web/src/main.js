@@ -19,7 +19,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyY
 
 const app = createApp(App);
 
-const serverBaseUrl = "http://34.155.37.245";
+const serverBaseUrl = "http://admin.camg.pt";
 app.provide("serverBaseUrl", serverBaseUrl);
 // Default Axios configuration
 axios.defaults.baseURL = serverBaseUrl + "/api";
