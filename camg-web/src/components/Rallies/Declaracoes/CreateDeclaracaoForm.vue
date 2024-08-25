@@ -40,10 +40,9 @@ const emitNew = () => {
     "conteudo": conteudo.value,
     "cargo": cargo.value,
     "rally_id": rallyStore.rally_selected,
+    "photo_url": photo_url.value
   };
-  if (photo_url.value != null && photo_url.value!=props.obj_to_edit.photo_url) {
-    obj["photo_url"] = photo_url.value
-  }
+
   if (pontos.value != null) {
     obj["pontos"] = pontos.value
   }
@@ -68,6 +67,20 @@ function previewPhoto(photo){
       }
       fileReader.readAsDataURL(file.value);
     }
+  }
+}
+
+function handleFileChange(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  photo_url.value = file;
+  
+  reader.onload = () => {
+    preview.setAttribute('src', reader.result);
+  };
+  const preview = document.getElementById('file-preview');
+  if (file) {
+    reader.readAsDataURL(file);
   }
 }
 
@@ -96,7 +109,7 @@ onMounted(()=>{
                 <label class="block mb-2 text-base font-medium">Imagem:</label>
                 <input type="file" accept="image/png, image/gif, image/jpeg"
                        class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
-                       @change="$event.target.files[0].size < 1048576 ? (()=>{photo_url = $event.target.files[0] ; previewPhoto()})() : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
+                       @change="handleFileChange">
                 <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
               </div>
               <div>
