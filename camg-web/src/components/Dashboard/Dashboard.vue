@@ -43,7 +43,7 @@ console.log("compiuted", statsStore.melhor_tempo_rally)
         <TopNationalites/>
         <TopPatrocinos/>
        
-        <Card titulo="Distância minima de rally">
+        <Card titulo="Distância mínima de rally">
           <ToogleSwitch opcao1="Total" opcao2="Rally" :stat1="statsStore.distancia_minima_rally_total" :chart-categories="statsStore.nome_rallies_ordenados_distancia_asc" :series="statsStore.distancia_rallies_sort_asc" unidade_medida="Km"/>
         </Card> 
         <Card titulo="Distância média de rally">

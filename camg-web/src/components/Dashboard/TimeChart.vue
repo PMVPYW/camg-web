@@ -12,12 +12,12 @@ console.warn(statsStore.diff_pior_melhor)
 
 const series = [
           {
-            name: 'melhor tempo',
+            name: 'Melhor tempo',
             data: statsStore.melhor_tempo_rally,
             color:"#00AA00",
           },
           {
-            name: 'pior tempo',
+            name: 'Pior tempo',
             data: statsStore.diff_pior_melhor,
             color:"#FF0000"
           }

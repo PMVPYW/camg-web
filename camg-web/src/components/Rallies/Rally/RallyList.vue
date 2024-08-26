@@ -75,11 +75,11 @@ const setSelectedRally = (rally) => {
             <br />
             <label
                 class="h-10 my-2 ml-2 p-2 font-bold text-center rounded-lg w-1/12"
-                >Ordenar</label
+                >Ordenar:</label
             >
             <select
                 v-model="filters.order"
-                class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none h-10"
+                class="w-11/12 lg:w-1/6 text-sm my-2 ml-2 p-2 text-center border border-amber-400 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none h-10"
             >
                 <option value="proximity">Por proximidade</option>
                 <option value="date_desc">Por data decrescente</option>
