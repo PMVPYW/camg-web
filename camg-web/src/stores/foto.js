@@ -52,18 +52,51 @@ export const useFotoStore = defineStore("foto", () => {
 
     async function createFoto(data) {
         try {
-            const response = await axios.post("foto", data, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
+            var formData = {...data}
+            var arr = Array.from(data["image_src[]"]);
+            var size = 0;
+            const limit = 0.1 * 1024 *1024; //1MB
+            var fn = 0;
+            var dt = new DataTransfer();
             if(!fotos.value[currentAlbum.value])
+                {
+                    fotos.value[currentAlbum.value] = [];
+                }
+            for (const item of arr)
             {
-                fotos.value[currentAlbum.value] = [];
+                size+=item.size
+                dt.items.add(item)
+                fn++;
+                if (size >= limit)
+                {
+                    formData["image_src[]"] = dt.files;
+                    console.log("nduandanda", dt.files.length)
+                    const response = await axios.post("foto", formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    dt = new DataTransfer();
+                    size = 0;
+                    fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
+                    socket.emit("create_foto", currentAlbum.value, response.data.data)
+                }
             }
-            fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
-            socket.emit("create_foto", currentAlbum.value, response.data.data)
-            toast.success(response.data.data.length < 2 ? "Foto Carregada" : "Fotos Carregadas!")
+                    if (dt.files.length > 0)
+                    {
+                        formData["image_src[]"] = dt.files;
+                        console.log("nduandanda", dt.files.length)
+                        const response = await axios.post("foto", formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        });
+                        fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
+                        socket.emit("create_foto", currentAlbum.value, response.data.data)
+                    }
+                    toast.success(`${fn} ==? ${data["image_src[]"].length}`)
+                    toast.success(data["image_src[]"].length < 2 ? "Foto Carregada" : "Fotos Carregadas!")
+        
             console.log("error", fotos.value[currentAlbum.value], currentAlbum.value, Object.keys(fotos.value));
             return true;
         } catch (error) {
