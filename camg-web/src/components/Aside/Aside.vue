@@ -25,30 +25,30 @@ let button = ref(false);
             <router-link :to="{ name: 'noticias' }" :class="{active: $route.name === 'noticias', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'noticias'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'noticias', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'noticias'}">
                 <Icon icon="fluent:news-20-regular" class="min-w-5 min-h-5 font-bold" :class="{'text-white': $route.name === 'noticias'}">
-                  <title>Noticias</title>
+                  <title>Notícias</title>
                 </Icon>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Noticias</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Notícias</span>
             </router-link>
           </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'rallies'}">
             <router-link :to="{ name: 'rallies' }" :class="{active: $route.name === 'rallies', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'rallies'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'rallies', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'rallies'}">
                 <Icon icon="mdi:car-traction-control" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'rallies'}">
-                  <title>Rallies</title>
+                  <title>Rallyes</title>
                 </Icon>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Rallies</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Rallyes</span>
             </router-link>
           </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'albuns'}">
             <router-link :to="{ name: 'albuns' }" :class="{active: $route.name === 'albuns', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'albuns'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'albuns', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'albuns'}">
                 <Icon icon="material-symbols:imagesmode-outline-rounded" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'albuns'}">
-                  <title>Albuns</title>
+                  <title>Álbuns</title>
                 </Icon>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Albuns</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Álbuns</span>
             </router-link>
           </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'historias'}">
@@ -84,16 +84,16 @@ let button = ref(false);
           <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
 
           <li class="w-full">
-            <h6 class="pl-6 ml-2 my-4 font-bold leading-tight uppercase text-xs opacity-60">Acerca dos Rallys</h6>
+            <h6 class="pl-6 ml-2 my-4 font-bold leading-tight uppercase text-xs opacity-60">Acerca dos Rallyes</h6>
           </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'patrocinios'}">
             <router-link :to="{ name: 'patrocinios' }" :class="{active: $route.name === 'patrocinios', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'patrocinios'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
               <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'patrocinios', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'patrocinios'}">
                 <Icon icon="mdi:account-star-outline" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'patrocinios'}">
-                  <title>Patrocinios</title>
+                  <title>Patrocínios</title>
                 </Icon>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Patrocinios</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Patrocínios</span>
             </router-link>
           </li>
           <li class="mt-0.5 w-full" :class="{'drop-shadow-md': $route.name === 'patrociniosOficiais'}">
@@ -148,7 +148,7 @@ let button = ref(false);
             </router-link>
           </li>
           <li class="w-full">
-            <h6 class="pl-6 ml-2 my-4 font-bold leading-tight uppercase text-xs opacity-60">Gestão Back Office</h6>
+            <h6 class="pl-6 ml-2 my-4 font-bold leading-tight uppercase text-xs opacity-60">Painel de Controlo</h6>
           </li>
           <li class="mt-0.5 w-full mb-4" :class="{'drop-shadow-md': $route.name === 'admins'}">
             <router-link :to="{ name: 'admins' }" :class="{active: $route.name === 'admins', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'admins'}"  class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
@@ -164,7 +164,7 @@ let button = ref(false);
       </div>
     </aside>
     <button @click="button=!button" type="button" class="p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 ">
-      <span class="sr-only">Open sidebar</span>
+      <span class="sr-only">Minimizada</span>
       <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
         <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
       </svg>
@@ -185,21 +185,21 @@ let button = ref(false);
           <li class="mt-0.5 mx-auto pt-2" :class="{'drop-shadow-md': $route.name === 'noticias'}">
             <router-link :to="{ name: 'noticias' }" :class="{active: $route.name === 'noticias','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'noticias', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'noticias'}">
               <Icon icon="fluent:news-20-regular" class="min-w-5 min-h-5 font-bold" :class="{'text-white': $route.name === 'noticias'}">
-                <title>Noticias</title>
+                <title>Notícias</title>
               </Icon>
             </router-link>
           </li>
           <li class="mt-0.5 mx-auto pt-2" :class="{'drop-shadow-md': $route.name === 'rallies'}">
             <router-link :to="{ name: 'rallies' }" :class="{active: $route.name === 'rallies','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'rallies', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'rallies'}">
               <Icon icon="mdi:car-traction-control" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'rallies'}">
-                <title>Rallies</title>
+                <title>Rallyes</title>
               </Icon>
             </router-link>
           </li>
           <li class="mt-0.5 mx-auto pt-2" :class="{'drop-shadow-md': $route.name === 'albuns'}">
             <router-link :to="{ name: 'albuns' }" :class="{active: $route.name === 'albuns','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'albuns', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'albuns'}">
               <Icon icon="material-symbols:imagesmode-outline-rounded" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'albuns'}">
-                <title>Albuns</title>
+                <title>Álbuns</title>
               </Icon>
             </router-link>
           </li>
@@ -227,12 +227,12 @@ let button = ref(false);
           <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
 
           <li class="mx-auto">
-            <h6 class="my-4 font-bold leading-tight uppercase text-xs opacity-60">Rallys</h6>
+            <h6 class="my-4 font-bold leading-tight uppercase text-xs opacity-60">Rallyes</h6>
           </li>
           <li class="mt-0.5 mx-auto" :class="{'drop-shadow-md': $route.name === 'patrocinios'}">
             <router-link :to="{ name: 'patrocinios' }" :class="{active: $route.name === 'patrocinios','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'patrocinios', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'patrocinios'}">
               <Icon icon="mdi:account-star-outline" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'patrocinios'}">
-                <title>Patrocinios</title>
+                <title>Patrocínios</title>
               </Icon>
             </router-link>
           </li>
@@ -273,7 +273,7 @@ let button = ref(false);
           </li>
           <hr class="h-px my-4 bg-transparent bg-gradient-horizontal-dark">
           <li class="mx-auto">
-            <h6 class="text-center my-4 font-bold leading-tight uppercase text-xs opacity-60">Back Office</h6>
+            <h6 class="text-center my-4 font-bold leading-tight uppercase text-xs opacity-60">Painel</h6>
           </li>
           <li class="mt-0.5 mx-auto pt-2 mb-4" :class="{'drop-shadow-md': $route.name === 'admins'}">
             <router-link :to="{ name: 'admins' }" :class="{active: $route.name === 'admins','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'admins', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'admins'}">

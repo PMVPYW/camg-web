@@ -31,7 +31,7 @@ watch(filters, (new_value) => {
 </script>
 <template>
   <div class="w-10/12 h-full rounded-xl transition-all duration-200 mx-auto overflow-x-hidden" id="panel">
-    <h1 class="text-2xl font-bold ml-10 mt-10">Noticias</h1>
+    <h1 class="text-2xl font-bold ml-10 mt-10">Notícias</h1>
     <CrudButtons :create_callback="noticiaStore.createNoticia" :create_form="CreateNoticiaForm"
                  :edit_callback="noticiaStore.editNoticia" :obj_to_edit="selectedNoticia"
                  :delete_callback="noticiaStore.deleteNoticia" :delete_form="DeleteNoticiaForm"
@@ -53,8 +53,8 @@ watch(filters, (new_value) => {
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="filters.order" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option class="uppercase" value="titulo_asc">A-Z</option>
-              <option class="uppercase" value="titulo_desc">Z-a</option>
+              <option class="uppercase" value="titulo_asc">Título A-Z</option>
+              <option class="uppercase" value="titulo_desc">Título Z-a</option>
               <option class="uppercase" value="date_desc">Data mais recente</option>
               <option class="uppercase" value="date_asc">Data menos recente</option>
             </select>

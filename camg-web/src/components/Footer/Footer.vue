@@ -16,10 +16,10 @@
               <a href="https://camg.pt/" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Home</a>
             </li>
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Quem Somos</a>
+              <a href="https://camg.pt/historial/" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Quem Somos</a>
             </li>
             <li class="nav-item">
-              <a href="javascript:;" class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Provas</a>
+              <a href="https://camg.pt/ " class="block px-4 pt-0 pb-1 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500" target="_blank">Provas</a>
             </li>
             <li class="nav-item">
               <a href="https://camg.pt/noticias/" class="block px-4 pt-0 pb-1 pr-0 font-normal transition-colors ease-soft-in-out text-size-sm text-slate-500">Noticias</a>
