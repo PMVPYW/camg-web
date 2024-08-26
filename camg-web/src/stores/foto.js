@@ -55,7 +55,7 @@ export const useFotoStore = defineStore("foto", () => {
             var formData = {...data}
             var arr = Array.from(data["image_src[]"]);
             var size = 0;
-            const limit = 0.1 * 1024 *1024; //1MB
+            const limit = 10 * 1024 *1024; //10MB
             var fn = 0;
             var dt = new DataTransfer();
             if(!fotos.value[currentAlbum.value])
