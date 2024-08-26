@@ -67,7 +67,7 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             throw error;
         }
     }
-    async function loadPatrocinios({filters = "nome_asc"}) {
+    async function loadPatrocinios({ filters = null }) {
         try {
             if (patrocinios_complete.value.length == 0)
             {
@@ -76,10 +76,16 @@ export const usePatrocinioStore = defineStore("patrocinios", () => {
             }
 
             let response;
-            if(filters && rallyStore.rally_selected){
-                response = await axios.get("rally/"+rallyStore.rally_selected+"/patrocinios?filters="+filters);
-                patrocinios.value = response.data.data;
-                console.log(patrocinios, "patrocinios")
+            if(rallyStore.rally_selected) {
+                if (filters) {
+                    response = await axios.get("rally/" + rallyStore.rally_selected + "/patrocinios?filters=" + filters);
+                    patrocinios.value = response.data.data;
+                    console.log(patrocinios, "patrocinios")
+                } else {
+                    response = await axios.get("rally/" + rallyStore.rally_selected + "/patrocinios");
+                    patrocinios.value = response.data.data;
+                    console.log(patrocinios, "patrocinios")
+                }
             }
         } catch (error) {
             throw error;
