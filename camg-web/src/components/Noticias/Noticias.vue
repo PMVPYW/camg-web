@@ -1,15 +1,11 @@
 <script setup>
-import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
 import Noticia from "@/components/Noticias/Noticia.vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
 import {useNoticiaStore} from "@/stores/noticia.js";
 import {ref, watch, reactive} from "vue";
 import CreateNoticiaForm from "@/components/Noticias/CreateNoticiaForm.vue";
-import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
 import {useRallyStore} from "@/stores/rally.js";
-import CreateDeclaracaoForm from "@/components/Rallies/Declaracoes/CreateDeclaracaoForm.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
-import Historia from "@/components/Historias/Historia.vue";
 
 //Stores
 const noticiaStore=useNoticiaStore();
@@ -34,36 +30,36 @@ watch(filters, (new_value) => {
     <h1 class="text-2xl font-bold ml-10 mt-10">Notícias</h1>
     <CrudButtons :create_callback="noticiaStore.createNoticia" :create_form="CreateNoticiaForm"
                  :edit_callback="noticiaStore.editNoticia" :obj_to_edit="selectedNoticia"
-                 :delete_callback="noticiaStore.deleteNoticia" :delete_form="DeleteNoticiaForm"
+                 :delete_callback="noticiaStore.deleteNoticia" :delete_form="SimpleDeleteForm"
                  @clearSelected="selectedNoticia = {}"></CrudButtons>
     <div  class="w-11/12 my-14 rounded-lg justify-center mx-auto bg-[#f8f9fe]">
       <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
         <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
           <div class="flex flex-row w-2/6 w-min-16 my-1">
-            <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+            <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full text-center border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
           </div>
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">De:</label>
-            <input v-model="filters.data_inicio" type="date" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+            <input v-model="filters.data_inicio" type="date" class="py-3 px-4 block w-full text-center border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm">
           </div>
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Até:</label>
-            <input v-model="filters.data_fim" type="date" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+            <input v-model="filters.data_fim" type="date" class="py-3 px-4 block w-full text-center border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm">
           </div>
           <div class="flex flex-row items-center my-1">
-            <label class="block mx-4 text-base font-medium">Ordenar:</label>
-            <select v-model="filters.order" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option class="uppercase" value="titulo_asc">Título A-Z</option>
-              <option class="uppercase" value="titulo_desc">Título Z-a</option>
-              <option class="uppercase" value="date_desc">Data mais recente</option>
-              <option class="uppercase" value="date_asc">Data menos recente</option>
+            <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
+            <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full text-center border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm">
+              <option value="titulo_asc">Título A-Z</option>
+              <option value="titulo_desc">Título Z-a</option>
+              <option value="date_desc">Data mais recente</option>
+              <option value="date_asc">Data menos recente</option>
             </select>
           </div>
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Rally:</label>
-            <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+            <select v-model="rally_id" class="font-bold py-3 px-4 block w-full text-center border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm">
               <option :selected="rally_id==''" :value="''">---</option>
-              <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
+              <option v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
               </option>
             </select>
           </div>
