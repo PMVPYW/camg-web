@@ -73,8 +73,8 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
           <div class="flex flex-row items-center mb-2">
             <label class="block mx-4 text-base font-medium">Ordenar:</label>
             <select v-model="order_by" class="uppercase font-bold py-3 px-4 w-36 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
-              <option class="uppercase" value="nome_asc">Z-A</option>
-              <option class="uppercase" value="nome_desc">A-Z</option>
+              <option class="uppercase" value="nome_asc">Nome Z-A</option>
+              <option class="uppercase" value="nome_desc">Nome A-Z</option>
             </select>
           </div>
         </div>

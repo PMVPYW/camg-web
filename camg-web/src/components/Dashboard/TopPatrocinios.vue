@@ -38,7 +38,7 @@ const chartOptions = {
     },
     },
     title: {
-        text: 'Entidades que patrocinam mais rallies',
+        text: 'Entidades que patrocinam mais rallyes',
     },
     responsive: [{
         breakpoint: 480,

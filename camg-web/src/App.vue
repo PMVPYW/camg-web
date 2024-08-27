@@ -22,6 +22,7 @@ import { useStatsStore } from "./stores/stats";
 import {useDeclaracaoStore} from "@/stores/declaracao.js";
 import {useConselhoSegurancaStore} from "@/stores/conselho_seguranca.js";
 import {useHistoriaStore} from "@/stores/historia.js";
+import {useDiretoStore} from "@/stores/direto.js";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -39,6 +40,7 @@ const statsStore = useStatsStore();//n remover; inicialização de outra store i
 const declaracaoStore = useDeclaracaoStore();
 const conselhoSegurancaStore = useConselhoSegurancaStore();
 const historiaStore = useHistoriaStore();
+const diretoStore = useDiretoStore();
 
 onMounted(async () => {
   await rallyStore.loadRallies();
@@ -59,6 +61,7 @@ onMounted(async () => {
   await declaracaoStore.loadDeclaracoes({});
   await conselhoSegurancaStore.loadConselhosSeguranca();
   await historiaStore.loadHistorias({});
+  await diretoStore.loadDiretos({});
 
   if (userStore.user != null) {
         await userStore.loadAdmins();

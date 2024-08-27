@@ -48,7 +48,7 @@ const chartOptions = {
     },
     },
     title: {
-        text: 'Distribuição da nacionalidade dos participantes de todosos rallyes',
+        text: 'Distribuição da nacionalidade dos participantes de todos os rallyes',
     },
     responsive: [{
         breakpoint: 480,

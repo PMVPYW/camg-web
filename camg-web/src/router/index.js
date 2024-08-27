@@ -20,6 +20,7 @@ import {useUserStore} from "@/stores/user.js";
 import Fotos from "@/components/Albuns/Fotos/Fotos.vue";
 import Admins from "@/components/Admins/Admins.vue";
 import Settings from "@/components/Settings/Settings.vue";
+import Diretos from "@/components/Diretos/Diretos.vue";
 import PatrociniosOficiais from "@/components/Rallies/PatrociniosOficiais/PatrociniosOficiais.vue";
 
 let handleFirstTime = true;
@@ -97,6 +98,11 @@ const router = createRouter({
             path: "/historias",
             name: "historias",
             component: Historias,
+        },
+        {
+            path: "/diretos",
+            name: "diretos",
+            component: Diretos,
         },
         {
             path: "/orgaos_sociais",

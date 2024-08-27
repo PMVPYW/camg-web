@@ -74,7 +74,7 @@ function removeElement(foto_id) {
             >
               <div>
                 <label class="block mb-2 text-base font-medium"
-                >Titulo</label
+                >Título</label
                 >
                 <input
                     type="text"
@@ -140,7 +140,7 @@ function removeElement(foto_id) {
             >
               <div class="mb-4 sm:mb-8 w-full">
                 <label class="block mb-2 text-base font-medium"
-                >Capa Noticia:</label
+                >Capa Notícia:</label
                 >
                 <input
                     type="file"
@@ -207,11 +207,11 @@ function removeElement(foto_id) {
               <div class="flex flex-row">
                 <label
                     class="block mb-2 text-base font-medium m-2"
-                >Album:</label
+                >Álbum:</label
                 >
                 <select
                     v-model="album_selected"
-                    class="py-3 px-4 block w-1/3 border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                    class="py-3 px-4 block w-35 border border-gray-200 bg-gray-100 rounded-lg text-sm"
                 >
                   <option
                       :selected="album_selected === false"
@@ -335,7 +335,7 @@ function removeElement(foto_id) {
                     <h1
                         class="text-gray-800 text-base font-medium"
                     >
-                      Album Sem Fotos
+                      Álbum Sem Fotos
                     </h1>
                   </div>
                 </div>
