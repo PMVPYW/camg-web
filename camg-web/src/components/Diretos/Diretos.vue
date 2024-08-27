@@ -1,15 +1,8 @@
 <script setup>
-import CreatePatrocinioForm from "@/components/Rallies/Patrocinios/CreatePatrocinioForm.vue";
-import Noticia from "@/components/Noticias/Noticia.vue";
 import CrudButtons from "@/components/common/crudButtons.vue";
-import {useNoticiaStore} from "@/stores/noticia.js";
 import {ref, watch, reactive} from "vue";
-import CreateNoticiaForm from "@/components/Noticias/CreateNoticiaForm.vue";
-import DeleteNoticiaForm from "@/components/Noticias/DeleteNoticiaForm.vue";
 import {useRallyStore} from "@/stores/rally.js";
-import CreateDeclaracaoForm from "@/components/Rallies/Declaracoes/CreateDeclaracaoForm.vue";
 import SimpleDeleteForm from "@/components/common/SimpleDeleteForm.vue";
-import Historia from "@/components/Historias/Historia.vue";
 import {useDiretoStore} from "@/stores/direto.js";
 import {Icon} from "@iconify/vue";
 import CreateDiretoForm from "@/components/Diretos/CreateDiretoForm.vue";
@@ -41,7 +34,6 @@ function toggleVisibility(index) {
       diretoStore.editDireto({ 'visivel': newVisibility }, direto.id)
     }else {
       direto.visivel = 0
-      diretoStore.editDireto({'visivel': direto.visivel}, direto.id)
     }
   });
 }
@@ -64,16 +56,16 @@ function toggleVisibility(index) {
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Filtrar:</label>
             <select v-model="filters.status" class="uppercase font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
-              <option class="uppercase" value="enable">Visíveis</option>
-              <option class="uppercase" value="disable">Não Visíveis</option>
-              <option class="uppercase" value="all">Mostrar Tudo</option>
+              <option value="enable">Visíveis</option>
+              <option value="disable">Não Visíveis</option>
+              <option value="all">Mostrar Tudo</option>
             </select>
           </div>
           <div class="flex flex-row items-center my-1">
             <label class="block mx-4 text-base font-medium">Rally:</label>
             <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
               <option :selected="rally_id==''" :value="''">---</option>
-              <option class="uppercase" v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
+              <option v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
               </option>
             </select>
           </div>
