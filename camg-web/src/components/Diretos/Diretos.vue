@@ -73,7 +73,7 @@ function toggleVisibility(index) {
       </div>
     </div>
     <!-- Table -->
-    <div v-if="diretoStore.diretos.length" class="w-11/12 p-1 border-2 border-gray-300 rounded-xl mx-auto m-10">
+    <div v-if="diretoStore.diretos?.length" class="w-11/12 p-1 border-2 border-gray-300 rounded-xl mx-auto m-10">
       <table class="w-full text-left whitespace-nowrap bg-gray-100">
         <!-- Table head -->
         <thead class="uppercase bg-neutral-50">

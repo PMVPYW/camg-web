@@ -33,6 +33,12 @@ export const useDiretoStore = defineStore("diretos", () => {
         if (index >= 0) {
             diretos.value[index] = direto;
         }
+        if (direto.visivel)
+        {
+            diretos.value.forEach((dir)=>{
+                dir.visivel = (dir.id == direto.id ? direto.visivel : 0)
+            })
+        }
         toast.warning("Direto Atualizado!");
     });
 
