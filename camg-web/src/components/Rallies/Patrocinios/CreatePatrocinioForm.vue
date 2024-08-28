@@ -96,10 +96,10 @@ function searchEntities() {
          <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-100 p-2 mx-2 rounded-xl">{{relevancia}}</label>
         </div>
         <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer">
-        <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-0 -bottom-6">1</span>
-        <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
-        <span class="text-sm text-gray-500 dark:text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
-        <span class="text-sm text-gray-500 dark:text-gray-800 absolute end-0 -bottom-6">10</span>
+        <span class="text-sm text-gray-800 absolute start-0 -bottom-6">1</span>
+        <span class="text-sm text-gray-800 absolute start-1/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">4</span>
+        <span class="text-sm text-gray-800 absolute start-2/3 -translate-x-1/2 rtl:translate-x-1/2 -bottom-6">7</span>
+        <span class="text-sm text-gray-800 absolute end-0 -bottom-6">10</span>
        </div>
        <h1 v-if="errors.relevancia" class="pt-2 text-red-600 text-base font-medium">{{errors.relevancia[0]}}</h1>
       </div>
@@ -125,7 +125,7 @@ function searchEntities() {
     <div class="flex justify-center w-full">
      <button type="button"
          @click="createPatrocinio"
-         class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+         class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
       {{creating ? 'Criar' : 'Associar'}}
      </button>
     </div>
@@ -146,15 +146,15 @@ function searchEntities() {
     </div>
     <div class="flex flex-row">
      <button @click="()=>{creating=!creating; selected=!selected}" v-if="!creating" type="button"
-         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
        Criar Entidade
      </button>
      <button @click="()=>{creating=!creating; selected=!selected}" v-else type="button"
-         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
       Associar Entidade
      </button>
      <button type="button" @click="()=>{patrocinioStore.deleteEntidade()} "
-         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+         class="opacity-85 my-2 mx-2 py-1.5 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-red-800 border-red-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
       Remover Entidades
      </button>
     </div>

@@ -33,7 +33,7 @@ const createTypeContact = async ()=>{
       <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Tipo">
       <h1 v-if="errors" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
      </div>
-     <a @click="createTypeContact" class="md:w-2/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">Criar</a>
+     <a @click="createTypeContact" class="md:w-2/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600 justify-center">Criar</a>
     <br>
    </div>
   </div>

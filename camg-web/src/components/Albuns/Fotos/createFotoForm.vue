@@ -58,7 +58,7 @@ const emitFoto = () => {
        @change="image_src = props.obj_to_edit && props.editing ? $event.target.files[0] : $event.target.files">
    <input type="submit"
        @click.prevent="emitFoto"
-       class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+       class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600"
        :value="props.obj_to_edit && props.editing ? 'Editar' : 'Criar'"/>
   <div class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex">
    <!--second line of errors-->
