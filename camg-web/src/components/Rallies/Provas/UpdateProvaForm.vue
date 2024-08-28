@@ -52,7 +52,7 @@ watch(()=>props.errors, (n_errors)=>{
      <div class="flex flex-col justify-center w-5/6 mx-auto">
       <div class="flex flex-wrap justify-center">
        <div class="w-1/3 m-4">
-        <label class="block mb-2 text-base font-medium">KML da prova</label>
+        <label class="block mb-2 text-base font-medium">KML da PEC</label>
         <input
           type="file"
           accept=".kml"

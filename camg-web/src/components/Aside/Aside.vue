@@ -151,10 +151,10 @@ let button = ref(false);
       <router-link :to="{ name: 'provas' }" :class="{active: $route.name === 'provas', 'py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors': $route.name === 'provas'}" class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors">
        <div :class="{'bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name === 'provas', 'shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1': $route.name !== 'provas'}">
         <Icon icon="maki:racetrack" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'provas'}">
-         <title>Provas</title>
+         <title>PECs</title>
         </Icon>
        </div>
-       <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Provas</span>
+       <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">PECs</span>
       </router-link>
      </li>
      <li class="w-full">
@@ -284,7 +284,7 @@ let button = ref(false);
      <li class="mt-0.5 mx-auto pt-2 mb-4" :class="{'drop-shadow-md': $route.name === 'provas'}">
       <router-link :to="{ name: 'provas' }" :class="{active: $route.name === 'provas','bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center text-center': $route.name === 'provas', 'shadow-soft-2xl flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center p-1': $route.name !== 'provas'}">
        <Icon icon="maki:racetrack" class="min-w-5 min-h-5" :class="{'text-white': $route.name === 'provas'}">
-        <title>Provas</title>
+        <title>PECs</title>
        </Icon>
       </router-link>
      </li>

@@ -443,7 +443,7 @@ watch(filters, (new_value) => {
     <button @click="openButton=!openButton"
       type="button"
       class="md:w-3/12 sm:w-full justify-center opacity-85 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600">
-       <span v-if="openButton">Cancelar</span>
+       <span v-if="openButton">Fechar</span>
        <div class="flex" v-else><span>Escolher outro mapa </span><Icon icon="iconamoon:arrow-down-2-fill" class="min-w-5 min-h-5 text-white" /></div>
     </button>
     <div class="flex items-center justify-center mx-10">

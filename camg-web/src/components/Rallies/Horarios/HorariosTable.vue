@@ -223,7 +223,7 @@ function addHorario() {
     <div class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
      <input @click="()=>{current_creating_time = null; editing = false}" type="reset"
          class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
-         value="Cancelar">
+         value="Fechar">
      <input @click.prevent="addHorario" type="submit"
          class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-green-600 text-white"
          :value="editing ? 'Atualizar' : 'Criar'">

@@ -27,8 +27,7 @@ function applyFilters(int) {
 
 <template>
  <!-- Table responsive wrapper -->
- <div class="overflow-x-auto bg-white overflow-y-scroll">
-
+ <div class="overflow-x-auto bg-white overflow-y-scroll border-2 border-gray-300 rounded-xl">
   <!-- Search input -->
   <div class="relative m-[2px] mb-3 mr-5 float-left p-2">
    <label for="inputSearch" class="sr-only">Search </label><br>
@@ -63,7 +62,7 @@ function applyFilters(int) {
   </div>
 
   <!-- Table -->
-  <table class="min-w-full text-left whitespace-nowrap">
+   <table class="min-w-full text-left whitespace-nowrap">
 
    <!-- Table head -->
    <thead class="capitalize tracking-wider sticky top-0 bg-neutral-50">
@@ -117,7 +116,6 @@ function applyFilters(int) {
     </td>
    </tr>
    </tbody>
-
   </table>
 
   <nav class="mt-5 flex items-center justify-between text-sm p-4" aria-label="Page navigation example">

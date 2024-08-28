@@ -95,7 +95,7 @@ const togleCreating = () => {
   creating.value = !creating.value;
   deleting.value = false;
   if (!creating.value) {
-    //acabou de cancelar
+    //acabou de Fechar
     emit("create_canceled");
   }
   //clearSelected();
@@ -164,7 +164,7 @@ const deleteEntity = () => {
         type="button"
         class="md:w-3/12 sm:w-full text-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-20 shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-green-800 border-green-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600 justify-center"
       >
-        {{ creating ? "Cancelar" : "Criar" }}
+        {{ creating ? "Fechar" : "Criar" }}
       </button>
       <button
         v-if="props.delete_visible"
@@ -173,7 +173,7 @@ const deleteEntity = () => {
         :disabled="!obj_to_edit_cpy.id"
         class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-red-800 border-red-600 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600"
       >
-        {{ deleting ? "Cancelar" : "Eliminar" }}
+        {{ deleting ? "Fechar" : "Eliminar" }}
       </button>
       <button
         v-if="props.update_visible"
@@ -182,7 +182,7 @@ const deleteEntity = () => {
         :disabled="!obj_to_edit_cpy.id"
         class="md:w-3/12 sm:w-full justify-center opacity-85 my-2 mx-2 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border shadow-sm disabled:opacity-50 disabled:pointer-events-none bg-slate-900 border-gray-700 text-white hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-600"
       >
-        {{ editing ? "Cancelar" : "Editar" }}
+        {{ editing ? "Fechar" : "Editar" }}
       </button>
     </div>
     <div class="mx-auto w-full items-center">

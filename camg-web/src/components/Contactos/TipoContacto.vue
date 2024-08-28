@@ -48,7 +48,7 @@ function emit_contact(contacto){
    Editar
   </button>
   <button v-if="editTypeContact===true" @click="()=>{editTypeContact=!editTypeContact}" class="p-2 mx-4 px-4 md:w-1/12 sm:w-full text-center opacity-85 my-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-red-800 dark:border-red-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 justify-center">
-   Cancelar
+   Fechar
   </button>
  </div>
  <h1 v-if="errors" class="mx-10 text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>

@@ -26,7 +26,7 @@ watch(filters, (new_value) => {
 </script>
 <template>
  <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200 overflow-x-hidden" id="panel">
-  <h1 class="text-2xl font-bold ml-10 mt-10">Provas</h1>
+  <h1 class="text-2xl font-bold ml-10 mt-10">PECs</h1>
   <CrudButtons :create_visible="false" :create_form="UpdateProvaForm"
          :edit_callback="provaStore.editProva" :obj_to_edit="selectedProva"
          :delete_visible="false"
@@ -48,10 +48,6 @@ watch(filters, (new_value) => {
        <option value="distancia_percurso_desc">Distancia decrescente</option>
        <option value="proximity">Proximidade</option>
       </select>
-     </div>
-     <div class="flex flex-row items-center m-4">
-      <label class="block ml-4 text-base font-medium w-9/12">A partir de:</label>
-      <input v-model="filters.data_inicio" type="date" class="py-3 px-8 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm ">
      </div>
     </div>
    </div>
