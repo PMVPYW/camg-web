@@ -20,51 +20,51 @@ const errors = ref(props.errors ?? {})
 const album = ref(albumStore.albuns.find((album) => album.id == fotoStore.currentAlbum) ?? {});
 
 watch(()=>props.errors, (n_errors)=>{
-  errors.value = n_errors;
+ errors.value = n_errors;
 })
 
 onMounted(()=>{
-  album.value = albumStore.albuns.find((album) => album.id == fotoStore.currentAlbum) ?? {}
+ album.value = albumStore.albuns.find((album) => album.id == fotoStore.currentAlbum) ?? {}
 })
 
 const emitFoto = () => {
-  var img_src_value = "image_src" + (props.obj_to_edit && props.editing ? "" : "[]");
-  var obj = {
-    "description": description.value,
-    "album_id": album_id.value,
-  }
-  obj[img_src_value] = image_src.value;
-  emit(props.obj_to_edit && props.editing ? 'edit' : "create", obj);
+ var img_src_value = "image_src" + (props.obj_to_edit && props.editing ? "" : "[]");
+ var obj = {
+  "description": description.value,
+  "album_id": album_id.value,
+ }
+ obj[img_src_value] = image_src.value;
+ emit(props.obj_to_edit && props.editing ? 'edit' : "create", obj);
 }
 </script>
 
 <template>
-  <form class="m-2">
-      <input type="text" name="nome" placeholder="descrição das fotos" required v-model="description"
-             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
-     <select disabled  v-model="album_id" class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
-       <option :selected="true" :value="album.id">{{album.nome}}</option>
-     </select>
-    <br>
+ <form class="m-2">
+   <input type="text" name="nome" placeholder="descrição das fotos" required v-model="description"
+       class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
+   <select disabled v-model="album_id" class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
+    <option :selected="true" :value="album.id">{{album.nome}}</option>
+   </select>
+  <br>
 
-    <div class="w-full text-red-600 font-bold items-top flex mx-2" v-if="Object.keys(errors).length">
-      <!--first line of errors-->
-      <div v-if="errors.nome" class="w-1/2 text-center inline-block">{{ errors.nome[0] }}</div>
-      <div class="w-1/12  inline-block"></div>
-    </div>
-    <br>
-      <input multiple type="file" accept="image/png, image/gif, image/jpeg"
-             class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
-             @change="image_src = props.obj_to_edit && props.editing ?  $event.target.files[0] : $event.target.files">
-      <input type="submit"
-             @click.prevent="emitFoto"
-             class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-             :value="props.obj_to_edit && props.editing ? 'Editar' : 'Criar'"/>
-    <div class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex">
-      <!--second line of errors-->
-      <div v-if="errors.image_src" class="w-7/12 inline-block">{{ errors.image_src[0] }}</div>
-      <div class="w-3/12 inline-block"></div>
+  <div class="w-full text-red-600 font-bold items-top flex mx-2" v-if="Object.keys(errors).length">
+   <!--first line of errors-->
+   <div v-if="errors.nome" class="w-1/2 text-center inline-block">{{ errors.nome[0] }}</div>
+   <div class="w-1/12 inline-block"></div>
+  </div>
+  <br>
+   <input multiple type="file" accept="image/png, image/gif, image/jpeg"
+       class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
+       @change="image_src = props.obj_to_edit && props.editing ? $event.target.files[0] : $event.target.files">
+   <input type="submit"
+       @click.prevent="emitFoto"
+       class="opacity-85 w-3/12 text-center justify-center mx-2 py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-green-800 dark:border-green-600 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+       :value="props.obj_to_edit && props.editing ? 'Editar' : 'Criar'"/>
+  <div class="w-full text-red-600 font-bold mx-auto text-center items-top justify-center flex">
+   <!--second line of errors-->
+   <div v-if="errors.image_src" class="w-7/12 inline-block">{{ errors.image_src[0] }}</div>
+   <div class="w-3/12 inline-block"></div>
 
-    </div>
-  </form>
+  </div>
+ </form>
 </template>
