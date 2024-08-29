@@ -28,11 +28,11 @@ watch(filters, (new_value) => {
    <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
     <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
      <div class="flex flex-row w-2/6 w-min-16 my-1">
-      <input type="text" v-model="filters.search" required class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" v-model="filters.search" required class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="titulo_asc">Titulo de A-Z</option>
        <option value="titulo_desc">Titulo de Z-a</option>
        <option value="subtitulo_asc">Subtitulo de A-Z</option>

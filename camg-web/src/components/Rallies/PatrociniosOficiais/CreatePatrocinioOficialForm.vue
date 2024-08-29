@@ -86,7 +86,7 @@ function searchEntities() {
     <div class="flex justify-center w-full">
      <div class="mt-2 w-9/12">
       <label class="block mb-2 text-base font-medium">Nome</label>
-      <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome Patrocinio">
+      <input type="text" required v-model="nome" @input="searchEntities" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome Patrocinio">
       <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
      </div>
     </div>
@@ -95,7 +95,7 @@ function searchEntities() {
      <div class="mb-4 sm:mb-8 w-11/12">
       <label class="block mb-2 text-base font-medium">Logo</label>
       <input type="file" accept="image/png, image/gif, image/jpeg"
-          class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+          class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 file:hidden"
           @change="$event.target.files[0].size < 1048576 ? photo_url = $event.target.files[0] : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
       <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
      </div>
@@ -103,7 +103,7 @@ function searchEntities() {
     <div v-if="creating" class="flex justify-center w-full">
      <div class="mb-4 sm:mb-8 w-11/12">
       <label class="block mb-2 text-base font-medium">Link</label>
-      <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
+      <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
       <h1 v-if="errors.url" class="text-red-600 text-base font-medium">{{errors.url[0]}}</h1>
      </div>
     </div>
@@ -119,11 +119,11 @@ function searchEntities() {
     <h1 class="block mb-2 text-lg font-medium">Entidades</h1>
     <div class="flex flex-row items-center">
       <div v-for="entidade in filteredEntities">
-       <div v-if="!creating" @click="()=>{nome=entidade.nome; selected=entidade.id;}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
+       <div v-if="!creating" @click="()=>{nome=entidade.nome; selected=entidade.id;}" :class="{'border-4 opacity-80': selected == entidade.id}" class="flex bg-white w-28 h-28 m-1 border border-amber-200 rounded-xl">
          <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
             class="my-auto mx-auto w-24 shadow-soft-2xl" >
        </div>
-       <div v-if="creating" class="flex bg-white w-28 h-28 m-1 border border-gray-300 rounded-xl">
+       <div v-if="creating" class="flex bg-white w-28 h-28 m-1 border border-amber-200 rounded-xl">
         <img :src="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`" :alt="`${serverBaseUrl}/storage/entidades/${entidade.photo_url}`"
            class="my-auto mx-auto w-24 shadow-soft-2xl">
        </div>

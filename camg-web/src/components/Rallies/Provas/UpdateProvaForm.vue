@@ -57,13 +57,13 @@ watch(()=>props.errors, (n_errors)=>{
         <input
           type="file"
           accept=".kml"
-          class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+          class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 file:hidden"
           @change="$event.target.files[0].size < 1048576 ? (kml =$event.target.files[0]): (() => {toast.error('kml is too big!',);$event.target.value = null;})()"/>
        </div>
        <div class="w-1/3 m-4">
         <label class="block mb-2 text-base font-medium">Local</label>
         <input type="text" required v-model="local"
-            class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+            class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
             placeholder="Local">
        </div>
       </div>

@@ -41,9 +41,9 @@ const emitFoto = () => {
 <template>
   <hr class="my-6">
   <form class="m-2">
-     <input type="text" name="nome" placeholder="descrição das fotos" required v-model="description"
-         class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
-     <select disabled v-model="album_id" class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
+     <input type="text" name="nome" placeholder="Descrição das Fotos" required v-model="description"
+         class="text-sm m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-1/2">
+     <select disabled v-model="album_id" class="text-sm m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-5/12">
       <option :selected="true" :value="album.id">{{album.nome}}</option>
      </select>
     <br>
@@ -55,7 +55,7 @@ const emitFoto = () => {
     </div>
     <br>
      <input multiple type="file" accept="image/png, image/gif, image/jpeg"
-         class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
+         class="text-sm m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-8/12 file:hidden"
          @change="image_src = props.obj_to_edit && props.editing ? $event.target.files[0] : $event.target.files">
      <input type="submit"
          @click.prevent="emitFoto"

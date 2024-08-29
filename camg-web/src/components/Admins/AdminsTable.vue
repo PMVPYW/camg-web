@@ -32,7 +32,7 @@ function applyFilters(int) {
   <div class="relative m-[2px] mb-3 mr-5 float-left p-2">
    <label for="inputSearch" class="sr-only">Search </label><br>
    <input id="inputSearch" type="text" placeholder="Pesquisar..." v-model="filters.search"
-       class="block w-64 rounded-lg border py-2 px-4 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"/>
+       class="block w-64 rounded-lg border py-2 px-4 pr-4 text-sm focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-500"/>
 
   </div>
 
@@ -40,7 +40,7 @@ function applyFilters(int) {
   <div class="relative m-[2px] mb-3 float-right hidden sm:block p-2">
    <label for="inputFilter" class="inline">Filtrar</label>
    <select id="inputFilter"
-       class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+       class="block w-40 rounded-lg border p-2 text-sm focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
        v-model="filters.status">
     <option value="all" selected>Todos</option>
     <option value="unblocked">Desbloqueados</option>
@@ -52,7 +52,7 @@ function applyFilters(int) {
   <div class="relative m-[2px] mb-3 float-right hidden sm:block p-2">
    <label for="inputFilter" class="inline">Ordenar&nbsp;Por:</label>
    <select id="inputFilter"
-       class="block w-40 rounded-lg border p-2 text-sm focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400"
+       class="block w-40 rounded-lg border p-2 text-sm focus:border-amber-400 focus:outline-none focus:ring-1 focus:ring-amber-500"
        v-model="filters.order">
     <option value="most_recent" selected>Mais Recente</option>
     <option value="least_recent">Mais Antigo</option>

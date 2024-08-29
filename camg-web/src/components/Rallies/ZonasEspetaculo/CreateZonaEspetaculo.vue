@@ -65,7 +65,7 @@ const createZE = async () => {
                 v-model="nome"
                 type="text"
                 required
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
                 placeholder="Nome Zona de Espetáculo"
               />
               <h1
@@ -81,7 +81,7 @@ const createZE = async () => {
               >
               <select
                 v-model="prova_id"
-                class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option v-for="prova in provaStore.provas"
                   :value="prova.id"
@@ -111,7 +111,7 @@ const createZE = async () => {
                 v-model="distancia_estacionamento"
                 type="number"
                 required
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
                 placeholder="Distância em metros"
               />
               <h1
@@ -127,7 +127,7 @@ const createZE = async () => {
               >
               <select
                 v-model="facilidade_acesso"
-                class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option selected>Fácil</option>
                 <option>Médio</option>
@@ -152,7 +152,7 @@ const createZE = async () => {
               >
               <select
                 v-model="nivel_afluencia"
-                class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option selected>Baixo</option>
                 <option>Médio</option>
@@ -171,7 +171,7 @@ const createZE = async () => {
               >
               <select
                 v-model="nivel_ocupacao"
-                class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option selected>Livre</option>
                 <option>Intermédio</option>
@@ -195,7 +195,7 @@ const createZE = async () => {
               type="text"
               v-model="coordenada"
               required
-              class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
             ></textarea>
             <h1
               v-if="errors.coordenadas"
@@ -214,7 +214,7 @@ const createZE = async () => {
               type="text"
               v-model="info"
               required
-              class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
             ></textarea>
             <h1
               v-if="errors.info"

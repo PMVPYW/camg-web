@@ -54,18 +54,18 @@ watch(()=>contactoStore.contactos, (contacto)=>{
    <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
     <div class="flex flex-row items-center justify-between w-5/6">
      <div class="flex flex-row w-2/6">
-      <input type="text" required v-model="pesquisa" @input="searchContact" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" required v-model="pesquisa" @input="searchContact" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="nome_asc">A-Z</option>
        <option value="nome_desc">Z-a</option>
       </select>
      </div>
      <div class="flex flex-row items-center">
       <label class="block mx-4 text-base font-medium">Tipo:</label>
-      <select v-model="filters.tipo_contacto_id" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.tipo_contacto_id" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="">----</option>
        <option v-for="tipoContacto in contactoStore.tipo_contactos" :value="tipoContacto.id">{{tipoContacto.nome}}</option>
       </select>

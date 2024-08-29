@@ -206,21 +206,21 @@ onMounted(()=>{
         <div class="w-full mb-4">
          <label class="block mb-2 text-base font-medium">Titulo</label>
          <input type="text" required v-model="titulo"
-             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+             class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
              placeholder="Titulo">
          <h1 v-if="errors.titulo" class="text-red-600 text-base font-medium">{{errors.titulo[0]}}</h1>
         </div>
         <div class="w-full my-4">
          <label class="block mb-2 text-base font-medium">Subtitulo</label>
          <input type="text" required v-model="subtitulo"
-             class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+             class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
              placeholder="Subtitulo">
          <h1 v-if="errors.subtitulo" class="text-red-600 text-base font-medium">{{errors.subtitulo[0]}}</h1>
         </div>
         <div class="w-full my-4">
          <label class="block mb-2 text-base font-medium">Imagem</label>
          <input type="file" accept="image/png, image/gif, image/jpeg"
-             class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+             class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 file:hidden"
              @change="$event.target.files[0].size < 1048576 ? (()=>{photo_url = $event.target.files[0] ; previewPhoto()})() : (() => { toast.error('Photo is too big!'); $event.target.value = null })()">
          <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
         </div>
@@ -239,7 +239,7 @@ onMounted(()=>{
         <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
         <div class="mt-2">
          <textarea id="about" required rows="3" v-model="conteudo"
-              class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
+              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"></textarea>
         </div>
         <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
        </div>
@@ -259,7 +259,7 @@ onMounted(()=>{
          <div class="w-full">
           <label class="block mb-2 text-base font-medium">Titulo do capítulo</label>
           <input type="text" required v-model="capitulo.titulo"
-              class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               placeholder="Titulo">
           <h1 v-if="errors[`capitulos.${index}.titulo`]" class="text-red-600 text-base font-medium">{{ errors[`capitulos.${index}.titulo`]?.[0] }}</h1>
          </div>
@@ -273,21 +273,21 @@ onMounted(()=>{
            <div>
             <label class="block mb-2 text-base font-medium">Nome</label>
             <input type="text" required v-model="etapa.nome"
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
                 placeholder="Nome">
             <h1 v-if="errors[`etapas.${index2}.nome`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.nome`]?.[0] }}</h1>
            </div>
            <div>
             <label class="block mb-2 text-base font-medium">Ano do Inicio</label>
             <input type="number" required min="1960" size="4" v-model="etapa.ano_inicio"
-                class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="Ano - YYYY">
             <h1 v-if="errors[`etapas.${index2}.ano_inicio`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.ano_inicio`]?.[0] }}</h1>
            </div>
            <div>
             <label class="block mb-2 text-base font-medium">Ano do Fim</label>
             <input type="number" min="1960" size="4" v-model="etapa.ano_fim"
-                class="py-3 px-4 block w-full border border-gray-300 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="Ano - YYYY">
             <h1 v-if="errors[`etapas.${index2}.ano_fim`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.ano_fim`]?.[0] }}</h1>
            </div>

@@ -43,7 +43,7 @@ const setSelectedAlbum = (rally) => {
     <div class="mx-auto h-1/4 w-full p-3 mb-6 sm:flex-none">
       <input
         type="text"
-        placeholder="Pesquisar"
+        placeholder="Procurar"
         v-model.lazy="filters.search"
         class="w-11/12 lg:w-1/2 text-sm m-2 py-3 px-4 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
       />

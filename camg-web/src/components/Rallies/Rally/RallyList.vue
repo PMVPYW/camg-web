@@ -47,7 +47,7 @@ const setSelectedRally = (rally) => {
         type="text"
         placeholder="Procurar"
         v-model.lazy="filters.search"
-        class="w-11/12 lg:w-1/2 text-sm my-2 ml-2 py-3 px-4 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-200 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
+        class="w-11/12 lg:w-1/2 text-sm my-2 ml-2 py-3 px-4 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
       />
       <label
         class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-1/12"
@@ -81,9 +81,9 @@ const setSelectedRally = (rally) => {
         v-model="filters.order"
         class="w-11/12 capitalize font-bold lg:w-1/6 text-sm my-2 ml-2 py-3 px-4 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
       >
-        <option value="proximity">Por proximidade</option>
-        <option value="date_desc">Por data decrescente</option>
-        <option value="date_asc">Por data crescente</option>
+        <option value="proximity">Proximidade</option>
+        <option value="date_desc">Data decrescente</option>
+        <option value="date_asc">Data crescente</option>
       </select>
       <label
         class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-1/12"

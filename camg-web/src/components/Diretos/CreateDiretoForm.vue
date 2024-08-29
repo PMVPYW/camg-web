@@ -47,12 +47,12 @@ const emitNew = () => {
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-8/12">
        <div>
         <label class="block mb-2 text-base font-medium">Nome:</label>
-        <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome do direto">
+        <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome do direto">
         <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
        </div>
        <div>
         <label class="block mb-2 text-base font-medium">Rally</label>
-        <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+        <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
          <option :selected="rally_id === null"></option>
          <option v-for="rally in rallyStore.rallies" :value="rally.id">
           {{ rally.nome }}
@@ -63,7 +63,7 @@ const emitNew = () => {
      </div>
      <div class="w-8/12 mt-6">
        <label class="block mb-2 text-base font-medium">Link:</label>
-       <input type="text" required v-model="link" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Link do direto">
+       <input type="text" required v-model="link" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Link do direto">
        <h1 v-if="errors.link" class="text-red-600 text-base font-medium">{{errors.link[0]}}</h1>
      </div>
     </div>

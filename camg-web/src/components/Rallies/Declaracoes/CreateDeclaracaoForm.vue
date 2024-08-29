@@ -101,31 +101,31 @@ onMounted(()=>{
      <div class="flex justify-center w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-7/12">
        <div>
-        <label class="block mb-2 text-base font-medium">Nome:</label>
-        <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Nome do Autor">
+        <label class="block mb-2 text-base font-medium">Nome</label>
+        <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome do Autor">
         <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
        </div>
        <div>
-        <label class="block mb-2 text-base font-medium">Imagem:</label>
+        <label class="block mb-2 text-base font-medium">Imagem</label>
         <input type="file" accept="image/png, image/gif, image/jpeg"
-            class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm file:hidden"
+            class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 file:hidden"
             @change="handleFileChange">
         <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
        </div>
        <div>
-        <label class="block mb-2 text-base font-medium">Cargo:</label>
-        <select v-model="cargo" @change="()=>{cargo==='' ? isOutro=true : isOutro= false}" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+        <label class="block mb-2 text-base font-medium">Cargo</label>
+        <select v-model="cargo" @change="()=>{cargo==='' ? isOutro=true : isOutro= false}" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
          <option value="Presidente">Presidente</option>
          <option value="Piloto">Piloto</option>
          <option value="Copiloto">Copiloto</option>
          <option value="">Outro</option>
         </select>
-        <input v-if="isOutro" type="text" v-model="cargo" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm my-2" placeholder="Cargo">
+        <input v-if="isOutro" type="text" v-model="cargo" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 my-2" placeholder="Cargo">
         <h1 v-if="errors.cargo" class="text-red-600 text-base font-medium">{{errors.cargo[0]}}</h1>
        </div>
        <div>
-        <label class="block mb-2 text-base font-medium">Entidade/Equipa:</label>
-        <input type="text" required v-model="entidade_equipa" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Entidade/Equipa">
+        <label class="block mb-2 text-base font-medium">Entidade/Equipa</label>
+        <input type="text" required v-model="entidade_equipa" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Entidade/Equipa">
        </div>
       </div>
       <div class="w-[16.5%]">
@@ -136,18 +136,18 @@ onMounted(()=>{
       </div>
      </div>
      <div class="w-9/12 mt-6">
-      <label for="about" class="block mb-2 text-base font-medium">Conteúdo:</label>
-      <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"></textarea>
+      <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
+      <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"></textarea>
       <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
      </div>
      <div class="flex flex-row w-9/12 mt-6 items-center justify-between">
       <div class="flex">
        <div class="flex items-center">
-        <label class="block mb-2 text-base font-medium">Atribuir pontuação:</label>
+        <label class="block mb-2 text-base font-medium">Atribuir pontuação</label>
         <input type="checkbox" required v-model="isChecked" class="py-2 px-2 mx-2 font-bold w-6 h-6 bg-gray-100 rounded-lg text-sm">
        </div>
        <div v-if="isChecked" class="flex items-center mx-4">
-        <input type="number" required v-model="pontos" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Pontuação">
+        <input type="number" required v-model="pontos" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Pontuação">
        </div>
       </div>
       <div v-if="!props.editing" class="flex items-center">

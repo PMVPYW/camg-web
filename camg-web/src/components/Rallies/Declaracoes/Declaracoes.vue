@@ -33,11 +33,11 @@ watch(filters, (new_value) => {
    <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
     <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
      <div class="flex flex-row w-2/6 w-min-16 my-1">
-      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center my-1 w-1/4">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="nome_asc">Nome de A-Z</option>
        <option value="nome_desc">Nome de Z-A</option>
        <option value="cargo_asc">Cargo de A-Z</option>
@@ -47,7 +47,7 @@ watch(filters, (new_value) => {
      <div class="flex flex-col items-end w-1/4">
       <div class="flex flex-row items-center my-1 w-full justify-end">
        <label class="block mx-4 text-base font-medium">Cargo:</label>
-       <select v-model="filters.select" class="capitalize font-bold py-3 px-4 block w-10/12 border border-gray-200 bg-gray-100 rounded-lg text-sm">
+       <select v-model="filters.select" class="capitalize font-bold py-3 px-4 block w-10/12 border border-amber-200 bg-gray-100 rounded-lg text-sm">
         <option :selected="filters.select==''" :value="''">---</option>
         <option value="outro">Outro</option>
         <option value="presidente">Presidente</option>
@@ -56,7 +56,7 @@ watch(filters, (new_value) => {
        </select>
       </div>
       <div v-if="filters.select === 'outro'" class="flex flex-row items-center my-1 w-[81%] justify-end">
-       <input type="text" required v-model="filters.search_outro" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar por outro">
+       <input type="text" required v-model="filters.search_outro" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar por outro">
       </div>
      </div>
     </div>

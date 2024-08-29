@@ -38,7 +38,7 @@ const show_dropdown = ref(false)
       <h1 class="block text-slate-700 text-base font-medium mr-2">Rally:</h1>
       <select v-model="rallyStore.rally_selected"
           @change="()=>{patrocinioStore.loadPatrocinios({}); patrocinioStore.loadpatrocinosSemAssociacao(); patrocinioOficialStore.loadPatrociniosOficiais({}); patrocinioOficialStore.loadpatrocinosOficiaisSemAssociacao({}); zonaEspetaculo.loadZonaEspetaculo({}); declaracaoStore.loadDeclaracoes({}); provaStore.loadProvas({})}"
-          class="capitalize font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+          class="capitalize font-bold py-3 px-4 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400 focus:border-amber-400 focus:ring-amber-500">
        <option v-for="rally in rallyStore.rallies" :value="rally.id"
            :selected="rally.id===rallyStore.rally_selected">{{ rally.nome }}
        </option>

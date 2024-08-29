@@ -63,12 +63,12 @@ const form = document.getElementById("form")
 </script>
 <template>
   <hr class="my-6">
-  <form class="m-2 w-full h-1/2" id="form">
+  <form class="m-2 w-9/12 h-1/2 mx-auto" id="form">
     <div class="flex flex-row w-full h-full justify-center items-start">
       <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Correto:</label>
-        <textarea type="text" name="descricao" placeholder="Descrição do conselho" required v-model="descricao"
-           class="text-sm h-full mb-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
+        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Conselho de Segurança</label>
+        <textarea type="text" name="descricao" placeholder="Descrição do Conselho" required v-model="descricao"
+           class="text-sm h-full mb-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
         <h1 v-if="errors.descricao" class="ml-2 text-red-600 text-base font-medium">{{errors.descricao[0]}}</h1>
       </div>
       <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">
@@ -88,9 +88,9 @@ const form = document.getElementById("form")
     </div>
     <div class="flex flex-row w-full h-full justify-center items-start my-5">
       <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Errado:</label>
-        <textarea type="text" name="erro" placeholder="Descrição do erro cometido" required v-model="erro"
-           class="text-sm h-full mb-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
+        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Errado</label>
+        <textarea type="text" name="erro" placeholder="Descrição do Erro Cometido" required v-model="erro"
+           class="text-sm h-full mb-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
         <h1 v-if="errors.erro" class="ml-2 text-red-600 text-base font-medium">{{errors.erro[0]}}</h1>
       </div>
       <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">

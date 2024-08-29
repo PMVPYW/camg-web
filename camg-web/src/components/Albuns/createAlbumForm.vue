@@ -37,6 +37,7 @@ const emitAlbum = () => {
 <template>
   <hr class="my-6">
   <form class="m-2">
+    <label class="block mb-2 text-base font-medium">Nome:</label>
     <input
       type="text"
       name="nome"
@@ -45,6 +46,7 @@ const emitAlbum = () => {
       v-model="nome"
       class="text-sm h-10 m-2 p-2 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-1/2"
     />
+    <label class="block mb-2 text-base font-medium">Rally:</label>
     <select
       v-model="rally_id"
       class="text-sm h-10 m-2 p-2 text-center bg-gray-100 rounded-lg border border-amber-200 focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-5/12"

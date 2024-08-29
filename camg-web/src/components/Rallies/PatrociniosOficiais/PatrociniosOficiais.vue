@@ -68,11 +68,11 @@ watch(()=>patrocinioOficialStore.patrociniosOficiais, (patrocinioOficial)=>{
     </div>
     <div class="flex flex-row flex-wrap items-center justify-center w-full">
      <div class="flex flex-row mx-4 w-2/6 min-w-40 mb-2">
-      <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center mb-2">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="order_by" class="font-bold py-3 px-4 w-36 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+      <select v-model="order_by" class="font-bold py-3 px-4 w-36 block text-slate-700 bg-gray-100 text-sm rounded-lg text-xs border-b-2 h-10 border-amber-200 focus:border-amber-400 focus:ring-amber-500">
        <option value="nome_asc">Nome Z-A</option>
        <option value="nome_desc">Nome A-Z</option>
       </select>

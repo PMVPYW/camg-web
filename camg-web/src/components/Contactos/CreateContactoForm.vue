@@ -48,7 +48,7 @@ const emitNew = () => {
                 type="text"
                 required
                 v-model="nome"
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
                 placeholder="Nome Contacto"
               />
               <h1
@@ -66,7 +66,7 @@ const emitNew = () => {
                 type="text"
                 required
                 v-model="valor"
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
                 placeholder="Valor"
               />
               <h1
@@ -82,7 +82,7 @@ const emitNew = () => {
               >
               <select
                 v-model="tipocontacto_id"
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option
                   v-for="tipoContacto in contactoStore.tipo_contactos"
@@ -104,7 +104,7 @@ const emitNew = () => {
               >
               <select
                 v-model="tipo_valor"
-                class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm"
+                class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
               >
                 <option value="Fax">
                   Fax

@@ -51,11 +51,11 @@ function toggleVisibility(index) {
    <div class="flex bg-[#f8f9fe] justify-center w-full h-16">
     <div class="flex flex-row flex-wrap items-center justify-between w-5/6">
      <div class="flex flex-row w-2/6 w-min-16 my-1">
-      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Filtrar:</label>
-      <select v-model="filters.status" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.status" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="enable">Visíveis</option>
        <option value="disable">Não Visíveis</option>
        <option value="all">Mostrar Tudo</option>
@@ -63,7 +63,7 @@ function toggleVisibility(index) {
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Rally:</label>
-      <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="rally_id" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="rally_id==''" :value="''">---</option>
        <option v-for="rally in rallyStore.rallies" :value="rally.id">{{ rally.nome }}
        </option>

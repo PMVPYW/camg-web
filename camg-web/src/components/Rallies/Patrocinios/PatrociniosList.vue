@@ -66,11 +66,11 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
      </div>
      <div class="flex flex-row flex-wrap items-center justify-center w-full">
       <div class="flex flex-row mx-4 w-2/6 min-w-40 mb-2">
-       <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+       <input type="text" required v-model="pesquisa" @input="searchEntities" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
       </div>
       <div class="flex flex-row items-center mb-2">
        <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-       <select v-model="order_by" class="font-bold py-3 px-4 w-46 block text-slate-700 bg-gray-100 rounded-lg text-xs border-b-2 h-10 border-amber-400">
+       <select v-model="order_by" class="font-bold py-3 px-4 w-46 block text-slate-700 bg-gray-100 rounded-lg text-sm border-b-2 border-amber-200 focus:border-amber-400 focus:ring-amber-500">
         <option value="nome_asc">Nome Z-A</option>
         <option value="nome_desc">Nome A-Z</option>
         <option value="rel_desc">Mais relevante</option>
@@ -112,7 +112,7 @@ watch(()=>patrocinioStore.patrocinios, (patrocinio)=>{
     Não existem rallys, para ver os patrocinios de um rally terá que o criar primeiro!
    </h1>
    <div>
-    <router-link :to="{ name: 'rallies' }" class="py-2.7 h-10 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors bg-white shadow-xl">
+    <router-link :to="{ name: 'rallies' }" class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors bg-white shadow-xl">
      <div class="bg-gradient-to-tl from-amber-600 to-yellow-400 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5 my-1">
       <Icon icon="mdi:car-traction-control" class="min-w-5 min-h-5 text-white">
        <title>Criar Rally</title>

@@ -398,11 +398,11 @@ watch(filters, (new_value) => {
    <div class="flex bg-[#f8f9fe] justify-center w-full h-fit">
     <div class="flex flex-row flex-wrap items-center justify-between w-5/6 h-full">
      <div class="flex flex-row w-2/6 w-min-16 my-1">
-      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm" placeholder="Procurar">
+      <input type="text" required v-model="filters.search" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Procurar">
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Nível de Ocupação:</label>
-      <select v-model="filters.nivel_ocupacao" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.nivel_ocupacao" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.nivel_ocupacao==''" :value="''">---</option>
        <option>Livre</option>
        <option>Intermédio</option>
@@ -411,7 +411,7 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Facilidade de Acesso:</label>
-      <select v-model="filters.facilidade_acesso" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.facilidade_acesso" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.facilidade_acesso==''" :value="''">---</option>
        <option class="uppercase">Fácil</option>
        <option class="uppercase">Médio</option>
@@ -420,7 +420,7 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Nível de Afluência:</label>
-      <select v-model="filters.nivel_afluencia" class="capitalize font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.nivel_afluencia" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.nivel_afluencia==''" :value="''">---</option>
        <option class="uppercase">Baixo</option>
        <option class="uppercase">Médio</option>
@@ -429,7 +429,7 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Provas:</label>
-      <select v-model="filters.prova_id" class="font-bold py-3 px-4 block w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="filters.prova_id" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.prova_id==''" :value="''">---</option>
        <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.local }}
        </option>
@@ -453,20 +453,20 @@ watch(filters, (new_value) => {
     </div>
    </div>
     <div v-if="openButton" class="p-2 mb-4 flex flex-row w-9/12 bg-gray-500 rounded-b-2xl rounded-r-2xl mx-3">
-     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/dark-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-blue-500' : ''}`">
+     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/dark-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/dark-v11' ? 'border-4 border-amber-500' : ''}`">
       <img class="w-full rounded-xl" src=@/assets/dark.png alt="Logo">
      </div>
-     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/light-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/light-v11' ? 'border-4 border-blue-500' : ''}`">
+     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/light-v11'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/light-v11' ? 'border-4 border-amber-500' : ''}`">
       <img class="w-full rounded-xl" src='@/assets/light.png' alt="Logo">
      </div>
-     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/outdoors-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/outdoors-v12' ? 'border-4 border-blue-500' : ''}`">
+     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/outdoors-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/outdoors-v12' ? 'border-4 border-amber-500' : ''}`">
       <img class="w-full rounded-xl" src='@/assets/outdoors.png'
          alt="Logo">
      </div>
-     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'border-4 border-blue-500' : ''}`">
+     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/satellite-streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/satellite-streets-v12' ? 'border-4 border-amber-500' : ''}`">
       <img class="w-full rounded-xl" src='@/assets/satelliteStreets.png' alt="Logo">
      </div>
-     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/streets-v12' ? 'border-4 border-blue-500' : ''}`">
+     <div @click="()=>{changeMapStyle('mapbox://styles/mapbox/streets-v12'); openButton=!openButton}" :class="`w-1/5 rounded-2xl mx-2 ${style_map === 'mapbox://styles/mapbox/streets-v12' ? 'border-4 border-amber-500' : ''}`">
       <img class="w-full rounded-xl" src='@/assets/streets.png' alt="Logo">
      </div>
     </div>

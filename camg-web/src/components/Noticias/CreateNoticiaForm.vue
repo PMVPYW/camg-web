@@ -99,7 +99,7 @@ function removeElement(foto_id) {
           type="date"
           required
           v-model="data"
-          class="py-3 px-4 block w-full border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+          class="py-3 px-4 block w-full border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
           placeholder="Data"
         />
         <h1
@@ -141,7 +141,7 @@ function removeElement(foto_id) {
       >
        <div class="mb-4 sm:mb-8 w-full">
         <label class="block mb-2 text-base font-medium"
-        >Capa Notícia:</label
+        >Capa Notícia</label
         >
         <input
           type="file"
@@ -260,7 +260,7 @@ function removeElement(foto_id) {
                     'border-4 opacity-80':
                       fotos_selected.includes(fotos.id),
                   }"
-          class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl"
+          class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-amber-200 rounded-xl"
         >
          <img
            :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"
@@ -316,7 +316,7 @@ function removeElement(foto_id) {
                             fotos.id,
                           ),
                       }"
-            class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-gray-300 rounded-xl"
+            class="flex bg-white w-[30%] min-w-36 max-w-48 h-36 m-2 border border-amber-200 rounded-xl"
           >
            <img
              :src="`${serverBaseUrl}/storage/fotos/${fotos.image_src}`"

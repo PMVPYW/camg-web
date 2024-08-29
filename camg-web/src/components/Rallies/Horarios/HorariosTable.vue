@@ -187,16 +187,16 @@ function addHorario() {
  <div class="">
   <SimpleModal @close-modal="clearVars" @click="clearVars" :title="'as'" class="z-20 flex flex-wrap h-3/4"
          :opened="current_creating_time != null">
-   <form @click.stop="" id="form" class="w-full h-3/4 border-4">
+   <form @click.stop="" id="form" class="w-full h-3/4">
     <div class="w-full flex flex-row">
      <div class="flex flex-col justify-center w-1/2 m-2">
       <label for="titulo" class="font-bold ml-2 mt-2">Titulo</label><br>
       <input type="text" name="titulo" placeholder="Titulo" required v-model="titulo"
-          class="text-sm h-10 p-2 w-full text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
+          class="text-sm h-10 p-2 w-full text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none">
      </div>
      <div class="flex flex-col justify-center w-1/2">
       <label for="prova" class="font-bold ml-2 mt-2">Prova</label><br>
-      <select v-model="prova_id" class="font-bold h-10 p-2 w-full border border-gray-200 bg-gray-100 rounded-lg text-sm">
+      <select v-model="prova_id" class="font-bold h-10 p-2 w-full border border-amber-200 bg-gray-100 rounded-lg text-sm">
        <option :selected="prova_id===null"></option>
        <option class="uppercase" v-for="prova in provaStore.provas" :disabled="prova.horario" :value="prova.id">{{ prova.nome }}
        </option>
@@ -206,31 +206,31 @@ function addHorario() {
     <div class="w-full flex flex-col items-center justify-center">
      <label for="descricao" class="font-bold ml-2 mt-2">Descrição</label><br>
      <textarea type="text" name="descricao" placeholder="Descrição" required v-model="descricao"
-          class="text-sm my-2 ml-2 p-2 border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-[99%] h-16"></textarea>
+          class="text-sm my-2 ml-2 p-2 border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-[99%] h-16"></textarea>
     </div>
     <div class="w-full flex flex-row">
      <div class="flex flex-col justify-center items-center text-start w-1/2 mx-auto">
       <label for="titulo" class="font-bold w-11/12 ml-2 mt-2">Inicio</label><br>
       <input type="datetime-local" v-model="current_creating_time"
-          class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-11/12">
+          class="text-sm h-10 my-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-11/12">
      </div>
      <div class=" w-1/2 flex flex-col justify-center items-center text-start">
       <label for="titulo" class="font-bold w-11/12 ml-2 mt-2">Fim</label><br>
       <input type="datetime-local" v-model="current_ending_time"
-          class="text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-11/12">
+          class="text-sm h-10 my-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-11/12">
      </div>
     </div>
     <div class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
      <input @click="()=>{current_creating_time = null; editing = false}" type="reset"
-         class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
+         class="w-5/12 text-sm h-10 my-2 ml-2 py-3 px-4 text-center border border-amber-200 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
          value="Fechar">
      <input @click.prevent="addHorario" type="submit"
-         class="w-5/12 text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-green-600 text-white"
+         class="w-5/12 text-sm h-10 my-2 ml-2 py-3 px-4 text-center border border-amber-200 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none bg-green-600 text-white"
          :value="editing ? 'Atualizar' : 'Criar'">
     </div>
     <div v-if="editing" class="flex flex-row items-center justify-center text-start w-11/12 mx-auto">
      <input @click.prevent="(e)=>{current_creating_time = null; editing = false; deleting = true;}" type="reset"
-         class="w-10/12 font-bold text-sm h-10 my-2 ml-2 p-2 text-center border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
+         class="w-10/12 font-bold text-sm h-10 my-2 ml-2 py-3 px-4 text-center border border-amber-200 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none bg-red-600 text-white"
          value="Eliminar">
     </div>
    </form>

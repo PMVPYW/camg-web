@@ -65,13 +65,13 @@ function handleFileChange(event) {
      <div class="w-1/2 p-4">
       <label for="nome" class="block text-sm font-medium mx-2 mt-4 mb-2">Nome</label>
       <input type="text" name="nome" placeholder="Nome" required v-model="user.nome"
-          class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+          class="text-sm h-10 m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full">
       <br v-if="errors.nome"><span class="ml-4 font-bold text-sm text-red-600" v-if="errors.nome">{{errors?.nome[0]}}</span>
      </div>
      <div class="w-1/2 p-4">
       <label for="email" class="block text-sm font-medium mx-2 mt-4 mb-2">Email</label>
       <input type="email" name="email" placeholder="Email" required v-model="user.email"
-          class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+          class="text-sm h-10 m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full">
       <br v-if="errors.email"><span class="ml-4 font-bold text-sm text-red-600" v-if="errors.email">{{errors?.email[0]}}</span>
      </div>
     </div>
@@ -80,7 +80,7 @@ function handleFileChange(event) {
       <div class="mx-auto p-4 w-1/2">
        <label for="nome" class="block text-sm font-medium mx-2 mt-4 mb-2">Nova Password</label>
        <input type="password" name="password" placeholder="password" required v-model="user.password"
-           class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+           class="text-sm h-10 m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full">
        <span class="ml-4 font-bold text-sm text-red-600" v-if="errors.password">{{errors?.password[0]}}</span>
 
       </div>
@@ -88,7 +88,7 @@ function handleFileChange(event) {
        <label for="nome" class="block text-sm font-medium mx-2 mt-4 mb-2">Confirmar Nova Password</label>
        <input type="password" name="password_conf" placeholder="confirmar password" required
            v-model="user.password_confirmation"
-           class="text-sm h-10 m-2 p-2 text-center border border-gray-300 bg-gray-100 rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none w-full">
+           class="text-sm h-10 m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full">
        <span class="ml-4 font-bold text-sm text-red-600" v-if="errors.password">{{errors?.password[0]}}</span>
       </div>
       <div v-if="!user.password" class="mx-auto p-4 w-1/2">
