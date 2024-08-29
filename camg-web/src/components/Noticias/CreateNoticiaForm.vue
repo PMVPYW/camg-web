@@ -64,7 +64,8 @@ function removeElement(foto_id) {
 </script>
 
 <template>
- <form class="m-2">
+  <hr class="my-6">
+  <form class="m-2">
   <div class="flex flex-row">
    <div class="w-full">
     <div class="lg:flex flex-row">

@@ -49,6 +49,7 @@ const createZE = async () => {
 };
 </script>
 <template>
+  <hr class="my-6">
   <form class="m-2">
     <div class="flex flex-row justify-center w-full">
       <div class="w-9/12">
@@ -239,4 +240,5 @@ const createZE = async () => {
       </div>
     </div>
   </form>
+  <hr class="my-6">
 </template>

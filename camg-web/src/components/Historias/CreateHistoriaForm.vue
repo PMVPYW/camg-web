@@ -195,7 +195,8 @@ onMounted(()=>{
 
 </script>
 <template>
- <form class="m-2">
+  <hr class="my-6">
+  <form class="m-2">
   <div class="flex flex-row">
    <div class="w-full">
     <div class="lg:flex flex-row">
@@ -251,7 +252,7 @@ onMounted(()=>{
         </div>
        </div>
       </button>
-      <hr v-if="capitulos" class="my-6">
+      <hr v-if="capitulos.length" class="my-6">
       <div v-for="(capitulo, index) in capitulos">
        <div class="flex flex-row w-7/12">
         <div class="flex flex-row w-full">
@@ -325,5 +326,5 @@ onMounted(()=>{
    </div>
   </div>
  </form>
- <hr class="my-6">
+  <hr class="my-6">
 </template>

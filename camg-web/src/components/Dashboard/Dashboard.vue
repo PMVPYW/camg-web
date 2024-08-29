@@ -23,7 +23,7 @@ console.log("compiuted", statsStore.melhor_tempo_rally)
  <template>
   <div class="rounded-xl h-full transition-all duration-200 block w-full" id="panel">
    <h1 class="text-2xl font-bold ml-10 mt-10">Dashboard</h1>
-   <div class="w-11/12 h-full flex place-content-around flex-wrap">
+   <div class="w-11/12 h-full flex place-content-around flex-wrap mt-6 p-6">
     <Card titulo="Duração Média de um Rally">
      <ToogleSwitch opcao1="Total" opcao2="Anual" :stat1="statsStore.duracao_media_rally_total" :chart-categories="statsStore.anosRallies" :series="statsStore.duracao_media_rally_anual" unidade_medida="Dias"/>
     </Card>

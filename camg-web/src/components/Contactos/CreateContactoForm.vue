@@ -32,6 +32,7 @@ const emitNew = () => {
 };
 </script>
 <template>
+  <hr class="my-6">
   <form class="m-2">
     <div class="flex flex-row">
       <div class="w-full">
@@ -164,4 +165,5 @@ const emitNew = () => {
       </div>
     </div>
   </form>
+  <hr class="my-6">
 </template>

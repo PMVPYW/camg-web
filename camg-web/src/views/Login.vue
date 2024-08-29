@@ -64,19 +64,19 @@ const register = async () => {
         <h1 class="text-3xl font-bold pt-8 lg:pt-0">{{ logging ? 'Iniciar Sessão' : 'Registo' }}</h1>
         <label for="input-label" class="block text-sm font-medium mt-8 mb-2">Email</label>
         <input required v-model="credentials.email" type="email" id="input-label"
-               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                placeholder="you@site.com">
         <label for="input-name" class="block text-sm font-medium mt-4 mb-2" v-if="!logging">Nome</label>
         <input required v-model="credentials.nome" type="email" id="input-name" v-if="!logging"
-               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                placeholder="Nome">
         <label for="input-passwd" class="block text-sm font-medium mt-4 mb-2">Palavra-passe</label>
         <input v-model="credentials.password" type="password" id="input-passwd"
-               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                placeholder="********">
         <label v-if="!logging" for="input-passwd-conf" class="block text-sm font-medium mt-4 mb-2">Confirmar Palavra-passe</label>
         <input v-if="!logging" v-model="credentials.password_confirmation" type="password" id="input-passwd-conf"
-               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+               class="py-3 px-4 block w-full border-2 border-gray-300 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                placeholder="********">
         <label v-if="!logging" for="photo_url" class="block text-sm font-medium mt-4 mb-2">Fotografia</label>
         <input v-if="!logging" type="file" accept="image/png, image/gif, image/jpeg"

@@ -62,6 +62,7 @@ const form = document.getElementById("form")
 }
 </script>
 <template>
+  <hr class="my-6">
   <form class="m-2 w-full h-1/2" id="form">
     <div class="flex flex-row w-full h-full justify-center items-start">
       <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
@@ -114,4 +115,5 @@ const form = document.getElementById("form")
         :value="props.obj_to_edit && props.editing ? 'Editar' : 'Criar'"/>
     </div>
   </form>
+  <hr class="my-6">
 </template>

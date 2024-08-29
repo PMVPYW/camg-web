@@ -37,6 +37,7 @@ const emitRally = () => {
 </script>
 
 <template>
+  <hr class="my-6">
   <form class="m-2">
     <div class="flex flex-row w-full justify-center">
       <div class="w-1/2 mx-2">
@@ -161,4 +162,5 @@ const emitRally = () => {
       </div>
     </div>
   </form>
+  <hr class="my-6">
 </template>

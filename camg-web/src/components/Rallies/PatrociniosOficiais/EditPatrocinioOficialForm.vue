@@ -45,7 +45,8 @@ const editEntidade = async () => {
 </script>
 
 <template>
- <form class="m-2">
+  <hr class="my-6">
+  <form class="m-2">
   <div class="flex flex-row justify-center w-full">
    <div class="w-6/12">
     <div class="flex flex-wrap justify-center w-full">

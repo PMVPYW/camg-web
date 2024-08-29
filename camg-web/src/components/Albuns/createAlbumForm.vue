@@ -35,6 +35,7 @@ const emitAlbum = () => {
 </script>
 
 <template>
+  <hr class="my-6">
   <form class="m-2">
     <input
       type="text"
@@ -93,4 +94,5 @@ const emitAlbum = () => {
       <div class="w-3/12 inline-block"></div>
     </div>
   </form>
+  <hr class="my-6">
 </template>

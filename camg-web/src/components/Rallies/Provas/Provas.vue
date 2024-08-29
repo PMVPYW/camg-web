@@ -26,7 +26,7 @@ watch(filters, (new_value) => {
 </script>
 <template>
  <div v-if="rallyStore.rally_selected" class="w-full h-full rounded-xl transition-all duration-200 overflow-x-hidden" id="panel">
-  <h1 class="text-2xl font-bold ml-10 mt-10">PECs</h1>
+  <h1 class="text-2xl font-bold ml-10 mt-10">PECS</h1>
   <CrudButtons :create_visible="false" :create_form="UpdateProvaForm"
          :edit_callback="provaStore.editProva" :obj_to_edit="selectedProva"
          :delete_visible="false"
@@ -63,7 +63,7 @@ watch(filters, (new_value) => {
  <div v-else class="mx-auto mt-12">
   <div class="flex flex-row items-center bg-gray-100 border border-amber-400 py-2 px-4 rounded-xl">
    <h1 class="text-gray-500 text-base font-medium">
-    Não existem rallys, para ver as provas de um rally terá que o criar primeiro!
+    Não existem rallys, para ver as PECS de um rally terá que o criar primeiro!
    </h1>
    <div>
     <router-link :to="{ name: 'rallies' }" class="py-2.7 h-10 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors bg-white shadow-xl">

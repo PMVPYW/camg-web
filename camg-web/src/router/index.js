@@ -79,7 +79,7 @@ const router = createRouter({
             component: Horarios,
         },
         {
-            path: "/provas",
+            path: "/pecs",
             name: "provas",
             component: Provas,
         },

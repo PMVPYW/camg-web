@@ -61,7 +61,7 @@ onMounted(async () => {
  <div class="w-full h-11/12 rounded-xl transition-all duration-200" id="panel">
   <h1 class="text-2xl font-bold ml-10 mt-10">Fotos - {{ album.nome }} </h1>
   <CrudButtons :create_form="CreateFotoForm" :create_callback="fotoStore.createFoto" :update_visible="false" :delete_visible="false"></CrudButtons>
-  <div class="mx-auto text-center border-4 w-11/12 min-h-dvh rounded-lg">
+  <div class="mx-auto text-center w-11/12 min-h-dvh rounded-lg">
    <img @click="()=>{selected = foto;}" class="w-3/12 inline-block m-2 rounded-lg text-center" v-for="foto in fotoStore.fotos[route.params.id]"
       :key="foto.id" :src="`${serverBaseUrl}/storage/fotos/${foto.image_src}`"/>
   </div>
