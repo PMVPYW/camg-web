@@ -24,7 +24,6 @@ const createTypeContact = async ()=>{
 };
 </script>
 <template>
-  <hr class="my-6">
   <form class="m-2">
   <div class="flex flex-row w-full">
    <div class="w-full">

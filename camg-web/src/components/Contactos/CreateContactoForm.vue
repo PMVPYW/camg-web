@@ -41,15 +41,13 @@ const emitNew = () => {
             class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-9/12"
           >
             <div>
-              <label class="block mb-2 text-base font-medium"
-                >Nome:</label
-              >
+              <label class="block mb-2 text-base font-medium">Nome<label class="text-red-600 ml-1">*</label></label>
               <input
                 type="text"
                 required
                 v-model="nome"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-                placeholder="Nome Contacto"
+                placeholder="Nome do Contacto"
               />
               <h1
                 v-if="errors.nome"
@@ -60,14 +58,14 @@ const emitNew = () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Valor:</label
+                >Valor<label class="text-red-600 ml-1">*</label></label
               >
               <input
                 type="text"
                 required
                 v-model="valor"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-                placeholder="Valor"
+                placeholder="Valor do Contacto"
               />
               <h1
                 v-if="errors.valor"
@@ -78,7 +76,7 @@ const emitNew = () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Tipo de Contacto:</label
+                >Tipo de Contacto<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="tipocontacto_id"
@@ -100,7 +98,7 @@ const emitNew = () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Tipo:</label
+                >Tipo<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="tipo_valor"
@@ -148,6 +146,9 @@ const emitNew = () => {
               </h1>
             </div>
           </div>
+        </div>
+        <div class="w-9/12 mx-auto my-4">
+          <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
         </div>
         <br />
         <div class="flex justify-center w-full mt-8">

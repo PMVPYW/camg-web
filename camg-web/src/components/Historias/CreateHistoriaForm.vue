@@ -204,17 +204,17 @@ onMounted(()=>{
       <div class="flex flex-row w-11/12 my-4 justify-between">
        <div class="w-8/12 mr-4">
         <div class="w-full mb-4">
-         <label class="block mb-2 text-base font-medium">Titulo</label>
+         <label class="block mb-2 text-base font-medium">Título<label class="text-red-600 ml-1">*</label></label>
          <input type="text" required v-model="titulo"
              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-             placeholder="Titulo">
+             placeholder="Título da História">
          <h1 v-if="errors.titulo" class="text-red-600 text-base font-medium">{{errors.titulo[0]}}</h1>
         </div>
         <div class="w-full my-4">
-         <label class="block mb-2 text-base font-medium">Subtitulo</label>
+         <label class="block mb-2 text-base font-medium">Subtítulo<label class="text-red-600 ml-1">*</label></label>
          <input type="text" required v-model="subtitulo"
              class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
-             placeholder="Subtitulo">
+             placeholder="Subtítulo da História">
          <h1 v-if="errors.subtitulo" class="text-red-600 text-base font-medium">{{errors.subtitulo[0]}}</h1>
         </div>
         <div class="w-full my-4">
@@ -244,6 +244,9 @@ onMounted(()=>{
         <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
        </div>
       </div>
+       <div class="w-full mx-auto my-4">
+         <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+       </div>
       <button :disabled="validated_capitulo()" @click.prevent="()=>{numero_capitulos++; adicionar_capitulo(numero_capitulos); console.log(capitulos)}" class="flex flex-row justify-center w-9/12 mx-auto m-5 disabled:opacity-50 hover:opacity-50">
        <div class="flex border-dashed border-2 border-gray-800 w-full rounded-2xl">
         <div class="flex flex-row justify-center items-center w-full p-14">
@@ -257,10 +260,10 @@ onMounted(()=>{
        <div class="flex flex-row w-7/12">
         <div class="flex flex-row w-full">
          <div class="w-full">
-          <label class="block mb-2 text-base font-medium">Titulo do capítulo</label>
+          <label class="block mb-2 text-base font-medium">Título do Capítulo<label class="text-red-600 ml-1">*</label></label>
           <input type="text" required v-model="capitulo.titulo"
               class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-              placeholder="Titulo">
+              placeholder="Título do Capítulo da História">
           <h1 v-if="errors[`capitulos.${index}.titulo`]" class="text-red-600 text-base font-medium">{{ errors[`capitulos.${index}.titulo`]?.[0] }}</h1>
          </div>
          <Icon @click="()=>{remover_capitulo(capitulo.id)}" class="text-2xl text-gray-800 mx-2 mt-10 w-9 h-9" icon="ph:trash" />
@@ -271,24 +274,24 @@ onMounted(()=>{
          <div v-if="etapas && capitulos && etapa.capitulo_id==capitulo.id" class="flex flex-row w-11/12 mb-4 justify-between">
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full my-4">
            <div>
-            <label class="block mb-2 text-base font-medium">Nome</label>
+            <label class="block mb-2 text-base font-medium">Nome<label class="text-red-600 ml-1">*</label></label>
             <input type="text" required v-model="etapa.nome"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-                placeholder="Nome">
+                placeholder="Nome da Etapa">
             <h1 v-if="errors[`etapas.${index2}.nome`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.nome`]?.[0] }}</h1>
            </div>
            <div>
-            <label class="block mb-2 text-base font-medium">Ano do Inicio</label>
+            <label class="block mb-2 text-base font-medium">Ano do Inicio<label class="text-red-600 ml-1">*</label></label>
             <input type="number" required min="1960" size="4" v-model="etapa.ano_inicio"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="Ano - YYYY">
+                placeholder="Ano de Início - YYYY">
             <h1 v-if="errors[`etapas.${index2}.ano_inicio`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.ano_inicio`]?.[0] }}</h1>
            </div>
            <div>
             <label class="block mb-2 text-base font-medium">Ano do Fim</label>
             <input type="number" min="1960" size="4" v-model="etapa.ano_fim"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
-                placeholder="Ano - YYYY">
+                placeholder="Ano de Fim - YYYY">
             <h1 v-if="errors[`etapas.${index2}.ano_fim`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.ano_fim`]?.[0] }}</h1>
            </div>
           </div>

@@ -75,14 +75,14 @@ function removeElement(foto_id) {
       >
        <div>
         <label class="block mb-2 text-base font-medium"
-        >Título</label
+        >Título<label class="text-red-600 ml-1">*</label></label
         >
         <input
           type="text"
           required
           v-model="titulo"
           class="py-3 px-4 block w-full border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm"
-          placeholder="Titulo Noticia"
+          placeholder="Título da Notícia"
         />
         <h1
           v-if="errors.titulo"
@@ -93,14 +93,14 @@ function removeElement(foto_id) {
        </div>
        <div>
         <label class="block mb-2 text-base font-medium"
-        >Data</label
+        >Data da Notícia</label
         >
         <input
           type="date"
           required
           v-model="data"
           class="py-3 px-4 block w-full border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
-          placeholder="Data"
+          placeholder="Data da Notícia"
         />
         <h1
           v-if="errors.data"
@@ -117,7 +117,7 @@ function removeElement(foto_id) {
         <label
           for="about"
           class="block mb-2 text-base font-medium"
-        >Conteúdo</label
+        >Conteúdo<label class="text-red-600 ml-1">*</label></label
         >
         <div class="mt-2">
                   <textarea
@@ -125,6 +125,7 @@ function removeElement(foto_id) {
                     required
                     v-model="conteudo"
                     rows="3"
+                    placeholder="Conteúdo da Notícia"
                     class="py-3 px-4 block w-full border border-amber-200 focus:border-amber-400 focus:ring-amber-500 bg-gray-100 rounded-lg text-sm"
                   ></textarea>
         </div>
@@ -139,9 +140,9 @@ function removeElement(foto_id) {
       <div
         class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-full my-4"
       >
-       <div class="mb-4 sm:mb-8 w-full">
+       <div class="mb-2 w-full">
         <label class="block mb-2 text-base font-medium"
-        >Capa Notícia</label
+        >Capa Notícia<label class="text-red-600 ml-1">*</label></label
         >
         <input
           type="file"
@@ -186,11 +187,16 @@ function removeElement(foto_id) {
         </select>
        </div>
       </div>
-      <div v-if="!props.editing" class="flex items-center">
-       <input v-model="noticiaStore.noticias_createNotifications" type="checkbox" class="relative w-11 h-6 p-px bg-gray-300 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-amber-300 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-amber-300 checked:border-amber-300 focus:checked:border-amber-300
-        before:inline-block before:size-5 before:bg-white checked:before:bg-amber-100 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 ">
-       <label for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
-      </div>
+       <div class="flex justify-between items-center">
+         <div class="mx-auto mb-4 w-1/2">
+           <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+         </div>
+        <div class="flex flex-row items-center w-1/2 ml-7">
+         <input v-if="!props.editing" v-model="noticiaStore.noticias_createNotifications" type="checkbox" class="relative w-11 h-6 p-px bg-gray-300 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-amber-300 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-amber-300 checked:border-amber-300 focus:checked:border-amber-300
+          before:inline-block before:size-5 before:bg-white checked:before:bg-amber-100 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 ">
+         <label v-if="!props.editing" for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
+        </div>
+       </div>
      </div>
      <div
        v-if="Object.keys(fotoStore.fotos).length > 0"

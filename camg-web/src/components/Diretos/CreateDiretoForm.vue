@@ -46,7 +46,7 @@ const emitNew = () => {
      <div class="flex justify-center w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-8/12">
        <div>
-        <label class="block mb-2 text-base font-medium">Nome:</label>
+        <label class="block mb-2 text-base font-medium">Nome<label class="text-red-600 ml-1">*</label></label>
         <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome do direto">
         <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
        </div>
@@ -62,12 +62,14 @@ const emitNew = () => {
       </div>
      </div>
      <div class="w-8/12 mt-6">
-       <label class="block mb-2 text-base font-medium">Link:</label>
+       <label class="block mb-2 text-base font-medium">Link<label class="text-red-600 ml-1">*</label></label>
        <input type="text" required v-model="link" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Link do direto">
        <h1 v-if="errors.link" class="text-red-600 text-base font-medium">{{errors.link[0]}}</h1>
      </div>
     </div>
-    <br>
+     <div class="w-8/12 mx-auto my-4">
+       <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+     </div>
     <div class="flex justify-center w-full mt-8">
      <button
        type="button"

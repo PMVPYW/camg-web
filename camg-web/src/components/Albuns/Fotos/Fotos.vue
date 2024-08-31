@@ -67,7 +67,7 @@ onMounted(async () => {
   </div>
  </div>
  <Modal @close-modal="()=>{selected = {}}" @click="()=>{selected = {}}" :opened="opened">
-  <div class="h-screen w-8/12">
+  <div class="h-full w-9/12">
   <CrudButtons @click.stop :obj_to_edit="selected" @clearSelected="()=>{selected = {}}" :delete_form="SimpleDeleteForm" :create_form="CreateFotoForm" :edit_callback="fotoStore.updateFoto" :delete_callback="fotoStore.deleteFoto" :create_visible="false"></CrudButtons>
   <div @click.stop="" class="w-full flex text-center justify-center items-center">
    <Icon @click.stop="previousFoto" icon="ooui:previous-ltr"

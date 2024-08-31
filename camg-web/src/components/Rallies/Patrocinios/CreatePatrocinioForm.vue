@@ -93,7 +93,7 @@ function searchEntities() {
       <div>
        <div class="relative mb-6">
         <div class="flex flex-row">
-         <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância: </label>
+         <label class="block mb-2 text-base font-medium m-2 ">Nivel de Relevância </label>
          <label v-if="relevancia" class="block mb-2 text-base font-medium bg-gray-100 p-2 mx-2 rounded-xl">{{relevancia}}</label>
         </div>
         <input id="labels-range-input" type="range" v-model="relevancia" min="1" max="10" class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer">

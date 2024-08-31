@@ -48,7 +48,7 @@ const emitRally = () => {
               <div>
                 <label
                     class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-auto"
-                >Nome</label
+                >Nome<label class="text-red-600 ml-1">*</label></label
                 >
                 <input
                     type="text"
@@ -68,12 +68,12 @@ const emitRally = () => {
               <div>
                 <label
                     class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-auto"
-                >ID Externo</label
+                >ID Externo<label class="text-red-600 ml-1">*</label></label
                 >
                 <input
                     type="text"
                     name="external_id"
-                    placeholder="ID externo"
+                    placeholder="ID da Entidade Externa"
                     required
                     v-model="external_id"
                     class="text-sm m-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full"
@@ -88,7 +88,7 @@ const emitRally = () => {
               <div>
                 <label
                     class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-auto"
-                >Data Inicio</label
+                >Data Início<label class="text-red-600 ml-1">*</label></label
                 >
                 <input
                     type="date"
@@ -108,7 +108,7 @@ const emitRally = () => {
               <div>
                 <label
                     class="h-10 my-2 ml-2 p-2 font-medium text-center rounded-lg w-auto"
-                >Data Fim</label
+                >Data Fim<label class="text-red-600 ml-1">*</label></label
                 >
                 <input
                     type="date"
@@ -152,6 +152,9 @@ const emitRally = () => {
               {{ errors.photo_url[0] }}
             </h1>
           </div>
+        </div>
+        <div class="w-7/12 mx-auto my-4 px-2">
+          <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
         </div>
         <br>
         <div class="flex justify-center w-full">

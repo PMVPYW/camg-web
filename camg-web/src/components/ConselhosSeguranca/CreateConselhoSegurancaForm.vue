@@ -66,13 +66,13 @@ const form = document.getElementById("form")
   <form class="m-2 w-9/12 h-1/2 mx-auto" id="form">
     <div class="flex flex-row w-full h-full justify-center items-start">
       <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Conselho de Segurança</label>
+        <label class="h-10 my-1 ml-2 p-2 font-medium text-center rounded-lg w-auto">Conselho de Segurança<label class="text-red-600 ml-1">*</label></label>
         <textarea type="text" name="descricao" placeholder="Descrição do Conselho" required v-model="descricao"
            class="text-sm h-full mb-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
         <h1 v-if="errors.descricao" class="ml-2 text-red-600 text-base font-medium">{{errors.descricao[0]}}</h1>
       </div>
       <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">
-       <label class="h-10 my-1 p-2 font-bold text-center rounded-lg w-auto">Imagem do conselho:</label>
+       <label class="h-10 my-1 p-2 font-medium text-center rounded-lg w-auto">Imagem do Conselho<label class="text-red-600 ml-1">*</label></label>
 
        <div class="w-full max-h-full flex items-center justify-center rounded-xl border-4 border-green-500 h-full">
             <input name="foto" id="foto" accept="image/png, image/gif, image/jpeg" @change="handleFileChange" type="file" class="hidden">
@@ -86,15 +86,15 @@ const form = document.getElementById("form")
           <br v-if="errors.img_conselho"><span class="font-bold text-sm text-red-600" v-if="errors.img_conselho">{{errors?.img_conselho[0]}}</span>
       </div>
     </div>
-    <div class="flex flex-row w-full h-full justify-center items-start my-5">
+    <div class="flex flex-row w-full h-full justify-center items-start mt-5">
       <div class="flex flex-col w-9/12 h-1/2 justify-center items-start">
-        <label class="h-10 my-1 ml-2 p-2 font-bold text-center rounded-lg w-auto">Errado</label>
+        <label class="h-10 my-1 ml-2 p-2 font-medium text-center rounded-lg w-auto">Errado<label class="text-red-600 ml-1">*</label></label>
         <textarea type="text" name="erro" placeholder="Descrição do Erro Cometido" required v-model="erro"
            class="text-sm h-full mb-2 ml-2 py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full"></textarea>
         <h1 v-if="errors.erro" class="ml-2 text-red-600 text-base font-medium">{{errors.erro[0]}}</h1>
       </div>
       <div class="flex mx-auto flex-col items-start justify-end w-2/12 h-1/2">
-       <label class="h-10 my-1 p-2 font-bold text-center rounded-lg w-auto">Imagem do erro:</label>
+       <label class="h-10 my-1 p-2 font-medium text-center rounded-lg w-auto">Imagem do Erro<label class="text-red-600 ml-1">*</label></label>
        <div class="w-full max-h-full flex items-center justify-center rounded-xl border-4 border-red-500 h-full">
             <input name="foto_erro" id="foto_erro" accept="image/png, image/gif, image/jpeg" @change="handleFileChangeErro" type="file" class="hidden">
             <label for="foto_erro" class="hover:blur-sm w-full h-full rounded-xl">
@@ -104,9 +104,12 @@ const form = document.getElementById("form")
               </Icon>
             </label>
           </div>
-          <br v-if="errors.img_erro"><span class="font-bold text-sm text-red-600" v-if="errors.img_erro">{{errors?.img_erro[0]}}</span>
+          <h1 class="font-bold text-sm text-red-600" v-if="errors.img_erro">{{errors?.img_erro[0]}}</h1>
 
       </div>
+    </div>
+    <div class="w-full mx-auto mb-4">
+      <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
     </div>
     <div class="w-1/6 mx-auto">
      <input type="submit"
