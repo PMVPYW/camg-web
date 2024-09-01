@@ -39,13 +39,13 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center m-4">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
-       <option value="nome_asc">Nome A-Z</option>
-       <option value="nome_desc">Nome Z-A</option>
-       <option value="local_asc">Local A-Z</option>
-       <option value="local_desc">Local Z-a</option>
-       <option value="distancia_percurso_asc">Distancia crescente</option>
-       <option value="distancia_percurso_desc">Distancia decrescente</option>
+      <select v-model="filters.order" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
+       <option value="nome_asc">Nome de A-Z</option>
+       <option value="nome_desc">Nome de Z-A</option>
+       <option value="local_asc">Local de A-Z</option>
+       <option value="local_desc">Local de Z-A</option>
+       <option value="distancia_percurso_asc">Distância Crescente</option>
+       <option value="distancia_percurso_desc">Distância Decrescente</option>
        <option value="proximity">Proximidade</option>
       </select>
      </div>

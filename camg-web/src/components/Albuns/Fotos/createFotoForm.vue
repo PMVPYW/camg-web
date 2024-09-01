@@ -58,7 +58,7 @@ const emitFoto = () => {
           </div>
         </div>
         <div class="w-9/12 mt-6">
-          <label class="block mb-2 text-base font-medium">Imagens<label class="text-red-600 ml-1">*</label></label>
+          <label class="block mb-2 text-base font-medium">Imagem<label class="text-red-600 ml-1">*</label></label>
           <input multiple type="file" accept="image/png, image/gif, image/jpeg"
                class="text-sm py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none w-full file:hidden"
                @change="image_src = props.obj_to_edit && props.editing ? $event.target.files[0] : $event.target.files">

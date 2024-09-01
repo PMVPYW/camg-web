@@ -142,7 +142,7 @@ function removeElement(foto_id) {
       >
        <div class="mb-2 w-full">
         <label class="block mb-2 text-base font-medium"
-        >Capa Notícia<label class="text-red-600 ml-1">*</label></label
+        >Capa da Notícia<label class="text-red-600 ml-1">*</label></label
         >
         <input
           type="file"

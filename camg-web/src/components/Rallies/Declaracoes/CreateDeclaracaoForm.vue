@@ -101,19 +101,19 @@ onMounted(()=>{
      <div class="flex justify-center w-full">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-7/12">
        <div>
-        <label class="block mb-2 text-base font-medium">Nome</label>
+        <label class="block mb-2 text-base font-medium">Nome<label class="text-red-600 ml-1">*</label></label>
         <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome do Autor">
         <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
        </div>
        <div>
-        <label class="block mb-2 text-base font-medium">Imagem</label>
+        <label class="block mb-2 text-base font-medium">Imagem<label class="text-red-600 ml-1">*</label></label>
         <input type="file" accept="image/png, image/gif, image/jpeg"
             class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 file:hidden"
             @change="handleFileChange">
         <h1 v-if="errors.photo_url" class="text-red-600 text-base font-medium">{{errors.photo_url[0]}}</h1>
        </div>
        <div>
-        <label class="block mb-2 text-base font-medium">Cargo</label>
+        <label class="block mb-2 text-base font-medium">Cargo<label class="text-red-600 ml-1">*</label></label>
         <select v-model="cargo" @change="()=>{cargo==='' ? isOutro=true : isOutro= false}" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
          <option value="Presidente">Presidente</option>
          <option value="Piloto">Piloto</option>
@@ -136,7 +136,7 @@ onMounted(()=>{
       </div>
      </div>
      <div class="w-9/12 mt-6">
-      <label for="about" class="block mb-2 text-base font-medium">Conteúdo</label>
+      <label for="about" class="block mb-2 text-base font-medium">Conteúdo<label class="text-red-600 ml-1">*</label></label>
       <textarea id="about" required v-model="conteudo" rows="3" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"></textarea>
       <h1 v-if="errors.conteudo" class="text-red-600 text-base font-medium">{{errors.conteudo[0]}}</h1>
      </div>
@@ -156,6 +156,9 @@ onMounted(()=>{
        <label for="hs-small-switch" class="text-md text-gray-800 ms-3 font-bold">Enviar Notificações</label>
       </div>
      </div>
+      <div class="w-9/12 mx-auto my-4">
+        <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+      </div>
     </div>
     <br>
     <div class="flex justify-center w-full mt-8">

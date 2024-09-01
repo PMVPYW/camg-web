@@ -59,14 +59,14 @@ const createZE = async () => {
           >
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Nome</label
+                >Nome<label class="text-red-600 ml-1">*</label></label
               >
               <input
                 v-model="nome"
                 type="text"
                 required
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500"
-                placeholder="Nome Zona de Espetáculo"
+                placeholder="Nome da Zona de Espetáculo"
               />
               <h1
                 v-if="errors.nome"
@@ -77,7 +77,7 @@ const createZE = async () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Prova</label
+                >Prova<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="prova_id"
@@ -105,7 +105,7 @@ const createZE = async () => {
           >
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Distância Estacionamento</label
+                >Distância ao Estacionamento<label class="text-red-600 ml-1">*</label></label
               >
               <input
                 v-model="distancia_estacionamento"
@@ -123,7 +123,7 @@ const createZE = async () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Facilidade Acesso</label
+                >Facilidade de Acesso<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="facilidade_acesso"
@@ -148,7 +148,7 @@ const createZE = async () => {
           >
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Nivel Afluência</label
+                >Nível de Afluência<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="nivel_afluencia"
@@ -167,7 +167,7 @@ const createZE = async () => {
             </div>
             <div>
               <label class="block mb-2 text-base font-medium"
-                >Nivel Ocupação</label
+                >Nível de Ocupação<label class="text-red-600 ml-1">*</label></label
               >
               <select
                 v-model="nivel_ocupacao"
@@ -189,7 +189,7 @@ const createZE = async () => {
         <div class="flex justify-center w-full my-4">
           <div class="w-11/12">
             <label class="block mb-2 text-base font-medium"
-              >Coordenadas</label
+              >Coordenadas<label class="text-red-600 ml-1">*</label></label
             >
             <textarea
               type="text"
@@ -214,6 +214,7 @@ const createZE = async () => {
               type="text"
               v-model="info"
               required
+              placeholder="Informações que podem ser úteis para os utilizadores"
               class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
             ></textarea>
             <h1
@@ -223,6 +224,9 @@ const createZE = async () => {
               {{ errors.info[0] }}
             </h1>
           </div>
+        </div>
+        <div class="w-11/12 mx-auto my-4">
+          <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
         </div>
         <div class="flex justify-center w-full">
           <button

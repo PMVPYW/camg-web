@@ -206,12 +206,12 @@ function addHorario() {
       </div>
      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 w-full mt-4">
        <div class="flex flex-col justify-center">
-         <label class="block mb-2 text-base font-medium">Data Início<label class="text-red-600 ml-1">*</label></label>
+         <label class="block mb-2 text-base font-medium">Data de Início<label class="text-red-600 ml-1">*</label></label>
          <input type="datetime-local" v-model="current_creating_time"
                 class="text-sm py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none">
        </div>
        <div class="flex flex-col justify-center">
-         <label class="block mb-2 text-base font-medium">Data Fim<label class="text-red-600 ml-1">*</label></label>
+         <label class="block mb-2 text-base font-medium">Data de Fim<label class="text-red-600 ml-1">*</label></label>
          <input type="datetime-local" v-model="current_ending_time"
                 class="text-sm py-3 px-4 text-center border border-amber-200 bg-gray-100 rounded-lg focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none">
        </div>

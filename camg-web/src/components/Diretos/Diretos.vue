@@ -58,7 +58,7 @@ function toggleVisibility(index) {
       <select v-model="filters.status" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="enable">Visíveis</option>
        <option value="disable">Não Visíveis</option>
-       <option value="all">Mostrar Tudo</option>
+       <option value="all">---</option>
       </select>
      </div>
      <div class="flex flex-row items-center my-1">
@@ -76,7 +76,7 @@ function toggleVisibility(index) {
   <div v-if="diretoStore.diretos.length" class="w-11/12 p-1 border-2 border-gray-300 rounded-xl mx-auto m-10">
    <table class="w-full text-left whitespace-nowrap bg-gray-100">
     <!-- Table head -->
-    <thead class="capitalize bg-neutral-50">
+    <thead class="bg-neutral-50">
     <tr>
      <th scope="col" class="pl-8 py-4">
       Ver Detalhes
@@ -88,7 +88,7 @@ function toggleVisibility(index) {
       Link
      </th>
      <th scope="col" class="px-6 py-4 ">
-      Nome Rally
+      Nome do Rally
      </th>
      <th scope="col" class="px-6 py-4 ">
       Visível

@@ -58,9 +58,9 @@ watch(()=>contactoStore.contactos, (contacto)=>{
      </div>
      <div class="flex flex-row items-center">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
-       <option value="nome_asc">A-Z</option>
-       <option value="nome_desc">Z-a</option>
+      <select v-model="filters.order" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
+       <option value="nome_asc">Nome de A-Z</option>
+       <option value="nome_desc">Nome de Z-A</option>
       </select>
      </div>
      <div class="flex flex-row items-center">

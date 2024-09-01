@@ -102,15 +102,15 @@ function applyFilters(int) {
     <td class="px-6 py-4 space-x-1">
      <button v-if="admin.authorized" :disabled="admin.id == userStore.user?.id"
          @click="()=>userStore.blockAdmin(admin.id)"
-         class="disabled:bg-gray-500 text-white font-bold rounded-lg w-5/12"
-         :class="{'bg-yellow-400 hover:bg-yellow-500': admin.blocked, 'bg-green-600 hover:bg-green-700': !admin.blocked}">
+         class="disabled:bg-gray-500 text-white font-medium rounded-lg w-5/12 opacity-85"
+         :class="{'bg-yellow-400 border-yellow-600 text-white hover:bg-yellow-800': admin.blocked, 'bg-orange-600 border-orange-600 text-white hover:bg-orange-800': !admin.blocked}">
       {{ admin.blocked ? 'Desbloquear' : 'Bloquear' }}
      </button>
      <button v-if="!admin.authorized"
          @click="()=>userStore.authorizeAdmin(admin.id)"
-         class="w-5/12 text-white font-bold rounded-lg bg-orange-500 hover:bg-orange-700">Autorizar
+         class="opacity-85 w-5/12 font-medium rounded-lg bg-green-800 border-green-600 text-white hover:bg-green-800">Autorizar
      </button>
-     <button class="bg-red-600 text-white font-bold rounded-lg w-5/12" @click="()=>{deleting = admin}">
+     <button class="opacity-85 bg-red-800 border-red-600 hover:bg-gray-800 text-white font-medium rounded-lg w-5/12" @click="()=>{deleting = admin}">
       Eliminar
      </button>
     </td>

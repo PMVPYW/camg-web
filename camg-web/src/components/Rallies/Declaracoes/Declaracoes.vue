@@ -37,7 +37,7 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center my-1 w-1/4">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
+      <select v-model="filters.order" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option value="nome_asc">Nome de A-Z</option>
        <option value="nome_desc">Nome de Z-A</option>
        <option value="cargo_asc">Cargo de A-Z</option>

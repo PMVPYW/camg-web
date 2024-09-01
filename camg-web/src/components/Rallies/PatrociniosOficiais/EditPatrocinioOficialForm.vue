@@ -51,19 +51,22 @@ const editEntidade = async () => {
    <div class="w-6/12">
     <div class="flex flex-wrap justify-center w-full">
      <div class="w-11/12">
-      <label class="block mb-2 text-base font-medium ">Nome</label>
+      <label class="block mb-2 text-base font-medium ">Nome<label class="text-red-600 ml-1">*</label></label>
       <input type="text" required v-model="nome" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500" placeholder="Nome Patrocinio">
       <h1 v-if="errors.nome" class="text-red-600 text-base font-medium">{{errors.nome[0]}}</h1>
      </div>
      <div class="grid grid-cols-1 sm:grid-cols-1 gap-4 lg:gap-6 w-11/12 mt-8">
       <div>
-       <label class="block mb-2 text-base font-medium">Link</label>
+       <label class="block mb-2 text-base font-medium">Link<label class="text-red-600 ml-1">*</label></label>
        <input type="text" required v-model="url" class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none" placeholder="Link">
        <h1 v-if="errors.url" class="text-red-600 text-base font-medium">{{errors.url[0]}}</h1>
       </div>
      </div>
     </div>
     <br>
+     <div class="w-11/12 mx-auto mb-4">
+       <label class="block mb-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+     </div>
     <div class="flex justify-center w-full">
      <button type="button"
          @click="editEntidade"

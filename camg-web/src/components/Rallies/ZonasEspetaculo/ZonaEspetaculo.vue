@@ -413,25 +413,25 @@ watch(filters, (new_value) => {
       <label class="block mx-4 text-base font-medium">Facilidade de Acesso:</label>
       <select v-model="filters.facilidade_acesso" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.facilidade_acesso==''" :value="''">---</option>
-       <option class="uppercase">Fácil</option>
-       <option class="uppercase">Médio</option>
-       <option class="uppercase">Difícil</option>
+       <option>Fácil</option>
+       <option>Médio</option>
+       <option>Difícil</option>
       </select>
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Nível de Afluência:</label>
       <select v-model="filters.nivel_afluencia" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.nivel_afluencia==''" :value="''">---</option>
-       <option class="uppercase">Baixo</option>
-       <option class="uppercase">Médio</option>
-       <option class="uppercase">Alto</option>
+       <option>Baixo</option>
+       <option>Médio</option>
+       <option>Alto</option>
       </select>
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Provas:</label>
       <select v-model="filters.prova_id" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
        <option :selected="filters.prova_id==''" :value="''">---</option>
-       <option class="uppercase" v-for="prova in provaStore.provas" :value="prova.id">{{ prova.local }}
+       <option v-for="prova in provaStore.provas" :value="prova.id">{{ prova.local }}
        </option>
       </select>
      </div>

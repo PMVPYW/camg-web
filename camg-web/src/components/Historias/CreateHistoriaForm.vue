@@ -281,7 +281,7 @@ onMounted(()=>{
             <h1 v-if="errors[`etapas.${index2}.nome`]" class="text-red-600 text-base font-medium">{{ errors[`etapas.${index2}.nome`]?.[0] }}</h1>
            </div>
            <div>
-            <label class="block mb-2 text-base font-medium">Ano do Inicio<label class="text-red-600 ml-1">*</label></label>
+            <label class="block mb-2 text-base font-medium">Ano do Início<label class="text-red-600 ml-1">*</label></label>
             <input type="number" required min="1960" size="4" v-model="etapa.ano_inicio"
                 class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
                 placeholder="Ano de Início - YYYY">

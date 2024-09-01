@@ -54,7 +54,7 @@ console.log("compiuted", statsStore.melhor_tempo_rally)
     </Card>
 
     <Card titulo="Eventos">
-     <ToogleSwitchEvent @renew="renew" opcao1="Próximo" opcao2="Ultimo" :ev1="prox" :ev2="prev"/>
+     <ToogleSwitchEvent @renew="renew" opcao1="Próximo" opcao2="Último" :ev1="prox" :ev2="prev"/>
     </Card>
 
     <TimeChart/>

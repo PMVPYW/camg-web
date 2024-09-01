@@ -32,11 +32,11 @@ watch(filters, (new_value) => {
      </div>
      <div class="flex flex-row items-center my-1">
       <label class="block mx-4 text-base font-medium">Ordenar&nbsp;Por:</label>
-      <select v-model="filters.order" class="capitalize font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
-       <option value="titulo_asc">Titulo de A-Z</option>
-       <option value="titulo_desc">Titulo de Z-a</option>
-       <option value="subtitulo_asc">Subtitulo de A-Z</option>
-       <option value="subtitulo_desc">Subtitulo de Z-a</option>
+      <select v-model="filters.order" class="font-bold py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500">
+       <option value="titulo_asc">Título de A-Z</option>
+       <option value="titulo_desc">Título de Z-a</option>
+       <option value="subtitulo_asc">Subtítulo de A-Z</option>
+       <option value="subtitulo_desc">Subtítulo de Z-a</option>
       </select>
      </div>
     </div>

@@ -61,7 +61,7 @@ watch(()=>props.errors, (n_errors)=>{
           @change="$event.target.files[0].size < 1048576 ? (kml =$event.target.files[0]): (() => {toast.error('kml is too big!',);$event.target.value = null;})()"/>
        </div>
        <div class="w-1/3 m-4">
-        <label class="block mb-2 text-base font-medium">Local</label>
+        <label class="block mb-2 text-base font-medium">Local<label class="text-red-600 ml-1">*</label></label>
         <input type="text" required v-model="local"
             class="py-3 px-4 block w-full border border-amber-200 bg-gray-100 rounded-lg text-sm focus:border-amber-400 focus:ring-amber-500 disabled:opacity-50 disabled:pointer-events-none"
             placeholder="Local">
@@ -69,7 +69,9 @@ watch(()=>props.errors, (n_errors)=>{
       </div>
      </div>
     </div>
-    <br>
+     <div class="w-7/12 mx-auto my-4">
+       <label class="block mb-2 ml-2 text-base font-medium text-red-600">*<label class="text-red-600 ml-1">Campos Obrigatórios</label></label>
+     </div>
     <div class="flex justify-center w-full">
      <button type="button"
          @click.prevent="emitNew"
