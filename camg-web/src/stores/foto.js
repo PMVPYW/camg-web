@@ -53,7 +53,7 @@ export const useFotoStore = defineStore("foto", () => {
     async function createFoto(data) {
         try {
             var formData = {...data}
-            var arr = Array.from(data["image_src[]"]);
+            var arr = Array.from(data["image_src[]"] ?? []);
             var size = 0;
             const limit = 0.1 * 1024 *1024; //1MB
             var fn = 0;
@@ -82,8 +82,7 @@ export const useFotoStore = defineStore("foto", () => {
                     socket.emit("create_foto", currentAlbum.value, response.data.data)
                 }
             }
-                    if (dt.files.length > 0)
-                    {
+
                         formData["image_src[]"] = dt.files;
                         console.log("nduandanda", dt.files.length)
                         const response = await axios.post("foto", formData, {
@@ -93,7 +92,6 @@ export const useFotoStore = defineStore("foto", () => {
                         });
                         fotos.value[currentAlbum.value] = fotos.value[currentAlbum.value].concat(response.data.data);
                         socket.emit("create_foto", currentAlbum.value, response.data.data)
-                    }
                     toast.success(`${fn} ==? ${data["image_src[]"].length}`)
                     toast.success(data["image_src[]"].length < 2 ? "Foto Carregada" : "Fotos Carregadas!")
         
