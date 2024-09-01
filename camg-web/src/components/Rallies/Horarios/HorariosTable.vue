@@ -27,7 +27,7 @@ const horarioStore = useHorarioStore();
 //var current_rally_date = rallyStore.rallies.find((item) => item.id == rallyStore.rally_selected).data_inicio.split('-')
 //const current_date = ref(new Date(Date.parse(`${current_rally_date[0]}-${current_rally_date[1]}-${current_rally_date[2]}`)));
 const events = ref(horarioStore.horariosScheduleFormat)
-
+console.log("events", events)
 const current_creating_time = ref(null);
 const current_ending_time = ref(null);
 const titulo = ref("");
@@ -74,25 +74,34 @@ const calendar = createCalendar({
   },
   callbacks: {
     onClickDateTime: ((e) => {
+      clearVars();
       current_creating_time.value = e;
       current_ending_time.value = new Date(e);
       current_ending_time.value.setHours(current_ending_time.value.getHours() + 1);
       current_ending_time.value = formatDate(current_ending_time.value);
     }),
     onClickDate: ((e) => {
+      clearVars();
       current_creating_time.value = e + " 00:00";
       current_ending_time.value = new Date(e);
       current_ending_time.value.setHours(current_ending_time.value.getHours() + 1);
       current_ending_time.value = formatDate(current_ending_time.value);
     }),
     onEventClick: ((e) => {
+      clearVars();
       editing.value = true;
       current_creating_time.value = e.start
       current_ending_time.value = e.end
       descricao.value = e.description
       titulo.value = e.title.split('-')[0];
       current_id.value = e.id
-      prova_id.value = e.prova?.id
+      
+      const data = horarioStore.horarios.find((item)=>item.id == e.id);
+      if (data)
+      {
+          prova_id.value = data.prova?.id
+      }
+      console.error(e)
     }),
     onEventUpdate: ((e) => {
       current_creating_time.value = e.start
@@ -130,7 +139,7 @@ watch(() => rallyStore.rally_selected, () => {
 watch(() => horarioStore.horariosScheduleFormat, () => {
   events.value = horarioStore.horariosScheduleFormat;
   eventsServicePlugin.set(events.value)
-})
+}, {deep: true})
 
 function formatDate(date = new Date()) {
   const day = String(date.getDate()).padStart(2, '0');

@@ -9,8 +9,8 @@ const emits = defineEmits(["renew"]);
 const selected = ref(0);
 
 const current = ref(props.ev1);
-const event = ref(new Date(props.ev1.inicio));
-const time_left = ref(Math.abs(Date.now() - new Date(props.ev1.inicio)));
+const event = ref(new Date(props.ev1?.inicio));
+const time_left = ref(Math.abs(Date.now() - new Date(props.ev1?.inicio)));
 const formated_result = ref("NA")
 
 var interval;
