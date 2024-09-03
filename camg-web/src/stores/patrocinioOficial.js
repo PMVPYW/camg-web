@@ -19,12 +19,12 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
 
     socket.on("associar_patrocinio_oficial", (patrocinio) => {
         patrociniosOficiais.value.push(patrocinio)
-        toast.success("Patrocinio Oficial associado ao rally");
+        toast.success("Entidade Oficial associado ao rally");
     })
 
     socket.on("desassociar_patrocinio_oficial", (patrocinio) => {
         patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != patrocinio);
-        toast.error("Patrocinio Oficial desassociado ao rally");
+        toast.error("Entidade Oficial desassociado ao rally");
     })
 
 
@@ -97,7 +97,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             console.log(response.data, "create associação ao rally")
             patrociniosOficiais.value.push(response.data)
             socket.emit("associar_patrocinio_oficial", response.data);
-            toast.success("Patrocinio Oficial Associado!")
+            toast.success("Entidade Oficial Associado!")
 
         } catch (error) {
             loadpatrocinosOficiaisSemAssociacao();
@@ -114,7 +114,7 @@ export const usePatrocinioOficialStore = defineStore("patrociniosOficiais", () =
             console.log(response.data.data, "Delete associação ao rally")
             patrociniosOficiais.value = patrociniosOficiais.value.filter((item) => item.id != id);
             socket.emit("desassociar_patrocinio_oficial", id);
-            toast.error("Patrocinio Oficial Desassociado!")
+            toast.error("Entidade Oficial Desassociado!")
 
         } catch (error) {
             throw error;
