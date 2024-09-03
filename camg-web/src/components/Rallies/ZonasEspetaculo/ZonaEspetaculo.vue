@@ -81,7 +81,10 @@ onMounted(async () => {
       .addTo(map);*/
   });
 
- provaStore.provas.map((prova)=>parseKML(prova));
+  if(!provaStore.provas){
+    await provaStore.loadProvas({});
+  }
+  provaStore.provas.map((prova)=>parseKML(prova));
 
 
  const drawKml = () => {
