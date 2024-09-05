@@ -5,6 +5,7 @@ import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 import { usePatrocinioStore } from "@/stores/patrocinio.js";
 import { usePatrocinioOficialStore } from "@/stores/patrocinioOficial.js";
+import {useProvaStore} from "@/stores/prova.js";
 
 export const useRallyStore = defineStore("rally", () => {
   const serverBaseUrl = inject("serverBaseUrl");
@@ -12,6 +13,7 @@ export const useRallyStore = defineStore("rally", () => {
 
   const patrocinioStore = usePatrocinioStore();
   const patrocinioOficialStore = usePatrocinioOficialStore();
+  const provaStore = useProvaStore();
   const rallies = ref(null);
   const rallies_filtered = ref(null);
 
@@ -48,6 +50,7 @@ export const useRallyStore = defineStore("rally", () => {
     if (index >= 0) {
       rallies_filtered.value[index] = rally;
     }
+    provaStore.loadProvas({})
     toast.warning("Rally Atualizado!");
   });
 
@@ -131,6 +134,19 @@ export const useRallyStore = defineStore("rally", () => {
       if (index != -1) {
         rallies_filtered.value[index] = response.data.data;
       }
+
+      const data_copyProvas = {
+        rally_id: response.data.data.id,
+        external_entity_id: data["external_entity_id"],
+      };
+      const copyProvas = await axios.post("copyProvas", data_copyProvas);
+      var provasnotdeleted = provaStore.provas.filter((item)=> item.rally_id != response.data.data.id);
+      provaStore.provas=provasnotdeleted.concat(copyProvas.data.data);
+
+      var provasfilternotdeleted = provaStore.provas_filtered.filter((item)=> item.rally_id != response.data.data.id);
+      provaStore.provas_filtered=provasfilternotdeleted.concat(copyProvas.data.data)
+
+      console.error("provas delete",provaStore.provas)
       console.log("daads", response.data.data);
       socket.emit("update_rally", response.data.data);
       toast.warning("Rally Atualizado!");
