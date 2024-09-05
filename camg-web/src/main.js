@@ -13,7 +13,7 @@ import VueApexCharts from "vue3-apexcharts";
 
 
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibWlndWVsZ2FtZWlybzI5IiwiYSI6ImNsd2xiMnNiejAyYjYybHBzZG1ucXQ3aGsifQ.01TPuJIadCf-SRUzfPaTOA'; // Substitua pelo seu token de acesso
+mapboxgl.accessToken = 'pk.eyJ1IjoiY2FtZzE5NzAiLCJhIjoiY20wcGJmYmlzMDNzaTJsc2JvYnU0NndodSJ9.iaYBmR2PAX357uKzfdwMzg'; // Substitua pelo seu token de acesso
 
 
 
