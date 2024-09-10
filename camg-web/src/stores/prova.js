@@ -64,9 +64,9 @@ export const useProvaStore = defineStore("prova", () => {
     async function editProva(data, id) {
         try {
             console.log(data, "Dados")
-            const response = await axios.put("prova/"+id, data, {
+            const response = await axios.post("prova/"+id, data, {
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                 },
             });
             var index = provas.value.findIndex(item => item.id === id);
@@ -84,7 +84,7 @@ export const useProvaStore = defineStore("prova", () => {
             console.log("EDITAR",response.data.data)
             socket.emit("update_prova", response.data.data);
             toast.warning("Prova Atualizada!")
-            return response.data.data;
+            return true;
         } catch (error) {
             loadProvas({})
             console.error(error);
