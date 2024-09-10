@@ -64,7 +64,9 @@ export const useProvaStore = defineStore("prova", () => {
     async function editProva(data, id) {
         try {
             console.log(data, "Dados")
-            const response = await axios.post("prova/"+id, data, {
+            const n_data = {...data};
+            n_data["_method"] = "put";
+            const response = await axios.post("prova/"+id, n_data, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
