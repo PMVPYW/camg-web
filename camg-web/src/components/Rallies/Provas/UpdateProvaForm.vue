@@ -15,7 +15,7 @@ const props = defineProps(["obj_to_edit"],["errors"]);
 const emit = defineEmits(["edit"]);
 
 const local = ref(props.obj_to_edit?.local);
-const kml = ref(props.obj_to_edit?.kml_src);
+const kml = ref(/*props.obj_to_edit?.kml_src*/);
 const toast = useToast();
 
 
